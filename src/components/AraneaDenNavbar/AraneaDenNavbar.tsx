@@ -24,6 +24,40 @@ const FULL_MENU_LINKS: NavLink[] = [
   { label: 'PORTFOLIO', path: '/portfolio', href: '/portfolio' },
 ];
 
+const SpiderIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    {/* Spinneret node at top attaching to silk thread */}
+    <circle cx="12" cy="2.5" r="0.8" fill="#df2531" />
+
+    {/* Abdomen (hanging from top) */}
+    <ellipse cx="12" cy="7.5" rx="3.5" ry="4.5" fill="#df2531" />
+    {/* White diamond mark on spider abdomen */}
+    <polygon points="12,6 13.2,7.5 12,9 10.8,7.5" fill="#FFFFFF" opacity="0.95" />
+
+    {/* Cephalothorax (head/body pointing downward) */}
+    <ellipse cx="12" cy="13.5" rx="2.5" ry="2.5" fill="#df2531" />
+    {/* Chelicerae / fangs */}
+    <path d="M 11 16.2 L 10.7 17.8 M 13 16.2 L 13.3 17.8" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" />
+
+    {/* 4 Left Legs */}
+    <path d="M 9.8 13.2 Q 6.5 13.5, 4.5 16.5 T 3 19.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M 9.6 14 Q 5.5 16, 3 14.5 T 1.5 12.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M 9.6 8.5 Q 5.5 7.5, 3.5 5.5 T 2.5 3" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M 9.8 7 Q 6.5 4.5, 5 2 T 4.5 0.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+
+    {/* 4 Right Legs */}
+    <path d="M 14.2 13.2 Q 17.5 13.5, 19.5 16.5 T 21 19.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M 14.4 14 Q 18.5 16, 21 14.5 T 22.5 12.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M 14.4 8.5 Q 18.5 7.5, 20.5 5.5 T 21.5 3" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M 14.2 7 Q 17.5 4.5, 19 2 T 19.5 0.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _isVisible = true }) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
@@ -171,6 +205,34 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
 
           {/* Desktop Navigation Links on the Right */}
           <nav className={styles.desktopNav} aria-label="Primary navigation">
+            {/* Red Static Home Icon Link */}
+            <Link
+              to="/"
+              className={`${styles.navHomeLink}${isHome ? ` ${styles.activeLink}` : ''}`}
+              aria-label="Home"
+              title="Home"
+            >
+              <span className={styles.homeIconWrapper}>
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className={styles.staticHomeIcon}
+                  aria-hidden="true"
+                >
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                </svg>
+              </span>
+              {isHome && (
+                <div key="spider-home" className={styles.hangingSpiderWrapper} aria-hidden="true">
+                  <span className={styles.silkThread} />
+                  <SpiderIcon className={styles.hangingSpider} />
+                </div>
+              )}
+            </Link>
+
+            {/* Other Section Links */}
             {NAV_LINKS.map(link => {
               const active = isLinkActive(link.path);
               return (
@@ -180,36 +242,67 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
                   className={`${styles.navLink}${active ? ` ${styles.activeLink}` : ''}`}
                   aria-current={active ? 'page' : undefined}
                 >
-                  {link.label}
-                  {active && <span className={styles.activeDot} aria-hidden="true" />}
+                  <span>{link.label}</span>
+                  {active && (
+                    <div key={`spider-${link.path}`} className={styles.hangingSpiderWrapper} aria-hidden="true">
+                      <span className={styles.silkThread} />
+                      <SpiderIcon className={styles.hangingSpider} />
+                    </div>
+                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Mobile Hamburger: ONLY 3 clean lines, NO circle, NO bubble */}
-          <button
-            className={styles.hamburgerBtn}
-            onClick={handleMenuToggle}
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-nav"
-          >
-            <span className={styles.hamburgerLines} aria-hidden="true">
-              <span
-                ref={el => { hamburgerLinesRef.current[0] = el; }}
-                className={styles.line}
-              />
-              <span
-                ref={el => { hamburgerLinesRef.current[1] = el; }}
-                className={styles.line}
-              />
-              <span
-                ref={el => { hamburgerLinesRef.current[2] = el; }}
-                className={styles.line}
-              />
-            </span>
-          </button>
+          {/* Mobile Actions: Red Static Home Icon + Clean Hamburger */}
+          <div className={styles.mobileActions}>
+            <Link
+              to="/"
+              className={`${styles.mobileHomeBtn}${isHome ? ` ${styles.activeMobileHome}` : ''}`}
+              aria-label="Home"
+              title="Home"
+            >
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className={styles.staticHomeIcon}
+                aria-hidden="true"
+              >
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+              </svg>
+              {isHome && (
+                <div key="spider-mobile-home" className={styles.hangingSpiderWrapperMobile} aria-hidden="true">
+                  <span className={styles.silkThread} />
+                  <SpiderIcon className={styles.hangingSpider} />
+                </div>
+              )}
+            </Link>
+
+            <button
+              className={styles.hamburgerBtn}
+              onClick={handleMenuToggle}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
+            >
+              <span className={styles.hamburgerLines} aria-hidden="true">
+                <span
+                  ref={el => { hamburgerLinesRef.current[0] = el; }}
+                  className={styles.line}
+                />
+                <span
+                  ref={el => { hamburgerLinesRef.current[1] = el; }}
+                  className={styles.line}
+                />
+                <span
+                  ref={el => { hamburgerLinesRef.current[2] = el; }}
+                  className={styles.line}
+                />
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 

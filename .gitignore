@@ -42,3 +42,5 @@ process_reels.cjs
 # Root duplicate assets
 insta_reels.json
 /*.mp4
+
+.vercel

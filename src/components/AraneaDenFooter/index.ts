@@ -1,0 +1,1 @@
+export { AraneaDenFooter } from './AraneaDenFooter';

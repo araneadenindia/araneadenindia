@@ -1,0 +1,190 @@
+/* ============================================================
+   MobileMenu.module.css — Full-Screen Navigation Overlay
+   With Heavy Backdrop Blur (Light Frosted Luxury Aesthetic)
+   ============================================================ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(248, 248, 245, 0.88);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  will-change: opacity;
+}
+
+.overlay.open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 32px 48px;
+  will-change: transform, opacity;
+  box-sizing: border-box;
+}
+
+/* Menu Top Bar */
+.menuTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 24px;
+}
+
+.menuLogo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+.closeBtn {
+  background: rgba(11, 11, 12, 0.05);
+  border: 1px solid rgba(11, 11, 12, 0.10);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.closeBtn:hover {
+  background: var(--color-black, #0B0B0C);
+  color: #FFFFFF;
+}
+
+.closeIcon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.hairline {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(11, 11, 12, 0.08);
+  margin-bottom: 32px;
+  flex-shrink: 0;
+}
+
+/* Nav List */
+.navList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 40px;
+  flex: 1;
+  justify-content: center;
+  padding: 0;
+}
+
+.navItem {
+  display: block;
+  border-bottom: 1px solid rgba(11, 11, 12, 0.06);
+  opacity: 0;
+  transform: translateY(16px);
+  will-change: opacity, transform;
+}
+
+.navItemLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 0;
+  text-decoration: none;
+  outline: none;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: clamp(28px, 5.5vw, 46px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #1b1c1e;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.navItemLink:hover {
+  color: var(--color-crimson, #df2531);
+  padding-left: 8px;
+}
+
+.navItemLink.active {
+  color: var(--color-crimson, #df2531);
+}
+
+.navItemArrow {
+  font-size: 22px;
+  color: rgba(11, 11, 12, 0.25);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.navItemLink:hover .navItemArrow {
+  transform: translateX(6px);
+  color: var(--color-crimson, #df2531);
+}
+
+/* Primary CTA Section */
+.ctaSection {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.mobileCta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 56px;
+  padding: 0 28px;
+  background-color: var(--color-black, #0B0B0C);
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 9999px;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+.mobileCta:hover {
+  background-color: var(--color-crimson, #df2531);
+  transform: translateY(-1px);
+}
+
+.mobileCtaArrow {
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 24px 20px 36px;
+  }
+
+  .navItemLink {
+    padding: 14px 0;
+    font-size: clamp(24px, 7vw, 32px);
+  }
+
+  .menuLogo {
+    height: 36px;
+  }
+}

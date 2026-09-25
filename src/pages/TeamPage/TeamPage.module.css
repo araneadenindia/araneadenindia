@@ -1,0 +1,383 @@
+/* ============================================================
+   TEAM PAGE — EDITORIAL COLLECTIVE DIRECTORY
+   Aranea Den Design System
+   ============================================================ */
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-bg-primary, #F8F8F5);
+  color: var(--color-text-primary, #0B0B0C);
+  overflow-x: clip;
+}
+
+.container {
+  max-width: var(--container-max-width, 1560px);
+  margin: 0 auto;
+  padding: 0 var(--gutter-desktop, 48px);
+}
+
+/* ── Hero Section ── */
+.heroSection {
+  padding-top: 160px;
+  padding-bottom: 80px;
+  border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.crimsonMarker {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-crimson, #df2531);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-text-secondary, #424348);
+}
+
+.heroTitle {
+  margin: 0 0 32px 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(38px, 6vw, 88px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+  max-width: 1200px;
+}
+
+.heroLead {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 1.7vw, 24px);
+  line-height: 1.55;
+  color: var(--color-text-secondary, #424348);
+  max-width: 860px;
+}
+
+/* ── Founder Feature Stage ── */
+.founderSection {
+  padding: 100px 0 90px 0;
+  border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+}
+
+.sectionHeader {
+  margin-bottom: 48px;
+}
+
+.sectionEyebrow {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-crimson, #df2531);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(26px, 3.2vw, 42px);
+  letter-spacing: 0.02em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+}
+
+.founderCard {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 64px;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 20px 48px rgba(11, 11, 12, 0.04);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.founderCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 56px rgba(11, 11, 12, 0.08);
+}
+
+.founderImageWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #F0F0EC;
+}
+
+.founderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.founderCard:hover .founderImage {
+  transform: scale(1.04);
+}
+
+.founderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.founderNameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.founderName {
+  margin: 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(28px, 3.2vw, 40px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+}
+
+.founderRole {
+  margin: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-crimson, #df2531);
+}
+
+.founderBio {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--color-text-secondary, #424348);
+}
+
+/* ── The Powerhouse Collective Grid ── */
+.collectiveSection {
+  padding: 100px 0 140px 0;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+}
+
+.memberCard {
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.memberCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(11, 11, 12, 0.08);
+  border-color: rgba(223, 37, 49, 0.3);
+}
+
+.memberImageWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #F0F0EC;
+  overflow: hidden;
+}
+
+.memberImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.memberCard:hover .memberImage {
+  transform: scale(1.04);
+}
+
+.memberBody {
+  padding: 28px 28px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.memberNameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.memberName {
+  margin: 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-black, #0B0B0C);
+  letter-spacing: 0.01em;
+}
+
+.memberRole {
+  margin: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-crimson, #df2531);
+}
+
+.memberBio {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--color-text-secondary, #424348);
+}
+
+.linkedinIconLink {
+  color: var(--color-text-muted, #7E7F85);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.linkedinIconLink:hover {
+  color: var(--color-crimson, #df2531);
+  transform: scale(1.1);
+}
+
+/* ── Bottom CTA Band ── */
+.ctaBand {
+  padding: 80px 0 100px 0;
+  background-color: #FFFFFF;
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  text-align: center;
+}
+
+.ctaHeading {
+  margin: 0 0 16px 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(28px, 3.5vw, 48px);
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+}
+
+.ctaSubtext {
+  margin: 0 auto 36px auto;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  color: var(--color-text-secondary, #424348);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background-color: var(--color-black, #0B0B0C);
+  padding: 16px 36px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.ctaBtn:hover {
+  background-color: var(--color-crimson, #df2531);
+  transform: translateY(-2px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .heroSection {
+    padding-top: 130px;
+  }
+
+  .founderCard {
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    padding: 36px;
+  }
+
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--gutter-mobile, 20px);
+  }
+
+  .heroSection {
+    padding-top: 110px;
+    padding-bottom: 60px;
+  }
+
+  .founderSection, .collectiveSection {
+    padding: 60px 0;
+  }
+
+  .founderCard {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px;
+  }
+
+  .founderImageWrap {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  .teamGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .memberBody {
+    padding: 24px 20px;
+  }
+}

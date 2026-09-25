@@ -1,0 +1,1 @@
+export { AboutAraneaDen } from './AboutAraneaDen';

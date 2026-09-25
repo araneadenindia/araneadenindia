@@ -1,0 +1,163 @@
+/* AraneaDenIntro.module.css — High-Cinema Anamorphic Light Sweep (Light Theme) */
+
+.introOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  background-color: #FFFFFF;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: auto;
+  user-select: none;
+  padding: env(safe-area-inset-top, 24px) env(safe-area-inset-right, 24px) env(safe-area-inset-bottom, 24px) env(safe-area-inset-left, 24px);
+  will-change: opacity;
+}
+
+/* BIG, authoritative cinematic logo stage */
+.logoStage {
+  position: relative;
+  width: 720px;
+  max-width: 90vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.logoLayer {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Layer 1: Base logo — FULL STRENGTH, bold, crisp, normal logo on white canvas (NOT dim) */
+.logoBase {
+  position: relative;
+  opacity: 1;
+  filter: contrast(1.08) saturate(1.15);
+}
+
+/* Layer 2: Sharp illuminated highlight — brilliant crimson flare sweep across the logo */
+.logoHighlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  filter: brightness(1.35) contrast(1.20) drop-shadow(0 0 18px rgba(223, 37, 49, 0.65)) drop-shadow(0 0 36px rgba(223, 37, 49, 0.30));
+  pointer-events: none;
+
+  -webkit-mask-image: linear-gradient(
+    112deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.05) 15%,
+    rgba(0, 0, 0, 0.70) 38%,
+    black 50%,
+    rgba(0, 0, 0, 0.70) 62%,
+    rgba(0, 0, 0, 0.05) 85%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    112deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.05) 15%,
+    rgba(0, 0, 0, 0.70) 38%,
+    black 50%,
+    rgba(0, 0, 0, 0.70) 62%,
+    rgba(0, 0, 0, 0.05) 85%,
+    transparent 100%
+  );
+  -webkit-mask-size: 52% 100%;
+  mask-size: 52% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: -60% 0;
+  mask-position: -60% 0;
+  will-change: mask-position, -webkit-mask-position;
+}
+
+/* Layer 3: Specular glint core — gleaming specular apex catching the arcs and serifs */
+.logoGlint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+  filter: brightness(2.6) saturate(0.3) drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+  pointer-events: none;
+
+  -webkit-mask-image: linear-gradient(
+    112deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 35%,
+    black 50%,
+    rgba(0, 0, 0, 0.1) 65%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    112deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 35%,
+    black 50%,
+    rgba(0, 0, 0, 0.1) 65%,
+    transparent 100%
+  );
+  -webkit-mask-size: 26% 100%;
+  mask-size: 26% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: -40% 0;
+  mask-position: -40% 0;
+  will-change: mask-position, -webkit-mask-position;
+}
+
+/* Wide screen viewports (1440px+) */
+@media (min-width: 1440px) {
+  .logoStage {
+    width: 720px;
+    max-width: 90vw;
+  }
+}
+
+/* Desktop & Laptop viewports (1025px - 1439px) */
+@media (min-width: 1025px) and (max-width: 1439px) {
+  .logoStage {
+    width: 640px;
+    max-width: 90vw;
+  }
+}
+
+/* Tablets (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .logoStage {
+    width: 540px;
+    max-width: 88vw;
+  }
+}
+
+/* Mobile Devices (391px - 768px) */
+@media (max-width: 768px) {
+  .logoStage {
+    width: 88vw;
+    max-width: 480px;
+  }
+}
+
+/* Small Mobile (390px and below) */
+@media (max-width: 390px) {
+  .logoStage {
+    width: 90vw;
+    max-width: 380px;
+  }
+}

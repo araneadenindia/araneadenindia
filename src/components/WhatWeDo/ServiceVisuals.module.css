@@ -1,0 +1,872 @@
+/* ─────────────────────────────────────────────────────────────
+   ServiceVisuals — Bespoke Visual Compositions for Services 01-08
+   - Premium American digital studio aesthetic
+   - Minimal, refined, editorial
+   - Hardware-accelerated SVG & CSS transforms
+   - Scalable across desktop and mobile without overflow
+───────────────────────────────────────────────────────────── */
+
+/* ── 01: Web Development (Browser Window Mockup) ── */
+.webDevStage {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.browserPrimary {
+  width: 100%;
+  max-width: 380px;
+  background-color: #0b0b0e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.4s ease;
+}
+
+.browserHeader {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 10px;
+}
+
+.browserDots {
+  display: flex;
+  gap: 5px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dotRed {
+  background-color: #df2531;
+}
+
+.browserAddress {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.browserBody {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: radial-gradient(ellipse at 80% 20%, rgba(223, 37, 49, 0.18) 0%, transparent 65%), #0b0b0e;
+}
+
+.browserNavMock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.browserLogoMock {
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.1em;
+}
+
+.browserHeroTitle {
+  margin: 12px 0 4px 0;
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.browserHeroSub {
+  font-family: 'Figtree', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.browserCtaBtn {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 6px 14px;
+  background: #df2531;
+  border-radius: 999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Secondary Staggered Browser Preview */
+.browserSecondary {
+  position: absolute;
+  right: 6%;
+  bottom: 8%;
+  width: 60%;
+  max-width: 240px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(11, 11, 12, 0.08);
+  overflow: hidden;
+  z-index: 1;
+  transform: rotate(3deg);
+  opacity: 0.75;
+}
+
+.secondaryBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wireLine {
+  height: 6px;
+  border-radius: 3px;
+  background-color: rgba(11, 11, 12, 0.08);
+  width: 80%;
+}
+
+.wireLineShort {
+  width: 50%;
+}
+
+/* ── 02: Mobile App Development (Metallic Phone Mockup) ── */
+.mobileAppStage {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.metallicPhone {
+  width: 190px;
+  height: 380px;
+  border-radius: 38px;
+  background-color: #08080a;
+  border: 3.5px solid #2f3036;
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 0 0 1px #16171a;
+  position: relative;
+  overflow: hidden;
+  transform: rotateY(-8deg) rotateX(4deg);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.metallicPhone:hover {
+  transform: rotateY(0deg) rotateX(0deg) scale(1.02);
+}
+
+.phoneIsland {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 14px;
+  background-color: #000000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+.phoneScreen {
+  flex: 1;
+  padding: 34px 14px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: radial-gradient(circle at 50% 20%, rgba(223, 37, 49, 0.16) 0%, transparent 70%), #08080a;
+  box-sizing: border-box;
+}
+
+.phoneAppHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.phoneBrandLogo {
+  height: 16px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(223, 37, 49, 0.6));
+}
+
+.phoneStatusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #df2531;
+  box-shadow: 0 0 8px #df2531;
+}
+
+.phoneAppBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phoneStatCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phoneStatLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.phoneStatValue {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.phoneListRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+}
+
+.phoneListText {
+  font-family: 'Figtree', sans-serif;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.phoneListArrow {
+  font-size: 10px;
+  color: #df2531;
+}
+
+.phoneBottomNav {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 4px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navIconDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.navIconDotActive {
+  background-color: #df2531;
+  box-shadow: 0 0 6px #df2531;
+}
+
+/* ── 03: UI/UX Design (Design System & Specs) ── */
+.uiUxStage {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  background: radial-gradient(circle, rgba(11, 11, 12, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.specCard {
+  width: 100%;
+  max-width: 360px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 14px 36px rgba(11, 11, 12, 0.06);
+  padding: 22px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.specHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+  padding-bottom: 12px;
+}
+
+.specBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #df2531;
+  text-transform: uppercase;
+}
+
+.specDimensions {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  color: var(--color-text-muted, #7e7f85);
+}
+
+.colorTokens {
+  display: flex;
+  gap: 8px;
+}
+
+.swatch {
+  flex: 1;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  padding: 3px;
+  font-family: var(--font-mono, monospace);
+  font-size: 7px;
+  font-weight: 600;
+}
+
+.swatchCrimson {
+  background-color: #df2531;
+  color: #FFFFFF;
+}
+
+.swatchObsidian {
+  background-color: #070708;
+  color: #FFFFFF;
+}
+
+.swatchSand {
+  background-color: #f8f8f5;
+  color: #0b0b0c;
+  border: 1px solid rgba(11, 11, 12, 0.1);
+}
+
+.componentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(11, 11, 12, 0.03);
+  border-radius: 8px;
+  border: 1px dashed rgba(11, 11, 12, 0.14);
+}
+
+.componentLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  color: #0b0b0c;
+}
+
+.switchMock {
+  width: 32px;
+  height: 18px;
+  background-color: #df2531;
+  border-radius: 12px;
+  position: relative;
+}
+
+.switchKnob {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+.cursorLead {
+  position: absolute;
+  bottom: -10px;
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #df2531;
+  border-radius: 999px;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  box-shadow: 0 4px 14px rgba(223, 37, 49, 0.4);
+}
+
+/* ── 04: Digital Marketing (Performance Graph) ── */
+.marketingStage {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.metricCard {
+  width: 100%;
+  max-width: 380px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(11, 11, 12, 0.05);
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.metricTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.metricLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted, #7e7f85);
+  text-transform: uppercase;
+}
+
+.metricGrowthBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  color: #df2531;
+  letter-spacing: 0.08em;
+}
+
+.metricHeroValue {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0b0b0c;
+  line-height: 1;
+}
+
+.chartSvg {
+  width: 100%;
+  height: 100px;
+  overflow: visible;
+}
+
+.metricBottomRow {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid rgba(11, 11, 12, 0.06);
+}
+
+.subMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.subMetricLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  color: var(--color-text-muted, #7e7f85);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.subMetricVal {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: #0b0b0c;
+}
+
+/* ── 06: Graphic Design (Typographic Specimen & Identity Grid) ── */
+.graphicDesignStage {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.specimenBox {
+  width: 100%;
+  max-width: 360px;
+  background-color: #08080a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.specimenGridLines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.specimenGlyphs {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  z-index: 1;
+}
+
+.glyphLarge {
+  font-family: 'Syne', serif;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  color: #FFFFFF;
+}
+
+.glyphAccent {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #df2531;
+  line-height: 1;
+}
+
+.glyphAmp {
+  font-family: 'Playfair Display', serif, Georgia;
+  font-size: 36px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.specimenFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1;
+}
+
+.specimenLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.specimenPalette {
+  display: flex;
+  gap: 5px;
+}
+
+.swatchMini {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ── 07: SEO Services (Search Intelligence & SERP Position) ── */
+.seoStage {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.serpCard {
+  width: 100%;
+  max-width: 380px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(11, 11, 12, 0.05);
+  padding: 22px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.searchBarMock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(11, 11, 12, 0.03);
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  border-radius: 8px;
+}
+
+.searchIcon {
+  font-size: 11px;
+  color: var(--color-crimson, #df2531);
+}
+
+.searchText {
+  font-family: 'Figtree', sans-serif;
+  font-size: 11px;
+  color: #0b0b0c;
+  font-weight: 500;
+}
+
+.serpResult {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 2px;
+}
+
+.serpUrlRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.serpRankBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 6px;
+  background-color: #df2531;
+  color: #FFFFFF;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+}
+
+.serpUrl {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  color: var(--color-text-muted, #7e7f85);
+}
+
+.serpTitle {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: #0b0b0c;
+  line-height: 1.25;
+}
+
+.serpSnippet {
+  font-family: 'Figtree', sans-serif;
+  font-size: 11px;
+  color: var(--color-text-secondary, #424348);
+  line-height: 1.45;
+}
+
+.coreVitalsPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(11, 11, 12, 0.03);
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 8.5px;
+  color: #0b0b0c;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.vitalsDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+/* ── 08: Cloud Solutions (Edge Network Topology) ── */
+.cloudStage {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.edgeCard {
+  width: 100%;
+  max-width: 380px;
+  background-color: #08080a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.35);
+  padding: 22px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edgeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 10px;
+}
+
+.edgeTitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.uptimeBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 700;
+  color: #10b981;
+  letter-spacing: 0.1em;
+}
+
+.topologySvg {
+  width: 100%;
+  height: 100px;
+}
+
+.edgeLatencies {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.latencyBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nodeCity {
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+}
+
+.nodeMs {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: #df2531;
+}
+
+/* ── Mobile Scale Adaptations ── */
+@media (max-width: 768px) {
+  .webDevStage,
+  .mobileAppStage,
+  .uiUxStage,
+  .marketingStage,
+  .graphicDesignStage,
+  .seoStage,
+  .cloudStage {
+    min-height: auto;
+    padding: 10px 0;
+  }
+
+  .browserPrimary,
+  .specCard,
+  .metricCard,
+  .specimenBox,
+  .serpCard,
+  .edgeCard {
+    max-width: 100%;
+  }
+
+  .browserSecondary {
+    display: none;
+  }
+
+  .metallicPhone {
+    width: 170px;
+    height: 330px;
+    transform: none;
+  }
+}

@@ -1,0 +1,418 @@
+/* ============================================================
+   ARANEA SYSTEM / OUR PHILOSOPHY — MINIMAL EDITORIAL REDESIGN
+   - Restrained luxury design studio aesthetic
+   - Single continuous editorial composition (zero generic cards)
+   - Architectural timeline track with crimson progress runner
+   - Flawless vertical flow on mobile with no horizontal overflow
+   ============================================================ */
+
+.systemWrapper {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-bg-primary, #F8F8F5);
+}
+
+.section {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--color-bg-primary, #F8F8F5);
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 80px 0;
+}
+
+.container {
+  max-width: var(--container-max-width, 1560px);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+  width: 100%;
+}
+
+/* Eyebrow Label */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.marker {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-crimson, #df2531);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary, #424348);
+}
+
+/* Headline & Subtext Editorial Lockup */
+.headerBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1180px;
+  margin-bottom: clamp(60px, 7vw, 100px);
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: clamp(28px, 3.4vw, 48px);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+}
+
+.subtext {
+  margin: 0;
+  font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.65;
+  color: var(--color-text-secondary, #424348);
+  max-width: 680px;
+}
+
+/* ─────────────────────────────────────────
+   DESKTOP CONTINUOUS EDITORIAL COMPOSITION
+───────────────────────────────────────── */
+.desktopComposition {
+  width: 100%;
+  position: relative;
+  padding-top: 18px;
+}
+
+/* Precision Timeline Progress Track */
+.timelineTrack {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  margin-bottom: 40px;
+}
+
+.timelineBaseLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(11, 11, 12, 0.12);
+}
+
+.timelineProgressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 25%;
+  background-color: var(--color-crimson, #df2531);
+  transition: width 0.15s ease-out;
+  will-change: width;
+}
+
+.timelineNodes {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  pointer-events: none;
+}
+
+.timelineNode {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #F8F8F5;
+  border: 1.5px solid rgba(11, 11, 12, 0.22);
+  transition: all 0.3s ease;
+}
+
+.timelineNode.nodeActive {
+  border-color: var(--color-crimson, #df2531);
+  background-color: var(--color-crimson, #df2531);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.4);
+  transform: scale(1.15);
+}
+
+/* 4 Connected Philosophy Columns */
+.stagesRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(24px, 3.5vw, 56px);
+}
+
+.stageCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+  cursor: pointer;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  opacity: 0.48;
+}
+
+.stageCol:hover {
+  opacity: 0.85;
+}
+
+.stageCol.stageActive {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.stageMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stageNumber {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-secondary, #424348);
+  letter-spacing: 0.08em;
+  transition: color 0.3s ease;
+}
+
+.stageCol.stageActive .stageNumber {
+  color: var(--color-crimson, #df2531);
+}
+
+.stageDivider {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: rgba(11, 11, 12, 0.25);
+}
+
+.stageDiscipline {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #7E7F85);
+}
+
+.stageName {
+  margin: 0;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: clamp(22px, 1.8vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.stageSummary {
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(14px, 1.05vw, 15px);
+  line-height: 1.65;
+  color: var(--color-text-secondary, #424348);
+}
+
+.stageAccentBar {
+  width: 24px;
+  height: 2px;
+  background-color: transparent;
+  margin-top: 8px;
+  transition: width 0.35s ease, background-color 0.35s ease;
+}
+
+.stageCol.stageActive .stageAccentBar {
+  width: 48px;
+  background-color: var(--color-crimson, #df2531);
+}
+
+/* ─────────────────────────────────────────
+   MOBILE VERTICAL EDITORIAL COMPOSITION
+───────────────────────────────────────── */
+.mobileComposition {
+  display: none;
+  position: relative;
+  padding-left: 28px;
+}
+
+.mobileRail {
+  position: absolute;
+  top: 12px;
+  bottom: 24px;
+  left: 4px;
+  width: 2px;
+}
+
+.mobileRailTrack {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background-color: rgba(11, 11, 12, 0.12);
+}
+
+.mobileRailProgress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 25%;
+  background-color: var(--color-crimson, #df2531);
+  transition: height 0.15s ease-out;
+}
+
+.mobileStagesList {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.mobileStageItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: opacity 0.3s ease;
+  opacity: 0.55;
+}
+
+.mobileStageItem.mobileStageActive {
+  opacity: 1;
+}
+
+.mobileStageIndicator {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+}
+
+.mobileNode {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #F8F8F5;
+  border: 1.5px solid rgba(11, 11, 12, 0.25);
+  transition: all 0.3s ease;
+}
+
+.mobileNode.mobileNodeActive {
+  background-color: var(--color-crimson, #df2531);
+  border-color: var(--color-crimson, #df2531);
+  box-shadow: 0 0 8px rgba(223, 37, 49, 0.4);
+  transform: scale(1.2);
+}
+
+.mobileStageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobileStageMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobileStageNumber {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-secondary, #424348);
+  letter-spacing: 0.06em;
+}
+
+.mobileStageItem.mobileStageActive .mobileStageNumber {
+  color: var(--color-crimson, #df2531);
+}
+
+.mobileStageDivider {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: rgba(11, 11, 12, 0.2);
+}
+
+.mobileStageDiscipline {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #7E7F85);
+}
+
+.mobileStageName {
+  margin: 0;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.mobileStageSummary {
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--color-text-secondary, #424348);
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS
+───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .stagesRow {
+    gap: 32px;
+  }
+
+  .stageName {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    min-height: auto;
+    height: auto;
+    padding: clamp(60px, 9vw, 90px) 0;
+    justify-content: flex-start;
+  }
+
+  .desktopComposition {
+    display: none;
+  }
+
+  .mobileComposition {
+    display: flex;
+  }
+
+  .headerBlock {
+    margin-bottom: 44px;
+  }
+}

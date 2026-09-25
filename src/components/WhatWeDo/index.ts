@@ -1,0 +1,1 @@
+export { WhatWeDo } from './WhatWeDo';

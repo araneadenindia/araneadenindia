@@ -1,0 +1,195 @@
+.section {
+  width: 100%;
+  padding: 140px 0 130px 0;
+  background-color: var(--color-bg-primary, #F8F8F5);
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: var(--container-max-width, 1560px);
+  margin: 0 auto;
+  padding: 0 var(--gutter-desktop, 48px);
+}
+
+.ctaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(32px, 4vw, 64px);
+  width: 100%;
+}
+
+.contentCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 660px;
+  position: relative;
+  z-index: 2;
+}
+
+.visualCol {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+  pointer-events: none;
+}
+
+/* Eyebrow */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.crimsonMarker {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-crimson, #df2531);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-text-secondary, #424348);
+}
+
+/* Statement in MOKOTO */
+.statement {
+  margin: 0 0 32px 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(34px, 5.2vw, 82px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+}
+
+.crimsonText {
+  color: var(--color-crimson, #df2531);
+}
+
+/* Subtext */
+.subtext {
+  margin: 0 0 44px 0;
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.55;
+  color: var(--color-text-secondary, #424348);
+  max-width: 580px;
+}
+
+/* Flat Restrained Button */
+.actionWrap {
+  display: flex;
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 34px;
+  background-color: var(--color-black, #0B0B0C);
+  color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.15);
+  border-radius: 6px;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              transform 0.25s ease;
+}
+
+.primaryBtn:hover {
+  background-color: var(--color-crimson, #df2531);
+  border-color: var(--color-crimson, #df2531);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.btnLabel {
+  letter-spacing: 1.8px;
+}
+
+.btnArrow {
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.primaryBtn:hover .btnArrow {
+  transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .section {
+    padding: 110px 0 90px 0;
+  }
+
+  .container {
+    padding: 0 var(--gutter-tablet, 32px);
+  }
+
+  .ctaGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .visualCol {
+    min-height: 320px;
+    margin-top: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0 70px 0;
+  }
+
+  .container {
+    padding: 0 var(--gutter-mobile, 20px);
+  }
+
+  .eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .statement {
+    font-size: clamp(30px, 8.5vw, 48px);
+    margin-bottom: 20px;
+  }
+
+  .subtext {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .primaryBtn {
+    height: 48px;
+    padding: 0 26px;
+    font-size: 12px;
+  }
+
+  .visualCol {
+    min-height: 260px;
+    margin-top: 48px;
+    margin-bottom: 20px;
+  }
+}

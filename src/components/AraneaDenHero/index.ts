@@ -1,0 +1,1 @@
+export { AraneaDenHero } from './AraneaDenHero';

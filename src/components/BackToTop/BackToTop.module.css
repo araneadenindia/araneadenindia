@@ -1,0 +1,115 @@
+.backToTop {
+  position: fixed;
+  bottom: 36px;
+  right: 36px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-black, #0B0B0C);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 90;
+  box-shadow: 0 8px 24px rgba(11, 11, 12, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 0.35s ease,
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              border-color 0.25s ease;
+}
+
+.backToTop.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.backToTop:hover {
+  background-color: var(--color-crimson, #df2531);
+  border-color: var(--color-crimson, #df2531);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(223, 37, 49, 0.35);
+}
+
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.backToTop:hover .arrowIcon {
+  transform: translateY(-2px);
+}
+
+/* ── 3D Brand Portal Transition Overlay ── */
+.transitOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: rgba(7, 7, 8, 0.94);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  perspective: 1000px;
+}
+
+.portalGlow {
+  position: absolute;
+  width: clamp(300px, 50vw, 600px);
+  height: clamp(300px, 50vw, 600px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(223, 37, 49, 0.32) 0%,
+    rgba(223, 37, 49, 0.08) 45%,
+    transparent 70%
+  );
+  filter: blur(36px);
+  pointer-events: none;
+}
+
+.brand3DStage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.brand3DLogo {
+  width: clamp(200px, 22vw, 320px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 30px rgba(223, 37, 49, 0.5));
+  user-select: none;
+}
+
+.transitLabel {
+  margin-top: 24px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+  .backToTop {
+    bottom: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+  }
+}

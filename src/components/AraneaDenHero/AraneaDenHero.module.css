@@ -1,0 +1,463 @@
+/* ============================================================
+   AraneaDenHero — Master Cinematic Scroll & Transition System
+   Cohesive sequence:
+   FRAMED HERO VIDEO → FULLSCREEN EXPANSION → OUR PASSION
+   - Zero abrupt cuts, zero white flashes, zero blank screens
+   - Continuous pinned scrub timeline via GSAP ScrollTrigger
+   - Responsive mobile video containment (no clipping on 360px - 440px)
+   ============================================================ */
+
+.heroWrapper {
+  width: 100%;
+  padding: 20px 24px;
+  background-color: var(--color-bg-primary, #F8F8F5);
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  will-change: padding, background-color;
+}
+
+.heroCard {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 40px);
+  height: calc(100dvh - 40px);
+  border-radius: 24px;
+  overflow: hidden;
+  background-color: #070708;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14);
+  will-change: height, border-radius, box-shadow;
+}
+
+/* ── 1. Video Canvas Stage ── */
+.videoStage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform, opacity, filter;
+}
+
+.heroVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center center;
+  /* Enhanced contrast, brightness & saturation to restore vivid 3D metallic brandmark */
+  filter: brightness(1.32) contrast(1.16) saturate(1.22);
+  will-change: transform, opacity;
+}
+
+/* Luminous central ambient crimson illumination */
+.videoGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 65% 50% at center,
+    rgba(223, 37, 49, 0.16) 0%,
+    rgba(223, 37, 49, 0.04) 45%,
+    rgba(7, 7, 8, 0.40) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── 2. Initial Hero Content Overlay (Bottom Narrative & CTA) ── */
+.heroInitialOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(24px, 4vw, 48px);
+  box-sizing: border-box;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: 24px;
+}
+
+.narrative {
+  margin: 0;
+  max-width: 480px;
+  font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(13px, 1.15vw, 16px);
+  line-height: 1.62;
+  color: rgba(245, 245, 248, 0.88);
+  letter-spacing: 0.006em;
+  text-rendering: optimizeLegibility;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(10px, 1vw, 12px) clamp(20px, 1.8vw, 28px);
+  background-color: var(--color-crimson, #df2531);
+  color: #FFFFFF;
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(10px, 0.85vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: auto;
+  box-shadow: 0 4px 20px rgba(223, 37, 49, 0.35);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(223, 37, 49, 0.55);
+}
+
+/* ── 3. OUR PASSION Cinematic Stage Overlay ── */
+.passionStage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.ambientGlow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(400px, 65vw, 900px);
+  height: clamp(300px, 50vh, 600px);
+  background: radial-gradient(
+    ellipse 60% 45% at center,
+    rgba(223, 37, 49, 0.10) 0%,
+    rgba(223, 37, 49, 0.02) 45%,
+    transparent 75%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.passionContainer {
+  max-width: 1360px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 64px);
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chapter Header Bar */
+.chapterBar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 22px;
+  margin-bottom: clamp(36px, 6vh, 72px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  will-change: transform, opacity;
+}
+
+.chapterLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chapterNumber {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-crimson, #df2531);
+}
+
+.chapterSeparator {
+  width: 18px;
+  height: 1px;
+  background-color: rgba(223, 37, 49, 0.45);
+}
+
+.chapterTitle {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.chapterRight {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Dual-Plane Asymmetric Editorial Grid */
+.editorialGrid {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+  width: 100%;
+}
+
+/* Left Plane: Sculptural Display Headline */
+.headlineWrap {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.headline {
+  margin: 0;
+  font-family: 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(42px, 5.5vw, 82px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.lineMask {
+  overflow: hidden;
+  display: block;
+  padding-bottom: 0.08em;
+}
+
+.lineInner {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.offsetLine {
+  margin-left: clamp(24px, 3.8vw, 60px);
+}
+
+.accentWord {
+  color: var(--color-crimson, #df2531);
+  text-shadow: 0 0 40px rgba(223, 37, 49, 0.25);
+}
+
+/* Right Plane: Brand Seal & Narrative Architecture */
+.narrativeCol {
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(12px, 2.5vw, 32px);
+  will-change: transform, opacity;
+}
+
+.logoWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 26px;
+  will-change: transform, opacity;
+}
+
+.brandLogo {
+  width: clamp(160px, 15vw, 210px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  filter: drop-shadow(0 2px 14px rgba(223, 37, 49, 0.22));
+}
+
+.editorialDivider {
+  width: 100%;
+  max-width: 360px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(223, 37, 49, 0.6) 0%,
+    rgba(255, 255, 255, 0.12) 40%,
+    transparent 100%
+  );
+  margin-bottom: 28px;
+  transform-origin: left center;
+  will-change: transform, opacity;
+}
+
+.copy {
+  margin: 0;
+  max-width: 460px;
+  font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(15.5px, 1.2vw, 18px);
+  font-weight: 400;
+  line-height: 1.76;
+  color: rgba(245, 245, 248, 0.88);
+  letter-spacing: 0.008em;
+  text-rendering: optimizeLegibility;
+  will-change: opacity, transform;
+}
+
+.metaBadge {
+  margin-top: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  will-change: opacity;
+}
+
+.metaPulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-crimson, #df2531);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.8);
+  animation: pulseBeacon 2.6s ease-in-out infinite;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.metaBadgeText {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Responsive Refinements ── */
+@media (max-width: 1024px) {
+  .editorialGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .narrativeCol {
+    padding-top: 0;
+  }
+
+  .headline {
+    font-size: clamp(36px, 6.5vw, 60px);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroWrapper {
+    padding: 12px;
+  }
+
+  .heroCard {
+    height: calc(100vh - 24px);
+    height: calc(100dvh - 24px);
+    border-radius: 18px;
+  }
+
+  /* Critical mobile fix: object-fit: contain prevents horizontal clipping across all mobile viewports (360px - 440px) */
+  .heroVideo {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+
+  .heroInitialOverlay {
+    padding: 18px 18px 22px 18px;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .narrative {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .ctaButton {
+    padding: 8px 18px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  /* Passion Mobile */
+  .passionContainer {
+    padding: 0 20px;
+  }
+
+  .chapterBar {
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+
+  .chapterRight {
+    display: none;
+  }
+
+  .editorialGrid {
+    gap: 28px;
+  }
+
+  .headline {
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.12;
+  }
+
+  .offsetLine {
+    margin-left: 14px;
+  }
+
+  .brandLogo {
+    width: 140px;
+  }
+
+  .editorialDivider {
+    max-width: 100%;
+    margin-bottom: 18px;
+  }
+
+  .copy {
+    font-size: 14px;
+    line-height: 1.62;
+  }
+
+  .metaBadge {
+    margin-top: 20px;
+  }
+}

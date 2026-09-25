@@ -1,0 +1,115 @@
+/* ============================================================
+   PageTransition — Cinematic Route Preloader & Transition
+   - Deep obsidian background (#08080A)
+   - Centered ARANEA DEN logo with subtle crimson glow
+   - Precision glowing crimson progress tracker beam
+   - Smooth dissolve revealing the destination page
+   ============================================================ */
+
+.preloaderOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  background-color: #08080A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  pointer-events: all;
+  will-change: opacity;
+}
+
+.preloaderStage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  position: relative;
+  z-index: 2;
+  will-change: transform, opacity;
+}
+
+.logoWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoGlow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(223, 37, 49, 0.28) 0%,
+    rgba(223, 37, 49, 0.08) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  filter: blur(14px);
+}
+
+.brandLogo {
+  position: relative;
+  z-index: 1;
+  width: clamp(140px, 18vw, 200px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  filter: drop-shadow(0 2px 14px rgba(223, 37, 49, 0.22));
+}
+
+/* Precision Crimson Progress Beam */
+.trackBeam {
+  width: clamp(160px, 20vw, 220px);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.beamFill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #df2531 0%, #ff4d5a 75%, #ffffff 100%);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.85);
+  border-radius: 9999px;
+  will-change: width;
+}
+
+/* Minimal Route Meta */
+.preloaderMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metaDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-crimson, #df2531);
+  box-shadow: 0 0 6px rgba(223, 37, 49, 0.9);
+}
+
+.metaText {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.pageContent {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  will-change: opacity;
+}

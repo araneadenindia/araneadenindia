@@ -1,0 +1,108 @@
+/* ── Cinematic Curtain Opener (Post-Launch Revealer) ── */
+.curtainContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999999;
+  overflow: hidden;
+}
+
+.curtainLeft,
+.curtainRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50vw;
+  background-color: #070709;
+  background-image: 
+    radial-gradient(ellipse at 80% 50%, rgba(223, 37, 49, 0.05) 0%, transparent 60%),
+    linear-gradient(180deg, #050507 0%, #08080B 50%, #040406 100%);
+  will-change: transform;
+}
+
+.curtainLeft {
+  left: 0;
+  border-right: 1px solid rgba(223, 37, 49, 0.45);
+  box-shadow: inset -30px 0 60px rgba(0, 0, 0, 0.9), 10px 0 35px rgba(223, 37, 49, 0.25);
+}
+
+.curtainRight {
+  right: 0;
+  border-left: 1px solid rgba(223, 37, 49, 0.45);
+  box-shadow: inset 30px 0 60px rgba(0, 0, 0, 0.9), -10px 0 35px rgba(223, 37, 49, 0.25);
+}
+
+.curtainTexture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: radial-gradient(#FFFFFF 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.curtainRib {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.04) 30%, rgba(223, 37, 49, 0.15) 50%, rgba(255, 255, 255, 0.04) 70%, transparent 100%);
+}
+
+.curtainLeft .curtainRib {
+  right: 30%;
+}
+
+.curtainRight .curtainRib {
+  left: 30%;
+}
+
+/* Glowing Crimson Seam */
+.curtainSeam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(223, 37, 49, 0.4) 15%,
+    #df2531 45%,
+    #ff4452 50%,
+    #df2531 55%,
+    rgba(223, 37, 49, 0.4) 85%,
+    transparent 100%
+  );
+  box-shadow: 0 0 16px rgba(223, 37, 49, 0.9), 0 0 36px rgba(223, 37, 49, 0.5);
+  pointer-events: none;
+  z-index: 1000000;
+  will-change: opacity, transform, box-shadow;
+}
+
+/* Center Emblem / Seal on Seam */
+.curtainSeal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background-color: #08080B;
+  border: 1px solid rgba(223, 37, 49, 0.65);
+  box-shadow: 0 0 30px rgba(223, 37, 49, 0.4), inset 0 0 15px rgba(223, 37, 49, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000001;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.sealLogo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(223, 37, 49, 0.7));
+}

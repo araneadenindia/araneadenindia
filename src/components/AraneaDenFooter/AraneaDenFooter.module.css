@@ -10,24 +10,12 @@
   width: 100%;
   background-color: var(--color-black, #0B0B0C);
   color: #FFFFFF;
-  padding: 44px 0 24px 0;
+  padding: 32px 0 16px 0;
   margin: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   box-sizing: border-box;
   position: relative;
-  /* Visual obsidian extension: completely eradicates any subpixel gap, taskbar seam, or overscroll bounce */
-  box-shadow: 0 400px 0 0 var(--color-black, #0B0B0C);
-}
-
-.footer::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 60vh;
-  background-color: var(--color-black, #0B0B0C);
-  pointer-events: none;
+  overflow: hidden;
 }
 
 .container {
@@ -46,7 +34,7 @@
   grid-template-columns: 1.15fr 1.85fr;
   gap: clamp(28px, 4vw, 64px);
   align-items: flex-start;
-  padding-bottom: 24px;
+  padding-bottom: 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -171,7 +159,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px 0 22px 0;
+  padding: 16px 0 12px 0;
   position: relative;
 }
 
@@ -186,8 +174,8 @@
 /* Radial Glow Behind Logo */
 .logoGlow {
   position: absolute;
-  width: 260px;
-  height: 260px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
@@ -204,11 +192,11 @@
   position: relative;
   z-index: 1;
   width: auto;
-  height: clamp(52px, 6vw, 76px);
+  height: clamp(42px, 4.5vw, 60px);
   max-width: 90vw;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 0 20px rgba(223, 37, 49, 0.25));
+  filter: drop-shadow(0 0 16px rgba(223, 37, 49, 0.25));
 }
 
 /* ── Bottom Legal Row ── */
@@ -216,7 +204,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   padding-right: 90px; /* Clearance so back-to-top button never covers tagline */
   gap: 16px;

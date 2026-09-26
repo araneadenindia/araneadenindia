@@ -8,6 +8,7 @@ import { AraneaDenFooter } from './components/AraneaDenFooter';
 import { BackToTop } from './components/BackToTop';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { CurtainOpener } from './components/CurtainOpener';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { LaunchPage } from './pages/LaunchPage';
@@ -30,20 +31,29 @@ const AppContent: React.FC = () => {
   const location = useLocation();
 
   const isLaunchPage = location.pathname === '/launch';
-  const isAboutPage = location.pathname === '/about';
-  const isDarkCanvas = location.pathname === '/' || isAboutPage || isLaunchPage;
+  const isFromCurtainLaunch =
+    (location.state as any)?.fromCurtainLaunch ||
+    sessionStorage.getItem('aranea_curtain_launch') === 'true';
+
+  // If arriving from the /launch curtain transition, bypass standard preloader to reveal via physical curtains
+  useEffect(() => {
+    if (isFromCurtainLaunch && location.pathname === '/') {
+      finishPreloader();
+      sessionStorage.removeItem('aranea_curtain_launch');
+    }
+  }, [isFromCurtainLaunch, location.pathname, finishPreloader]);
 
   // Halt smooth scroll when preloader is actively screening; resume & recalibrate upon dismissal
   useEffect(() => {
     if (!lenis) return;
-    if (isActive) {
+    if (isActive && !isFromCurtainLaunch) {
       lenis.stop();
     } else {
       lenis.start();
       lenis.resize();
       ScrollTrigger.refresh();
     }
-  }, [isActive, lenis]);
+  }, [isActive, isFromCurtainLaunch, lenis]);
 
   return (
     <div
@@ -54,8 +64,11 @@ const AppContent: React.FC = () => {
         position: 'relative',
       }}
     >
-      {/* The Single Universal Cinematic 3D Preloader (Bypassed on standalone /launch) */}
-      {!isLaunchPage && (
+      {/* Cinematic Curtain Opener when arriving from /launch */}
+      {isFromCurtainLaunch && location.pathname === '/' && <CurtainOpener />}
+
+      {/* The Single Universal Cinematic 3D Preloader (Bypassed on standalone /launch or curtain transition) */}
+      {!isLaunchPage && !isFromCurtainLaunch && (
         <UniversalPreloader
           isActive={isActive}
           mode={mode}
@@ -64,14 +77,14 @@ const AppContent: React.FC = () => {
       )}
 
       {/* Global Editorial Navigation (Hidden on standalone /launch portal) */}
-      {!isLaunchPage && <AraneaDenNavbar isVisible={isInitialIntroComplete} />}
+      {!isLaunchPage && <AraneaDenNavbar isVisible={isInitialIntroComplete || isFromCurtainLaunch} />}
 
       {/* Multi-Page Dynamic Route Engine */}
       <main
         style={{
           minHeight: '100dvh',
           position: 'relative',
-          backgroundColor: isDarkCanvas ? '#060608' : 'var(--color-bg-primary, #F8F8F5)',
+          backgroundColor: isLaunchPage ? '#0B0B0E' : 'var(--color-bg-primary, #F7F7F4)',
         }}
       >
         <Routes>

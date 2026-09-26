@@ -117,8 +117,7 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
     };
   }, [isHome]);
 
-  const isAbout = currentPath === '/about';
-  const isDarkTheme = (isHome && isInHero) || isAbout;
+  const isDarkTheme = isHome && isInHero;
 
   // Scroll listener for subtle elevation/compact state
   useEffect(() => {
@@ -154,13 +153,13 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
     const isMobile = window.innerWidth <= 768;
 
     if (isDarkTheme) {
-      // In Hero Video flow or Dark Pages (About):
+      // In Hero Video flow: Navbar sits comfortably inside the framed black card
       gsap.to(navbar, {
         paddingTop: isScrolled ? (isMobile ? 12 : 16) : (isMobile ? 22 : 34),
         paddingBottom: isScrolled ? (isMobile ? 10 : 12) : (isMobile ? 14 : 18),
-        backgroundColor: (isAbout && isScrolled) ? 'rgba(7, 7, 9, 0.92)' : 'transparent',
-        backdropFilter: (isAbout && isScrolled) ? 'blur(16px)' : 'none',
-        borderBottomColor: (isAbout && isScrolled) ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+        backgroundColor: 'transparent',
+        backdropFilter: 'none',
+        borderBottomColor: 'transparent',
         duration: 0.35,
         ease: 'power2.out',
       });

@@ -1,6 +1,7 @@
 /* ============================================================
-   LAUNCH PAGE — CAMILLE MORMAL INSPIRED CINEMATIC STARTUP
-   Aranea Den Creative Technology Studio
+   ARANEA DEN — /LAUNCH PORTAL (SPARTAN / PREMIUM EDITORIAL)
+   Deep Charcoal #0B0B0E | Subtle Red Accent #DF2531 | White #FFFFFF
+   Pure Minimalism: Official Logo Centerpiece, Faint Architectural Web
    ============================================================ */
 
 .launchContainer {
@@ -9,7 +10,7 @@
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  background-color: #050507;
+  background-color: #0B0B0E;
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
@@ -21,7 +22,7 @@
   box-sizing: border-box;
 }
 
-/* Subtle Canvas Micro-Dust Particles */
+/* Subtle Dust Particles (Soft Micro Twinkle) */
 .particleCanvas {
   position: absolute;
   inset: 0;
@@ -31,80 +32,53 @@
   z-index: 1;
 }
 
-/* Delicate Atmospheric Crimson Center Ambient Glow */
-.ambientCenterGlow {
+/* Faint, Architectural Spider-Web Pattern (Calm, Non-Competing) */
+.webBackground {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(90vw, 750px);
-  height: min(90vw, 750px);
+  width: min(85vw, 900px);
+  height: min(85vw, 900px);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+}
+
+.webPath {
+  stroke: rgba(223, 37, 49, 0.16);
+  stroke-width: 0.85;
+  fill: none;
+}
+
+.webRing {
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 0.75;
+  fill: none;
+}
+
+/* Very Subtle Red Ambient Glow Behind Logo */
+.ambientGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(70vw, 480px);
+  height: min(70vw, 480px);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(223, 37, 49, 0.2) 0%,
-    rgba(223, 37, 49, 0.05) 45%,
-    transparent 75%
+    rgba(223, 37, 49, 0.15) 0%,
+    rgba(223, 37, 49, 0.04) 40%,
+    transparent 70%
   );
   pointer-events: none;
   z-index: 2;
   opacity: 0;
 }
 
-/* ── Symmetrical Architectural Spider Web Canvas ── */
-.webSvgStage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(95vw, 1100px);
-  height: min(95vw, 1100px);
-  pointer-events: none;
-  z-index: 3;
-}
-
-.webStrand {
-  stroke: rgba(223, 37, 49, 0.42);
-  stroke-width: 1.1;
-  fill: none;
-  transition: stroke 0.3s ease;
-}
-
-.webRing {
-  stroke: rgba(255, 255, 255, 0.12);
-  stroke-width: 0.9;
-  fill: none;
-}
-
-.webIntersectionDot {
-  fill: #FFFFFF;
-  opacity: 0.6;
-}
-
-/* ── Descending / Emerging Spider Silhouette ── */
-.spiderSilhouetteWrap {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-}
-
-.spiderSvg {
-  width: 44px;
-  height: 44px;
-  color: var(--color-crimson, #df2531);
-  fill: var(--color-crimson, #df2531);
-  filter: drop-shadow(0 0 10px rgba(223, 37, 49, 0.8));
-}
-
-/* ── Central Brand Showcase ── */
-.centerContent {
+/* ── Central Clean Vertically-Centered Composition ── */
+.centerComposition {
   position: relative;
   z-index: 5;
   display: flex;
@@ -113,53 +87,44 @@
   justify-content: center;
   text-align: center;
   padding: 0 24px;
+  max-width: 640px;
 }
 
+/* Official Logo Wrap */
 .logoWrap {
-  position: relative;
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: scale(0.95);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
-  opacity: 0;
-  transform: scale(0.92);
 }
 
-.brandLogo {
-  height: clamp(52px, 6vw, 76px);
+.officialLogo {
+  height: clamp(56px, 6.5vw, 84px);
   width: auto;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 0 24px rgba(223, 37, 49, 0.45));
+  filter: drop-shadow(0 0 20px rgba(223, 37, 49, 0.3));
 }
 
-.logoAura {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(223, 37, 49, 0.4) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Typographic Lockup */
-.textLockup {
+/* Brand Name & Tagline */
+.textGroup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 40px;
+  gap: 10px;
+  margin-bottom: 44px;
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(12px);
 }
 
-.brandName {
+.brandHeading {
   margin: 0;
   font-family: var(--font-display, 'Exo', sans-serif);
-  font-size: clamp(20px, 2.2vw, 28px);
+  font-size: clamp(24px, 2.5vw, 36px);
   font-weight: 800;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #FFFFFF;
 }
@@ -167,128 +132,192 @@
 .tagline {
   margin: 0;
   font-family: var(--font-mono, monospace);
-  font-size: clamp(10px, 0.95vw, 12px);
+  font-size: clamp(10.5px, 0.95vw, 12px);
   font-weight: 500;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.6);
 }
 
-/* ── Minimalist Camille Mormal Inspired CTA ── */
-.ctaWrap {
+/* ── Enter Experience Button (Clean, Understated, No Brackets) ── */
+.buttonWrap {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(10px);
 }
 
 .enterButton {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  gap: 10px;
+  padding: 13px 28px;
+  background-color: transparent;
   color: #FFFFFF;
-  padding: 14px 32px;
-  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 4px;
   font-family: var(--font-mono, monospace);
   font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
   cursor: pointer;
   outline: none;
   transition: border-color 0.25s ease,
               background-color 0.25s ease,
               color 0.25s ease,
-              transform 0.25s ease,
+              transform 0.2s ease,
               box-shadow 0.25s ease;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .enterButton:hover,
 .enterButton:focus-visible {
   border-color: var(--color-crimson, #df2531);
-  background-color: rgba(223, 37, 49, 0.12);
+  background-color: rgba(223, 37, 49, 0.08);
   color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 0 24px rgba(223, 37, 49, 0.5),
-              inset 0 0 12px rgba(223, 37, 49, 0.2);
+  box-shadow: 0 0 20px rgba(223, 37, 49, 0.25);
 }
 
 .enterButton:focus-visible {
-  box-shadow: 0 0 0 2px #df2531, 0 0 24px rgba(223, 37, 49, 0.6);
+  box-shadow: 0 0 0 2px #df2531;
 }
 
-.btnBracket {
-  color: var(--color-crimson, #df2531);
-  font-weight: 400;
-  transition: transform 0.2s ease;
-}
-
-.enterButton:hover .btnBracket:first-child {
-  transform: translateX(-3px);
-}
-
-.enterButton:hover .btnBracket:last-child {
-  transform: translateX(3px);
-}
-
-.btnArrow {
+.arrow {
   display: inline-block;
   color: var(--color-crimson, #df2531);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s ease;
 }
 
-.enterButton:hover .btnArrow {
-  transform: translate(3px, -3px);
+.enterButton:hover .arrow {
+  transform: translateX(4px);
 }
 
-/* ── Launch Transition Aperture Curtain ── */
-.transitionCurtain {
+/* ── Cinematic Dual Curtain Launch ── */
+.curtainContainer {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  background-color: #060608;
-  z-index: 100000;
   pointer-events: none;
-  opacity: 0;
+  z-index: 99999;
+  overflow: hidden;
 }
 
-.expandingIris {
+.curtainLeft,
+.curtainRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50vw;
+  background-color: #070709;
+  background-image: 
+    radial-gradient(ellipse at 80% 50%, rgba(223, 37, 49, 0.05) 0%, transparent 60%),
+    linear-gradient(180deg, #050507 0%, #08080B 50%, #040406 100%);
+  will-change: transform;
+}
+
+.curtainLeft {
+  left: 0;
+  border-right: 1px solid rgba(223, 37, 49, 0.45);
+  box-shadow: inset -30px 0 60px rgba(0, 0, 0, 0.9), 10px 0 35px rgba(223, 37, 49, 0.25);
+}
+
+.curtainRight {
+  right: 0;
+  border-left: 1px solid rgba(223, 37, 49, 0.45);
+  box-shadow: inset 30px 0 60px rgba(0, 0, 0, 0.9), -10px 0 35px rgba(223, 37, 49, 0.25);
+}
+
+.curtainTexture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: radial-gradient(#FFFFFF 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.curtainRib {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.04) 30%, rgba(223, 37, 49, 0.15) 50%, rgba(255, 255, 255, 0.04) 70%, transparent 100%);
+}
+
+.curtainLeft .curtainRib {
+  right: 30%;
+}
+
+.curtainRight .curtainRib {
+  left: 30%;
+}
+
+/* Glowing Crimson Seam */
+.curtainSeam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(223, 37, 49, 0.4) 15%,
+    #df2531 45%,
+    #ff4452 50%,
+    #df2531 55%,
+    rgba(223, 37, 49, 0.4) 85%,
+    transparent 100%
+  );
+  box-shadow: 0 0 16px rgba(223, 37, 49, 0.9), 0 0 36px rgba(223, 37, 49, 0.5);
+  pointer-events: none;
+  z-index: 100000;
+  will-change: opacity, transform, box-shadow;
+}
+
+/* Center Emblem / Seal on Seam */
+.curtainSeal {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  width: 100vmax;
-  height: 100vmax;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  border: 2px solid var(--color-crimson, #df2531);
-  box-shadow: 0 0 60px rgba(223, 37, 49, 0.8),
-              inset 0 0 60px rgba(223, 37, 49, 0.4);
+  background-color: #08080B;
+  border: 1px solid rgba(223, 37, 49, 0.65);
+  box-shadow: 0 0 30px rgba(223, 37, 49, 0.4), inset 0 0 15px rgba(223, 37, 49, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100001;
   pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.sealLogo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(223, 37, 49, 0.7));
 }
 
 /* ── Responsive Adaptations ── */
 @media (max-width: 768px) {
-  .brandLogo {
-    height: 48px;
+  .officialLogo {
+    height: 52px;
   }
 
-  .brandName {
-    font-size: 20px;
-    letter-spacing: 0.22em;
+  .brandHeading {
+    font-size: 22px;
+    letter-spacing: 0.18em;
   }
 
   .tagline {
     font-size: 10px;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
   }
 
   .enterButton {
-    padding: 12px 26px;
+    padding: 12px 24px;
     font-size: 11px;
   }
 }

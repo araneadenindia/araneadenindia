@@ -327,44 +327,44 @@
 }
 
 .navbar.lightTheme .navLink {
-  color: #0B0B0C;
-  opacity: 0.85;
+  color: #0B0B0C !important;
+  opacity: 0.95;
 }
 
 .navbar.lightTheme .navLink:hover {
   opacity: 1;
-  color: var(--color-crimson, #df2531);
+  color: var(--color-crimson, #df2531) !important;
 }
 
 .navbar.lightTheme .activeLink {
   opacity: 1;
-  color: var(--color-crimson, #df2531);
+  color: var(--color-crimson, #df2531) !important;
   font-weight: 600;
 }
 
 .navbar.lightTheme .line {
-  background-color: #0B0B0C;
+  background-color: #0B0B0C !important;
 }
 
-/* ── DARK THEME (home page top over dark hero video) ── */
+/* ── DARK THEME (home page top over dark hero video, dark about page) ── */
 .navbar.darkTheme .navLink {
-  color: rgba(255, 255, 255, 0.88);
-  opacity: 0.9;
+  color: #FFFFFF !important;
+  opacity: 0.95;
 }
 
 .navbar.darkTheme .navLink:hover {
-  color: #FFFFFF;
+  color: var(--color-crimson, #df2531) !important;
   opacity: 1;
 }
 
 .navbar.darkTheme .activeLink {
-  color: #FFFFFF;
+  color: var(--color-crimson, #df2531) !important;
   opacity: 1;
   font-weight: 600;
 }
 
 .navbar.darkTheme .line {
-  background-color: #FFFFFF;
+  background-color: #FFFFFF !important;
 }
 
 .navbar.darkTheme.scrolled {

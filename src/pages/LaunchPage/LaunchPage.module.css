@@ -1,0 +1,294 @@
+/* ============================================================
+   LAUNCH PAGE — CAMILLE MORMAL INSPIRED CINEMATIC STARTUP
+   Aranea Den Creative Technology Studio
+   ============================================================ */
+
+.launchContainer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: #050507;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 99999;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* Subtle Canvas Micro-Dust Particles */
+.particleCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Delicate Atmospheric Crimson Center Ambient Glow */
+.ambientCenterGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 750px);
+  height: min(90vw, 750px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(223, 37, 49, 0.2) 0%,
+    rgba(223, 37, 49, 0.05) 45%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+}
+
+/* ── Symmetrical Architectural Spider Web Canvas ── */
+.webSvgStage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(95vw, 1100px);
+  height: min(95vw, 1100px);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.webStrand {
+  stroke: rgba(223, 37, 49, 0.42);
+  stroke-width: 1.1;
+  fill: none;
+  transition: stroke 0.3s ease;
+}
+
+.webRing {
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 0.9;
+  fill: none;
+}
+
+.webIntersectionDot {
+  fill: #FFFFFF;
+  opacity: 0.6;
+}
+
+/* ── Descending / Emerging Spider Silhouette ── */
+.spiderSilhouetteWrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.spiderSvg {
+  width: 44px;
+  height: 44px;
+  color: var(--color-crimson, #df2531);
+  fill: var(--color-crimson, #df2531);
+  filter: drop-shadow(0 0 10px rgba(223, 37, 49, 0.8));
+}
+
+/* ── Central Brand Showcase ── */
+.centerContent {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.logoWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.brandLogo {
+  height: clamp(52px, 6vw, 76px);
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 24px rgba(223, 37, 49, 0.45));
+}
+
+.logoAura {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(223, 37, 49, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Typographic Lockup */
+.textLockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.brandName {
+  margin: 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.tagline {
+  margin: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(10px, 0.95vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ── Minimalist Camille Mormal Inspired CTA ── */
+.ctaWrap {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.enterButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #FFFFFF;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.25s ease,
+              background-color 0.25s ease,
+              color 0.25s ease,
+              transform 0.25s ease,
+              box-shadow 0.25s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.enterButton:hover,
+.enterButton:focus-visible {
+  border-color: var(--color-crimson, #df2531);
+  background-color: rgba(223, 37, 49, 0.12);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(223, 37, 49, 0.5),
+              inset 0 0 12px rgba(223, 37, 49, 0.2);
+}
+
+.enterButton:focus-visible {
+  box-shadow: 0 0 0 2px #df2531, 0 0 24px rgba(223, 37, 49, 0.6);
+}
+
+.btnBracket {
+  color: var(--color-crimson, #df2531);
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.enterButton:hover .btnBracket:first-child {
+  transform: translateX(-3px);
+}
+
+.enterButton:hover .btnBracket:last-child {
+  transform: translateX(3px);
+}
+
+.btnArrow {
+  display: inline-block;
+  color: var(--color-crimson, #df2531);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.enterButton:hover .btnArrow {
+  transform: translate(3px, -3px);
+}
+
+/* ── Launch Transition Aperture Curtain ── */
+.transitionCurtain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: #060608;
+  z-index: 100000;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.expandingIris {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 100vmax;
+  height: 100vmax;
+  border-radius: 50%;
+  border: 2px solid var(--color-crimson, #df2531);
+  box-shadow: 0 0 60px rgba(223, 37, 49, 0.8),
+              inset 0 0 60px rgba(223, 37, 49, 0.4);
+  pointer-events: none;
+}
+
+/* ── Responsive Adaptations ── */
+@media (max-width: 768px) {
+  .brandLogo {
+    height: 48px;
+  }
+
+  .brandName {
+    font-size: 20px;
+    letter-spacing: 0.22em;
+  }
+
+  .tagline {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+
+  .enterButton {
+    padding: 12px 26px;
+    font-size: 11px;
+  }
+}

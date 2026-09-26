@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { PreloaderProvider, usePreloader } from './context/PreloaderContext';
 import { SmoothScrollProvider, useSmoothScroll } from './context/SmoothScrollContext';
 import { UniversalPreloader } from './components/UniversalPreloader';
@@ -10,6 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
+import { LaunchPage } from './pages/LaunchPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { TeamPage } from './pages/TeamPage';
 import { PortfolioPage } from './pages/PortfolioPage';
@@ -26,6 +27,11 @@ import './styles/globals.css';
 const AppContent: React.FC = () => {
   const { isActive, mode, finishPreloader, isInitialIntroComplete } = usePreloader();
   const { lenis } = useSmoothScroll();
+  const location = useLocation();
+
+  const isLaunchPage = location.pathname === '/launch';
+  const isAboutPage = location.pathname === '/about';
+  const isDarkCanvas = location.pathname === '/' || isAboutPage || isLaunchPage;
 
   // Halt smooth scroll when preloader is actively screening; resume & recalibrate upon dismissal
   useEffect(() => {
@@ -48,28 +54,31 @@ const AppContent: React.FC = () => {
         position: 'relative',
       }}
     >
-      {/* The Single Universal Cinematic 3D Preloader */}
-      <UniversalPreloader
-        isActive={isActive}
-        mode={mode}
-        onComplete={finishPreloader}
-      />
+      {/* The Single Universal Cinematic 3D Preloader (Bypassed on standalone /launch) */}
+      {!isLaunchPage && (
+        <UniversalPreloader
+          isActive={isActive}
+          mode={mode}
+          onComplete={finishPreloader}
+        />
+      )}
 
-      {/* Global Editorial Navigation */}
-      <AraneaDenNavbar isVisible={isInitialIntroComplete} />
+      {/* Global Editorial Navigation (Hidden on standalone /launch portal) */}
+      {!isLaunchPage && <AraneaDenNavbar isVisible={isInitialIntroComplete} />}
 
       {/* Multi-Page Dynamic Route Engine */}
       <main
         style={{
           minHeight: '100dvh',
           position: 'relative',
-          backgroundColor: 'var(--color-bg-primary, #F8F8F5)',
+          backgroundColor: isDarkCanvas ? '#060608' : 'var(--color-bg-primary, #F8F8F5)',
         }}
       >
         <Routes>
           {/* Primary Experience Routes */}
           <Route path="/" element={<HomePage isVisible={isInitialIntroComplete} />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/launch" element={<LaunchPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/services/web-development" element={<ServicesPage />} />
           <Route path="/services/mobile-development" element={<ServicesPage />} />
@@ -91,11 +100,11 @@ const AppContent: React.FC = () => {
         </Routes>
       </main>
 
-      {/* Global Editorial Footer with Scroll Scrub Wordmark */}
-      <AraneaDenFooter />
+      {/* Global Editorial Footer (Hidden on standalone /launch portal) */}
+      {!isLaunchPage && <AraneaDenFooter />}
 
-      {/* Floating Back To Top Indicator */}
-      <BackToTop />
+      {/* Floating Back To Top Indicator (Hidden on standalone /launch portal) */}
+      {!isLaunchPage && <BackToTop />}
     </div>
   );
 };

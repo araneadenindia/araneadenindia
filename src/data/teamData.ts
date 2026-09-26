@@ -6,7 +6,8 @@ export interface TeamMember {
   shortBio?: string;
   image: string;
   order: number;
-  linkedin?: string; // Only populated if authoritative URL provided
+  linkedin?: string;
+  instagram?: string;
 }
 
 export const TEAM_MEMBERS: TeamMember[] = [
@@ -18,6 +19,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: 'Leads Aranea Den with a vision to unite strategy, creativity, and technology to create meaningful digital experiences and build distinctive brands.',
     image: '/team/saikiran-chapa.jpeg',
     order: 1,
+    linkedin: 'https://www.linkedin.com/in/saikiranchapa',
+    instagram: 'https://www.instagram.com/saikiranchapa',
   },
   {
     id: 'angle',
@@ -27,6 +30,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: "Creates visually compelling designs and engaging video content that bring Aranea Den's creative vision to life.",
     image: '/team/angle.jpeg',
     order: 2,
+    linkedin: 'https://www.linkedin.com/company/araneaden',
+    instagram: 'https://www.instagram.com/araneaden_',
   },
   {
     id: 'shiva',
@@ -36,6 +41,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: "Crafts engaging video content and compelling visual narratives that bring creative ideas to life.",
     image: '/team/shiva.jpeg',
     order: 3,
+    linkedin: 'https://www.linkedin.com/company/araneaden',
+    instagram: 'https://www.instagram.com/araneaden_',
   },
   {
     id: 'chandu',
@@ -45,6 +52,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: "Captures compelling visuals and cinematic footage that bring brand stories to life.",
     image: '/team/chandu.jpeg',
     order: 4,
+    linkedin: 'https://www.linkedin.com/company/araneaden',
+    instagram: 'https://www.instagram.com/araneaden_',
   },
   {
     id: 'surya',
@@ -54,6 +63,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: 'Builds responsive websites and intuitive applications transforming ideas into digital experiences.',
     image: '/team/surya.jpeg',
     order: 5,
+    linkedin: 'https://www.linkedin.com/in/suryarajamandapalli',
+    instagram: 'https://www.instagram.com/suryaraja_',
   },
   {
     id: 'john',
@@ -63,6 +74,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: 'Develops seamless web applications combining intuitive front-end with robust back-end functionality.',
     image: '/team/john.jpeg',
     order: 6,
+    linkedin: 'https://www.linkedin.com/company/araneaden',
+    instagram: 'https://www.instagram.com/araneaden_',
   },
   {
     id: 'jagruthi',
@@ -72,6 +85,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: 'Builds dynamic web applications combining intuitive interfaces with reliable back-end systems.',
     image: '/team/jagruthi.jpeg',
     order: 7,
+    linkedin: 'https://www.linkedin.com/company/araneaden',
+    instagram: 'https://www.instagram.com/araneaden_',
   },
   {
     id: 'pujitha-m',
@@ -81,5 +96,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     shortBio: "Manages social media presence, crafting engaging content and building meaningful digital connections.",
     image: '/team/pujitha-m.jpeg',
     order: 8,
+    linkedin: 'https://www.linkedin.com/company/araneaden',
+    instagram: 'https://www.instagram.com/araneaden_',
   },
 ];

@@ -13,7 +13,7 @@
   right: 0;
   width: 100%;
   z-index: 1000;
-  padding: 34px 48px 22px 48px;
+  padding: 34px clamp(20px, 4vw, 48px) 16px clamp(20px, 4vw, 48px);
   box-sizing: border-box;
   background-color: transparent;
   transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
@@ -61,7 +61,52 @@
 .desktopNav {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 28px;
+  position: relative;
+}
+
+/* Suppress static hover previews while the walking spider is active */
+.desktopNav.hasWalkingSpider .hangingSpiderWrapper {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateX(-50%) translateY(-10px) scale(0.6) !important;
+}
+
+/* Divider between navigation links and social icons */
+.navDivider {
+  width: 1px;
+  height: 18px;
+  background-color: rgba(11, 11, 12, 0.15);
+  margin: 0 4px;
+}
+
+.darkTheme .navDivider {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Red Social Icons Group in Navbar */
+.socialGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.redSocialIcon {
+  color: var(--color-crimson, #df2531);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.25s ease,
+              opacity 0.2s ease;
+}
+
+.redSocialIcon:hover {
+  transform: scale(1.22) translateY(-1px);
+  filter: drop-shadow(0 0 8px rgba(223, 37, 49, 0.8));
 }
 
 /* Red Static Home Icon Link */
@@ -114,79 +159,163 @@
   gap: 6px;
 }
 
-/* ── Hanging Spider & Silk Web Thread Animation ── */
+/* ── Hanging Spider & Silk Web Thread (Appears ONLY on interaction with that item) ── */
 .hangingSpiderWrapper {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-10px) scale(0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
   pointer-events: none;
-  animation: spiderRappel 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in, transform 0.22s ease-in, visibility 0.22s;
   transform-origin: top center;
-  z-index: 10;
+  z-index: 20;
 }
 
 .silkThread {
   width: 1px;
-  height: 16px;
-  background: linear-gradient(to bottom, rgba(223, 37, 49, 0.35), #df2531);
+  height: 18px;
+  background: linear-gradient(to bottom, rgba(223, 37, 49, 0.3), #df2531);
   transform-origin: top;
-  animation: silkExtend 0.4s ease-out forwards;
+  transform: scaleY(0);
+  transition: transform 0.2s ease-in;
   box-shadow: 0 0 2px rgba(223, 37, 49, 0.4);
 }
 
 .hangingSpider {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   color: #df2531;
-  filter: drop-shadow(0 2px 4px rgba(223, 37, 49, 0.35));
-  animation: spiderIdleSway 3.6s ease-in-out infinite 0.7s;
+  fill: #df2531;
+  filter: drop-shadow(0 2px 4px rgba(223, 37, 49, 0.4));
   transform-origin: top center;
 }
 
-@keyframes silkExtend {
-  from {
-    transform: scaleY(0);
+/* Spider drops down on interaction / hover / focus with that specific nav item */
+.navHomeLink:hover .hangingSpiderWrapper,
+.navHomeLink:focus-visible .hangingSpiderWrapper,
+.navLink:hover .hangingSpiderWrapper,
+.navLink:focus-visible .hangingSpiderWrapper {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition: opacity 0.25s ease-out, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.navHomeLink:hover .silkThread,
+.navHomeLink:focus-visible .silkThread,
+.navLink:hover .silkThread,
+.navLink:focus-visible .silkThread {
+  transform: scaleY(1);
+  transition: transform 0.28s ease-out;
+}
+
+.navHomeLink:hover .hangingSpider,
+.navHomeLink:focus-visible .hangingSpider,
+.navLink:hover .hangingSpider,
+.navLink:focus-visible .hangingSpider {
+  animation: spiderIdleSway 2.5s ease-in-out infinite 0.32s;
+}
+
+/* ── Walking Spider Track (CRAWLS across navigation when clicked) ── */
+.walkingSpiderContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.walkingSilkThread {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 18px;
+  background: linear-gradient(to bottom, rgba(223, 37, 49, 0.4), #df2531);
+  transform-origin: top;
+  transform: scaleY(0);
+  box-shadow: 0 0 3px rgba(223, 37, 49, 0.5);
+  margin-left: -0.5px;
+}
+
+.walkingSpiderBody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+.walkingSpiderIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-crimson, #df2531);
+  fill: var(--color-crimson, #df2531);
+  filter: drop-shadow(0 2px 5px rgba(223, 37, 49, 0.45));
+}
+
+.silkTrail {
+  position: absolute;
+  top: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(223, 37, 49, 0.2), #df2531, rgba(223, 37, 49, 0.2));
+  box-shadow: 0 0 3px rgba(223, 37, 49, 0.4);
+  pointer-events: none;
+  z-index: 25;
+  opacity: 0;
+}
+
+/* Walking leg alternating scuttle */
+.spiderWalking .legSet1 {
+  animation: spiderLegWalk1 0.11s ease-in-out infinite alternate;
+  transform-origin: 12px 10px;
+}
+
+.spiderWalking .legSet2 {
+  animation: spiderLegWalk2 0.11s ease-in-out infinite alternate;
+  transform-origin: 12px 10px;
+}
+
+@keyframes spiderLegWalk1 {
+  0% {
+    transform: rotate(-12deg);
   }
-  to {
-    transform: scaleY(1);
+  100% {
+    transform: rotate(12deg);
   }
 }
 
-@keyframes spiderRappel {
+@keyframes spiderLegWalk2 {
   0% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-12px) scale(0.5);
-  }
-  65% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(3px) scale(1.08);
+    transform: rotate(12deg);
   }
   100% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: rotate(-12deg);
   }
 }
 
 @keyframes spiderIdleSway {
   0%, 100% {
-    transform: rotate(0deg) translateY(0);
+    transform: rotate(0deg);
   }
   25% {
-    transform: rotate(-6deg) translateX(-1px) translateY(0.5px);
+    transform: rotate(-6deg);
   }
   75% {
-    transform: rotate(6deg) translateX(1px) translateY(-0.5px);
+    transform: rotate(6deg);
   }
 }
 
 /* ── LIGHT THEME (active on all other pages like /services, /about, etc., and when scrolled past dark hero) ── */
 .navbar.lightTheme {
-  border-bottom-color: rgba(11, 11, 12, 0.08);
-  box-shadow: 0 4px 20px rgba(11, 11, 12, 0.03);
+  border-bottom-color: transparent;
 }
 
 .navbar.lightTheme.scrolled {
@@ -194,6 +323,7 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(11, 11, 12, 0.06);
+  box-shadow: 0 4px 20px rgba(11, 11, 12, 0.03);
 }
 
 .navbar.lightTheme .navLink {
@@ -265,14 +395,35 @@
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-10px) scale(0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
   pointer-events: none;
-  animation: spiderRappel 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in, transform 0.22s ease-in, visibility 0.22s;
   transform-origin: top center;
-  z-index: 10;
+  z-index: 20;
+}
+
+.mobileHomeBtn:hover .hangingSpiderWrapperMobile,
+.mobileHomeBtn:active .hangingSpiderWrapperMobile {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition: opacity 0.25s ease-out, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mobileHomeBtn:hover .silkThread,
+.mobileHomeBtn:active .silkThread {
+  transform: scaleY(1);
+  transition: transform 0.28s ease-out;
+}
+
+.mobileHomeBtn:hover .hangingSpider,
+.mobileHomeBtn:active .hangingSpider {
+  animation: spiderIdleSway 2.5s ease-in-out infinite 0.32s;
 }
 
 /* ── Hamburger Trigger (Mobile Only) ── */

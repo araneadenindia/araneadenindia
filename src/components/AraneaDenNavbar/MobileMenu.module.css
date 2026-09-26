@@ -174,6 +174,38 @@
   font-size: 18px;
 }
 
+.mobileSocialRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+}
+
+.mobileSocialBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(223, 37, 49, 0.25);
+  color: var(--color-crimson, #df2531);
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(11, 11, 12, 0.04);
+}
+
+.mobileSocialBtn:hover {
+  transform: translateY(-2px);
+  background-color: var(--color-crimson, #df2531);
+  color: #FFFFFF;
+  border-color: var(--color-crimson, #df2531);
+}
+
 @media (max-width: 768px) {
   .inner {
     padding: 24px 20px 36px;

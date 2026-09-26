@@ -103,7 +103,7 @@ export const ContactPage: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.eyebrow}>
             <span className={styles.crimsonMarker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>ENGAGEMENTS & INQUIRIES // CONTACT</span>
+            <span className={styles.eyebrowText}>ENGAGEMENTS</span>
           </div>
 
           <h1 className={styles.heroTitle}>
@@ -135,7 +135,7 @@ export const ContactPage: React.FC = () => {
               ) : (
                 <form onSubmit={handleSubmit}>
                   {/* Step 1: Disciplines */}
-                  <div className={styles.formSectionTitle}>01 // SELECT REQUIRED DISCIPLINES</div>
+                  <div className={styles.formSectionTitle}>SELECT REQUIRED DISCIPLINES</div>
                   <div className={styles.disciplineSelectGrid}>
                     {DISCIPLINES_LIST.map((disc) => (
                       <button
@@ -152,7 +152,7 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   {/* Step 2: Budget */}
-                  <div className={styles.formSectionTitle}>02 // PROJECTED INVESTMENT TIER</div>
+                  <div className={styles.formSectionTitle}>PROJECTED INVESTMENT TIER</div>
                   <div className={styles.budgetGrid}>
                     {BUDGET_TIERS.map((tier) => (
                       <button
@@ -169,7 +169,7 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   {/* Step 3: Contact Fields */}
-                  <div className={styles.formSectionTitle}>03 // PROJECT & CONTACT DETAILS</div>
+                  <div className={styles.formSectionTitle}>PROJECT & CONTACT DETAILS</div>
                   <div className={styles.fieldsGrid}>
                     <div className={styles.fieldGroup}>
                       <label className={styles.fieldLabel}>YOUR NAME *</label>

@@ -14,6 +14,8 @@ import { ServicesPage } from './pages/ServicesPage';
 import { TeamPage } from './pages/TeamPage';
 import { PortfolioPage } from './pages/PortfolioPage';
 import { ContactPage } from './pages/ContactPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { TermsPage } from './pages/TermsPage';
 
 import './styles/globals.css';
 
@@ -41,7 +43,7 @@ const AppContent: React.FC = () => {
     <div
       style={{
         minHeight: '100dvh',
-        backgroundColor: 'var(--color-bg-primary, #F8F8F5)',
+        backgroundColor: 'var(--color-black, #0B0B0C)',
         color: 'var(--color-text-primary, #0B0B0C)',
         position: 'relative',
       }}
@@ -61,6 +63,7 @@ const AppContent: React.FC = () => {
         style={{
           minHeight: '100dvh',
           position: 'relative',
+          backgroundColor: 'var(--color-bg-primary, #F8F8F5)',
         }}
       >
         <Routes>
@@ -79,6 +82,8 @@ const AppContent: React.FC = () => {
           <Route path="/team" element={<TeamPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
 
           {/* Legacy & Fallback Redirects */}
           <Route path="/work" element={<Navigate to="/portfolio" replace />} />

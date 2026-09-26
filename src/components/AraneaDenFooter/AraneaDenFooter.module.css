@@ -1,9 +1,33 @@
+/* ============================================================
+   ARANEA DEN FOOTER — REFINED EDITORIAL FIT & COMPACT PROPORTIONS
+   - Preserves exact brand asset src/assets/AD Transparent SVG.svg
+   - Reduced black space around the logo for clean, natural flow
+   - Red crimson social indicators for Instagram, LinkedIn, GitHub
+   - Mobile-adaptive natural flow
+   ============================================================ */
+
 .footer {
   width: 100%;
   background-color: var(--color-black, #0B0B0C);
   color: #FFFFFF;
-  padding: 100px 0 36px 0;
+  padding: 44px 0 24px 0;
+  margin: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-sizing: border-box;
+  position: relative;
+  /* Visual obsidian extension: completely eradicates any subpixel gap, taskbar seam, or overscroll bounce */
+  box-shadow: 0 400px 0 0 var(--color-black, #0B0B0C);
+}
+
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 60vh;
+  background-color: var(--color-black, #0B0B0C);
+  pointer-events: none;
 }
 
 .container {
@@ -12,52 +36,54 @@
   padding: 0 var(--gutter-desktop, 48px);
   display: flex;
   flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* ── Top Grid ── */
+/* ── Top Grid: Thesis & Navigation ── */
 .topGrid {
   display: grid;
-  grid-template-columns: 1.1fr 1.9fr;
-  gap: 80px;
+  grid-template-columns: 1.15fr 1.85fr;
+  gap: clamp(28px, 4vw, 64px);
   align-items: flex-start;
-  padding-bottom: 80px;
+  padding-bottom: 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .thesisCol {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  max-width: 480px;
+  gap: 16px;
+  max-width: 440px;
 }
 
 .thesisText {
   margin: 0;
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(16px, 1.6vw, 22px);
+  font-size: clamp(14px, 1.2vw, 17px);
   font-weight: 400;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.78);
   letter-spacing: 0.01em;
 }
 
 .ctaWrap {
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .footerCta {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  height: 46px;
-  padding: 0 24px;
+  gap: 10px;
+  height: 40px;
+  padding: 0 20px;
   background-color: #FFFFFF;
   color: var(--color-black, #0B0B0C);
   border-radius: 6px;
   font-family: var(--font-sans, 'Exo', sans-serif);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
   text-decoration: none;
   transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
@@ -81,25 +107,24 @@
 .navColumns {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
+  gap: clamp(20px, 3vw, 44px);
 }
 
 .navGroup {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .navHeading {
   margin: 0;
   font-family: var(--font-mono, monospace);
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.4);
 }
-
 
 .navList {
   list-style: none;
@@ -107,28 +132,47 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .navLink {
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(12.5px, 0.95vw, 13.5px);
+  color: rgba(255, 255, 255, 0.65);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .navLink:hover {
   color: #FFFFFF;
+  transform: translateX(2px);
 }
 
-/* ── Centered Logo Brand Signature ── */
+/* Red Crimson Social Icon Wrap */
+.socialIcon {
+  color: var(--color-crimson, #df2531);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.navLink:hover .socialIcon {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 6px rgba(223, 37, 49, 0.6));
+}
+
+/* ── Centered Logo Brand Signature (Clean, Reduced Spacing) ── */
 .logoSection {
-  padding: 80px 0 60px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 28px 0 22px 0;
+  position: relative;
 }
 
 .logoWrap {
@@ -139,15 +183,15 @@
   flex-direction: column;
 }
 
-/* Radial glow behind logo — animated by GSAP */
+/* Radial Glow Behind Logo */
 .logoGlow {
   position: absolute;
-  width: 420px;
-  height: 420px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
-    rgba(223, 37, 49, 0.22) 0%,
+    rgba(223, 37, 49, 0.3) 0%,
     rgba(223, 37, 49, 0.08) 45%,
     transparent 75%
   );
@@ -160,18 +204,30 @@
   position: relative;
   z-index: 1;
   width: auto;
-  height: clamp(80px, 12vw, 160px);
+  height: clamp(52px, 6vw, 76px);
+  max-width: 90vw;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 0 20px rgba(223, 37, 49, 0.15));
+  filter: drop-shadow(0 0 20px rgba(223, 37, 49, 0.25));
 }
 
-/* ── Bottom Row ── */
+/* ── Bottom Legal Row ── */
 .bottomRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-right: 90px; /* Clearance so back-to-top button never covers tagline */
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legalInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .copyright {
@@ -179,29 +235,64 @@
   font-family: var(--font-mono, monospace);
   font-size: 11px;
   letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.legalLinks {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legalLink {
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.legalLink:hover {
+  color: var(--color-crimson, #df2531);
+}
+
+.legalDot {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 10px;
 }
 
 .tagline {
   margin: 0;
   font-family: var(--font-mono, monospace);
   font-size: 11px;
-  letter-spacing: 1.5px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
   color: var(--color-crimson, #df2531);
-  font-weight: 500;
+  text-transform: uppercase;
 }
 
-/* ── Responsive ── */
+/* ── Responsive Adaptations ── */
 @media (max-width: 1024px) {
-  .footer { padding: 70px 0 28px 0; }
-  .container { padding: 0 var(--gutter-tablet, 32px); }
-  .topGrid { grid-template-columns: 1fr; gap: 44px; padding-bottom: 48px; }
-  .thesisCol { max-width: 100%; }
+  .footer {
+    padding: 36px 0 20px 0;
+  }
+  .container {
+    padding: 0 var(--gutter-tablet, 32px);
+  }
+  .topGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-bottom: 24px;
+  }
+  .thesisCol {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
   .footer {
-    padding: 44px 0 24px 0;
+    padding: 40px 0 28px 0;
   }
 
   .container {
@@ -211,99 +302,37 @@
   .topGrid {
     grid-template-columns: 1fr;
     gap: 28px;
-    padding-bottom: 28px;
-  }
-
-  .thesisCol {
-    gap: 16px;
-    max-width: 100%;
-  }
-
-  .thesisText {
-    font-size: 14.5px;
-    line-height: 1.5;
-  }
-
-  .footerCta {
-    height: 38px;
-    padding: 0 18px;
-    font-size: 10px;
+    padding-bottom: 24px;
   }
 
   .navColumns {
     grid-template-columns: repeat(2, 1fr);
-    gap: 22px 16px;
-  }
-
-  .navGroup {
-    gap: 10px;
-  }
-
-  .navHeading {
-    font-size: 9.5px;
-    letter-spacing: 1.5px;
-  }
-
-  .navList {
-    gap: 7px;
-  }
-
-  .navLink {
-    font-size: 13px;
+    gap: 24px 16px;
   }
 
   .logoSection {
     padding: 24px 0 18px 0;
   }
 
-  .logoGlow {
-    width: 160px;
-    height: 160px;
-    opacity: 0.25;
-  }
-
   .footerLogo {
-    max-width: clamp(140px, 42vw, 175px);
-    width: 100%;
-    height: auto;
+    height: 48px;
   }
 
   .bottomRow {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
-    padding-top: 16px;
-    padding-right: 56px; /* Protect against overlap with fixed BackToTop button */
-    box-sizing: border-box;
-  }
-
-  .copyright {
-    font-size: 10px;
-    line-height: 1.4;
-  }
-
-  .tagline {
-    font-size: 10px;
-    letter-spacing: 1px;
+    padding-right: 0;
+    gap: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .footer {
-    padding: 36px 0 20px 0;
-  }
-
-  .topGrid {
-    gap: 24px;
-    padding-bottom: 24px;
+    padding: 32px 0 20px 0;
   }
 
   .navColumns {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 14px;
-  }
-
-  .footerLogo {
-    max-width: 145px;
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }

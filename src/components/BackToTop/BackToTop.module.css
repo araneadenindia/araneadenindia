@@ -1,115 +1,216 @@
-.backToTop {
+/* ============================================================
+   BACK TO TOP — ARACHNID ASCENT BUTTON & SILK THREAD ANIMATION
+   Aranea Den Design System
+   ============================================================ */
+
+.container {
   position: fixed;
-  bottom: 36px;
-  right: 36px;
-  width: 44px;
-  height: 44px;
+  bottom: 28px;
+  right: 28px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Silk thread cast upward to the top of the screen */
+.silkThread {
+  position: fixed;
+  top: 0;
+  right: 51px; /* Centered with the 48px button */
+  width: 1.5px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(223, 37, 49, 0.4) 15%,
+    rgba(223, 37, 49, 0.95) 70%,
+    #ffffff 100%
+  );
+  box-shadow: 0 0 8px rgba(223, 37, 49, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 899;
+  transition: opacity 0.25s ease;
+}
+
+.silkThread.threadActive {
+  opacity: 1;
+}
+
+.backToTop {
+  position: relative;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background-color: var(--color-black, #0B0B0C);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #FFFFFF;
+  border: 1.5px solid rgba(223, 37, 49, 0.4);
+  color: var(--color-crimson, #df2531);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 90;
-  box-shadow: 0 8px 24px rgba(11, 11, 12, 0.25);
+  box-shadow: 0 10px 28px rgba(11, 11, 12, 0.35),
+              0 0 16px rgba(223, 37, 49, 0.15);
   opacity: 0;
   pointer-events: none;
-  transform: translateY(16px);
+  transform: translateY(20px) scale(0.9);
   transition: opacity 0.35s ease,
-              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.25s ease,
-              border-color 0.25s ease;
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+  user-select: none;
 }
 
 .backToTop.visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .backToTop:hover {
-  background-color: var(--color-crimson, #df2531);
+  background-color: #121316;
   border-color: var(--color-crimson, #df2531);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(223, 37, 49, 0.35);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 14px 34px rgba(11, 11, 12, 0.45),
+              0 0 24px rgba(223, 37, 49, 0.4);
 }
 
-.arrowIcon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.25s ease;
+/* Spider SVG inside button */
+.spiderSvg {
+  width: 26px;
+  height: 26px;
+  display: block;
+  color: var(--color-crimson, #df2531);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.backToTop:hover .arrowIcon {
-  transform: translateY(-2px);
+.backToTop:hover .spiderSvg {
+  transform: scale(1.1) translateY(-1px);
 }
 
-/* ── 3D Brand Portal Transition Overlay ── */
-.transitOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background-color: rgba(7, 7, 8, 0.94);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
-  perspective: 1000px;
+/* Leg animations on hover */
+.backToTop:hover .legPair1 {
+  animation: legTwitch1 0.4s ease-in-out infinite alternate;
 }
 
-.portalGlow {
-  position: absolute;
-  width: clamp(300px, 50vw, 600px);
-  height: clamp(300px, 50vw, 600px);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(223, 37, 49, 0.32) 0%,
-    rgba(223, 37, 49, 0.08) 45%,
-    transparent 70%
-  );
-  filter: blur(36px);
+.backToTop:hover .legPair2 {
+  animation: legTwitch2 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes legTwitch1 {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-1.5px) rotate(-3deg); }
+}
+
+@keyframes legTwitch2 {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(1.5px) rotate(3deg); }
+}
+
+/* ── Active Ascent Animation (Climbing up the thread to apex) ── */
+.backToTop.ascending {
   pointer-events: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 30px rgba(223, 37, 49, 0.9),
+              0 0 60px rgba(223, 37, 49, 0.5);
+  animation: spiderAscendScreen 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.brand3DStage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
+.backToTop.ascending .spiderSvg {
+  color: #FFFFFF;
 }
 
-.brand3DLogo {
-  width: clamp(200px, 22vw, 320px);
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 30px rgba(223, 37, 49, 0.5));
-  user-select: none;
+/* Rapid leg scuttle during upward climb */
+.backToTop.ascending .legPair1,
+.backToTop.ascending .legPair3 {
+  animation: scuttleSetA 0.12s linear infinite alternate;
+  transform-origin: 12px 12px;
 }
 
-.transitLabel {
-  margin-top: 24px;
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
+.backToTop.ascending .legPair2,
+.backToTop.ascending .legPair4 {
+  animation: scuttleSetB 0.12s linear infinite alternate;
+  transform-origin: 12px 12px;
+}
+
+@keyframes scuttleSetA {
+  0% { transform: rotate(-5deg) translateY(-2px); }
+  100% { transform: rotate(5deg) translateY(2px); }
+}
+
+@keyframes scuttleSetB {
+  0% { transform: rotate(5deg) translateY(2px); }
+  100% { transform: rotate(-5deg) translateY(-2px); }
+}
+
+@keyframes spiderAscendScreen {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(-80px) scale(1.08);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-500px) scale(0.9);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(-105vh) scale(0.7);
+    opacity: 0;
+  }
+}
+
+/* Tooltip badge */
+.badgeTooltip {
+  position: absolute;
+  right: 58px;
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  padding: 5px 12px;
+  background-color: rgba(11, 11, 12, 0.92);
+  border: 1px solid rgba(223, 37, 49, 0.35);
+  border-radius: 999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #FFFFFF;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.backToTop:hover .badgeTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
 }
 
 @media (max-width: 768px) {
+  .container {
+    bottom: 20px;
+    right: 20px;
+  }
+  .silkThread {
+    right: 43px;
+  }
   .backToTop {
-    bottom: 24px;
-    right: 24px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+  }
+  .spiderSvg {
+    width: 23px;
+    height: 23px;
+  }
+  .badgeTooltip {
+    display: none;
   }
 }

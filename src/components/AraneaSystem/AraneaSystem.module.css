@@ -1,9 +1,9 @@
 /* ============================================================
-   ARANEA SYSTEM / OUR PHILOSOPHY — MINIMAL EDITORIAL REDESIGN
+   ARANEA SYSTEM / OUR PHILOSOPHY — MINIMAL EDITORIAL DESIGN
    - Restrained luxury design studio aesthetic
-   - Single continuous editorial composition (zero generic cards)
-   - Architectural timeline track with crimson progress runner
-   - Flawless vertical flow on mobile with no horizontal overflow
+   - Single continuous architectural composition
+   - Precision timeline track with crimson progress runner
+   - Flawless vertical flow on mobile
    ============================================================ */
 
 .systemWrapper {
@@ -32,6 +32,7 @@
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 48px);
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* Eyebrow Label */
@@ -39,7 +40,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .marker {
@@ -63,17 +64,17 @@
 .headerBlock {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   max-width: 1180px;
-  margin-bottom: clamp(60px, 7vw, 100px);
+  margin-bottom: clamp(48px, 6vw, 84px);
 }
 
 .headline {
   margin: 0;
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(28px, 3.4vw, 48px);
+  font-size: clamp(26px, 3.2vw, 44px);
   font-weight: 600;
-  line-height: 1.16;
+  line-height: 1.18;
   letter-spacing: -0.01em;
   color: var(--color-black, #0B0B0C);
   text-transform: uppercase;
@@ -82,7 +83,7 @@
 .subtext {
   margin: 0;
   font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: clamp(16px, 1.25vw, 18px);
+  font-size: clamp(15px, 1.2vw, 17px);
   line-height: 1.65;
   color: var(--color-text-secondary, #424348);
   max-width: 680px;
@@ -161,9 +162,12 @@
 .stageCol {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   padding-top: 8px;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  text-align: left;
   transition: opacity 0.35s ease, transform 0.35s ease;
   opacity: 0.48;
 }
@@ -196,25 +200,10 @@
   color: var(--color-crimson, #df2531);
 }
 
-.stageDivider {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11px;
-  color: rgba(11, 11, 12, 0.25);
-}
-
-.stageDiscipline {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-muted, #7E7F85);
-}
-
 .stageName {
   margin: 0;
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(22px, 1.8vw, 28px);
+  font-size: clamp(20px, 1.7vw, 26px);
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--color-black, #0B0B0C);
@@ -224,8 +213,8 @@
 
 .stageSummary {
   margin: 0;
-  font-family: 'Figtree', sans-serif;
-  font-size: clamp(14px, 1.05vw, 15px);
+  font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(14px, 1vw, 15px);
   line-height: 1.65;
   color: var(--color-text-secondary, #424348);
 }
@@ -234,7 +223,7 @@
   width: 24px;
   height: 2px;
   background-color: transparent;
-  margin-top: 8px;
+  margin-top: 6px;
   transition: width 0.35s ease, background-color 0.35s ease;
 }
 
@@ -318,7 +307,7 @@
   transition: all 0.3s ease;
 }
 
-.mobileNode.mobileNodeActive {
+.mobileStageItem.mobileStageActive .mobileNode {
   background-color: var(--color-crimson, #df2531);
   border-color: var(--color-crimson, #df2531);
   box-shadow: 0 0 8px rgba(223, 37, 49, 0.4);
@@ -349,25 +338,10 @@
   color: var(--color-crimson, #df2531);
 }
 
-.mobileStageDivider {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11px;
-  color: rgba(11, 11, 12, 0.2);
-}
-
-.mobileStageDiscipline {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-muted, #7E7F85);
-}
-
 .mobileStageName {
   margin: 0;
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.01em;
   color: var(--color-black, #0B0B0C);
@@ -392,7 +366,7 @@
   }
 
   .stageName {
-    font-size: 20px;
+    font-size: 19px;
   }
 }
 
@@ -413,6 +387,6 @@
   }
 
   .headerBlock {
-    margin-bottom: 44px;
+    margin-bottom: 40px;
   }
 }

@@ -66,6 +66,7 @@ html {
   overflow-x: clip;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE & Edge */
+  background-color: var(--color-black, #0B0B0C);
 }
 
 /* ── Pure Full-Screen Immersive Website (Zero Scrollbars / Side Bars) ── */
@@ -92,7 +93,7 @@ body {
   min-height: 100dvh;
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-black, #0B0B0C);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -105,7 +106,7 @@ body {
 #root {
   min-height: 100dvh;
   position: relative;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-black, #0B0B0C);
 }
 
 ::selection {

@@ -40,7 +40,6 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
   const logoWrapRef = useRef<HTMLDivElement>(null);
   const dividerRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLParagraphElement>(null);
-  const metaBadgeRef = useRef<HTMLDivElement>(null);
 
   // Automatically detect mobile viewport to load 9:16 portrait video
   const [isMobile, setIsMobile] = useState(() => {
@@ -82,7 +81,6 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
     const logoWrap = logoWrapRef.current;
     const divider = dividerRef.current;
     const copy = copyRef.current;
-    const metaBadge = metaBadgeRef.current;
 
     if (!wrapper || !card || !video || !passionStage) return;
 
@@ -148,10 +146,12 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         });
       }
 
-      gsap.set([copy, metaBadge], {
-        opacity: 0,
-        y: 18,
-      });
+      if (copy) {
+        gsap.set(copy, {
+          opacity: 0,
+          y: 18,
+        });
+      }
 
       // ── Master Pinned Scrub Timeline ──
       const tl = gsap.timeline({
@@ -310,18 +310,19 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         );
       }
 
-      // 8. Narrative copy & studio beacon badge fade in
-      tl.to(
-        [copy, metaBadge],
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.08,
-          ease: 'power3.out',
-          duration: 0.20,
-        },
-        0.60
-      );
+      // 8. Narrative copy fade in
+      if (copy) {
+        tl.to(
+          copy,
+          {
+            opacity: 1,
+            y: 0,
+            ease: 'power3.out',
+            duration: 0.20,
+          },
+          0.60
+        );
+      }
 
       // ==========================================
       // PHASE 4: REFINED SETTLE BEFORE UNPIN
@@ -343,7 +344,7 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
   }, [isMobile]);
 
   // Video source: 9:16 portrait on mobile, 16:9 landscape on desktop
-  const videoSrc = isMobile ? '/9.16 Ratio Vid.mp4' : '/16.9 Ratio Vid.mp4';
+  const videoSrc = isMobile ? '/9.16 Ratio Vid Final.mp4' : '/16.9 Ratio Vid FINAL.mp4';
 
   const handleExploreClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -382,17 +383,21 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         {/* 2. Initial Hero Content Overlay (Bottom Narrative & CTA) */}
         <div ref={initialOverlayRef} className={styles.heroInitialOverlay}>
           <div className={styles.bottomBar}>
-            <p className={styles.narrative}>
-              Aranea Den connects strategic clarity, architectural precision, and
-              cinematic craft to build cohesive digital flagships.
-            </p>
+            <div>
+              <p className={styles.narrative} style={{ fontSize: '1.1rem', fontWeight: 600 }}>
+                We Weave Your Digital Excellence.
+              </p>
+              <p className={styles.narrative} style={{ marginTop: '0.4rem', fontSize: '0.9rem', opacity: 0.8 }}>
+                Crafted to help your brand move, stand out, and grow online.
+              </p>
+            </div>
             <a
               href="#passion"
               className={styles.ctaButton}
               onClick={handleExploreClick}
               aria-label="Explore Our Passion section"
             >
-              EXPLORE CRAFT &darr;
+              EXPLORE &darr;
             </a>
           </div>
         </div>
@@ -405,12 +410,10 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
             {/* Chapter Header Bar */}
             <div ref={chapterBarRef} className={styles.chapterBar}>
               <div className={styles.chapterLeft}>
-                <span className={styles.chapterNumber}>01</span>
-                <span className={styles.chapterSeparator} aria-hidden="true" />
                 <span className={styles.chapterTitle}>OUR PASSION</span>
               </div>
               <div className={styles.chapterRight}>
-                <span>CORE PHILOSOPHY // 2026</span>
+                <span>2026</span>
               </div>
             </div>
 
@@ -421,17 +424,17 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
                 <h2 className={styles.headline}>
                   <span className={styles.lineMask}>
                     <span ref={line1Ref} className={styles.lineInner}>
-                      WE CRAFT
+                      WE WEAVE
                     </span>
                   </span>
                   <span className={`${styles.lineMask} ${styles.offsetLine}`}>
                     <span ref={line2Ref} className={`${styles.lineInner} ${styles.accentWord}`}>
-                      DIGITAL
+                      YOUR DIGITAL
                     </span>
                   </span>
                   <span className={styles.lineMask}>
                     <span ref={line3Ref} className={styles.lineInner}>
-                      EXPERIENCES.
+                      EXCELLENCE.
                     </span>
                   </span>
                 </h2>
@@ -456,11 +459,6 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
                   structural precision, cinematic resonance, and profound aesthetic intent.
                   Every interface is sculpted to captivate, endure, and elevate your brand above the noise.
                 </p>
-
-                <div ref={metaBadgeRef} className={styles.metaBadge}>
-                  <span className={styles.metaPulseDot} aria-hidden="true" />
-                  <span className={styles.metaBadgeText}>INTERACTIVE CHAPTER ACTIVE</span>
-                </div>
               </div>
             </div>
           </div>

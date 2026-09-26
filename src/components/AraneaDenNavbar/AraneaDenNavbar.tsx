@@ -11,7 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 const NAV_LINKS: NavLink[] = [
   { label: 'ABOUT', path: '/about', href: '/about' },
   { label: 'SERVICES', path: '/services', href: '/services' },
-  { label: 'TEAM', path: '/team', href: '/team' },
   { label: 'PORTFOLIO', path: '/portfolio', href: '/portfolio' },
   { label: 'CONTACT', path: '/contact', href: '/contact' },
 ];
@@ -20,41 +19,57 @@ const FULL_MENU_LINKS: NavLink[] = [
   { label: 'HOME', path: '/', href: '/' },
   { label: 'ABOUT', path: '/about', href: '/about' },
   { label: 'SERVICES', path: '/services', href: '/services' },
-  { label: 'TEAM', path: '/team', href: '/team' },
   { label: 'PORTFOLIO', path: '/portfolio', href: '/portfolio' },
+  { label: 'CONTACT', path: '/contact', href: '/contact' },
 ];
 
-const SpiderIcon: React.FC<{ className?: string }> = ({ className }) => (
+interface SpiderIconProps {
+  className?: string;
+  isWalking?: boolean;
+}
+
+const SpiderIcon: React.FC<SpiderIconProps> = ({ className, isWalking = false }) => (
   <svg
     viewBox="0 0 24 24"
-    className={className}
+    className={`${className || ''} ${isWalking ? styles.spiderWalking : ''}`}
     fill="currentColor"
     aria-hidden="true"
   >
-    {/* Spinneret node at top attaching to silk thread */}
-    <circle cx="12" cy="2.5" r="0.8" fill="#df2531" />
+    {/* Minimalist abdomen (hanging from top) */}
+    <ellipse cx="12" cy="8" rx="2.8" ry="3.5" />
 
-    {/* Abdomen (hanging from top) */}
-    <ellipse cx="12" cy="7.5" rx="3.5" ry="4.5" fill="#df2531" />
-    {/* White diamond mark on spider abdomen */}
-    <polygon points="12,6 13.2,7.5 12,9 10.8,7.5" fill="#FFFFFF" opacity="0.95" />
+    {/* Minimalist head (pointing downwards) */}
+    <circle cx="12" cy="13.5" r="1.9" />
 
-    {/* Cephalothorax (head/body pointing downward) */}
-    <ellipse cx="12" cy="13.5" rx="2.5" ry="2.5" fill="#df2531" />
-    {/* Chelicerae / fangs */}
-    <path d="M 11 16.2 L 10.7 17.8 M 13 16.2 L 13.3 17.8" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" />
+    {/* Symmetrical, minimal angled legs - Set 1 (alternating gait) */}
+    <g
+      className={isWalking ? styles.legSet1 : undefined}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.35"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M 10.5 13.5 L 7.5 16.5 L 6.5 19.5" />
+      <path d="M 9.8 8.5 L 5.5 8 L 4 10.5" />
+      <path d="M 14 11 L 18 12.5 L 19.5 15" />
+      <path d="M 13.8 6.5 L 17 4.5 L 18.5 6" />
+    </g>
 
-    {/* 4 Left Legs */}
-    <path d="M 9.8 13.2 Q 6.5 13.5, 4.5 16.5 T 3 19.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M 9.6 14 Q 5.5 16, 3 14.5 T 1.5 12.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M 9.6 8.5 Q 5.5 7.5, 3.5 5.5 T 2.5 3" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M 9.8 7 Q 6.5 4.5, 5 2 T 4.5 0.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-
-    {/* 4 Right Legs */}
-    <path d="M 14.2 13.2 Q 17.5 13.5, 19.5 16.5 T 21 19.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M 14.4 14 Q 18.5 16, 21 14.5 T 22.5 12.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M 14.4 8.5 Q 18.5 7.5, 20.5 5.5 T 21.5 3" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M 14.2 7 Q 17.5 4.5, 19 2 T 19.5 0.5" fill="none" stroke="#df2531" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    {/* Symmetrical, minimal angled legs - Set 2 (opposite phase) */}
+    <g
+      className={isWalking ? styles.legSet2 : undefined}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.35"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M 13.5 13.5 L 16.5 16.5 L 17.5 19.5" />
+      <path d="M 14.2 8.5 L 18.5 8 L 20 10.5" />
+      <path d="M 10 11 L 6 12.5 L 4.5 15" />
+      <path d="M 10.2 6.5 L 7 4.5 L 5.5 6" />
+    </g>
   </svg>
 );
 
@@ -62,10 +77,21 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [isInHero, setIsInHero] = useState<boolean>(true);
+  const [isWalking, setIsWalking] = useState<boolean>(false);
+  const [hasWalkingSpider, setHasWalkingSpider] = useState<boolean>(false);
+
   const navbarRef = useRef<HTMLElement>(null);
   const hamburgerLinesRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const desktopNavRef = useRef<HTMLElement>(null);
+  const navLinksRef = useRef<{ [key: string]: HTMLElement | null }>({});
+  const walkingSpiderRef = useRef<HTMLDivElement>(null);
+  const spiderBodyRef = useRef<HTMLDivElement>(null);
+  const dropSilkRef = useRef<HTMLDivElement>(null);
+  const silkTrailRef = useRef<HTMLDivElement>(null);
+
   const location = useLocation();
   const currentPath = location.pathname;
+  const prevPathRef = useRef<string>(currentPath);
 
   const isHome = currentPath === '/';
 
@@ -91,7 +117,8 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
     };
   }, [isHome]);
 
-  const isDarkTheme = isHome && isInHero;
+  const isAbout = currentPath === '/about';
+  const isDarkTheme = (isHome && isInHero) || isAbout;
 
   // Scroll listener for subtle elevation/compact state
   useEffect(() => {
@@ -127,20 +154,21 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
     const isMobile = window.innerWidth <= 768;
 
     if (isDarkTheme) {
-      // While in Hero Video flow: Keep navbar COMPLETELY TRANSPARENT with zero dark rectangle or blur box
+      // In Hero Video flow or Dark Pages (About):
       gsap.to(navbar, {
-        paddingTop: isScrolled ? (isMobile ? 14 : 20) : (isMobile ? 22 : 34),
-        paddingBottom: isScrolled ? (isMobile ? 12 : 16) : (isMobile ? 16 : 22),
-        backgroundColor: 'transparent',
-        backdropFilter: 'none',
-        borderBottomColor: 'transparent',
+        paddingTop: isScrolled ? (isMobile ? 12 : 16) : (isMobile ? 22 : 34),
+        paddingBottom: isScrolled ? (isMobile ? 10 : 12) : (isMobile ? 14 : 18),
+        backgroundColor: (isAbout && isScrolled) ? 'rgba(7, 7, 9, 0.92)' : 'transparent',
+        backdropFilter: (isAbout && isScrolled) ? 'blur(16px)' : 'none',
+        borderBottomColor: (isAbout && isScrolled) ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
         duration: 0.35,
         ease: 'power2.out',
       });
     } else {
+      // On light/white sections (e.g. Services, About, Portfolio, etc.):
       gsap.to(navbar, {
-        paddingTop: isScrolled ? (isMobile ? 12 : 14) : (isMobile ? 16 : 24),
-        paddingBottom: isScrolled ? (isMobile ? 12 : 14) : (isMobile ? 14 : 20),
+        paddingTop: isScrolled ? (isMobile ? 12 : 14) : (isMobile ? 14 : 18),
+        paddingBottom: isScrolled ? (isMobile ? 10 : 12) : (isMobile ? 12 : 14),
         backgroundColor: isScrolled ? 'rgba(248, 248, 245, 0.92)' : 'rgba(248, 248, 245, 0)',
         backdropFilter: isScrolled ? 'blur(16px)' : 'blur(0px)',
         borderBottomColor: isScrolled ? 'rgba(11, 11, 12, 0.08)' : 'transparent',
@@ -183,6 +211,161 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
     return currentPath === path || (path !== '/' && currentPath.startsWith(path + '/'));
   };
 
+  const triggerSpiderWalk = useCallback((targetPath: string) => {
+    const desktopNav = desktopNavRef.current;
+    if (!desktopNav || window.innerWidth <= 768) return;
+
+    const targetEl = navLinksRef.current[targetPath];
+    if (!targetEl) return;
+
+    const prevPath = prevPathRef.current;
+    prevPathRef.current = targetPath;
+    const fromEl = navLinksRef.current[prevPath] || navLinksRef.current['/'] || targetEl;
+
+    const navRect = desktopNav.getBoundingClientRect();
+    const fromRect = fromEl.getBoundingClientRect();
+    const toRect = targetEl.getBoundingClientRect();
+
+    const startX = (fromRect.left + fromRect.width / 2) - navRect.left;
+    const endX = (toRect.left + toRect.width / 2) - navRect.left;
+
+    const container = walkingSpiderRef.current;
+    const body = spiderBodyRef.current;
+    const dropSilk = dropSilkRef.current;
+    const trail = silkTrailRef.current;
+    if (!container || !body || !dropSilk) return;
+
+    gsap.killTweensOf([container, body, dropSilk, trail]);
+
+    const currentComputedX = gsap.getProperty(container, 'x') as number;
+    const isAlreadyActive = container.style.display === 'flex' && typeof currentComputedX === 'number' && !isNaN(currentComputedX);
+    const effectiveStartX = isAlreadyActive ? currentComputedX : startX;
+
+    const effDist = endX - effectiveStartX;
+    const isMovingRight = effDist >= 0;
+
+    setHasWalkingSpider(true);
+
+    if (Math.abs(effDist) < 6) {
+      container.style.display = 'flex';
+      gsap.set(container, { xPercent: -50, x: endX, opacity: 1 });
+      gsap.set(body, { rotation: 0, y: 0 });
+      gsap.set(dropSilk, { scaleY: 0 });
+      setIsWalking(false);
+
+      gsap.to(dropSilk, { scaleY: 1, duration: 0.32, ease: 'power2.out' });
+      gsap.to(body, {
+        y: 18,
+        duration: 0.35,
+        ease: 'back.out(1.8)',
+        onComplete: () => {
+          gsap.to(body, { y: 0, delay: 2.0, duration: 0.35, ease: 'power2.in' });
+          gsap.to(dropSilk, { scaleY: 0, delay: 2.0, duration: 0.35, ease: 'power2.in' });
+          gsap.to(container, {
+            opacity: 0,
+            delay: 2.3,
+            duration: 0.25,
+            onComplete: () => {
+              if (container) container.style.display = 'none';
+              setHasWalkingSpider(false);
+            },
+          });
+        },
+      });
+      return;
+    }
+
+    const walkDuration = Math.min(Math.max(Math.abs(effDist) / 420, 0.42), 0.85);
+
+    container.style.display = 'flex';
+    gsap.set(container, { xPercent: -50, x: effectiveStartX, opacity: 1 });
+    gsap.set(body, { rotation: isMovingRight ? 90 : -90, y: 0 });
+    gsap.set(dropSilk, { scaleY: 0 });
+
+    if (trail) {
+      gsap.set(trail, {
+        left: Math.min(effectiveStartX, endX),
+        width: 0,
+        opacity: 0.6,
+      });
+    }
+
+    setIsWalking(true);
+
+    gsap.to(container, {
+      x: endX,
+      duration: walkDuration,
+      ease: 'power2.inOut',
+      onUpdate: () => {
+        if (trail) {
+          const curX = gsap.getProperty(container, 'x') as number;
+          const minX = Math.min(effectiveStartX, curX);
+          const w = Math.abs(curX - effectiveStartX);
+          trail.style.left = `${minX}px`;
+          trail.style.width = `${w}px`;
+        }
+      },
+      onComplete: () => {
+        setIsWalking(false);
+
+        gsap.to(body, {
+          rotation: 0,
+          duration: 0.2,
+          ease: 'power2.out',
+          onComplete: () => {
+            gsap.to(dropSilk, {
+              scaleY: 1,
+              duration: 0.32,
+              ease: 'power2.out',
+            });
+            gsap.to(body, {
+              y: 18,
+              duration: 0.35,
+              ease: 'back.out(1.8)',
+              onComplete: () => {
+                gsap.to(body, {
+                  y: 0,
+                  delay: 2.0,
+                  duration: 0.35,
+                  ease: 'power2.in',
+                });
+                gsap.to(dropSilk, {
+                  scaleY: 0,
+                  delay: 2.0,
+                  duration: 0.35,
+                  ease: 'power2.in',
+                });
+                if (trail) {
+                  gsap.to(trail, {
+                    opacity: 0,
+                    delay: 1.0,
+                    duration: 0.5,
+                  });
+                }
+                gsap.to(container, {
+                  opacity: 0,
+                  delay: 2.3,
+                  duration: 0.25,
+                  onComplete: () => {
+                    if (container) container.style.display = 'none';
+                    setHasWalkingSpider(false);
+                  },
+                });
+              },
+            });
+          },
+        });
+      },
+    });
+  }, []);
+
+  // Trigger walk whenever location changes
+  useEffect(() => {
+    if (prevPathRef.current !== currentPath) {
+      triggerSpiderWalk(currentPath);
+    }
+  }, [currentPath, triggerSpiderWalk]);
+
   return (
     <>
       <header
@@ -204,18 +387,24 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
           </Link>
 
           {/* Desktop Navigation Links on the Right */}
-          <nav className={styles.desktopNav} aria-label="Primary navigation">
+          <nav
+            ref={desktopNavRef}
+            className={`${styles.desktopNav}${hasWalkingSpider ? ` ${styles.hasWalkingSpider}` : ''}`}
+            aria-label="Primary navigation"
+          >
             {/* Red Static Home Icon Link */}
             <Link
               to="/"
+              ref={el => { navLinksRef.current['/'] = el; }}
+              onClick={() => triggerSpiderWalk('/')}
               className={`${styles.navHomeLink}${isHome ? ` ${styles.activeLink}` : ''}`}
               aria-label="Home"
               title="Home"
             >
               <span className={styles.homeIconWrapper}>
                 <svg
-                  width="17"
-                  height="17"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   className={styles.staticHomeIcon}
@@ -224,12 +413,10 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                 </svg>
               </span>
-              {isHome && (
-                <div key="spider-home" className={styles.hangingSpiderWrapper} aria-hidden="true">
-                  <span className={styles.silkThread} />
-                  <SpiderIcon className={styles.hangingSpider} />
-                </div>
-              )}
+              <div className={styles.hangingSpiderWrapper} aria-hidden="true">
+                <span className={styles.silkThread} />
+                <SpiderIcon className={styles.hangingSpider} />
+              </div>
             </Link>
 
             {/* Other Section Links */}
@@ -239,19 +426,34 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
                 <Link
                   key={link.path}
                   to={link.path}
+                  ref={el => { navLinksRef.current[link.path] = el; }}
+                  onClick={() => triggerSpiderWalk(link.path)}
                   className={`${styles.navLink}${active ? ` ${styles.activeLink}` : ''}`}
                   aria-current={active ? 'page' : undefined}
                 >
                   <span>{link.label}</span>
-                  {active && (
-                    <div key={`spider-${link.path}`} className={styles.hangingSpiderWrapper} aria-hidden="true">
-                      <span className={styles.silkThread} />
-                      <SpiderIcon className={styles.hangingSpider} />
-                    </div>
-                  )}
+                  <div className={styles.hangingSpiderWrapper} aria-hidden="true">
+                    <span className={styles.silkThread} />
+                    <SpiderIcon className={styles.hangingSpider} />
+                  </div>
                 </Link>
               );
             })}
+
+            {/* Walking Spider Track across Desktop Navigation */}
+            <div
+              ref={walkingSpiderRef}
+              className={styles.walkingSpiderContainer}
+              aria-hidden="true"
+            >
+              <div ref={dropSilkRef} className={styles.walkingSilkThread} />
+              <div ref={spiderBodyRef} className={styles.walkingSpiderBody}>
+                <SpiderIcon className={styles.walkingSpiderIcon} isWalking={isWalking} />
+              </div>
+            </div>
+
+            {/* Silk trail left behind the walking spider */}
+            <div ref={silkTrailRef} className={styles.silkTrail} aria-hidden="true" />
           </nav>
 
           {/* Mobile Actions: Red Static Home Icon + Clean Hamburger */}
@@ -272,12 +474,10 @@ export const AraneaDenNavbar: React.FC<AraneaDenNavbarProps> = ({ isVisible: _is
               >
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
               </svg>
-              {isHome && (
-                <div key="spider-mobile-home" className={styles.hangingSpiderWrapperMobile} aria-hidden="true">
-                  <span className={styles.silkThread} />
-                  <SpiderIcon className={styles.hangingSpider} />
-                </div>
-              )}
+              <div className={styles.hangingSpiderWrapperMobile} aria-hidden="true">
+                <span className={styles.silkThread} />
+                <SpiderIcon className={styles.hangingSpider} />
+              </div>
             </Link>
 
             <button

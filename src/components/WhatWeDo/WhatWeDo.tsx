@@ -494,7 +494,7 @@ export const WhatWeDo: React.FC = () => {
         id: 'services-pin',
         trigger: wrapper,
         start: 'top top',
-        end: '+=110%', // Smooth, natural scroll distance
+        end: '+=120%', // Smooth, natural scroll distance
         pin: section,
         pinSpacing: true,
         anticipatePin: 1,

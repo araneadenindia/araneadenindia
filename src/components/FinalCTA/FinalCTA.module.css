@@ -1,6 +1,6 @@
 .section {
   width: 100%;
-  padding: 140px 0 130px 0;
+  padding: 70px 0 60px 0;
   background-color: var(--color-bg-primary, #F8F8F5);
   border-top: 1px solid rgba(11, 11, 12, 0.08);
   position: relative;
@@ -36,7 +36,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 480px;
+  min-height: 360px;
   pointer-events: none;
 }
 
@@ -45,7 +45,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 }
 
 .crimsonMarker {

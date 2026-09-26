@@ -5,7 +5,7 @@ import styles from './StatementMarquee.module.css';
 // 8 statement repetitions ensuring seamless 50% loop
 const MARQUEE_ITEMS = Array.from({ length: 8 }, (_, i) => ({
   id: `statement-${i}`,
-  text: 'WE CRAFT DIGITAL EXPERIENCES',
+  text: 'WE WEAVE YOUR DIGITAL EXCELLENCE',
 }));
 
 export const StatementMarquee: React.FC = () => {

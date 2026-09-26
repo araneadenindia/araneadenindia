@@ -192,12 +192,10 @@ export const BrandStatement: React.FC = () => {
         {/* 1. Architectural Chapter Header Bar */}
         <div ref={chapterBarRef} className={styles.chapterBar}>
           <div className={styles.chapterLeft}>
-            <span className={styles.chapterNumber}>01</span>
-            <span className={styles.chapterSeparator} aria-hidden="true" />
             <span className={styles.chapterTitle}>OUR PASSION</span>
           </div>
           <div className={styles.chapterRight}>
-            <span>CRAFT &amp; ARCHITECTURE</span>
+            <span>2026</span>
           </div>
         </div>
 
@@ -208,17 +206,17 @@ export const BrandStatement: React.FC = () => {
             <h2 className={styles.headline}>
               <span className={styles.lineMask}>
                 <span ref={line1Ref} className={styles.lineInner}>
-                  WE CRAFT
+                  WE WEAVE
                 </span>
               </span>
               <span className={`${styles.lineMask} ${styles.offsetLine}`}>
                 <span ref={line2Ref} className={`${styles.lineInner} ${styles.accentWord}`}>
-                  DIGITAL
+                  YOUR DIGITAL
                 </span>
               </span>
               <span className={styles.lineMask}>
                 <span ref={line3Ref} className={styles.lineInner}>
-                  EXPERIENCES.
+                  EXCELLENCE.
                 </span>
               </span>
             </h2>

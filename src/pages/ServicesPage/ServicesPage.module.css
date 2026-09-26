@@ -14,8 +14,8 @@
 
 /* Hero Section */
 .heroSection {
-  padding-top: 160px;
-  padding-bottom: 120px;
+  padding-top: 130px;
+  padding-bottom: 50px;
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
 }
 
@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .crimsonMarker {
@@ -43,7 +43,7 @@
 }
 
 .heroTitle {
-  margin: 0 0 36px 0;
+  margin: 0 0 24px 0;
   font-family: var(--font-display, 'Mokoto', sans-serif);
   font-size: clamp(38px, 6vw, 92px);
   font-weight: 400;
@@ -65,21 +65,21 @@
 
 /* Disciplines Catalogue */
 .catalogueSection {
-  padding: 140px 0;
+  padding: 60px 0;
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
 }
 
 .disciplinesList {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
 }
 
 .disciplineCard {
   background-color: #FFFFFF;
   border: 1px solid rgba(11, 11, 12, 0.08);
   border-radius: 24px;
-  padding: 56px 48px;
+  padding: 44px 40px;
   display: grid;
   grid-template-columns: 0.8fr 1.6fr 1fr;
   gap: 48px;
@@ -227,7 +227,7 @@
 
 /* CTA Section */
 .ctaSection {
-  padding: 120px 0;
+  padding: 70px 0 80px 0;
   text-align: center;
 }
 

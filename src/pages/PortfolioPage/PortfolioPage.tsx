@@ -141,7 +141,7 @@ export const PortfolioPage: React.FC = () => {
       <section className={styles.projectsSection}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <span className={styles.sectionSubhead}>01 — PRODUCTION WEBSITES</span>
+            <span className={styles.sectionSubhead}>PRODUCTION WEBSITES</span>
             <span className={styles.sectionCounter}>11 PLATFORMS LIVE</span>
           </div>
 

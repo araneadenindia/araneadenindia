@@ -21,8 +21,8 @@
 
 /* ── Hero Section ── */
 .heroSection {
-  padding-top: 160px;
-  padding-bottom: 70px;
+  padding-top: 130px;
+  padding-bottom: 48px;
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
 }
 
@@ -30,7 +30,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .crimsonMarker {
@@ -51,7 +51,7 @@
 }
 
 .heroTitle {
-  margin: 0 0 28px 0;
+  margin: 0 0 24px 0;
   font-family: var(--font-display, 'Mokoto', sans-serif);
   font-size: clamp(36px, 5.5vw, 86px);
   font-weight: 400;
@@ -62,7 +62,7 @@
 }
 
 .heroLead {
-  margin: 0 0 44px 0;
+  margin: 0 0 32px 0;
   font-family: var(--font-sans);
   font-size: clamp(17px, 1.5vw, 22px);
   line-height: 1.55;
@@ -75,7 +75,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding-top: 32px;
+  padding-top: 24px;
   border-top: 1px solid rgba(11, 11, 12, 0.08);
 }
 
@@ -106,15 +106,15 @@
 
 /* ── Primary Showcase (11 Client Websites) ── */
 .projectsSection {
-  padding: 90px 0 120px 0;
+  padding: 56px 0 70px 0;
 }
 
 .sectionHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 24px;
-  margin-bottom: 56px;
+  padding-bottom: 20px;
+  margin-bottom: 36px;
   border-bottom: 1px solid rgba(11, 11, 12, 0.1);
 }
 
@@ -135,7 +135,7 @@
 .projectsGrid {
   display: flex;
   flex-direction: column;
-  gap: 90px;
+  gap: 60px;
 }
 
 .projectCard {
@@ -143,7 +143,7 @@
   grid-template-columns: 1.25fr 1fr;
   gap: clamp(40px, 5vw, 72px);
   align-items: center;
-  padding-bottom: 80px;
+  padding-bottom: 50px;
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
 }
 
@@ -387,14 +387,14 @@
 
 /* ── Reels & Motion Section ── */
 .reelsSection {
-  padding: 120px 0;
+  padding: 60px 0 70px 0;
   border-top: 1px solid rgba(11, 11, 12, 0.08);
   background-color: #F4F4F0;
 }
 
 .reelsHeader {
   max-width: 900px;
-  margin-bottom: 64px;
+  margin-bottom: 40px;
 }
 
 .reelsTitle {

@@ -19,8 +19,8 @@
 
 /* ── Hero Section ── */
 .heroSection {
-  padding-top: 160px;
-  padding-bottom: 80px;
+  padding-top: 130px;
+  padding-bottom: 48px;
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
 }
 
@@ -71,7 +71,7 @@
 
 /* ── Founder Feature Stage ── */
 .founderSection {
-  padding: 100px 0 90px 0;
+  padding: 60px 0 50px 0;
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
 }
 
@@ -108,6 +108,7 @@
   border: 1px solid rgba(11, 11, 12, 0.08);
   border-radius: 24px;
   padding: 48px;
+  cursor: pointer;
   box-shadow: 0 20px 48px rgba(11, 11, 12, 0.04);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -181,7 +182,7 @@
 
 /* ── The Powerhouse Collective Grid ── */
 .collectiveSection {
-  padding: 100px 0 140px 0;
+  padding: 60px 0 70px 0;
 }
 
 .teamGrid {
@@ -197,6 +198,7 @@
   border: 1px solid rgba(11, 11, 12, 0.08);
   border-radius: 20px;
   overflow: hidden;
+  cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.3s ease;
@@ -284,7 +286,7 @@
 
 /* ── Bottom CTA Band ── */
 .ctaBand {
-  padding: 80px 0 100px 0;
+  padding: 60px 0 70px 0;
   background-color: #FFFFFF;
   border-top: 1px solid rgba(11, 11, 12, 0.08);
   text-align: center;

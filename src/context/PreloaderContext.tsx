@@ -81,10 +81,13 @@ export const PreloaderProvider: React.FC<PreloaderProviderProps> = ({ children }
     if (!isInitialIntroComplete) {
       setIsInitialIntroComplete(true);
     }
+    // Stagger ScrollTrigger refresh to let hero reveal and video settle into steady 60fps
     setTimeout(() => {
-      ScrollTrigger.sort();
-      ScrollTrigger.refresh();
-    }, 150);
+      requestAnimationFrame(() => {
+        ScrollTrigger.sort();
+        ScrollTrigger.refresh();
+      });
+    }, 280);
   }, [isInitialIntroComplete]);
 
   return (

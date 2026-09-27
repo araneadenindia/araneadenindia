@@ -208,11 +208,53 @@ export const DigitalMarketingVisual: React.FC = () => {
 };
 
 /**
- * 06: Graphic Design — Typographic Specimen & Visual Identity Grid
+ * 05: Video Production — Cinema Director Monitor & 4K Recording Suite
+ */
+export const VideoProductionVisual: React.FC = () => {
+  return (
+    <div className={styles.videoProdStage} aria-label="Cinema Monitor & 4K Production Suite">
+      <div className={styles.monitorCard}>
+        <div className={styles.monitorHeader}>
+          <div className={styles.recBadge}>
+            <span className={styles.recBlink} aria-hidden="true" />
+            <span>REC 4K UHD</span>
+          </div>
+          <span className={styles.monitorTimecode}>00:24:18:12</span>
+        </div>
+
+        <div className={styles.monitorViewport}>
+          <div className={styles.crosshairLines} aria-hidden="true" />
+          <div className={styles.monitorCenterBadge}>
+            <span className={styles.monitorTag}>AD IMPERIAL VISUALS</span>
+            <span className={styles.monitorFps}>PRORES 422 HQ // 60 FPS</span>
+          </div>
+        </div>
+
+        <div className={styles.monitorFooter}>
+          <div className={styles.monitorStatCol}>
+            <span className={styles.monitorStatLabel}>SHUTTER</span>
+            <span className={styles.monitorStatValue}>1/120s</span>
+          </div>
+          <div className={styles.monitorStatCol}>
+            <span className={styles.monitorStatLabel}>APERTURE</span>
+            <span className={styles.monitorStatValue}>f/1.8</span>
+          </div>
+          <div className={styles.monitorStatCol}>
+            <span className={styles.monitorStatLabel}>ISO RANGE</span>
+            <span className={styles.monitorStatValue}>800 NATIVE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * 06: Graphic Design — Editing, Poster Design & Typographic Grid Specimen
  */
 export const GraphicDesignVisual: React.FC = () => {
   return (
-    <div className={styles.graphicDesignStage} aria-label="Brand Visual Identity Specimen">
+    <div className={styles.graphicDesignStage} aria-label="Poster Design & Brand Visual Identity Specimen">
       <div className={styles.specimenBox}>
         <div className={styles.specimenGridLines} aria-hidden="true" />
 
@@ -223,7 +265,7 @@ export const GraphicDesignVisual: React.FC = () => {
         </div>
 
         <div className={styles.specimenFooter}>
-          <span className={styles.specimenLabel}>IDENTITY GRID // 1.618 &Phi;</span>
+          <span className={styles.specimenLabel}>POSTER DESIGN // EDITORIAL // 1.618 &Phi;</span>
           <div className={styles.specimenPalette} aria-hidden="true">
             <span className={styles.swatchMini} style={{ backgroundColor: '#df2531' }} />
             <span className={styles.swatchMini} style={{ backgroundColor: '#ffffff' }} />
@@ -324,3 +366,110 @@ export const CloudSolutionsVisual: React.FC = () => {
     </div>
   );
 };
+
+/**
+ * 07: Software & Hardware Solutions — Workshops, Hackathons & Code Nexus
+ */
+export const SoftwareSolutionsVisual: React.FC = () => {
+  return (
+    <div className={styles.softwareStage} aria-label="Software & Hardware Solutions Specimen">
+      <div className={styles.terminalCard}>
+        <div className={styles.terminalHeader}>
+          <div className={styles.terminalDots} aria-hidden="true">
+            <span className={`${styles.dot} ${styles.dotRed}`} />
+            <span className={styles.dot} />
+            <span className={styles.dot} />
+          </div>
+          <span className={styles.terminalTitle}>WORKSHOPS // HACKATHONS LAB</span>
+        </div>
+
+        <div className={styles.terminalBody}>
+          <div className={styles.codeLine}>
+            <span className={styles.promptSymbol}>$</span>
+            <span className={styles.commandText}>aranea sprint --hackathon-active</span>
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '9px' }}>
+            &gt; Initializing Hackathon Pipeline [v2.4]...
+          </div>
+          <div style={{ color: '#10b981', fontSize: '9px', fontWeight: 600 }}>
+            &gt; STATUS: 128 / 128 UNIT &amp; HARDWARE TESTS PASSED
+          </div>
+
+          <div className={styles.hackathonStatsRow}>
+            <div className={styles.statItem}>
+              <span className={styles.statItemLabel}>ACTIVE BUILDERS</span>
+              <span className={styles.statItemValue}>48 SPRINT LAB</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statItemLabel}>HARDWARE RIGS</span>
+              <span className={styles.statItemValue}>16 PROTOTYPES</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * 08: IoT & Hardware Solutions — Microcontroller Circuit & Sensor Telemetry
+ */
+export const IoTHardwareVisual: React.FC = () => {
+  return (
+    <div className={styles.iotStage} aria-label="IoT & Hardware Solutions Specimen">
+      <div className={styles.iotCard}>
+        <div className={styles.iotHeader}>
+          <span className={styles.iotTitle}>EMBEDDED MCU // SENSOR BUS</span>
+          <div className={styles.iotLiveStatus}>
+            <span className={styles.iotLiveDot} aria-hidden="true" />
+            <span>ONLINE</span>
+          </div>
+        </div>
+
+        {/* Microcontroller Schematic & Circuit Traces */}
+        <svg className={styles.mcuSchematic} viewBox="0 0 320 80" fill="none">
+          {/* Main MCU IC Package */}
+          <rect x="110" y="16" width="100" height="48" rx="4" fill="#0d0e14" stroke="#df2531" strokeWidth="1.5" />
+          <text x="160" y="44" textAnchor="middle" fill="#FFFFFF" fontSize="9" fontWeight="700" fontFamily="monospace">
+            ESP32 / MCU
+          </text>
+
+          {/* Left Pins (GPIO) */}
+          <line x1="40" y1="26" x2="110" y2="26" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+          <circle cx="40" cy="26" r="3" fill="#df2531" />
+          <text x="32" y="29" textAnchor="end" fill="rgba(255,255,255,0.6)" fontSize="7" fontFamily="monospace">GPIO 04</text>
+
+          <line x1="40" y1="52" x2="110" y2="52" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+          <circle cx="40" cy="52" r="3" fill="#df2531" />
+          <text x="32" y="55" textAnchor="end" fill="rgba(255,255,255,0.6)" fontSize="7" fontFamily="monospace">I2C SDA</text>
+
+          {/* Right Pins (Sensors & Power) */}
+          <line x1="210" y1="26" x2="280" y2="26" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+          <circle cx="280" cy="26" r="3" fill="#10b981" />
+          <text x="288" y="29" fill="rgba(255,255,255,0.6)" fontSize="7" fontFamily="monospace">3.3V VDD</text>
+
+          <line x1="210" y1="52" x2="280" y2="52" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+          <circle cx="280" cy="52" r="3" fill="#10b981" />
+          <text x="288" y="55" fill="rgba(255,255,255,0.6)" fontSize="7" fontFamily="monospace">SPI MOSI</text>
+        </svg>
+
+        {/* Telemetry Grid */}
+        <div className={styles.telemetryGrid}>
+          <div className={styles.telemetryBox}>
+            <span className={styles.telemetryLabel}>CORE VOLT</span>
+            <span className={styles.telemetryValue}>3.30V</span>
+          </div>
+          <div className={styles.telemetryBox}>
+            <span className={styles.telemetryLabel}>MESH FREQ</span>
+            <span className={styles.telemetryValue}>2.4 GHz</span>
+          </div>
+          <div className={styles.telemetryBox}>
+            <span className={styles.telemetryLabel}>THERMAL</span>
+            <span className={styles.telemetryValue}>24.6°C</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+

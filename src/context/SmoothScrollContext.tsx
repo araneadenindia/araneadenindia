@@ -32,15 +32,15 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    // Instantiate Lenis with natural, responsive studio physics
+    // Instantiate Lenis with responsive, low-latency physics
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.4,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.0,
       infinite: false,
     });
 
@@ -56,7 +56,8 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(tickerUpdate);
-    gsap.ticker.lagSmoothing(0);
+    // Enable GSAP lagSmoothing to gracefully absorb frame hitching instead of jumping
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       gsap.ticker.remove(tickerUpdate);

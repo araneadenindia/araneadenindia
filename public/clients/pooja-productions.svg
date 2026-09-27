@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-pooja" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181D"/>
+      <stop offset="100%" stop-color="#0E0E11"/>
+    </linearGradient>
+    <linearGradient id="gold-pooja" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5D061"/>
+      <stop offset="100%" stop-color="#E29F25"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg-pooja)" stroke="#26262D" stroke-width="2"/>
+  <!-- Cinema 35mm Reel & 'P' Production Mark -->
+  <g transform="translate(64, 48)">
+    <circle cx="0" cy="0" r="20" fill="none" stroke="url(#gold-pooja)" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="6" fill="#DF2531"/>
+    <circle cx="0" cy="-12" r="3" fill="#FFFFFF"/>
+    <circle cx="10" cy="-6" r="3" fill="#FFFFFF"/>
+    <circle cx="10" cy="6" r="3" fill="#FFFFFF"/>
+    <circle cx="0" cy="12" r="3" fill="#FFFFFF"/>
+    <circle cx="-10" cy="6" r="3" fill="#FFFFFF"/>
+    <circle cx="-10" cy="-6" r="3" fill="#FFFFFF"/>
+  </g>
+  <text x="64" y="94" font-family="'Exo', 'Inter', sans-serif" font-size="9" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.5">POOJA</text>
+  <text x="64" y="106" font-family="'Exo', 'Inter', sans-serif" font-size="7.5" font-weight="600" fill="url(#gold-pooja)" text-anchor="middle" letter-spacing="1.8">PRODUCTIONS</text>
+</svg>

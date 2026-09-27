@@ -1,23 +1,24 @@
 /* ============================================================
-   STATEMENT MARQUEE — ULTRA-HIGH-PERFORMANCE CINEMATIC TICKER
-   - Dark Obsidian Background (#050608)
-   - Zero-Jank Hardware Accelerated Glide
-   - Crisp Red Glow Typography (Zero Heavy Rasterization)
-   - Red Luminous Brand Emblem Capsule
+   STATEMENT MARQUEE — CINEMATIC SCROLL TICKER
+   - Compact height, lighter font weight
+   - Entrance fade + scroll-velocity speed burst
+   - Glow intensity reacts to scroll position
    ============================================================ */
 
 .section {
   width: 100%;
   overflow: hidden;
-  padding: clamp(52px, 5.5vw, 84px) 0;
+  padding: clamp(28px, 3vw, 44px) 0;
   background-color: #050608;
-  border-top: 1px solid rgba(223, 37, 49, 0.22);
-  border-bottom: 1px solid rgba(223, 37, 49, 0.22);
+  border-top: 1px solid rgba(223, 37, 49, 0.18);
+  border-bottom: 1px solid rgba(223, 37, 49, 0.18);
   position: relative;
   contain: paint;
+  /* Starts invisible for GSAP entrance */
+  opacity: 0;
 }
 
-/* Featherweight edge fades using hardware-composited gradients */
+/* Featherweight edge fades */
 .section::before {
   content: '';
   position: absolute;
@@ -54,7 +55,7 @@
 .ticker {
   display: inline-flex;
   align-items: center;
-  gap: clamp(40px, 5vw, 72px);
+  gap: clamp(32px, 4vw, 60px);
   will-change: transform;
   transform: translateZ(0);
 }
@@ -62,59 +63,62 @@
 .statementItem {
   display: inline-flex;
   align-items: center;
-  gap: clamp(24px, 3vw, 48px);
+  gap: clamp(18px, 2.5vw, 36px);
   flex-shrink: 0;
 }
 
-/* ── Crisp, High-Performance Red Glow Typography ── */
+/* ── Lighter, More Refined Typography ── */
 .glowingText {
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(32px, 4.8vw, 76px);
-  font-weight: 800;
+  font-size: clamp(22px, 3vw, 48px);
+  font-weight: 300;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  line-height: 1.05;
+  letter-spacing: 0.12em;
+  line-height: 1;
   color: #ffffff;
-  /* Single crisp red neon glow layer - zero GPU compositing penalty */
-  text-shadow: 0 0 12px rgba(223, 37, 49, 0.7);
+  text-shadow: 0 0 8px rgba(223, 37, 49, 0.5);
   user-select: none;
   transform: translateZ(0);
+  transition: none; /* GSAP handles glow transitions */
 }
 
-/* ── Red Glowing Brand Emblem Capsule ── */
+/* ── Compact Brand Emblem Capsule ── */
 .glowingEmblem {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(8px, 0.9vw, 12px) clamp(16px, 1.8vw, 26px);
+  padding: clamp(6px, 0.7vw, 10px) clamp(12px, 1.4vw, 20px);
   border-radius: 999px;
   background: rgba(22, 12, 15, 0.88);
-  border: 1px solid rgba(223, 37, 49, 0.65);
-  box-shadow: 0 0 14px rgba(223, 37, 49, 0.35);
+  border: 1px solid rgba(223, 37, 49, 0.55);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.28);
   position: relative;
   flex-shrink: 0;
   transform: translateZ(0);
 }
 
 .glowingLogo {
-  height: clamp(30px, 3.4vw, 50px);
+  height: clamp(20px, 2.4vw, 36px);
   width: auto;
   display: block;
   position: relative;
   z-index: 2;
-  /* Clean static drop-shadow - no continuous rasterization */
-  filter: drop-shadow(0 0 10px rgba(223, 37, 49, 0.8));
+  filter: drop-shadow(0 0 8px rgba(223, 37, 49, 0.75));
   pointer-events: none;
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 38px 0;
+    padding: 22px 0;
   }
   .ticker {
-    gap: 32px;
+    gap: 24px;
   }
   .statementItem {
-    gap: 20px;
+    gap: 14px;
+  }
+  .glowingText {
+    font-size: clamp(16px, 5vw, 28px);
+    letter-spacing: 0.1em;
   }
 }

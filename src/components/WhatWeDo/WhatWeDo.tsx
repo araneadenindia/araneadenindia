@@ -8,11 +8,11 @@ import {
   MobileAppVisual,
   UiUxVisual,
   DigitalMarketingVisual,
+  VideoProductionVisual,
   GraphicDesignVisual,
-  SeoServicesVisual,
-  CloudSolutionsVisual,
+  SoftwareSolutionsVisual,
+  IoTHardwareVisual,
 } from './ServiceVisuals';
-
 import { ARANEA_REELS } from '../../data/reelsData';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -20,48 +20,17 @@ gsap.registerPlugin(ScrollTrigger);
 /* ─────────────────────────────────────────
    DATA TYPES
 ───────────────────────────────────────── */
-export interface ReelEntry {
-  id: string;
-  title: string;
-  client?: string;
-  label: '16:9' | '9:16';
-  thumbnail: string;
-  videoSrc: string;
-  aspectRatio: '16:9' | '9:16';
-  externalUrl: string;
-  likes?: string;
-  tag?: string;
-}
-
 interface ServiceChapter {
   id: string;
   number: string;
   slug: string;
   name: string;
-  description?: string;
-  visualComponent?: React.ReactNode;
-  reels?: ReelEntry[];
+  description: string;
+  visualComponent: React.ReactNode;
 }
 
 /* ─────────────────────────────────────────
-   OFFICIAL REELS FOR SERVICE 05 (VIDEO PRODUCTION)
-   Curated from official @araneaden_ Instagram channel
-───────────────────────────────────────── */
-const VIDEO_PRODUCTION_REELS: ReelEntry[] = ARANEA_REELS.map((reel) => ({
-  id: reel.id,
-  title: reel.title,
-  client: reel.client,
-  label: reel.aspectRatio,
-  thumbnail: reel.thumbnail,
-  videoSrc: reel.videoSrc,
-  aspectRatio: reel.aspectRatio,
-  externalUrl: reel.instagramUrl,
-  likes: reel.likes,
-  tag: reel.tag,
-}));
-
-/* ─────────────────────────────────────────
-   8 SERVICES DATA — CLEANSED OF UNWANTED TAGS & LABELS
+   8 SERVICES DATA
 ───────────────────────────────────────── */
 const SERVICES_DATA: ServiceChapter[] = [
   {
@@ -105,7 +74,9 @@ const SERVICES_DATA: ServiceChapter[] = [
     number: '05',
     slug: 'video-production',
     name: 'VIDEO PRODUCTION',
-    reels: VIDEO_PRODUCTION_REELS, // ONLY Service 05 has reels
+    description:
+      'High-impact cinematic reels, commercial brand films, and visual storytelling by AD Imperial Visuals engineered for viral reach and commanding brand presence.',
+    visualComponent: <VideoProductionVisual />,
   },
   {
     id: 'graphic-design',
@@ -113,333 +84,130 @@ const SERVICES_DATA: ServiceChapter[] = [
     slug: 'graphic-design',
     name: 'GRAPHIC DESIGN',
     description:
-      'Timeless brand visual identities, custom typographic systems, and comprehensive design languages that distinguish ambitious enterprises from the crowded sea of conformity.',
+      'Editorial poster design, custom typographic identities, and iconic brand visuals engineered with aesthetic rigor to command authority across print and digital media.',
     visualComponent: <GraphicDesignVisual />,
   },
   {
-    id: 'seo-services',
+    id: 'software-hardware-solutions',
     number: '07',
-    slug: 'seo',
-    name: 'SEO SERVICES',
+    slug: 'software-hardware-solutions',
+    name: 'SOFTWARE / HARDWARE SOLUTIONS',
     description:
-      'Semantic structure, deep technical indexing, and authority-building content pipelines that cement top-tier organic visibility and sustainable market share in search algorithms.',
-    visualComponent: <SeoServicesVisual />,
+      'Custom software architectures, rapid hardware prototyping, intensive hands-on workshops, and hackathon incubation that transform visionary concepts into high-performance realities.',
+    visualComponent: <SoftwareSolutionsVisual />,
   },
   {
-    id: 'cloud-solutions',
+    id: 'iot-hardware',
     number: '08',
-    slug: 'cloud-solutions',
-    name: 'CLOUD SOLUTIONS',
+    slug: 'iot-hardware-solutions',
+    name: 'IOT / HARDWARE SOLUTIONS',
     description:
-      'Mission-critical cloud infrastructure designed for zero downtime, automated scaling, robust security, and planetary edge distribution to support rapid organizational scale.',
-    visualComponent: <CloudSolutionsVisual />,
+      'Industrial IoT systems, smart connected hardware, embedded sensor telemetry, and ultra-low latency edge computing built for high reliability and scalable real-world deployment.',
+    visualComponent: <IoTHardwareVisual />,
   },
 ];
 
 /* ─────────────────────────────────────────
-   REEL CARD COMPONENT
-   Displays authentic Instagram reel with video autoplay, likes, client tag & link
+   CLEAN REEL CARD COMPONENT (Cinematic Video Card — Image-2 Inspired)
 ───────────────────────────────────────── */
-interface ReelCardProps {
-  reel: ReelEntry;
-  onCardClick: (reel: ReelEntry) => void;
+interface CleanReelCardProps {
+  reel: (typeof ARANEA_REELS)[0];
 }
 
-const ReelCard: React.FC<ReelCardProps> = ({ reel, onCardClick }) => {
+const CleanReelCard: React.FC<CleanReelCardProps> = ({ reel }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-    video.defaultMuted = true;
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
-    }
+    const el = cardRef.current;
+    if (!el) return;
+
+    // Disconnect playback when out of view
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          setIsPlaying(false);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
-  const handleClick = useCallback(() => {
-    onCardClick(reel);
-  }, [reel, onCardClick]);
+  const handleMouseEnter = () => {
+    setIsPlaying(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPlaying(false);
+  };
 
   return (
-    <div
+    <a
+      ref={cardRef}
+      href={reel.instagramUrl}
+      target="_blank"
+      rel="noopener noreferrer"
       className={styles.reelCard}
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') handleClick();
-      }}
-      aria-label={`${reel.title} - ${reel.likes || ''}`}
+      aria-label={`${reel.client} - ${reel.title}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className={styles.reelMedia}>
-        <video
-          ref={videoRef}
-          src={reel.videoSrc}
-          poster={reel.thumbnail}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className={styles.reelVideo}
+        <img
+          src={reel.thumbnail}
+          alt={reel.client || reel.title}
+          loading="lazy"
+          className={styles.reelPoster}
         />
-        <div className={styles.reelBackdropOverlay} />
 
-        {/* Top Badges: Tag & Likes */}
-        <div className={styles.reelTopBadges}>
-          <span className={styles.reelBadge}>{reel.tag || reel.label}</span>
-          {reel.likes && (
-            <span className={styles.reelLikesBadge}>
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-              </svg>
-              {reel.likes}
-            </span>
-          )}
-        </div>
+        {isPlaying && (
+          <video
+            ref={videoRef}
+            src={reel.videoSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className={styles.reelVideo}
+          />
+        )}
 
-        {/* Centered Play Accent */}
-        <div className={styles.reelPlayBtn} aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z" />
+        {/* Small curved ambient red bloom & shadow at bottom left (Inspired by Image 2) */}
+        <div className={styles.cleanReelOverlay}>
+          <svg viewBox="0 0 24 24" fill="currentColor" className={styles.cleanReelInstaIcon} aria-hidden="true">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
           </svg>
-        </div>
-
-        {/* Bottom Editorial Content */}
-        <div className={styles.reelTitleOverlay}>
-          {reel.client && <div className={styles.reelClient}>{reel.client}</div>}
-          <div className={styles.reelTitleText}>{reel.title}</div>
-          <div className={styles.reelInstaHint}>
-            <span>WATCH REEL</span>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-              <path d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-          </div>
+          <span className={styles.cleanReelLabel}>{reel.client || reel.title}</span>
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 
 /* ─────────────────────────────────────────
-   REEL GALLERY (Video Production — Official Reels)
-   Infinite Seamless Marquee Glide + Drag/Touch + Stepper Arrows
+   SMOOTH REEL MARQUEE (Ultra-Smooth 60FPS Continuous Scroll)
 ───────────────────────────────────────── */
-interface ReelGalleryProps {
-  reels: ReelEntry[];
-  visible: boolean;
+interface SmoothReelMarqueeProps {
   isMobile?: boolean;
 }
 
-const ReelGallery: React.FC<ReelGalleryProps> = ({ reels, visible, isMobile = false }) => {
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const isInteracting = useRef(false);
-  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Drag tracking
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeftStart = useRef(0);
-  const dragDistance = useRef(0);
-
-  // Tripled reels for seamless infinite wrapping
-  const repeatedReels = useMemo(() => [...reels, ...reels, ...reels], [reels]);
-
-  // Set initial scroll position to 1 set width so backward scroll works immediately
-  useEffect(() => {
-    if (viewportRef.current && trackRef.current) {
-      const singleSetWidth = trackRef.current.scrollWidth / 3;
-      if (singleSetWidth > 0 && viewportRef.current.scrollLeft === 0) {
-        viewportRef.current.scrollLeft = singleSetWidth;
-      }
-    }
-  }, [reels]);
-
-  // Continuous infinite glide
-  useEffect(() => {
-    if (!visible) return;
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!viewport || !track) return;
-
-    let animId: number;
-    // Brisk cinematic speed as requested by user
-    const speed = isMobile ? 1.2 : 1.45;
-
-    const glide = () => {
-      if (!isInteracting.current && viewportRef.current && trackRef.current) {
-        const vp = viewportRef.current;
-        const tr = trackRef.current;
-        const singleSetWidth = tr.scrollWidth / 3;
-
-        if (singleSetWidth > 10) {
-          vp.scrollLeft += speed;
-          if (vp.scrollLeft >= singleSetWidth * 2) {
-            vp.scrollLeft -= singleSetWidth;
-          } else if (vp.scrollLeft <= 0) {
-            vp.scrollLeft += singleSetWidth;
-          }
-        }
-      }
-      animId = requestAnimationFrame(glide);
-    };
-
-    animId = requestAnimationFrame(glide);
-    return () => cancelAnimationFrame(animId);
-  }, [visible, isMobile]);
-
-  const pauseInteraction = useCallback(() => {
-    isInteracting.current = true;
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current);
-      resumeTimeoutRef.current = null;
-    }
-  }, []);
-
-  const resumeInteractionDelayed = useCallback((delayMs = 1800) => {
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current);
-    }
-    resumeTimeoutRef.current = setTimeout(() => {
-      isInteracting.current = false;
-    }, delayMs);
-  }, []);
-
-  // Stepper arrow buttons
-  const handleScrollPrev = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      pauseInteraction();
-      if (viewportRef.current) {
-        viewportRef.current.scrollBy({ left: isMobile ? -220 : -320, behavior: 'smooth' });
-      }
-      resumeInteractionDelayed(2400);
-    },
-    [isMobile, pauseInteraction, resumeInteractionDelayed]
-  );
-
-  const handleScrollNext = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      pauseInteraction();
-      if (viewportRef.current) {
-        viewportRef.current.scrollBy({ left: isMobile ? 220 : 320, behavior: 'smooth' });
-      }
-      resumeInteractionDelayed(2400);
-    },
-    [isMobile, pauseInteraction, resumeInteractionDelayed]
-  );
-
-  // Mobile Touch Handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    pauseInteraction();
-    isDragging.current = true;
-    startX.current = e.touches[0].clientX;
-    dragDistance.current = 0;
-    if (viewportRef.current) {
-      scrollLeftStart.current = viewportRef.current.scrollLeft;
-    }
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current || !viewportRef.current) return;
-    const currentX = e.touches[0].clientX;
-    const deltaX = currentX - startX.current;
-    dragDistance.current = Math.abs(deltaX);
-    viewportRef.current.scrollLeft = scrollLeftStart.current - deltaX;
-  };
-
-  const handleTouchEnd = () => {
-    isDragging.current = false;
-    resumeInteractionDelayed(2000);
-  };
-
-  // Desktop Pointer / Mouse Handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    pauseInteraction();
-    isDragging.current = true;
-    startX.current = e.clientX;
-    dragDistance.current = 0;
-    if (viewportRef.current) {
-      scrollLeftStart.current = viewportRef.current.scrollLeft;
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !viewportRef.current) return;
-    const currentX = e.clientX;
-    const deltaX = currentX - startX.current;
-    dragDistance.current = Math.abs(deltaX);
-    viewportRef.current.scrollLeft = scrollLeftStart.current - deltaX;
-  };
-
-  const handleMouseUp = () => {
-    if (isDragging.current) {
-      isDragging.current = false;
-      resumeInteractionDelayed(2000);
-    }
-  };
-
-  const handleReelClick = useCallback((reel: ReelEntry) => {
-    if (dragDistance.current < 8 && reel.externalUrl) {
-      window.open(reel.externalUrl, '_blank', 'noopener,noreferrer');
-    }
-  }, []);
+const SmoothReelMarquee: React.FC<SmoothReelMarqueeProps> = ({ isMobile = false }) => {
+  const scrollTrackRef = useRef<HTMLDivElement>(null);
+  // Duplicate reels to create seamless continuous marquee loop
+  const marqueeReels = useMemo(() => [...ARANEA_REELS, ...ARANEA_REELS], []);
 
   return (
-    <div className={styles.reelGalleryOuter}>
-      {/* Mobile / Compact Reel Header Indicator */}
-      {isMobile && (
-        <div className={styles.reelHeader}>
-          <span className={styles.reelHeaderCount}>{reels.length} MOTION REELS</span>
-          <span className={styles.reelHeaderHint}>&lsaquo; SWIPE OR TAP ARROWS &rsaquo;</span>
-        </div>
-      )}
-
-      {/* Floating Stepper Navigation Buttons */}
-      <button
-        type="button"
-        className={`${styles.reelNavBtn} ${styles.reelNavPrev}`}
-        onClick={handleScrollPrev}
-        aria-label="Previous Reel"
-      >
-        &#8249;
-      </button>
-
-      <button
-        type="button"
-        className={`${styles.reelNavBtn} ${styles.reelNavNext}`}
-        onClick={handleScrollNext}
-        aria-label="Next Reel"
-      >
-        &#8250;
-      </button>
-
-      <div
-        ref={viewportRef}
-        className={styles.reelGalleryViewport}
-        onMouseEnter={pauseInteraction}
-        onMouseLeave={() => resumeInteractionDelayed(1000)}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div ref={trackRef} className={styles.reelTrack}>
-          {repeatedReels.map((reel, index) => (
-            <div
-              key={`${reel.id}-${index}`}
-              className={`${styles.reelCardWrapper} ${
-                reel.aspectRatio === '16:9' ? styles.landscapeWrapper : styles.portraitWrapper
-              }`}
-            >
-              <ReelCard reel={reel} onCardClick={handleReelClick} />
+    <div className={`${styles.reelGalleryOuter} ${isMobile ? styles.mobileReelGallery : ''}`}>
+      <div className={styles.reelGalleryViewport}>
+        <div ref={scrollTrackRef} className={styles.reelTrack}>
+          {marqueeReels.map((reel, idx) => (
+            <div key={`${reel.id}-${idx}`} className={styles.reelCardWrapper}>
+              <CleanReelCard reel={reel} />
             </div>
           ))}
         </div>
@@ -494,27 +262,39 @@ export const WhatWeDo: React.FC = () => {
         id: 'services-pin',
         trigger: wrapper,
         start: 'top top',
-        end: '+=120%', // Smooth, natural scroll distance
+        end: '+=120%',
         pin: section,
         pinSpacing: true,
         anticipatePin: 1,
-        scrub: 0.4, // Responsive scrub without heavy drag
+        scrub: 0.4,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const progress = self.progress;
           const idx = Math.min(Math.floor(progress * SERVICES_DATA.length), SERVICES_DATA.length - 1);
           setActiveIndex(idx);
 
-          // Progress bar
+          // GPU-accelerated Progress Bar (Zero Reflow)
           if (progressBarRef.current) {
-            const barWidth = Math.max(12.5, progress * 100);
-            progressBarRef.current.style.width = `${barWidth}%`;
+            const scale = Math.max(0.125, progress);
+            progressBarRef.current.style.transform = `scaleX(${scale})`;
           }
         },
       });
 
+      // Pause continuous marquee when WhatWeDo section leaves viewport to save GPU/CPU cycles
+      const pauseTrigger = ScrollTrigger.create({
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: () => section.classList.remove(styles.isPaused),
+        onLeave: () => section.classList.add(styles.isPaused),
+        onEnterBack: () => section.classList.remove(styles.isPaused),
+        onLeaveBack: () => section.classList.add(styles.isPaused),
+      });
+
       return () => {
         trigger.kill();
+        pauseTrigger.kill();
       };
     });
 
@@ -636,7 +416,7 @@ export const WhatWeDo: React.FC = () => {
             <div className={styles.cardCol}>
               {SERVICES_DATA.map((srv, idx) => {
                 const isCurrent = idx === activeIndex;
-                const isVideoProd = srv.id === 'video-prod' && srv.reels;
+                const isVideoProd = srv.id === 'video-prod';
 
                 return (
                   <div
@@ -649,23 +429,30 @@ export const WhatWeDo: React.FC = () => {
                     }`}
                   >
                     {isVideoProd ? (
-                      /* Service 05: Video Production — Simplified, Reel-focused */
+                      /* Service 05: Dedicated Video Production Media Panel (Continuous 60FPS Reel Marquee) */
                       <div className={styles.mediaPanel}>
                         <div className={styles.mediaPanelHeader}>
                           <div className={styles.mediaPanelTitleGroup}>
                             <span className={styles.cardNumber}>SERVICE {srv.number}</span>
-                            <h3 className={styles.mediaTitle}>{srv.name}</h3>
+                            <h3 className={styles.mediaTitle}>
+                              <img
+                                src="/AD Transparent SVG.svg"
+                                alt="Aranea Den"
+                                className={styles.mediaTitleLogo}
+                              />
+                              <span>Imperial Visuals</span>
+                            </h3>
                           </div>
                           <Link to={`/services/${srv.slug}`} className={styles.exploreLink}>
                             EXPLORE FULL SERVICE &rarr;
                           </Link>
                         </div>
 
-                        {/* 10-Reel Horizontal Gallery */}
-                        <ReelGallery reels={srv.reels!} visible={isCurrent} />
+                        {/* Ultra-Smooth 60FPS Continuous Reel Marquee */}
+                        <SmoothReelMarquee />
                       </div>
                     ) : (
-                      /* Standard Services 01-04, 06-08: Split Layout (Text + Bespoke Visual) */
+                      /* Services 01-04, 06-08: Split Layout (Text Left + Bespoke Visual Right) */
                       <div className={styles.cardInnerSplit}>
                         <div className={styles.cardContentCol}>
                           <div className={styles.cardHeaderGroup}>
@@ -678,7 +465,7 @@ export const WhatWeDo: React.FC = () => {
                           </Link>
                         </div>
 
-                        {/* Visual Stage */}
+                        {/* Visual Stage on Right */}
                         <div className={styles.cardVisualCol}>
                           {srv.visualComponent}
                         </div>
@@ -715,7 +502,8 @@ export const WhatWeDo: React.FC = () => {
             {/* 8 Full Editorial Service Cards */}
             <div className={styles.mobileCardsList}>
               {SERVICES_DATA.map((srv, idx) => {
-                const isVideoProd = srv.id === 'video-prod' && srv.reels;
+                const isVideoProd = srv.id === 'video-prod';
+
                 return (
                   <article
                     key={srv.id}
@@ -723,22 +511,33 @@ export const WhatWeDo: React.FC = () => {
                     ref={(el) => {
                       mobileCardsRef.current[idx] = el;
                     }}
-                    className={`${styles.mobileCard} ${
-                      isVideoProd ? styles.mobileCardVideoProd : ''
-                    }`}
+                    className={`${styles.mobileCard} ${isVideoProd ? styles.mobileCardVideoProd : ''}`}
                   >
                     <div className={styles.mobileCardHeader}>
                       <span className={styles.mobileCardNumber}>
                         SERVICE {srv.number} / 08
                       </span>
-                      <h3 className={styles.mobileCardTitle}>{srv.name}</h3>
+                      <h3 className={styles.mobileCardTitle}>
+                        {isVideoProd ? (
+                          <span className={styles.mobileTitleWithLogo}>
+                            <img
+                              src="/AD Transparent SVG.svg"
+                              alt="Aranea Den"
+                              className={styles.mediaTitleLogo}
+                            />
+                            <span>Imperial Visuals</span>
+                          </span>
+                        ) : (
+                          srv.name
+                        )}
+                      </h3>
                       <p className={styles.mobileCardDescription}>{srv.description}</p>
                     </div>
 
                     {/* Visual Showcase */}
                     <div className={styles.mobileCardVisualContainer}>
                       {isVideoProd ? (
-                        <ReelGallery reels={srv.reels!} visible={true} isMobile={true} />
+                        <SmoothReelMarquee isMobile={true} />
                       ) : (
                         <div className={styles.mobileVisualWrapper}>
                           {srv.visualComponent}

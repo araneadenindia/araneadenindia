@@ -28,6 +28,8 @@
 }
 
 .container {
+  position: relative;
+  z-index: 2;
   max-width: var(--container-max-width, 1560px);
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 48px);
@@ -52,7 +54,7 @@
 }
 
 .eyebrowText {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, monospace);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -71,19 +73,19 @@
 
 .headline {
   margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(26px, 3.2vw, 44px);
-  font-weight: 600;
-  line-height: 1.18;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: clamp(22px, 2.5vw, 40px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
   color: var(--color-black, #0B0B0C);
   text-transform: uppercase;
 }
 
 .subtext {
   margin: 0;
-  font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: clamp(15px, 1.2vw, 17px);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.15vw, 17px);
   line-height: 1.65;
   color: var(--color-text-secondary, #424348);
   max-width: 680px;
@@ -95,7 +97,34 @@
 .desktopComposition {
   width: 100%;
   position: relative;
-  padding-top: 18px;
+  padding-top: 8px;
+}
+
+/* ── Immersive Architectural Background Spiderweb ── */
+.bgWebContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.bgWebSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.85;
+}
+
+/* ─────────────────────────────────────────
+   DESKTOP CONTINUOUS EDITORIAL COMPOSITION
+───────────────────────────────────────── */
+.desktopComposition {
+  width: 100%;
+  position: relative;
+  padding-top: 16px;
 }
 
 /* Precision Timeline Progress Track */
@@ -103,7 +132,7 @@
   position: relative;
   width: 100%;
   height: 2px;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 .timelineBaseLine {
@@ -111,8 +140,9 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background-color: rgba(11, 11, 12, 0.12);
+  height: 2px;
+  background-color: rgba(11, 11, 12, 0.1);
+  border-radius: 2px;
 }
 
 .timelineProgressBar {
@@ -120,19 +150,105 @@
   top: 0;
   left: 0;
   height: 2px;
-  width: 25%;
+  width: 0%;
   background-color: var(--color-crimson, #df2531);
-  transition: width 0.15s ease-out;
+  border-radius: 2px;
   will-change: width;
+}
+
+/* ── Small Navbar 3D Spider Perched Above the Line ── */
+.timelineSpider {
+  position: absolute;
+  bottom: -1px; /* Feet step directly on top of the 2px line, body stays cleanly ABOVE */
+  left: -24px;
+  opacity: 0;
+  transform: translate(-50%, 0) scale(0);
+  transform-origin: bottom center;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: left, transform, opacity;
+}
+
+.mobileSpider {
+  position: absolute;
+  left: -16px;
+  top: -20px;
+  opacity: 0;
+  transform: translate(0, -50%) rotate(90deg) scale(0);
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: top, transform, opacity;
+}
+
+/* Base Resting / Idle Stance (Stationary by default) */
+.spiderWalkingSide {
+  filter: drop-shadow(0 2px 4px rgba(223, 37, 49, 0.35));
+  transition: filter 0.2s ease;
+}
+
+/* 3D Side-view Scuttling Mechanics (Activates ONLY when user is scrolling) */
+.timelineSpider.isWalking .spiderWalkingSide,
+.mobileSpider.isWalking .spiderWalkingSide {
+  animation: spiderSideScuttle 0.11s ease-in-out infinite alternate;
+  filter: drop-shadow(0 2px 6px rgba(223, 37, 49, 0.5));
+}
+
+.timelineSpider.isWalking .fgLegSet1,
+.mobileSpider.isWalking .fgLegSet1 {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: legStepPair1 0.11s ease-in-out infinite alternate;
+}
+
+.timelineSpider.isWalking .fgLegSet2,
+.mobileSpider.isWalking .fgLegSet2 {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: legStepPair2 0.11s ease-in-out infinite alternate;
+}
+
+.timelineSpider.isWalking .bgLegSet,
+.mobileSpider.isWalking .bgLegSet {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: legStepBg 0.11s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes legStepPair1 {
+  0% { transform: rotate(-15deg) translateY(-0.8px); }
+  100% { transform: rotate(15deg) translateY(0.8px); }
+}
+
+@keyframes legStepPair2 {
+  0% { transform: rotate(15deg) translateY(0.8px); }
+  100% { transform: rotate(-15deg) translateY(-0.8px); }
+}
+
+@keyframes legStepBg {
+  0% { transform: rotate(12deg); }
+  100% { transform: rotate(-12deg); }
+}
+
+@keyframes spiderSideScuttle {
+  0% { transform: translateY(-0.8px) rotate(-1.5deg); }
+  100% { transform: translateY(0.8px) rotate(1.5deg); }
 }
 
 .timelineNodes {
   position: absolute;
-  top: -3px;
+  top: 1px;
   left: 0;
   right: 0;
+  transform: translateY(-50%);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: clamp(24px, 3.5vw, 56px);
   pointer-events: none;
 }
 
@@ -141,15 +257,15 @@
   height: 8px;
   border-radius: 50%;
   background-color: #F8F8F5;
-  border: 1.5px solid rgba(11, 11, 12, 0.22);
+  border: 1.5px solid rgba(11, 11, 12, 0.25);
   transition: all 0.3s ease;
 }
 
 .timelineNode.nodeActive {
   border-color: var(--color-crimson, #df2531);
   background-color: var(--color-crimson, #df2531);
-  box-shadow: 0 0 10px rgba(223, 37, 49, 0.4);
-  transform: scale(1.15);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.45);
+  transform: scale(1.2);
 }
 
 /* 4 Connected Philosophy Columns */
@@ -163,22 +279,60 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding-top: 8px;
+  padding: 18px 16px 20px;
   cursor: pointer;
-  background: transparent;
-  border: none;
+  background: rgba(248, 248, 245, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(11, 11, 12, 0.05);
+  border-radius: 6px;
   text-align: left;
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  opacity: 0.48;
-}
-
-.stageCol:hover {
+  transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
   opacity: 0.85;
 }
 
+.stageCol:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(223, 37, 49, 0.25);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+/* When stage is reached during scroll progression */
+.stageCol.stageReached {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(223, 37, 49, 0.2);
+}
+
+.stageCol.stageReached .stageNumber {
+  color: var(--color-crimson, #df2531);
+}
+
+/* Stage Name strictly remains bold BLACK for 100% readability */
+.stageCol.stageReached .stageName,
+.stageCol.stageActive .stageName {
+  color: #0B0B0C !important;
+  text-shadow: none !important;
+}
+
+.stageCol.stageReached .stageAccentBar {
+  width: 32px;
+  background-color: var(--color-crimson, #df2531);
+}
+
+/* Currently active stage: Elevated card */
 .stageCol.stageActive {
   opacity: 1;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(223, 37, 49, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.stageCol.stageActive .stageAccentBar {
+  width: 48px;
+  background-color: var(--color-crimson, #df2531);
 }
 
 .stageMeta {
@@ -188,7 +342,7 @@
 }
 
 .stageNumber {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, monospace);
   font-size: 13px;
   font-weight: 700;
   color: var(--color-text-secondary, #424348);
@@ -202,21 +356,22 @@
 
 .stageName {
   margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(20px, 1.7vw, 26px);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--color-black, #0B0B0C);
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: clamp(18px, 1.5vw, 24px);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: #0B0B0C !important;
   text-transform: uppercase;
-  line-height: 1.15;
+  line-height: 1.25;
 }
 
 .stageSummary {
   margin: 0;
-  font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
   font-size: clamp(14px, 1vw, 15px);
   line-height: 1.65;
-  color: var(--color-text-secondary, #424348);
+  color: #25262B !important;
+  font-weight: 450;
 }
 
 .stageAccentBar {
@@ -283,6 +438,10 @@
   opacity: 0.55;
 }
 
+.mobileStageItem.mobileStageReached {
+  opacity: 0.9;
+}
+
 .mobileStageItem.mobileStageActive {
   opacity: 1;
 }
@@ -307,6 +466,7 @@
   transition: all 0.3s ease;
 }
 
+.mobileNode.mobileNodeActive,
 .mobileStageItem.mobileStageActive .mobileNode {
   background-color: var(--color-crimson, #df2531);
   border-color: var(--color-crimson, #df2531);
@@ -318,6 +478,12 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  background: rgba(248, 248, 245, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 16px 16px;
+  border-radius: 6px;
+  border: 1px solid rgba(11, 11, 12, 0.05);
 }
 
 .mobileStageMeta {
@@ -327,34 +493,43 @@
 }
 
 .mobileStageNumber {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, monospace);
   font-size: 13px;
   font-weight: 700;
   color: var(--color-text-secondary, #424348);
   letter-spacing: 0.06em;
+  transition: color 0.3s ease;
 }
 
+.mobileStageItem.mobileStageReached .mobileStageNumber,
 .mobileStageItem.mobileStageActive .mobileStageNumber {
   color: var(--color-crimson, #df2531);
 }
 
 .mobileStageName {
   margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--color-black, #0B0B0C);
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #0B0B0C !important;
   text-transform: uppercase;
-  line-height: 1.15;
+  line-height: 1.25;
+}
+
+.mobileStageItem.mobileStageReached .mobileStageName,
+.mobileStageItem.mobileStageActive .mobileStageName {
+  color: #0B0B0C !important;
+  text-shadow: none !important;
 }
 
 .mobileStageSummary {
   margin: 0;
-  font-family: 'Figtree', sans-serif;
+  font-family: var(--font-sans);
   font-size: 14.5px;
   line-height: 1.6;
-  color: var(--color-text-secondary, #424348);
+  color: #25262B !important;
+  font-weight: 450;
 }
 
 /* ─────────────────────────────────────────

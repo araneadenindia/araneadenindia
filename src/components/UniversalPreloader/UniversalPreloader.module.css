@@ -1,6 +1,6 @@
 /* ============================================================
    UNIVERSAL PRELOADER — PURE 3D SPIDER WEB & ARANEA DEN LOGO
-   LESS IS MORE: ONLY THE 3D WEB & BRANDMARK, ZERO TEXT, ZERO BARS
+   ULTRA-OPTIMIZED HARDWARE-COMPOSITED PIPELINE
    ============================================================ */
 
 .preloaderOverlay {
@@ -17,9 +17,11 @@
   pointer-events: all;
   overflow: hidden;
   user-select: none;
+  contain: strict;
+  will-change: opacity;
 }
 
-/* Three.js Canvas Container */
+/* Three.js Canvas Container - Starts hidden to eliminate abrupt appearance */
 .threeCanvas {
   position: absolute;
   inset: 0;
@@ -28,28 +30,32 @@
   display: block;
   pointer-events: none;
   z-index: 1;
+  opacity: 0;
+  will-change: opacity;
 }
 
-/* Background Atmosphere Glow */
+/* Background Atmosphere Glow - Smooth radial falloff without expensive 60px filter:blur */
 .ambientGlow {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(90vw, 900px);
-  height: min(90vw, 900px);
+  transform: translate3d(-50%, -50%, 0);
+  width: min(90vw, 850px);
+  height: min(90vw, 850px);
   background: radial-gradient(
     circle,
-    rgba(223, 37, 49, 0.18) 0%,
-    rgba(223, 37, 49, 0.05) 50%,
+    rgba(223, 37, 49, 0.22) 0%,
+    rgba(223, 37, 49, 0.10) 32%,
+    rgba(223, 37, 49, 0.03) 55%,
     rgba(7, 7, 9, 0) 72%
   );
-  filter: blur(60px);
   pointer-events: none;
   z-index: 0;
+  opacity: 0;
+  will-change: opacity;
 }
 
-/* Center 3D Brandmark Stage */
+/* Center Brandmark Stage - Starts at opacity: 0 and centered to prevent initial jump */
 .brandStage {
   position: absolute;
   top: 50%;
@@ -62,47 +68,109 @@
   justify-content: center;
   z-index: 3;
   pointer-events: none;
-  transform-style: preserve-3d;
+  opacity: 0;
+  isolation: isolate;
+  contain: layout style;
+  will-change: transform, opacity;
 }
 
-.logoLayer {
+/* Subtle Crimson Aura behind logo - Toned down to prevent muddy blob */
+.logoAura {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 110%;
+  height: 130%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(223, 37, 49, 0.08) 0%,
+    rgba(223, 37, 49, 0.02) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Layer 1: Base Dark Crimson with Consistent, Stable Luminescence */
+.logoBase {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;
   pointer-events: none;
   display: block;
+  z-index: 2;
+  filter: brightness(1.22) contrast(1.12) saturate(1.18) drop-shadow(0 0 16px rgba(223, 37, 49, 0.75)) drop-shadow(0 0 32px rgba(223, 37, 49, 0.35));
 }
 
-/* Layer 1: Base Dark Crimson with Deep Red Aura */
-.logoBase {
-  filter: drop-shadow(0 0 24px rgba(223, 37, 49, 0.85)) drop-shadow(0 0 55px rgba(223, 37, 49, 0.45));
-}
-
-/* Layer 2: Illuminated Crimson Specular with Sweep Mask */
-.logoHighlight {
-  filter: brightness(1.6) drop-shadow(0 0 16px rgba(255, 60, 60, 0.9));
-  mask-image: linear-gradient(115deg, transparent 25%, #000 50%, transparent 75%);
-  -webkit-mask-image: linear-gradient(115deg, transparent 25%, #000 50%, transparent 75%);
-  mask-size: 250% 100%;
-  -webkit-mask-size: 250% 100%;
+/* Hardware-Accelerated Anamorphic Glint Container
+   Masked once by the SVG logo, with alpha mask mode and screen blend mode */
+.glintMaskContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+  mask-image: url("/AD Transparent SVG.svg");
+  -webkit-mask-image: url("/AD Transparent SVG.svg");
+  mask-mode: alpha;
+  -webkit-mask-mode: alpha;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   mix-blend-mode: screen;
 }
 
-/* Layer 3: Brilliant Specular Apex Glint */
-.logoGlint {
-  filter: brightness(2.6) drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 20px rgba(223, 37, 49, 0.9));
-  mask-image: linear-gradient(115deg, transparent 42%, #000 50%, transparent 58%);
-  -webkit-mask-image: linear-gradient(115deg, transparent 42%, #000 50%, transparent 58%);
-  mask-size: 300% 100%;
-  -webkit-mask-size: 300% 100%;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mix-blend-mode: screen;
+/* Layer 2: Wide Volumetric Crimson Light Ray Flare */
+.highlightSweep {
+  position: absolute;
+  top: -70%;
+  left: 0;
+  width: 55%;
+  height: 240%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(223, 37, 49, 0) 15%,
+    rgba(223, 37, 49, 0.5) 38%,
+    rgba(255, 90, 105, 0.95) 50%,
+    rgba(223, 37, 49, 0.5) 62%,
+    rgba(223, 37, 49, 0) 85%,
+    transparent 100%
+  );
+  transform: rotate(20deg);
+  filter: drop-shadow(0 0 16px rgba(223, 37, 49, 0.85));
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Layer 3: Brilliant Specular Apex Light Ray Core — Concentric with Layer 2 */
+.glintSweep {
+  position: absolute;
+  top: -70%;
+  left: 0;
+  width: 55%;
+  height: 240%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 36%,
+    rgba(255, 255, 255, 0.45) 46%,
+    rgba(255, 255, 255, 1.0) 50%,
+    rgba(255, 255, 255, 0.45) 54%,
+    rgba(255, 255, 255, 0) 64%,
+    transparent 100%
+  );
+  transform: rotate(20deg);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 20px rgba(255, 90, 100, 0.8));
+  will-change: transform;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {

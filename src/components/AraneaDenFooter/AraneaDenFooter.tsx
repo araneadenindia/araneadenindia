@@ -91,17 +91,15 @@ export const AraneaDenFooter: React.FC = () => {
 
         {/* ── Top Grid: Nav / Services / Connect ── */}
         <div ref={topGridRef} className={styles.topGrid}>
-          {/* Thesis & Primary CTA */}
+          {/* Brand Logo in Top Grid */}
           <div className={styles.thesisCol}>
-            <p className={styles.thesisText}>
-              Aranea Den connects strategy, design, and technology to build cohesive digital experiences.
-            </p>
-            <div className={styles.ctaWrap}>
-              <Link to="/contact" className={styles.footerCta} aria-label="Start a project">
-                <span>START A PROJECT</span>
-                <span className={styles.ctaArrow} aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
+            <Link to="/" className={styles.footerBrandLogoLink} aria-label="Aranea Den Home">
+              <img
+                src={adLogo}
+                alt="Aranea Den"
+                className={styles.footerBrandLogo}
+              />
+            </Link>
           </div>
 
           {/* Nav columns */}

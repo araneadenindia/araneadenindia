@@ -2,51 +2,56 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import adLogo from '../../assets/AD Transparent SVG.svg';
 import styles from './AboutPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Tenet {
-  number: string;
+interface DifferencePillar {
+  num: string;
   title: string;
-  body: string;
+  summary: string;
 }
 
-const FOUR_TENETS: Tenet[] = [
+const ADVANTAGE_PILLARS: DifferencePillar[] = [
   {
-    number: '01',
-    title: 'DISCIPLINARY COHESION',
-    body: 'We reject the model of isolated vendors and fragmented handoffs. Strategy, visual architecture, interface craft, and deep computational engineering must be woven together simultaneously to achieve undeniable power.',
+    num: '01',
+    title: 'UNCOMPROMISING QUALITY',
+    summary: 'Top-tier design fidelity, clean modern architecture, and pixel-perfect polish across every viewport and device.',
   },
   {
-    number: '02',
-    title: 'MATHEMATICAL RESTRAINT',
-    body: 'Inspired by modern Swiss editorial principles, we build with deliberate typographic hierarchy, proportional pacing, and geometric rhythm. True elegance is not what you add, but what you refine until nothing superfluous remains.',
+    num: '02',
+    title: 'ACCESSIBLE EXCELLENCE',
+    summary: 'Transparent, affordable pricing models designed to empower startups and growing businesses without excessive agency markups.',
   },
   {
-    number: '03',
-    title: 'ENGINEERING RIGOR',
-    body: 'A beautiful surface over a slow, fragile core is a failure. We architect web platforms and applications with uncompromising performance: sixty frames per second interactions, resilient cloud pipelines, and zero bloat.',
+    num: '03',
+    title: 'INTEGRATED SPEED & CRAFT',
+    summary: 'Zero handoff friction between design and full-stack engineering, delivering faster turnaround and superior performance.',
   },
-  {
-    number: '04',
-    title: 'LASTING HUMAN RESONANCE',
-    body: 'Technology is merely the loom; the fabric is human connection. Every micro-interaction, transition, and brand touchpoint exists to cultivate trust, authority, and emotional connection between brands and their audiences.',
-  },
+];
+
+const CLIENT_LOGOS = [
+  { id: 1, src: '/clientele/client-1.jpg', name: 'MOTÉC Luxury Tech' },
+  { id: 2, src: '/clientele/client-2.jpg', name: 'VOX Studio' },
+  { id: 3, src: '/clientele/client-3.jpg', name: 'KINETICA Future' },
+  { id: 4, src: '/clientele/client-4.jpg', name: 'NEXUS LABS AI' },
+  { id: 5, src: '/clientele/client-5.jpg', name: 'CYBERNEX Systems' },
+  { id: 6, src: '/clientele/client-6.jpg', name: 'MEDIA APERTURE' },
+  { id: 7, src: '/clientele/client-7.jpg', name: 'NEBULA Cloud Systems' },
+  { id: 8, src: '/clientele/client-8.jpg', name: 'BIOTECH Quantum' },
 ];
 
 export const AboutPage: React.FC = () => {
   const pageRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const leadRef = useRef<HTMLParagraphElement>(null);
-  const metricsRef = useRef<HTMLDivElement>(null);
-  const tenetsRef = useRef<HTMLDivElement>(null);
-  const originRef = useRef<HTMLDivElement>(null);
-  const founderRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const visionRef = useRef<HTMLElement>(null);
+  const differenceRef = useRef<HTMLElement>(null);
+  const clienteleRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    document.title = 'ABOUT — ARANEA DEN | We Weave Your Digital Experiences';
+    document.title = 'ABOUT — ARANEA DEN | Born on 20th July 2025';
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
 
     const page = pageRef.current;
@@ -56,96 +61,119 @@ export const AboutPage: React.FC = () => {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // 1. Introduction Headline & Lead Reveal
-      if (headlineRef.current && leadRef.current) {
-        gsap.fromTo(
-          [headlineRef.current, leadRef.current],
-          { opacity: 0, y: 32 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.05,
-            stagger: 0.15,
-            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            delay: 0.1,
-          }
-        );
+      // 01 — Hero Section Entrance
+      if (heroRef.current) {
+        const badge = heroRef.current.querySelector(`.${styles.foundingBadge}`);
+        const heroHeading = heroRef.current.querySelector(`.${styles.heroHeading}`);
+        const heroLead = heroRef.current.querySelector(`.${styles.heroLead}`);
+        const heroDesc = heroRef.current.querySelector(`.${styles.heroDescription}`);
+        const heroActions = heroRef.current.querySelector(`.${styles.heroActionRow}`);
+        const visualCard = heroRef.current.querySelector(`.${styles.heroVisualCard}`);
+
+        const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+        if (badge) tl.fromTo(badge, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6 });
+        if (heroHeading) tl.fromTo(heroHeading, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.4');
+        if (heroLead) tl.fromTo(heroLead, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, '-=0.5');
+        if (heroDesc) tl.fromTo(heroDesc, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, '-=0.5');
+        if (heroActions) tl.fromTo(heroActions, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.4');
+        if (visualCard) tl.fromTo(visualCard, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 1 }, '-=0.8');
       }
 
-      // 2. Metrics Elevation
-      if (metricsRef.current) {
-        const cards = metricsRef.current.querySelectorAll(`.${styles.metricCard}`);
+      // 02 — Vision & Mission
+      if (visionRef.current) {
+        const cards = visionRef.current.querySelectorAll(`.${styles.visionMissionCard}`);
         gsap.fromTo(
           cards,
-          { opacity: 0, y: 24 },
+          { opacity: 0, y: 36 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
-            stagger: 0.1,
-            ease: 'power3.out',
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power2.out',
             scrollTrigger: {
-              trigger: metricsRef.current,
-              start: 'top 88%',
+              trigger: visionRef.current,
+              start: 'top 80%',
             },
           }
         );
       }
 
-      // 3. Tenets 2x2 Grid Reveal
-      if (tenetsRef.current) {
-        const cards = tenetsRef.current.querySelectorAll(`.${styles.tenetCard}`);
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 34, scale: 0.98 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.9,
-            stagger: 0.12,
-            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            scrollTrigger: {
-              trigger: tenetsRef.current,
-              start: 'top 82%',
-            },
-          }
-        );
-      }
+      // 03 — The Aranea Advantage (Difference)
+      if (differenceRef.current) {
+        const intro = differenceRef.current.querySelector(`.${styles.differenceIntro}`);
+        const pillars = differenceRef.current.querySelectorAll(`.${styles.pillarBlock}`);
 
-      // 4. Origin Section Reveal
-      if (originRef.current) {
-        const illustration = originRef.current.querySelector(`.${styles.webIllustrationCard}`);
-        const content = originRef.current.querySelector(`.${styles.originContent}`);
-
-        if (illustration) {
+        if (intro) {
           gsap.fromTo(
-            illustration,
-            { opacity: 0, scale: 0.96 },
+            intro,
+            { opacity: 0, x: -24 },
             {
               opacity: 1,
-              scale: 1,
-              duration: 1.1,
-              ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              x: 0,
+              duration: 0.8,
+              ease: 'power2.out',
               scrollTrigger: {
-                trigger: originRef.current,
+                trigger: differenceRef.current,
                 start: 'top 80%',
               },
             }
           );
         }
 
-        if (content) {
+        if (pillars.length) {
           gsap.fromTo(
-            content,
+            pillars,
             { opacity: 0, x: 24 },
             {
               opacity: 1,
               x: 0,
-              duration: 1.0,
-              ease: 'power3.out',
+              duration: 0.7,
+              stagger: 0.12,
+              ease: 'power2.out',
               scrollTrigger: {
-                trigger: originRef.current,
+                trigger: differenceRef.current,
+                start: 'top 75%',
+              },
+            }
+          );
+        }
+      }
+
+      // 06 — Clientele Marquee
+      if (clienteleRef.current) {
+        const header = clienteleRef.current.querySelector(`.${styles.sectionHeaderCenter}`);
+        const marquee = clienteleRef.current.querySelector(`.${styles.clienteleMarqueeWrapper}`);
+
+        if (header) {
+          gsap.fromTo(
+            header,
+            { opacity: 0, y: 24 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: clienteleRef.current,
+                start: 'top 85%',
+              },
+            }
+          );
+        }
+
+        if (marquee) {
+          gsap.fromTo(
+            marquee,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              delay: 0.15,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: clienteleRef.current,
                 start: 'top 80%',
               },
             }
@@ -153,253 +181,332 @@ export const AboutPage: React.FC = () => {
         }
       }
 
-      // 5. Founder Card Reveal
-      if (founderRef.current) {
-        gsap.fromTo(
-          founderRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.95,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: founderRef.current,
-              start: 'top 85%',
-            },
-          }
-        );
-      }
-
-      // 6. CTA Reveal
+      // 07 — Cinematic CTA
       if (ctaRef.current) {
-        gsap.fromTo(
-          ctaRef.current,
-          { opacity: 0, y: 26 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: ctaRef.current,
-              start: 'top 88%',
-            },
-          }
-        );
+        const mainBox = ctaRef.current.querySelector(`.${styles.ctaMainBox}`);
+        const directCards = ctaRef.current.querySelectorAll(`.${styles.ctaDirectCard}`);
+
+        if (mainBox) {
+          gsap.fromTo(
+            mainBox,
+            { opacity: 0, y: 32 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: ctaRef.current,
+                start: 'top 85%',
+              },
+            }
+          );
+        }
+
+        if (directCards.length) {
+          gsap.fromTo(
+            directCards,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              stagger: 0.1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: ctaRef.current,
+                start: 'top 75%',
+              },
+            }
+          );
+        }
       }
-    }, page);
+    }, pageRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <div ref={pageRef} className={styles.aboutPage}>
-
-      {/* ── SECTION 1 — INTRODUCTION ── */}
-      <section className={styles.introSection} aria-label="Introduction & Studio Genesis">
+      <section ref={heroRef} className={styles.heroSection} aria-labelledby="hero-title">
         <div className={styles.container}>
-          <div className={styles.eyebrow}>
-            <span className={styles.crimsonMarker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>STUDIO GENESIS // ABOUT ARANEA DEN</span>
+          <div className={styles.heroGrid}>
+            <div className={styles.heroContent}>
+
+
+              <div className={styles.eyebrow}>
+                <span className={styles.eyebrowMarker} />
+                <span className={styles.eyebrowText}>About US</span>
+              </div>
+
+              <h1 id="hero-title" className={styles.heroHeading}>
+                WE WEAVE DIGITAL EXPERIENCES.
+              </h1>
+
+              <p className={styles.heroLead}>
+                We are an innovative creative and technology studio dedicated to crafting impactful digital solutions. We combine strategic thinking, refined design, and robust engineering to help businesses create enduring digital presence.
+              </p>
+
+              <p className={styles.heroDescription}>
+                Born on 20th July 2025, Aranea Den unites strategy, aesthetics, and code into cohesive ecosystems. Every interaction is designed with intention; every platform engineered for performance.
+              </p>
+
+              <div className={styles.heroActionRow}>
+                <Link to="/contact" className={styles.primaryBtn}>
+                  START A PROJECT
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+                <Link to="/portfolio" className={styles.secondaryBtn}>
+                  EXPLORE WORK
+                </Link>
+              </div>
+            </div>
+
+            <div className={styles.heroVisualStage}>
+              <div className={styles.heroVisualCard}>
+                <div className={styles.heroVisualCardGlow} />
+                
+                {/* Ambient Rotating Spiderweb Background */}
+                <svg
+                  className={styles.heroWebSvgBg}
+                  viewBox="0 0 500 500"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <circle cx="250" cy="250" r="60" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3 3" />
+                  <circle cx="250" cy="250" r="120" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                  <circle cx="250" cy="250" r="180" stroke="rgba(223,37,49,0.14)" strokeWidth="1" strokeDasharray="4 4" />
+                  <circle cx="250" cy="250" r="235" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                  <line x1="250" y1="15" x2="250" y2="485" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                  <line x1="15" y1="250" x2="485" y2="250" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                  <line x1="84" y1="84" x2="416" y2="416" stroke="rgba(223,37,49,0.12)" strokeWidth="1" />
+                  <line x1="416" y1="84" x2="84" y2="416" stroke="rgba(223,37,49,0.12)" strokeWidth="1" />
+                  <polygon points="250,70 430,250 250,430 70,250" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                  <polygon points="250,130 370,250 250,370 130,250" stroke="rgba(223,37,49,0.15)" strokeWidth="1" />
+                </svg>
+
+                {/* Central Studio Brand Seal */}
+                <img
+                  src={adLogo}
+                  alt="Aranea Den Studio Emblem"
+                  className={styles.heroLogoSeal}
+                  loading="eager"
+                />
+
+
+              </div>
+            </div>
           </div>
-
-          <h1 ref={headlineRef} className={styles.headline}>
-            WE WEAVE YOUR DIGITAL EXPERIENCES.
-          </h1>
-
-          <p ref={leadRef} className={styles.introLead}>
-            Aranea Den is an independent creative technology studio. We unite strategy, design architecture,
-            and high-performance computational engineering to build digital flagships and living software
-            ecosystems that redefine how ambitious organizations connect with the world.
-          </p>
         </div>
       </section>
 
-      {/* ── SECTION 2 — STUDIO METRICS ROW ── */}
-      <section className={styles.metricsSection} aria-label="Studio Capabilities and Standards">
+      {/* ─────────────────────────────────────────
+          02 — VISION & MISSION (RESTRUCTURED EDITORIAL SHOWCASE)
+          With high-impact visual imagery and brand logo watermark
+      ───────────────────────────────────────── */}
+      <section ref={visionRef} className={styles.visionMissionSection} aria-labelledby="vision-title">
         <div className={styles.container}>
-          <div ref={metricsRef} className={styles.metricsGrid}>
-            <div className={styles.metricCard}>
-              <span className={styles.metricValue}>08</span>
-              <span className={styles.metricLabel}>CONNECTED DISCIPLINES</span>
-            </div>
-            <div className={styles.metricCard}>
-              <span className={styles.metricValue}>100%</span>
-              <span className={styles.metricLabel}>BESPOKE ARCHITECTURE</span>
-            </div>
-            <div className={styles.metricCard}>
-              <span className={styles.metricValue}>60 FPS</span>
-              <span className={styles.metricLabel}>COMPUTATIONAL RIGOR</span>
-            </div>
-            <div className={styles.metricCard}>
-              <span className={styles.metricValue}>GLOBAL</span>
-              <span className={styles.metricLabel}>STUDIO COLLABORATION</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 3 — OUR FOUR TENETS ── */}
-      <section className={styles.tenetsSection} aria-label="The Four Tenets of Our Craft">
-        <div className={styles.container}>
-          <div className={styles.tenetsHeader}>
+          <div className={styles.sectionHeaderCenter}>
             <div className={styles.eyebrow}>
-              <span className={styles.crimsonMarker} aria-hidden="true" />
-              <span className={styles.eyebrowText}>FOUNDATIONAL VALUES</span>
+              <span className={styles.eyebrowMarker} />
+              <span className={styles.eyebrowText}>VISION & MISSION</span>
             </div>
-            <h2 className={styles.sectionHeadline}>
-              THE FOUR TENETS OF OUR CRAFT.
+            <h2 id="vision-title" className={styles.sectionTitleDark}>
+              GUIDED BY PURPOSE
             </h2>
+            <p className={styles.sectionSubtitleDark}>
+              Building purposeful digital architectures with computational rigor and creative ambition.
+            </p>
           </div>
 
-          <div ref={tenetsRef} className={styles.tenetsGrid}>
-            {FOUR_TENETS.map((tenet) => (
-              <div key={tenet.number} className={styles.tenetCard}>
-                <div>
-                  <div className={styles.tenetTop}>
-                    <span className={styles.tenetNumber}>TENET // {tenet.number}</span>
-                    <span className={styles.tenetIndicator} aria-hidden="true" />
-                  </div>
-                  <h3 className={styles.tenetTitle}>{tenet.title}</h3>
+          <div className={styles.visionMissionGrid}>
+            {/* Vision Card */}
+            <div className={styles.visionMissionCard}>
+              <div className={styles.cardVisualContainer}>
+                <img
+                  src="/about/vision.jpg"
+                  alt="Aranea Den Studio Vision"
+                  className={styles.cardVisualImg}
+                  loading="lazy"
+                />
+                <div className={styles.cardVisualOverlay}>
+                  <span className={styles.cardVisualPill}>01 / OUR VISION</span>
+                  <img
+                    src={adLogo}
+                    alt="Aranea Den Seal"
+                    className={styles.cardVisualLogoWatermark}
+                    aria-hidden="true"
+                  />
                 </div>
-                <p className={styles.tenetBody}>{tenet.body}</p>
+              </div>
+
+              <div className={styles.cardBodyWrapper}>
+                <h3 className={styles.cardHeading}>THE WORLD WE ARE BUILDING</h3>
+                <p className={styles.cardBodyText}>
+                  To be recognized globally as a benchmark creative technology studio where imagination meets engineering rigor. We envision a digital landscape where brands do not simply broadcast messages, but build meaningful, enduring ecosystems that enrich user lives and accelerate business growth.
+                </p>
+              </div>
+            </div>
+
+            {/* Mission Card */}
+            <div className={styles.visionMissionCard}>
+              <div className={styles.cardVisualContainer}>
+                <img
+                  src="/about/mission.jpg"
+                  alt="Aranea Den Studio Mission"
+                  className={styles.cardVisualImg}
+                  loading="lazy"
+                />
+                <div className={styles.cardVisualOverlay}>
+                  <span className={styles.cardVisualPill}>02 / OUR MISSION</span>
+                  <img
+                    src={adLogo}
+                    alt="Aranea Den Seal"
+                    className={styles.cardVisualLogoWatermark}
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.cardBodyWrapper}>
+                <h3 className={styles.cardHeading}>WHAT WE DO EVERY DAY</h3>
+                <p className={styles.cardBodyText}>
+                  To empower visionary entrepreneurs, forward-thinking institutions, and emerging brands by designing and engineering superior digital products. We bridge the gap between aesthetic beauty and technical precision, delivering measurable competitive advantage with relentless craft.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────
+          03 — THE ARANEA ADVANTAGE
+          Highlighting digital excellence at affordable prices with best quality
+      ───────────────────────────────────────── */}
+      <section ref={differenceRef} className={styles.differenceSection} aria-labelledby="diff-title">
+        <div className={styles.container}>
+          <div className={styles.differenceGrid}>
+            <div className={styles.differenceIntro}>
+              <div className={styles.eyebrow}>
+                <span className={styles.eyebrowMarker} />
+                <span className={styles.eyebrowText}>THE ARANEA ADVANTAGE</span>
+              </div>
+              <h2 id="diff-title" className={styles.differenceHeading}>
+                A MORE CONNECTED WAY OF WORKING.
+              </h2>
+              <p className={styles.differenceLead}>
+                We offer digital excellence at accessible, affordable prices with uncompromising quality.
+              </p>
+              <p className={styles.differenceBody}>
+                At Aranea Den, we believe premium digital craftsmanship shouldn't be reserved only for multi-million dollar corporations. We offer industry-leading engineering, award-caliber design, and strategic agility at honest, transparent rates—empowering ambitious brands to achieve best-in-class results with maximum return on investment.
+              </p>
+            </div>
+
+            <div className={styles.pillarsTrio}>
+              {ADVANTAGE_PILLARS.map((pillar) => (
+                <div key={pillar.num} className={styles.pillarBlock}>
+                  <div className={styles.pillarMarker}>{pillar.num}</div>
+                  <div className={styles.pillarText}>
+                    <h3 className={styles.pillarTitle}>{pillar.title}</h3>
+                    <p className={styles.pillarSummary}>{pillar.summary}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────
+          06 — OUR CLIENTELE
+          (Infinite smooth auto-scroll logo marquee)
+      ───────────────────────────────────────── */}
+      <section ref={clienteleRef} className={styles.clienteleSection} aria-labelledby="clientele-title">
+        <div className={styles.container}>
+          <div className={styles.sectionHeaderCenter}>
+            <div className={styles.eyebrow}>
+              <span className={styles.eyebrowMarker} />
+              <span className={styles.eyebrowText}>OUR CLIENTELE</span>
+            </div>
+            <h2 id="clientele-title" className={styles.sectionTitle}>
+              TRUSTED BY VISIONARY BRANDS
+            </h2>
+            <p className={styles.teamSubtitle}>
+              Partnering with ambitious teams across technology, luxury, commerce, and media.
+            </p>
+          </div>
+        </div>
+
+        {/* Seamless Infinite Marquee Track */}
+        <div className={styles.clienteleMarqueeWrapper}>
+          <div className={styles.clienteleTrack}>
+            {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, index) => (
+              <div key={`${logo.id}-${index}`} className={styles.clienteleCard} title={logo.name}>
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className={styles.clienteleLogoImg}
+                  loading="lazy"
+                />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── SECTION 4 — THE ORIGIN OF ARANEA (BALANCED 2-COLUMN) ── */}
-      <section ref={originRef} className={styles.originSection} aria-label="The Origin of Aranea">
+      {/* ─────────────────────────────────────────
+          07 — INITIATE COLLABORATION (CINEMATIC CTA)
+          With striking visual architecture and direct studio connection grid
+      ───────────────────────────────────────── */}
+      <section ref={ctaRef} className={styles.ctaSection} aria-labelledby="cta-title">
+        <div className={styles.ctaGlowBackdrop} />
         <div className={styles.container}>
-          <div className={styles.originSplitGrid}>
-
-            {/* Left: Contained Light Card with Refined Spider-Web Illustration */}
-            <div className={styles.webIllustrationCard}>
-              <svg
-                viewBox="0 0 360 360"
-                className={styles.webSvgContained}
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                {/* Concentric Architectural Web Rings */}
-                <ellipse cx="180" cy="180" rx="145" ry="145" stroke="rgba(11, 11, 12, 0.08)" strokeWidth="1.2" />
-                <ellipse cx="180" cy="180" rx="110" ry="110" stroke="rgba(223, 37, 49, 0.28)" strokeWidth="1.2" strokeDasharray="3 3" />
-                <ellipse cx="180" cy="180" rx="75" ry="75" stroke="rgba(11, 11, 12, 0.12)" strokeWidth="1.2" />
-                <ellipse cx="180" cy="180" rx="40" ry="40" stroke="rgba(223, 37, 49, 0.35)" strokeWidth="1.2" />
-
-                {/* 12 Radiating Tensile Filaments */}
-                <line x1="35" y1="180" x2="325" y2="180" stroke="rgba(11, 11, 12, 0.1)" strokeWidth="1.2" />
-                <line x1="180" y1="35" x2="180" y2="325" stroke="rgba(11, 11, 12, 0.1)" strokeWidth="1.2" />
-                <line x1="77" y1="77" x2="283" y2="283" stroke="rgba(223, 37, 49, 0.2)" strokeWidth="1.2" />
-                <line x1="77" y1="283" x2="283" y2="77" stroke="rgba(223, 37, 49, 0.2)" strokeWidth="1.2" />
-
-                {/* Tangent Polygonal Connector Lines */}
-                <polygon
-                  points="180,70 258,102 290,180 258,258 180,290 102,258 70,180 102,102"
-                  stroke="rgba(223, 37, 49, 0.3)"
-                  strokeWidth="1.1"
-                />
-
-                {/* Central Crimson Nucleus Anchor */}
-                <circle cx="180" cy="180" r="16" fill="rgba(223, 37, 49, 0.08)" />
-                <circle cx="180" cy="180" r="8" fill="var(--color-crimson, #df2531)" />
-                <circle cx="180" cy="180" r="3" fill="#FFFFFF" />
-
-                {/* Peripheral Anchor Nodes */}
-                <circle cx="180" cy="35" r="3" fill="var(--color-crimson, #df2531)" />
-                <circle cx="180" cy="325" r="3" fill="var(--color-crimson, #df2531)" />
-                <circle cx="35" cy="180" r="3" fill="var(--color-crimson, #df2531)" />
-                <circle cx="325" cy="180" r="3" fill="var(--color-crimson, #df2531)" />
-              </svg>
-            </div>
-
-            {/* Right: Editorial Narrative */}
-            <div className={styles.originContent}>
-              <div className={styles.eyebrow}>
-                <span className={styles.crimsonMarker} aria-hidden="true" />
-                <span className={styles.eyebrowText}>THE ORIGIN OF ARANEA</span>
-              </div>
-
-              <h2 className={styles.originHeadline}>
-                DISCIPLINE OVER FRAGMENTATION.
-              </h2>
-
-              <p className={styles.originParagraph}>
-                The name Aranea originates from the architectural marvel of the spider’s web:
-                an interconnected, tensile structure where every thread reinforces the integrity
-                of the entire system. When you touch one strand, the whole network responds.
-              </p>
-
-              <p className={styles.originParagraph}>
-                We do not operate as an assembly of disconnected specialists. We build cohesive digital
-                ecosystems where strategy, interface design, computational engineering, motion, and cloud
-                infrastructure reinforce one another into a singular experience.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 5 — FOUNDER'S EDITORIAL QUOTE ── */}
-      <section ref={founderRef} className={styles.founderSection} aria-label="Founder Direction">
-        <div className={styles.container}>
-          <div className={styles.founderQuoteCard}>
-            <div className={styles.founderPortraitWrap}>
-              <img
-                src="/team/saikiran-chapa.jpeg"
-                alt="Saikiran Chapa — Founder & Creative Director"
-                className={styles.founderPortrait}
-                loading="lazy"
-              />
-            </div>
-
-            <div className={styles.quoteContent}>
-              <blockquote className={styles.quoteText}>
-                “We do not build generic websites or commoditized software. We engineer living digital ecosystems
-                that elevate brand authority and perform under planetary load.”
-              </blockquote>
-
-              <div className={styles.founderMeta}>
-                <span className={styles.founderName}>SAIKIRAN CHAPA</span>
-                <span style={{ color: 'rgba(11, 11, 12, 0.25)' }}>/</span>
-                <span className={styles.founderRole}>FOUNDER & CREATIVE DIRECTOR</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 6 — EDITORIAL CALL TO ACTION ── */}
-      <section ref={ctaRef} className={styles.ctaSection} aria-label="Next Steps & Collaboration">
-        <div className={styles.container}>
-          <div className={styles.ctaContainer}>
-            <div className={styles.eyebrow} style={{ justifyContent: 'center' }}>
-              <span className={styles.crimsonMarker} aria-hidden="true" />
-              <span className={styles.eyebrowText}>INITIATE COLLABORATION</span>
-            </div>
-
-            <h2 className={styles.ctaHeadline}>
+          <div className={styles.ctaMainBox}>
+            <h2 id="cta-title" className={styles.ctaHeading}>
               READY TO WEAVE SOMETHING REMARKABLE?
             </h2>
-
-            <p className={styles.ctaSubtitle}>
-              Let’s discuss how our connected disciplines can accelerate your brand’s digital presence.
+            <p className={styles.ctaSubtext}>
+              Whether launching a new venture, redefining an existing brand, or engineering an enterprise platform, let's create something extraordinary together.
             </p>
-
-            <div className={styles.ctaButtons}>
-              <Link to="/contact" className={styles.primaryCta} aria-label="Start an engagement">
-                <span>START AN ENGAGEMENT</span>
-                <span className={styles.arrow} aria-hidden="true">&rarr;</span>
+            <div className={styles.ctaButtonsRow}>
+              <Link to="/contact" className={styles.ctaPrimaryBtn}>
+                START A PROJECT
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
               </Link>
-              <Link to="/services" className={styles.secondaryCta} aria-label="Explore capabilities">
-                <span>EXPLORE CAPABILITIES</span>
-                <span className={styles.arrow} aria-hidden="true">&rarr;</span>
+              <Link to="/portfolio" className={styles.ctaSecondaryBtn}>
+                EXPLORE WORK
               </Link>
             </div>
+          </div>
+
+          {/* Cinematic Studio Information Grid */}
+          <div className={styles.ctaDirectGrid}>
+            <a href="mailto:contact@araneaden.com" className={styles.ctaDirectCard}>
+              <span className={styles.ctaDirectLabel}>DIRECT INQUIRIES</span>
+              <span className={styles.ctaDirectValue}>contact@araneaden.com</span>
+            </a>
+
+            <div className={styles.ctaDirectCard}>
+              <span className={styles.ctaDirectLabel}>STUDIO HEADQUARTERS</span>
+              <span className={styles.ctaDirectValue}>Hyderabad, Telangana, India</span>
+            </div>
+
+            <div className={styles.ctaDirectCard}>
+              <span className={styles.ctaDirectLabel}>RESPONSE VELOCITY</span>
+              <span className={styles.ctaDirectValue}>&lt; 24 Hours Guaranteed</span>
+            </div>
+
+            <Link to="/contact" className={styles.ctaDirectCard}>
+              <span className={styles.ctaDirectLabel}>DISCOVERY SESSION</span>
+              <span className={styles.ctaDirectValue}>Book a Consultation &rarr;</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -407,5 +514,3 @@ export const AboutPage: React.FC = () => {
     </div>
   );
 };
-
-export default AboutPage;

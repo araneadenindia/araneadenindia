@@ -1,0 +1,118 @@
+/* ============================================================
+   BREADCRUMBS NAVIGATION COMPONENT
+   Aranea Den Design System
+   Sharp, crisp typography, crimson accents, interactive links
+   ============================================================ */
+
+.nav {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 22px;
+  width: auto;
+  max-width: 100%;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  row-gap: 6px;
+}
+
+.dotItem {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 2px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-crimson, #8A141A);
+  display: inline-block;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(138, 20, 26, 0.45);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.link {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: clamp(11.5px, 0.95vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #38393e;
+  text-decoration: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  padding: 3px 2px;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--color-crimson, #8A141A);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.separator {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-crimson, #8A141A);
+  opacity: 0.7;
+  user-select: none;
+  line-height: 1;
+}
+
+.current {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: clamp(11.5px, 0.95vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-crimson, #df2531);
+  line-height: 1;
+  padding: 4px 8px;
+  background-color: rgba(223, 37, 49, 0.06);
+  border: 1px solid rgba(223, 37, 49, 0.2);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .nav {
+    margin-bottom: 16px;
+  }
+
+  .list {
+    gap: 6px;
+    row-gap: 5px;
+  }
+
+  .link,
+  .current {
+    font-size: 11px;
+    letter-spacing: 0.11em;
+  }
+
+  .current {
+    padding: 3px 6px;
+  }
+}

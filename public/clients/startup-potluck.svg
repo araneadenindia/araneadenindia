@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-potluck" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181D"/>
+      <stop offset="100%" stop-color="#0E0E11"/>
+    </linearGradient>
+    <linearGradient id="crimson-potluck" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF3B47"/>
+      <stop offset="100%" stop-color="#DF2531"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg-potluck)" stroke="#26262D" stroke-width="2"/>
+  <!-- Startup Rocket / Spark Glyph -->
+  <g transform="translate(64, 48)">
+    <path d="M 0 -24 C 8 -16 16 0 12 16 L -12 16 C -16 0 -8 -16 0 -24 Z" fill="url(#crimson-potluck)"/>
+    <circle cx="0" cy="2" r="4.5" fill="#FFFFFF"/>
+    <path d="M -12 16 L -20 24 L -10 24 L -6 18 Z" fill="#E0E0E5"/>
+    <path d="M 12 16 L 20 24 L 10 24 L 6 18 Z" fill="#E0E0E5"/>
+    <path d="M -4 20 L 0 28 L 4 20 Z" fill="#FFC837"/>
+  </g>
+  <text x="64" y="94" font-family="'Exo', 'Inter', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.2">STARTUP</text>
+  <text x="64" y="106" font-family="'Exo', 'Inter', sans-serif" font-size="8" font-weight="700" fill="#DF2531" text-anchor="middle" letter-spacing="1.8">POTLUCK</text>
+</svg>

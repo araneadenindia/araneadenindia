@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-pp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181D"/>
+      <stop offset="100%" stop-color="#0E0E11"/>
+    </linearGradient>
+    <linearGradient id="cyan-pp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F2FE"/>
+      <stop offset="100%" stop-color="#4FACFE"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg-pp)" stroke="#26262D" stroke-width="2"/>
+  <!-- Connected Strategic Nodes Glyph -->
+  <g transform="translate(64, 48)">
+    <line x1="-12" y1="-8" x2="12" y2="8" stroke="#FFFFFF" stroke-width="2.5"/>
+    <line x1="-12" y1="8" x2="12" y2="-8" stroke="#FFFFFF" stroke-width="2.5"/>
+    <circle cx="-12" cy="-8" r="5" fill="#DF2531"/>
+    <circle cx="12" cy="8" r="5" fill="#DF2531"/>
+    <circle cx="-12" cy="8" r="5" fill="url(#cyan-pp)"/>
+    <circle cx="12" cy="-8" r="5" fill="url(#cyan-pp)"/>
+    <circle cx="0" cy="0" r="3.5" fill="#FFFFFF"/>
+  </g>
+  <text x="64" y="94" font-family="'Exo', 'Inter', sans-serif" font-size="9" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.5">P &amp; P</text>
+  <text x="64" y="106" font-family="'Exo', 'Inter', sans-serif" font-size="7.5" font-weight="700" fill="url(#cyan-pp)" text-anchor="middle" letter-spacing="2">CONNEKTS</text>
+</svg>

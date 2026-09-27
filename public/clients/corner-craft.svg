@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-corner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181D"/>
+      <stop offset="100%" stop-color="#0E0E11"/>
+    </linearGradient>
+    <linearGradient id="gold-corner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5C07B"/>
+      <stop offset="100%" stop-color="#C69B55"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg-corner)" stroke="#26262D" stroke-width="2"/>
+  <!-- Isometric 3D Architectural Cube / Corner Glyph -->
+  <g transform="translate(64, 48)">
+    <polygon points="0,-22 19,-11 0,0 -19,-11" fill="url(#gold-corner)"/>
+    <polygon points="0,0 19,-11 19,11 0,22" fill="#9F7939"/>
+    <polygon points="-19,-11 0,0 0,22 -19,11" fill="#BA9149"/>
+    <!-- Center white corner mark -->
+    <circle cx="0" cy="0" r="3" fill="#FFFFFF"/>
+  </g>
+  <text x="64" y="94" font-family="'Exo', 'Inter', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.2">CORNER</text>
+  <text x="64" y="106" font-family="'Exo', 'Inter', sans-serif" font-size="8" font-weight="600" fill="#E5C07B" text-anchor="middle" letter-spacing="2">CRAFT</text>
+</svg>

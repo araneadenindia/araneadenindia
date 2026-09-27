@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-makaan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181D"/>
+      <stop offset="100%" stop-color="#0E0E11"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg-makaan)" stroke="#26262D" stroke-width="2"/>
+  <!-- Architectural Structural Frame Glyph -->
+  <g transform="translate(64, 48)">
+    <rect x="-18" y="-18" width="36" height="36" rx="4" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+    <path d="M -18 -6 L 18 -6 M -6 -18 L -6 18 M 6 -18 L 6 18" stroke="#DF2531" stroke-width="2"/>
+    <circle cx="6" cy="6" r="3" fill="#FFFFFF"/>
+  </g>
+  <text x="64" y="94" font-family="'Exo', 'Inter', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.2">MAAKAN</text>
+  <text x="64" y="106" font-family="'Exo', 'Inter', sans-serif" font-size="8" font-weight="700" fill="#A5A5B0" text-anchor="middle" letter-spacing="2">INFRA</text>
+</svg>

@@ -163,3 +163,134 @@ export const PORTFOLIO_WEBSITES: PortfolioWebsite[] = [
     year: '2025',
   },
 ];
+
+export interface WebsiteShowcaseProject {
+  id: string;
+  number: string;
+  title: string;
+  category: string;
+  description: string;
+  tags: string[];
+  thumbnail: string;
+  url: string;
+  layout: 'image-left' | 'image-right';
+}
+
+export const REQUIRED_WEBSITES: WebsiteShowcaseProject[] = [
+  {
+    id: 'thor',
+    number: '01',
+    title: 'THOR',
+    category: 'FINE DINING & CULINARY BRANDING',
+    description:
+      'Authentic culinary platform and online ordering system for Thor Indian Cuisine in Memphis, TN. Engineered with appetizing visual storytelling, real-time digital menus, and streamlined local online orders.',
+    tags: ['Digital Menu', 'Online Orders', 'Firebase App', 'Memphis TN'],
+    thumbnail: '/portfolio-thumbs/thor.jpg',
+    url: 'https://thor-indian-cuisinse.firebaseapp.com',
+    layout: 'image-left',
+  },
+  {
+    id: 'corner-craft',
+    number: '02',
+    title: 'CORNER CRAFT',
+    category: 'HIGH-END ARCHITECTURAL INTERIORS',
+    description:
+      'A minimalist digital atelier for luxury residential and commercial interiors across Hyderabad and Vijayawada. Showcases material palettes, turnkey transformations, and 3D architectural walkthroughs.',
+    tags: ['Interior Architecture', '3D Walkthroughs', 'Turnkey Execution', 'Hyderabad'],
+    thumbnail: '/portfolio-thumbs/cornercraft.jpg',
+    url: 'https://cornercraftds.web.app',
+    layout: 'image-right',
+  },
+  {
+    id: 'maakan',
+    number: '03',
+    title: 'MAAKAN',
+    category: 'CIVIL INFRASTRUCTURE & STRUCTURAL CONSULTING',
+    description:
+      'Enterprise civil construction, building planning, and structural consulting platform in Odisha. Crafted for structural authority, project progress transparency, and direct client consultation intake.',
+    tags: ['Web Platform', 'Civil Consulting', 'Structural Engineering', 'Odisha'],
+    thumbnail: '/portfolio-thumbs/makaan.jpg',
+    url: 'https://makaaninfra.com',
+    layout: 'image-left',
+  },
+];
+
+export interface MarketingProject {
+  id: string;
+  number: string;
+  name: string;
+  client: string;
+  category: string;
+  description: string;
+  tags: string[];
+  image: string;
+  logo?: string;
+  videoSrc?: string;
+}
+
+export const REQUIRED_MARKETING_PROJECTS: MarketingProject[] = [
+  {
+    id: 'jk',
+    number: '01',
+    name: 'JK',
+    client: 'JK Restaurant',
+    category: 'CULINARY BRANDING & SOCIAL GROWTH',
+    description:
+      'Sensory gastronomy campaign, culinary storytelling, and localized social media acquisition for Rajahmundry’s premier dining landmark.',
+    tags: ['Sensory Visuals', 'Local Acquisition', 'Social Strategy'],
+    image: '/reels/reel_06.jpg',
+    logo: '/clients/jk-restaurant.svg',
+    videoSrc: '/reels-videos/jkrestaurant_rjy_1778126188_3991526363185666723_29264016244.mp4',
+  },
+  {
+    id: 'ceo-expo',
+    number: '02',
+    name: 'CEO EXPO',
+    client: 'CEO Expos',
+    category: 'EXECUTIVE CONFERENCES & BUSINESS SUMMITS',
+    description:
+      'High-impact conference branding, executive summit campaigns, and dynamic attendee registration media across Andhra Pradesh.',
+    tags: ['Summit Production', 'Key Visuals', 'Registration Media'],
+    image: '/reels/reel_02.jpg',
+    logo: '/clients/ceo-expos.svg',
+    videoSrc: '/reels-videos/ceoexpos_1790094616_3991924443449835252_28995625029.mp4',
+  },
+  {
+    id: 'startup-potluck',
+    number: '03',
+    name: 'STARTUP POTLUCK',
+    client: 'Startup Potluck',
+    category: 'FOUNDER ECOSYSTEMS & PITCH CAMPAIGNS',
+    description:
+      'Grassroots entrepreneurship meetup branding, investor pitch coverage, and high-engagement founder ecosystem campaigns.',
+    tags: ['Founder Community', 'Pitch Media', 'Ecosystem Growth'],
+    image: '/reels/reel_05.jpg',
+    logo: '/clients/startup-potluck.svg',
+    videoSrc: '/reels-videos/startup_potluck_rjy_1786440024_3961264728183160298_74679998814.mp4',
+  },
+  {
+    id: 'finance-with-veeru',
+    number: '04',
+    name: 'FINANCE WITH VEERU',
+    client: 'Finance with Veeru',
+    category: 'FINANCIAL ADVISORY & PERSONAL BRANDING',
+    description:
+      'Authoritative financial education reels, personal brand cinematography, and high-trust audience growth choreography.',
+    tags: ['Wealth Advisory', 'Brand Authority', 'Educational Reels'],
+    image: '/reels/reel_04.jpg',
+    logo: '/clients/finance-with-veeru.svg',
+    videoSrc: '/reels-videos/financewithveeru.in_1789577476_3987584190576710280_80084628249.mp4',
+  },
+  {
+    id: 'o2med-academy',
+    number: '05',
+    name: 'O2MED ACADEMY',
+    client: 'O2Med Academy',
+    category: 'HEALTHCARE EDUCATION & STUDENT INTAKE',
+    description:
+      'Medical education digital presence, student inquiry funnels, and authoritative healthcare coaching campaign infrastructure.',
+    tags: ['Medical EdTech', 'Inquiry Funnels', 'Healthcare Academy'],
+    image: '/portfolio-thumbs/viraj.jpg',
+    logo: '/clients/o2med-academy.svg',
+  },
+];

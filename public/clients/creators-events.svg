@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-creators" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181D"/>
+      <stop offset="100%" stop-color="#0E0E11"/>
+    </linearGradient>
+    <linearGradient id="purple-creators" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DA70D6"/>
+      <stop offset="100%" stop-color="#8A2BE2"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg-creators)" stroke="#26262D" stroke-width="2"/>
+  <!-- Prism / 4-Point Star Event Constellation -->
+  <g transform="translate(64, 48)">
+    <polygon points="0,-22 6,-6 22,0 6,6 0,22 -6,6 -22,0 -6,-6" fill="url(#purple-creators)"/>
+    <circle cx="0" cy="0" r="4" fill="#FFFFFF"/>
+    <circle cx="16" cy="-14" r="2.5" fill="#DF2531"/>
+    <circle cx="-16" cy="14" r="2.5" fill="#DF2531"/>
+  </g>
+  <text x="64" y="94" font-family="'Exo', 'Inter', sans-serif" font-size="8.5" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.2">CREATORS</text>
+  <text x="64" y="106" font-family="'Exo', 'Inter', sans-serif" font-size="7.5" font-weight="700" fill="url(#purple-creators)" text-anchor="middle" letter-spacing="2">EXPOS</text>
+</svg>

@@ -4,15 +4,18 @@ import gsap from 'gsap';
 import adLogo from '../../assets/AD Transparent SVG.svg';
 import styles from './LaunchPage.module.css';
 
+const PLEATS_COUNT = 8;
+const pleatIndices = Array.from({ length: PLEATS_COUNT }, (_, i) => i);
+
 /**
  * LaunchPage — Spartan / Minimal Cinematic Launch Portal
- * Philosophy: LESS IS MORE.
- * 
- * 1. Deep charcoal background (#0B0B0E).
- * 2. Subtle ambient red glow & faint architectural web background.
- * 3. Official Aranea Den logo centered.
- * 4. Crisp typography: ARANEA DEN // WE WEAVE DIGITAL EXPERIENCES.
- * 5. Minimal button: ENTER EXPERIENCE →
+ * Features:
+ * - Lightweight cinematic 3D curtain preloader using CSS 3D transforms & GSAP
+ * - Two elegant noir black 3D curtains with realistic accordion pleats opening from center (1–1.5s)
+ * - Official AD Transparent SVG logo revealed with subtle crimson red glow
+ * - Tiny red spider-dust particles drifting in deep black space
+ * - Seamless transition into launch portal content (heading, tagline, enter button)
+ * - Full preservation of existing launch page interaction & route transition
  */
 export const LaunchPage: React.FC = () => {
   const navigate = useNavigate();
@@ -26,13 +29,13 @@ export const LaunchPage: React.FC = () => {
   const textGroupRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
-  // Dual Curtain Refs
+  // 3D Dual Curtain Refs
   const curtainLeftRef = useRef<HTMLDivElement>(null);
   const curtainRightRef = useRef<HTMLDivElement>(null);
   const curtainSeamRef = useRef<HTMLDivElement>(null);
   const curtainSealRef = useRef<HTMLDivElement>(null);
 
-  // ── 1. Subtle, Calm Micro-Dust Particles ──
+  // ── 1. Red Spider-Dust Particles (Canvas 2D, Lightweight & Cinematic) ──
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -50,31 +53,50 @@ export const LaunchPage: React.FC = () => {
     };
     window.addEventListener('resize', onResize, { passive: true });
 
-    // Only 18 gentle micro-dust particles
-    const particles = Array.from({ length: 18 }, () => ({
+    // Tiny amount of crimson spider-dust particles for premium cinematic touch
+    const particles = Array.from({ length: 26 }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: Math.random() * 1.0 + 0.4,
-      vx: (Math.random() - 0.5) * 0.15,
-      vy: (Math.random() - 0.5) * 0.15,
-      alpha: Math.random() * 0.25 + 0.1,
+      r: Math.random() * 1.3 + 0.6,
+      vx: (Math.random() - 0.5) * 0.22,
+      vy: -Math.random() * 0.3 - 0.08, // gentle upward floating drift
+      baseAlpha: Math.random() * 0.5 + 0.3,
+      pulseSpeed: Math.random() * 0.025 + 0.015,
+      phase: Math.random() * Math.PI * 2,
+      color: Math.random() > 0.3 ? '#DF2531' : '#FF4D5A',
     }));
 
     const loop = () => {
       ctx.clearRect(0, 0, w, h);
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = w;
-        if (p.x > w) p.x = 0;
-        if (p.y < 0) p.y = h;
-        if (p.y > h) p.y = 0;
+      ctx.save();
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = 'rgba(223, 37, 49, 0.75)';
 
+      particles.forEach((p) => {
+        p.x += p.vx + Math.sin(p.phase) * 0.2;
+        p.y += p.vy;
+        p.phase += p.pulseSpeed;
+
+        if (p.y < -10) {
+          p.y = h + 10;
+          p.x = Math.random() * w;
+        }
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+
+        const currentAlpha = Math.max(
+          0.1,
+          Math.min(1, p.baseAlpha + Math.sin(p.phase) * 0.25)
+        );
+
+        ctx.globalAlpha = currentAlpha;
+        ctx.fillStyle = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
         ctx.fill();
       });
+
+      ctx.restore();
       animId = requestAnimationFrame(loop);
     };
 
@@ -86,7 +108,7 @@ export const LaunchPage: React.FC = () => {
     };
   }, []);
 
-  // ── 2. Cinematic Curtain Opening Sequence on Load ──
+  // ── 2. Cinematic 3D Curtain Opening Sequence on Load ──
   useEffect(() => {
     document.title = 'ARANEA DEN — Studio Launch Portal';
 
@@ -101,120 +123,164 @@ export const LaunchPage: React.FC = () => {
           [webSvgRef.current, ambientGlowRef.current, logoRef.current, textGroupRef.current, buttonRef.current],
           { opacity: 1, y: 0, scale: 1 }
         );
-        gsap.set(curtainLeftRef.current, { xPercent: -100 });
-        gsap.set(curtainRightRef.current, { xPercent: 100 });
+        gsap.set(curtainLeftRef.current, { xPercent: -105, scaleX: 0.65 });
+        gsap.set(curtainRightRef.current, { xPercent: 105, scaleX: 0.65 });
         gsap.set([curtainSeamRef.current, curtainSealRef.current], { opacity: 0 });
         return;
       }
 
-      // Initial Curtain Closed State
-      gsap.set(curtainLeftRef.current, { xPercent: 0 });
-      gsap.set(curtainRightRef.current, { xPercent: 0 });
-      gsap.set([curtainSeamRef.current, curtainSealRef.current], { opacity: 1, scale: 1 });
+      // Initial Closed State: 3D Curtains shut at center
+      gsap.set(curtainLeftRef.current, { xPercent: 0, scaleX: 1 });
+      gsap.set(curtainRightRef.current, { xPercent: 0, scaleX: 1 });
+      gsap.set(curtainSeamRef.current, { opacity: 1, scaleY: 1 });
+      gsap.set(curtainSealRef.current, { opacity: 1, scale: 1 });
+
+      // Official Logo is centered behind curtains, glowing subtly in red
+      gsap.set(logoRef.current, { opacity: 0.9, scale: 0.95 });
+      gsap.set(ambientGlowRef.current, { opacity: 0.6 });
+
+      // Rest of the launch portal content hidden initially
+      gsap.set([webSvgRef.current, textGroupRef.current, buttonRef.current], {
+        opacity: 0,
+        y: 16,
+      });
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } });
 
-      // Step 1: Laser Seam Pulse (0.35s beat)
+      // Step 1: Laser Seam Pulse (0.2s)
       tl.to(
         curtainSeamRef.current,
         {
-          boxShadow: '0 0 24px rgba(223, 37, 49, 1), 0 0 48px rgba(223, 37, 49, 0.7)',
-          duration: 0.35,
+          boxShadow: '0 0 28px rgba(223, 37, 49, 1), 0 0 54px rgba(223, 37, 49, 0.85)',
+          duration: 0.25,
           yoyo: true,
           repeat: 1,
         },
         0.05
       );
 
-      // Step 2: Seal and laser seam fade out as curtains part
+      // Step 2: Center seal fades out as curtain parts
       tl.to(
-        [curtainSealRef.current, curtainSeamRef.current],
+        curtainSealRef.current,
         {
           opacity: 0,
-          scale: 0.88,
-          duration: 0.45,
+          scale: 0.8,
+          duration: 0.35,
           ease: 'power2.in',
         },
-        0.35
+        0.2
       );
 
-      // Step 3: Dual Curtains majestically slide open!
+      tl.to(
+        curtainSeamRef.current,
+        {
+          opacity: 0,
+          scaleY: 0.4,
+          duration: 0.35,
+        },
+        0.25
+      );
+
+      // Step 3: Two 3D curtains open smoothly from the center (~1.25s, completed within 1–1.5s)
+      // Left curtain slides and folds in 3D perspective
       tl.to(
         curtainLeftRef.current,
         {
-          xPercent: -100,
-          duration: 1.3,
+          xPercent: -105,
+          scaleX: 0.65,
+          duration: 1.25,
           ease: 'power3.inOut',
         },
-        0.45
+        0.2
       );
 
+      // Right curtain slides and folds in 3D perspective
       tl.to(
         curtainRightRef.current,
         {
-          xPercent: 100,
-          duration: 1.3,
+          xPercent: 105,
+          scaleX: 0.65,
+          duration: 1.25,
           ease: 'power3.inOut',
         },
-        0.45
+        0.2
       );
 
-      // Step 4: Web and ambient glow reveal as curtains part
-      tl.fromTo(
-        [webSvgRef.current, ambientGlowRef.current],
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 1.1,
-          ease: 'power2.out',
-        },
-        0.75
-      );
+      // 3D pleat depth accentuation as curtains draw open
+      const pleats = container.querySelectorAll(`.${styles.curtainPleat}`);
+      if (pleats.length) {
+        tl.to(
+          pleats,
+          {
+            scaleX: 0.88,
+            duration: 1.25,
+            ease: 'power3.inOut',
+          },
+          0.2
+        );
+      }
 
-      // Step 5: Official logo reveals with scale ease
-      tl.fromTo(
+      // Step 4: Reveal official logo with glowing red presence
+      tl.to(
         logoRef.current,
-        { opacity: 0, scale: 0.94 },
         {
           opacity: 1,
           scale: 1,
-          duration: 0.95,
-          ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          duration: 0.9,
+          ease: 'power2.out',
         },
-        0.95
+        0.6
       );
 
-      // Step 6: Typography reveals
-      tl.fromTo(
+      tl.to(
+        ambientGlowRef.current,
+        {
+          opacity: 1,
+          duration: 1.0,
+          ease: 'power2.out',
+        },
+        0.6
+      );
+
+      // Step 5: After curtains open and logo is briefly revealed, transition smoothly into existing launch page content
+      tl.to(
+        webSvgRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power2.out',
+        },
+        1.45
+      );
+
+      tl.to(
         textGroupRef.current,
-        { opacity: 0, y: 14 },
         {
           opacity: 1,
           y: 0,
           duration: 0.85,
           ease: 'power3.out',
         },
-        1.15
+        1.55
       );
 
-      // Step 7: Enter Experience button reveals
-      tl.fromTo(
+      tl.to(
         buttonRef.current,
-        { opacity: 0, y: 12 },
         {
           opacity: 1,
           y: 0,
           duration: 0.75,
           ease: 'power3.out',
         },
-        1.35
+        1.7
       );
     }, container);
 
     return () => ctx.revert();
   }, []);
 
-  // ── 3. Cinematic Curtain Launch Transition to Homepage (/) ──
+  // ── 3. Cinematic 3D Curtain Launch Transition to Homepage (/) ──
   const handleEnterExperience = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -224,6 +290,7 @@ export const LaunchPage: React.FC = () => {
     const seam = curtainSeamRef.current;
     const content = containerRef.current?.querySelector(`.${styles.centerComposition}`);
     const web = webSvgRef.current;
+    const container = containerRef.current;
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -238,7 +305,7 @@ export const LaunchPage: React.FC = () => {
         content,
         {
           opacity: 0.2,
-          scale: 0.94,
+          scale: 0.95,
           y: -8,
           duration: 0.5,
           ease: 'power2.in',
@@ -260,12 +327,13 @@ export const LaunchPage: React.FC = () => {
       );
     }
 
-    // Dual Curtains sweep inward to close at center!
+    // Curtains sweep back to center in 3D
     if (left && right) {
       tl.to(
         left,
         {
           xPercent: 0,
+          scaleX: 1,
           duration: 0.75,
           ease: 'power3.inOut',
         },
@@ -276,6 +344,7 @@ export const LaunchPage: React.FC = () => {
         right,
         {
           xPercent: 0,
+          scaleX: 1,
           duration: 0.75,
           ease: 'power3.inOut',
         },
@@ -283,7 +352,22 @@ export const LaunchPage: React.FC = () => {
       );
     }
 
-    // Seam flashes brilliant laser burst when curtains meet
+    if (container) {
+      const pleats = container.querySelectorAll(`.${styles.curtainPleat}`);
+      if (pleats.length) {
+        tl.to(
+          pleats,
+          {
+            scaleX: 1,
+            duration: 0.75,
+            ease: 'power3.inOut',
+          },
+          0.1
+        );
+      }
+    }
+
+    // Seam flashes crimson burst when curtains meet
     if (seam) {
       tl.fromTo(
         seam,
@@ -301,7 +385,7 @@ export const LaunchPage: React.FC = () => {
 
   return (
     <main ref={containerRef} className={styles.launchContainer} aria-label="Aranea Den Cinematic Launch Screen">
-      {/* Calm Micro-Dust Canvas */}
+      {/* Red Spider-Dust Canvas */}
       <canvas ref={canvasRef} className={styles.particleCanvas} aria-hidden="true" />
 
       {/* Subtle Red Ambient Glow Behind Logo */}
@@ -334,7 +418,7 @@ export const LaunchPage: React.FC = () => {
 
       {/* ── Central Vertically-Centered Composition ── */}
       <div className={styles.centerComposition}>
-        {/* 1. Official ARANEA DEN Logo */}
+        {/* 1. Official ARANEA DEN Logo (glowing subtly in red) */}
         <div ref={logoRef} className={styles.logoWrap}>
           <img
             src={adLogo}
@@ -370,18 +454,28 @@ export const LaunchPage: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Dual Cinematic Curtains ── */}
+      {/* ── 3D Dual Cinematic Curtains ── */}
       <div className={styles.curtainContainer} aria-hidden="true">
-        {/* Left Curtain Panel */}
+        {/* Left Curtain 3D Panel */}
         <div ref={curtainLeftRef} className={styles.curtainLeft}>
-          <div className={styles.curtainTexture} />
-          <div className={styles.curtainRib} />
+          {pleatIndices.map((i) => (
+            <div key={`left-pleat-${i}`} className={styles.curtainPleat}>
+              <div className={styles.pleatFold} />
+              <div className={styles.pleatShadow} />
+              <div className={styles.pleatHighlight} />
+            </div>
+          ))}
         </div>
 
-        {/* Right Curtain Panel */}
+        {/* Right Curtain 3D Panel */}
         <div ref={curtainRightRef} className={styles.curtainRight}>
-          <div className={styles.curtainTexture} />
-          <div className={styles.curtainRib} />
+          {pleatIndices.map((i) => (
+            <div key={`right-pleat-${i}`} className={styles.curtainPleat}>
+              <div className={styles.pleatFold} />
+              <div className={styles.pleatShadow} />
+              <div className={styles.pleatHighlight} />
+            </div>
+          ))}
         </div>
 
         {/* Center Crimson Seam / Laser Thread */}

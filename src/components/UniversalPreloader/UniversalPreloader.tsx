@@ -20,34 +20,69 @@ export const UniversalPreloader: React.FC<UniversalPreloaderProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const brandStageRef = useRef<HTMLDivElement>(null);
-  const highlightLayerRef = useRef<HTMLImageElement>(null);
-  const glintLayerRef = useRef<HTMLImageElement>(null);
+  const ambientGlowRef = useRef<HTMLDivElement>(null);
+  const highlightSweepRef = useRef<HTMLDivElement>(null);
+  const glintSweepRef = useRef<HTMLDivElement>(null);
+
+  // Keep latest onComplete reference without causing effect re-triggers
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  // Ensure initial intro only plays once per session
+  const hasPlayedInitialRef = useRef(false);
 
   useEffect(() => {
     if (!isActive) return;
 
+    // If initial mode has already completed once, trigger callback immediately and exit
+    if (mode === 'initial' && hasPlayedInitialRef.current) {
+      if (onCompleteRef.current) {
+        onCompleteRef.current();
+      }
+      return;
+    }
+
     const canvas = canvasRef.current;
     const overlay = overlayRef.current;
     const brandStage = brandStageRef.current;
+    const ambientGlow = ambientGlowRef.current;
     if (!canvas || !overlay) return;
 
     let animationFrameId: number;
+    let isRendering = true;
     const width = window.innerWidth;
     const height = window.innerHeight;
+    const isMobile = width <= 768;
 
-    // ── 1. THREE.JS 3D SPIDER WEB SCENE ──
+    // ── 1. THREE.JS 3D SPIDER WEB SCENE (Optimized GPU Pipeline) ──
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
     camera.position.z = 7.0;
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
-    });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: false,
+        powerPreference: 'high-performance',
+        stencil: false,
+        depth: false,
+      });
+    } catch (err) {
+      console.warn('Three.js WebGLRenderer could not be initialized:', err);
+      // Gracefully finish if WebGL fails on older devices
+      if (onCompleteRef.current) {
+        onCompleteRef.current();
+      }
+      return;
+    }
+
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    // Mobile optimization: clamp DPR to 1.0 to eliminate fill-rate stutter; desktop up to 1.25
+    renderer.setPixelRatio(isMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.25));
 
     // Master Web Group
     const webGroup = new THREE.Group();
@@ -143,8 +178,9 @@ export const UniversalPreloader: React.FC<UniversalPreloaderProps> = ({
     const webNodes = new THREE.Points(nodeGeo, nodeMat);
     webGroup.add(webNodes);
 
-    // ── 2. RENDER LOOP ──
+    // ── 2. RENDER LOOP (Runs continuously until overlay completely exits) ──
     const animate = () => {
+      if (!isRendering) return;
       animationFrameId = requestAnimationFrame(animate);
       webGroup.rotation.z += 0.0014;
       renderer.render(scene, camera);
@@ -153,118 +189,166 @@ export const UniversalPreloader: React.FC<UniversalPreloaderProps> = ({
 
     // ── 3. MASTER GSAP CINEMATIC ORCHESTRATION ──
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const maskProxy = { progress: 0 };
-
-    const updateAnamorphicMask = (progress: number) => {
-      const pos = -150 + progress * 400;
-      const posStr = `${pos}% 0%`;
-
-      if (highlightLayerRef.current) {
-        highlightLayerRef.current.style.webkitMaskPosition = posStr;
-        highlightLayerRef.current.style.maskPosition = posStr;
-      }
-
-      if (glintLayerRef.current) {
-        const glintPos = -170 + progress * 440;
-        const glintStr = `${glintPos}% 0%`;
-        glintLayerRef.current.style.webkitMaskPosition = glintStr;
-        glintLayerRef.current.style.maskPosition = glintStr;
-      }
-    };
-
-    updateAnamorphicMask(0);
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {
-          if (onComplete) onComplete();
+          isRendering = false;
+          if (mode === 'initial') {
+            hasPlayedInitialRef.current = true;
+          }
+          if (onCompleteRef.current) {
+            onCompleteRef.current();
+          }
         },
       });
 
       if (prefersReducedMotion) {
-        tl.to(overlay, { opacity: 0, duration: 0.4, delay: 0.5 });
+        tl.to(overlay, { opacity: 0, duration: 0.4, delay: 0.3 });
         return;
       }
 
       if (mode === 'initial') {
         // ── FULL CINEMATIC INITIAL INTRO (~2.75s) ──
-        // 0. Setup 3D perspective initial state
+        // Ensure starting states match CSS to eliminate initial jumps or flashes
         if (brandStage) {
           gsap.set(brandStage, {
-            transformPerspective: 950,
-            rotationX: 24,
-            rotationY: -16,
-            scale: 0.90,
-            opacity: 1,
+            xPercent: -50,
+            yPercent: -50,
+            scale: 0.45,
+            opacity: 0,
           });
         }
-        webGroup.scale.set(0.60, 0.60, 0.60);
+        gsap.set(canvas, { opacity: 0 });
+        if (ambientGlow) {
+          gsap.set(ambientGlow, { opacity: 0 });
+        }
+        webGroup.scale.set(0.45, 0.45, 0.45);
 
-        // 1. 3D Web Weaves Outward (~1.9s)
-        tl.to(webGroup.scale, {
-          x: 1.0,
-          y: 1.0,
-          z: 1.0,
-          duration: 1.9,
-          ease: 'power2.out',
-        }, 0.0);
-
-        // 2. 3D Brandmark settles smoothly to front alignment
-        if (brandStage) {
-          tl.to(brandStage, {
-            rotationX: 0,
-            rotationY: 0,
-            scale: 1.0,
+        // 1. 3D Web weaves and expands outward from center (~1.8s)
+        tl.to(
+          webGroup.scale,
+          {
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
             duration: 1.8,
             ease: 'power3.out',
-          }, 0.05);
+          },
+          0.0
+        );
+
+        // Smoothly fade in canvas & ambient glow (prevents abrupt web/background pop-in)
+        tl.to(
+          canvas,
+          {
+            opacity: 1,
+            duration: 0.9,
+            ease: 'power2.out',
+          },
+          0.0
+        );
+
+        if (ambientGlow) {
+          tl.to(
+            ambientGlow,
+            {
+              opacity: 1,
+              duration: 1.0,
+              ease: 'power2.out',
+            },
+            0.0
+          );
         }
 
-        // 3. Anamorphic Specular Glint sweeps across the logo face
-        tl.to(maskProxy, {
-          progress: 1,
-          duration: 1.75,
-          ease: 'power2.inOut',
-          onUpdate: () => updateAnamorphicMask(maskProxy.progress),
-        }, 0.2);
-
-        // 4. Brief cinematic hold in rich dark crimson stillness (350ms)
-
-        // 5. Silky Dissolve Exit (~0.5s)
+        // 2. Brandmark zooms in smoothly from depth with silky fade-in (~1.55s)
         if (brandStage) {
-          tl.to(brandStage, {
-            scale: 1.04,
+          tl.to(
+            brandStage,
+            {
+              scale: 1.0,
+              opacity: 1,
+              duration: 1.55,
+              ease: 'power3.out',
+            },
+            0.08
+          );
+        }
+
+        // 3. Synchronized Anamorphic Light Ray Sweeps majestically across the FULL logo face
+        // Travels steadily from off-screen left (-105%) across Spider Arc -> ARANEA -> DEN -> off-screen right (+185%)
+        const sweepTargets = [highlightSweepRef.current, glintSweepRef.current].filter(Boolean);
+        if (sweepTargets.length > 0) {
+          gsap.set(sweepTargets, { xPercent: -105, rotation: 20, transformOrigin: '50% 50%' });
+          tl.to(
+            sweepTargets,
+            { xPercent: 185, duration: 1.55, ease: 'sine.inOut' },
+            0.55
+          );
+        }
+
+        // 4. Brief cinematic hold in rich dark crimson stillness (~100ms)
+
+        // 5. Complete Preloader Silky Dissolve Exit (~0.5s) at 2.25s
+        // Keeps complete preloader everywhere intact until the unified exit
+        if (brandStage) {
+          tl.to(
+            brandStage,
+            {
+              scale: 1.03,
+              opacity: 0,
+              duration: 0.5,
+              ease: 'power2.inOut',
+            },
+            2.25
+          );
+        }
+
+        tl.to(
+          overlay,
+          {
             opacity: 0,
             duration: 0.5,
             ease: 'power2.inOut',
-          }, 2.25);
-        }
-
-        tl.to(overlay, {
-          opacity: 0,
-          duration: 0.5,
-          ease: 'power2.inOut',
-        }, 2.25);
+          },
+          2.25
+        );
       } else if (mode === 'ascend') {
-        // ── WARP TO TOP / ELEVATION MODE (~0.70s) ──
+        // ── WARP TO TOP / ELEVATION MODE (~1.85s) ──
         if (brandStage) {
           gsap.set(brandStage, {
-            transformPerspective: 800,
-            rotationX: 20,
-            y: 35,
-            scale: 0.92,
-            opacity: 1,
+            xPercent: -50,
+            yPercent: -50,
+            scale: 0.75,
+            y: 20,
+            opacity: 0,
           });
+
+          tl.to(
+            brandStage,
+            {
+              y: 0,
+              scale: 1.0,
+              opacity: 1,
+              duration: 0.7,
+              ease: 'power3.out',
+            },
+            0.0
+          );
         }
 
-        if (brandStage) {
-          tl.to(brandStage, {
-            y: -20,
-            rotationX: -8,
-            scale: 1.02,
-            duration: 0.45,
-            ease: 'power2.out',
-          }, 0.0);
+        gsap.set(canvas, { opacity: 0 });
+        if (ambientGlow) gsap.set(ambientGlow, { opacity: 0 });
+        tl.to([canvas, ambientGlow].filter(Boolean), { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0.0);
+
+        const sweepTargets = [highlightSweepRef.current, glintSweepRef.current].filter(Boolean);
+        if (sweepTargets.length > 0) {
+          gsap.set(sweepTargets, { xPercent: -105, rotation: 20, transformOrigin: '50% 50%' });
+          tl.to(
+            sweepTargets,
+            { xPercent: 185, duration: 1.15, ease: 'sine.inOut' },
+            0.3
+          );
         }
 
         // Instant scroll reset behind the preloader
@@ -275,67 +359,145 @@ export const UniversalPreloader: React.FC<UniversalPreloaderProps> = ({
           window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
         }, 0.35);
 
-        tl.to(overlay, {
-          opacity: 0,
-          duration: 0.35,
-          ease: 'power2.inOut',
-        }, 0.45);
+        if (brandStage) {
+          tl.to(brandStage, { scale: 1.02, opacity: 0, duration: 0.4, ease: 'power2.inOut' }, 1.45);
+        }
+
+        tl.to(
+          overlay,
+          {
+            opacity: 0,
+            duration: 0.4,
+            ease: 'power2.inOut',
+          },
+          1.45
+        );
       } else {
-        // ── ROUTE NAVIGATION MODE (~0.85s) ──
+        // ── ROUTE NAVIGATION MODE (~2.15s) ──
+        // Keep complete preloader everywhere intact, with smooth cinematic pacing
+        // Only slightly faster than initial (~2.15s vs 2.75s) so it feels majestic, dignified, and never rushed
         if (brandStage) {
           gsap.set(brandStage, {
-            transformPerspective: 800,
-            rotationX: 12,
-            rotationY: -8,
-            scale: 0.95,
-            opacity: 1,
+            xPercent: -50,
+            yPercent: -50,
+            scale: 0.65,
+            opacity: 0,
           });
         }
+        gsap.set(canvas, { opacity: 0 });
+        if (ambientGlow) gsap.set(ambientGlow, { opacity: 0 });
+        webGroup.scale.set(0.65, 0.65, 0.65);
 
-        if (brandStage) {
-          tl.to(brandStage, {
-            rotationX: 0,
-            rotationY: 0,
-            scale: 1.0,
-            duration: 0.45,
+        // 1. 3D Web weaves and expands outward (~1.4s)
+        tl.to(
+          webGroup.scale,
+          {
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+            duration: 1.4,
+            ease: 'power3.out',
+          },
+          0.0
+        );
+
+        // Smoothly fade in canvas & ambient glow without sudden pops
+        tl.to(
+          canvas,
+          {
+            opacity: 1,
+            duration: 0.6,
             ease: 'power2.out',
-          }, 0.0);
+          },
+          0.0
+        );
+
+        if (ambientGlow) {
+          tl.to(
+            ambientGlow,
+            {
+              opacity: 1,
+              duration: 0.7,
+              ease: 'power2.out',
+            },
+            0.0
+          );
         }
 
-        tl.to(maskProxy, {
-          progress: 1,
-          duration: 0.45,
-          ease: 'power2.inOut',
-          onUpdate: () => updateAnamorphicMask(maskProxy.progress),
-        }, 0.05);
+        // 2. Brandmark zooms in smoothly from depth with silky fade-in (~1.2s)
+        if (brandStage) {
+          tl.to(
+            brandStage,
+            {
+              scale: 1.0,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power3.out',
+            },
+            0.05
+          );
+        }
 
-        // Instant scroll reset to top while concealed
+        // 3. Instant scroll reset to top while fully concealed behind preloader curtain
         tl.add(() => {
           if ((window as any).lenis) {
             (window as any).lenis.scrollTo(0, { immediate: true });
           }
           window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
-        }, 0.4);
+        }, 0.35);
 
-        tl.to(overlay, {
-          opacity: 0,
-          duration: 0.35,
-          ease: 'power2.inOut',
-        }, 0.5);
+        // 4. Synchronized Anamorphic Light Ray Sweeps majestically across the FULL logo face
+        // Travels steadily from off-screen left (-105%) across Spider Arc -> ARANEA -> DEN -> off-screen right (+185%)
+        const sweepTargets = [highlightSweepRef.current, glintSweepRef.current].filter(Boolean);
+        if (sweepTargets.length > 0) {
+          gsap.set(sweepTargets, { xPercent: -105, rotation: 20, transformOrigin: '50% 50%' });
+          tl.to(
+            sweepTargets,
+            { xPercent: 185, duration: 1.25, ease: 'sine.inOut' },
+            0.40
+          );
+        }
+
+        // 5. Complete Preloader Silky Dissolve Exit (~0.45s) at 1.70s
+        if (brandStage) {
+          tl.to(
+            brandStage,
+            {
+              scale: 1.02,
+              opacity: 0,
+              duration: 0.45,
+              ease: 'power2.inOut',
+            },
+            1.70
+          );
+        }
+
+        tl.to(
+          overlay,
+          {
+            opacity: 0,
+            duration: 0.45,
+            ease: 'power2.inOut',
+          },
+          1.70
+        );
       }
     }, overlay);
 
-    // Resize Handler
+    // Resize Handler with responsive DPR adjustment
     const handleResize = () => {
       const newW = window.innerWidth;
       const newH = window.innerHeight;
       camera.aspect = newW / newH;
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
+      const newIsMobile = newW <= 768;
+      renderer.setPixelRatio(newIsMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.25));
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
+      isRendering = false;
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
       ctx.revert();
@@ -347,7 +509,7 @@ export const UniversalPreloader: React.FC<UniversalPreloaderProps> = ({
       nodeMat.dispose();
       renderer.dispose();
     };
-  }, [isActive, mode, onComplete]);
+  }, [isActive, mode]);
 
   if (!isActive) return null;
 
@@ -363,35 +525,29 @@ export const UniversalPreloader: React.FC<UniversalPreloaderProps> = ({
       <canvas ref={canvasRef} className={styles.threeCanvas} />
 
       {/* 2. Ambient Crimson Volumetric Glow */}
-      <div className={styles.ambientGlow} aria-hidden="true" />
+      <div ref={ambientGlowRef} className={styles.ambientGlow} aria-hidden="true" />
 
-      {/* 3. Central 3D Aranea Den Brandmark (Only Web & Logo, No Text, No Bars) */}
+      {/* 3. Central 3D Aranea Den Brandmark */}
       <div ref={brandStageRef} className={styles.brandStage} aria-hidden="true">
-        {/* Layer 1: Base Dark Crimson with Soft Aura */}
+        {/* Soft atmospheric crimson aura */}
+        <div className={styles.logoAura} />
+
+        {/* Layer 1: Base Dark Crimson Logo */}
         <img
           src="/AD Transparent SVG.svg"
           alt="Aranea Den"
-          className={`${styles.logoLayer} ${styles.logoBase}`}
+          className={styles.logoBase}
           draggable={false}
         />
 
-        {/* Layer 2: Illuminated Crimson Specular with Sweep Mask */}
-        <img
-          ref={highlightLayerRef}
-          src="/AD Transparent SVG.svg"
-          alt=""
-          className={`${styles.logoLayer} ${styles.logoHighlight}`}
-          draggable={false}
-        />
+        {/* Hardware-Accelerated Anamorphic Glint Mask Container */}
+        <div className={styles.glintMaskContainer}>
+          {/* Layer 2: Wide Volumetric Crimson Light Ray Flare */}
+          <div ref={highlightSweepRef} className={styles.highlightSweep} />
 
-        {/* Layer 3: Brilliant White Glint Apex */}
-        <img
-          ref={glintLayerRef}
-          src="/AD Transparent SVG.svg"
-          alt=""
-          className={`${styles.logoLayer} ${styles.logoGlint}`}
-          draggable={false}
-        />
+          {/* Layer 3: Brilliant Specular Apex Light Ray Core */}
+          <div ref={glintSweepRef} className={styles.glintSweep} />
+        </div>
       </div>
     </div>
   );

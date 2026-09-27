@@ -1,225 +1,660 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-import { PORTFOLIO_WEBSITES, PortfolioWebsite } from '../../data/portfolioData';
-import { ARANEA_REELS } from '../../data/reelsData';
+import {
+  REQUIRED_WEBSITES,
+  REQUIRED_MARKETING_PROJECTS,
+  WebsiteShowcaseProject,
+  MarketingProject,
+} from '../../data/portfolioData';
+import { ARANEA_REELS, AraneaReel } from '../../data/reelsData';
 import styles from './PortfolioPage.module.css';
 
-const CATEGORIES = [
-  { id: 'all', label: 'ALL WEBSITES (11)' },
-  { id: 'enterprise', label: 'ENTERPRISE & INFRASTRUCTURE' },
-  { id: 'luxury', label: 'LUXURY & LIFESTYLE' },
-  { id: 'creative', label: 'CREATIVE & MEDIA' },
-  { id: 'reels', label: 'OFFICIAL REELS (7)' },
+gsap.registerPlugin(ScrollTrigger);
+
+interface CategoryItem {
+  id: string;
+  num: string;
+  label: string;
+  badge: string;
+}
+
+const CATEGORIES: CategoryItem[] = [
+  { id: 'websites', num: '01', label: 'WEBSITES', badge: '03' },
+  { id: 'apps', num: '02', label: 'APPS', badge: 'IN DEV' },
+  { id: 'digital-marketing', num: '03', label: 'DIGITAL MARKETING', badge: '05' },
+  { id: 'ad-imperial-visuals', num: '04', label: 'AD IMPERIAL VISUALS', badge: 'REELS' },
 ];
 
 export const PortfolioPage: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeCategory, setActiveCategory] = useState<string>('websites');
+  const [activeModalVideo, setActiveModalVideo] = useState<{
+    src: string;
+    title: string;
+    caption?: string;
+    client?: string;
+  } | null>(null);
 
   const pageRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-  const reelsRef = useRef<HTMLElement>(null);
+  const spiderRef = useRef<HTMLDivElement>(null);
+  const navTabsRef = useRef<HTMLDivElement>(null);
 
-  const filteredWebsites = activeFilter === 'all' || activeFilter === 'reels'
-    ? PORTFOLIO_WEBSITES
-    : PORTFOLIO_WEBSITES.filter((p) => p.filterCategory === activeFilter);
+  // Reposition spider onto the active category tab
+  const moveSpiderToTab = useCallback((categoryId: string, immediate = false) => {
+    if (!spiderRef.current || !navTabsRef.current) return;
+    const tabEl = navTabsRef.current.querySelector<HTMLButtonElement>(
+      `button[data-cat="${categoryId}"]`
+    );
+    if (!tabEl) return;
 
+    const railEl = spiderRef.current.parentElement;
+    if (!railEl) return;
+    const railRect = railEl.getBoundingClientRect();
+    const tabRect = tabEl.getBoundingClientRect();
+    const targetX = tabRect.left - railRect.left + tabRect.width / 2;
+
+    if (immediate) {
+      gsap.set(spiderRef.current, { x: targetX, y: 0 });
+    } else {
+      gsap.killTweensOf(spiderRef.current);
+      gsap.to(spiderRef.current, {
+        x: targetX,
+        duration: 0.55,
+        ease: 'power3.out',
+      });
+      // Subtle vertical bob simulating silk spring suspension
+      gsap.fromTo(
+        spiderRef.current,
+        { y: -4 },
+        { y: 0, duration: 0.45, ease: 'bounce.out', delay: 0.1 }
+      );
+    }
+  }, []);
+
+  // Update spider position whenever active category changes
+  useEffect(() => {
+    moveSpiderToTab(activeCategory);
+  }, [activeCategory, moveSpiderToTab]);
+
+  // Handle window resize to keep spider aligned
+  useEffect(() => {
+    const handleResize = () => moveSpiderToTab(activeCategory, true);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [activeCategory, moveSpiderToTab]);
+
+  // Setup GSAP ScrollTrigger for section scroll synchronization & entrance animations
   useEffect(() => {
     const page = pageRef.current;
     if (!page) return;
 
     const ctx = gsap.context(() => {
-      // 1. Hero emergence
-      if (heroRef.current) {
-        const title = heroRef.current.querySelector(`.${styles.heroTitle}`);
-        const lead = heroRef.current.querySelector(`.${styles.heroLead}`);
+      // Synchronize active category with scroll position
+      CATEGORIES.forEach((cat) => {
+        const section = document.getElementById(cat.id);
+        if (section) {
+          ScrollTrigger.create({
+            trigger: section,
+            start: 'top 40%',
+            end: 'bottom 40%',
+            onEnter: () => setActiveCategory(cat.id),
+            onEnterBack: () => setActiveCategory(cat.id),
+          });
+        }
+      });
 
+      // Website row reveals
+      const websiteRows = page.querySelectorAll(`.${styles.websiteRow}`);
+      websiteRows.forEach((row) => {
         gsap.fromTo(
-          [title, lead],
-          { opacity: 0, y: 35 },
+          row,
+          { opacity: 0, y: 36 },
           {
             opacity: 1,
             y: 0,
-            duration: 1.05,
-            stagger: 0.15,
-            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-          }
-        );
-      }
-
-      // 2. Project card reveals
-      if (listRef.current) {
-        const cards = listRef.current.querySelectorAll(`.${styles.projectCard}`);
-        cards.forEach((card) => {
-          gsap.fromTo(
-            card,
-            { opacity: 0, y: 32 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.85,
-              ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-              scrollTrigger: {
-                trigger: card,
-                start: 'top 85%',
-              },
-            }
-          );
-        });
-      }
-
-      // 3. Reels cards reveals
-      if (reelsRef.current) {
-        const reelCards = reelsRef.current.querySelectorAll(`.${styles.reelCard}`);
-        gsap.fromTo(
-          reelCards,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            duration: 0.85,
+            ease: 'power3.out',
             scrollTrigger: {
-              trigger: reelsRef.current,
-              start: 'top 75%',
+              trigger: row,
+              start: 'top 85%',
             },
           }
         );
-      }
+      });
+
+      // Marketing cards reveals
+      const marketingCards = page.querySelectorAll(`.${styles.marketingCard}`);
+      gsap.fromTo(
+        marketingCards,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          stagger: 0.12,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#digital-marketing',
+            start: 'top 80%',
+          },
+        }
+      );
+
+      // Reels card reveals
+      const reelCards = page.querySelectorAll(`.${styles.reelCard}`);
+      gsap.fromTo(
+        reelCards,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          stagger: 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '#ad-imperial-visuals',
+            start: 'top 80%',
+          },
+        }
+      );
     }, page);
 
+    // Initial position of spider
+    setTimeout(() => {
+      moveSpiderToTab(activeCategory, true);
+    }, 150);
+
     return () => ctx.revert();
-  }, [activeFilter]);
+  }, [moveSpiderToTab]);
+
+  // Close modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveModalVideo(null);
+      }
+    };
+    if (activeModalVideo) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [activeModalVideo]);
+
+  const handleTabClick = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    const targetSection = document.getElementById(categoryId);
+    if (targetSection) {
+      const navOffset = 130;
+      const elementPosition = targetSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <div ref={pageRef} className={styles.portfolioPage}>
-      {/* Editorial Header */}
-      <section ref={heroRef} className={styles.heroSection}>
+      {/* ─────────────────────────────────────────────────────────────
+          01 — COMPACT EDITORIAL HERO SECTION
+          ───────────────────────────────────────────────────────────── */}
+      <section className={styles.heroSection}>
+        {/* Subtle Arachnid Web Backdrop SVG */}
+        <svg
+          className={styles.heroWebSvg}
+          viewBox="0 0 500 500"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <circle cx="250" cy="250" r="60" stroke="#0B0B0C" strokeWidth="1" strokeDasharray="4 4" />
+          <circle cx="250" cy="250" r="120" stroke="#0B0B0C" strokeWidth="1" strokeDasharray="5 5" />
+          <circle cx="250" cy="250" r="180" stroke="#0B0B0C" strokeWidth="1" strokeDasharray="6 6" />
+          <circle cx="250" cy="250" r="240" stroke="#0B0B0C" strokeWidth="1" strokeDasharray="6 6" />
+          <line x1="250" y1="10" x2="250" y2="490" stroke="#0B0B0C" strokeWidth="1" />
+          <line x1="10" y1="250" x2="490" y2="250" stroke="#0B0B0C" strokeWidth="1" />
+          <line x1="80" y1="80" x2="420" y2="420" stroke="#0B0B0C" strokeWidth="1" />
+          <line x1="420" y1="80" x2="80" y2="420" stroke="#0B0B0C" strokeWidth="1" />
+        </svg>
+
         <div className={styles.container}>
-          <div className={styles.heroHeader}>
+          <div className={styles.heroContent}>
+            {/* Breadcrumb Navigation */}
+            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+              <Link to="/" className={styles.breadcrumbLink}>
+                HOME
+              </Link>
+              <span className={styles.breadcrumbSeparator}>/</span>
+              <span className={styles.breadcrumbActive}>PORTFOLIO</span>
+            </nav>
+
+            {/* Editorial Eyebrow */}
             <div className={styles.eyebrow}>
-              <span className={styles.crimsonMarker} aria-hidden="true" />
-              <span className={styles.eyebrowText}>WHAT WE'VE BUILT // ARCHIVE OF CRAFT</span>
+              <span className={styles.eyebrowMarker} aria-hidden="true" />
+              <span className={styles.eyebrowText}>SELECTED WORKS</span>
             </div>
 
-            <h1 className={styles.heroTitle}>
-              WHAT WE'VE BUILT.
-            </h1>
+            {/* Main Headline */}
+            <h1 className={styles.heroTitle}>WHAT WE'VE BUILT.</h1>
 
-            <p className={styles.heroLead}>
-              Every platform, digital ecosystem, and visual system designed and engineered
-              by Aranea Den. Explorable below with direct access to live production environments.
+            {/* Concise Supporting Text */}
+            <p className={styles.heroSupportingText}>
+              An architectural catalog of engineered web applications, mobile platforms, brand
+              identities, and high-dynamic social storytelling crafted for industry leaders. Live
+              production links included.
             </p>
-          </div>
-
-          {/* Category Filter Navigation */}
-          <div className={styles.filterRow} role="tablist" aria-label="Portfolio Filters">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.id}
-                className={`${styles.filterBtn} ${activeFilter === cat.id ? styles.active : ''}`}
-                onClick={() => {
-                  setActiveFilter(cat.id);
-                  if (cat.id === 'reels' && reelsRef.current) {
-                    reelsRef.current.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-              >
-                {cat.label}
-              </button>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* Primary Websites Showcase (11 Client Sites) */}
-      <section className={styles.projectsSection}>
+      {/* ─────────────────────────────────────────────────────────────
+          SHOWCASE CONTENT WRAPPER (NAV + 4 SECTIONS)
+          ───────────────────────────────────────────────────────────── */}
+      <div className={styles.showcaseSectionWrapper}>
+        {/* ─────────────────────────────────────────────────────────────
+            02 & 03 — INTERACTIVE SPIDER STICKY CATEGORY NAVIGATION
+            ───────────────────────────────────────────────────────────── */}
+        <nav
+          className={styles.categoryNavWrapper}
+          aria-label="Portfolio Category Navigation"
+        >
         <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionSubhead}>PRODUCTION WEBSITES</span>
-            <span className={styles.sectionCounter}>11 PLATFORMS LIVE</span>
+          {/* Silk Thread & Vector Spider Track */}
+          <div className={styles.spiderTrackRail} aria-hidden="true">
+            <div className={styles.silkThreadLine} />
+            <div ref={spiderRef} className={styles.spiderNavigator}>
+              <svg
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={styles.spiderSvg}
+              >
+                {/* Spider Silk Drop Line */}
+                <line
+                  x1="14"
+                  y1="0"
+                  x2="14"
+                  y2="7"
+                  stroke="#DF2531"
+                  strokeWidth="1.5"
+                  strokeDasharray="1.5 1.5"
+                />
+
+                {/* Left Legs */}
+                <path
+                  d="M12 12 C8 8, 4 9, 2 12"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M12 14 C7 12, 3 15, 1 18"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M12 16 C8 17, 4 20, 2 24"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M13 18 C10 21, 6 24, 4 27"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+
+                {/* Right Legs */}
+                <path
+                  d="M16 12 C20 8, 24 9, 26 12"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M16 14 C21 12, 25 15, 27 18"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M16 16 C20 17, 24 20, 26 24"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M15 18 C18 21, 22 24, 24 27"
+                  stroke="#0B0B0C"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+
+                {/* Cephalothorax */}
+                <ellipse cx="14" cy="11.5" rx="2.5" ry="3" fill="#0B0B0C" />
+                {/* Abdomen */}
+                <ellipse cx="14" cy="17" rx="3.5" ry="4.5" fill="#0B0B0C" />
+                {/* Crimson Hourglass Marking */}
+                <path
+                  d="M13 15 L15 15 L14 16.5 L15 18 L13 18 L14 16.5 Z"
+                  fill="#DF2531"
+                />
+                {/* Arachnid Ocelli (Eyes) */}
+                <circle cx="13" cy="9.5" r="0.6" fill="#DF2531" />
+                <circle cx="15" cy="9.5" r="0.6" fill="#DF2531" />
+              </svg>
+            </div>
           </div>
 
-          <div ref={listRef} className={styles.projectsGrid}>
-            {filteredWebsites.map((site: PortfolioWebsite) => {
+          {/* Category Tabs Pill Row */}
+          <div ref={navTabsRef} className={styles.categoryTabsRow} role="tablist">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat.id;
               return (
-                <article key={site.id} className={styles.projectCard}>
-                  {/* Clean Editorial Visual Canvas Frame */}
-                  <a
-                    href={site.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.visualFrame}
-                    aria-label={`Visit live website for ${site.title}`}
-                  >
-                    <div className={styles.imageWrapper}>
-                      <img
-                        src={site.thumbnail}
-                        alt={`Landing page preview of ${site.title}`}
-                        className={styles.screenImg}
-                        loading="lazy"
-                      />
-                      <div className={styles.screenOverlay}>
-                        <span className={styles.overlayPill}>
-                          <span>VISIT LIVE PLATFORM</span>
-                          <span aria-hidden="true">↗</span>
-                        </span>
+                <button
+                  key={cat.id}
+                  data-cat={cat.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  className={`${styles.categoryTabBtn} ${
+                    isActive ? styles.categoryTabActive : ''
+                  }`}
+                  onClick={() => handleTabClick(cat.id)}
+                >
+                  <span className={styles.tabNum}>{cat.num}</span>
+                  <span>{cat.label}</span>
+                  <span className={styles.tabBadge}>{cat.badge}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 01 — WEBSITES (ALTERNATING LEFT/RIGHT SHOWCASE)
+          ───────────────────────────────────────────────────────────── */}
+      <section id="websites" className={styles.categorySection}>
+        <div className={styles.container}>
+          <div className={styles.categoryHeaderBlock}>
+            <div className={styles.categoryEyebrow}>
+              <span className={styles.eyebrowMarker} aria-hidden="true" />
+              <span className={styles.eyebrowText}>01 / WEBSITES</span>
+            </div>
+            <h2 className={styles.categorySectionTitle}>ENGINEERED PLATFORMS.</h2>
+            <p className={styles.categorySectionSubtitle}>
+              High-performance, bespoke web architectures crafted for speed, seamless
+              conversions, and lasting brand resonance.
+            </p>
+          </div>
+
+          <div className={styles.websitesShowcaseList}>
+            {REQUIRED_WEBSITES.map((site: WebsiteShowcaseProject) => {
+              const isReverse = site.layout === 'image-right';
+              return (
+                <article
+                  key={site.id}
+                  className={`${styles.websiteRow} ${
+                    isReverse ? styles.websiteRowReverse : ''
+                  }`}
+                >
+                  {/* Browser Mockup Media Column */}
+                  <div className={styles.websiteMediaCol}>
+                    <div className={styles.websiteBrowserFrame}>
+                      {/* Browser Chrome Header */}
+                      <div className={styles.browserTopBar}>
+                        <div className={styles.browserDots}>
+                          <span
+                            className={`${styles.browserDot} ${styles.browserDotRed}`}
+                          />
+                          <span
+                            className={`${styles.browserDot} ${styles.browserDotYellow}`}
+                          />
+                          <span
+                            className={`${styles.browserDot} ${styles.browserDotGreen}`}
+                          />
+                        </div>
+                        <div className={styles.browserUrlPill}>
+                          {site.url.replace(/^https?:\/\//, '')}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Floating Minimal Domain Capsule */}
-                    <div className={styles.floatingDomainBadge}>
-                      <span className={styles.domainDot} aria-hidden="true" />
-                      <span className={styles.domainText}>{site.domain}</span>
-                      <span className={styles.domainArrow} aria-hidden="true">↗</span>
-                    </div>
-                  </a>
-
-                  {/* Card Editorial Info & Metadata */}
-                  <div className={styles.cardDetails}>
-                    <div className={styles.cardTopMeta}>
-                      <span className={styles.badgeIndex}>{site.number}</span>
-                      <span className={styles.badgeCategory}>{site.category}</span>
-                      <span className={styles.badgeYear}>{site.year}</span>
-                    </div>
-
-                    <h2 className={styles.cardTitle}>
+                      {/* Interactive Website Preview */}
                       <a
                         href={site.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={styles.cardTitleLink}
+                        className={styles.websiteImgWrapper}
+                        aria-label={`Visit live platform for ${site.title}`}
                       >
-                        {site.title}
+                        <img
+                          src={site.thumbnail}
+                          alt={`${site.title} preview`}
+                          className={styles.websiteImg}
+                          loading="lazy"
+                        />
                       </a>
-                    </h2>
+                    </div>
+                  </div>
 
-                    <p className={styles.cardDescription}>{site.metaDescription}</p>
+                  {/* Project Editorial Info Column */}
+                  <div className={styles.websiteInfoCol}>
+                    <div className={styles.websiteMetaTag}>
+                      {site.number} — {site.category}
+                    </div>
 
-                    <div className={styles.cardTags}>
-                      {site.tags.map((t) => (
-                        <span key={t} className={styles.tagPill}>
-                          {t}
+                    <h3 className={styles.websiteTitle}>{site.title}</h3>
+
+                    <p className={styles.websiteDesc}>{site.description}</p>
+
+                    <div className={styles.tagsContainer}>
+                      {site.tags.map((tag) => (
+                        <span key={tag} className={styles.tagPill}>
+                          {tag}
                         </span>
                       ))}
                     </div>
 
-                    <div className={styles.cardActions}>
-                      <a
-                        href={site.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.primaryVisitBtn}
-                        aria-label={`Visit live ${site.domain}`}
-                      >
-                        <span>VISIT LIVE PLATFORM</span>
-                        <span aria-hidden="true">↗</span>
-                      </a>
+                    <a
+                      href={site.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.viewProjectBtn}
+                      aria-label={`Launch live platform for ${site.title}`}
+                    >
+                      <span>VISIT LIVE PLATFORM</span>
+                      <span className={styles.viewProjectArrow} aria-hidden="true">
+                        →
+                      </span>
+                    </a>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 02 — APPS (ARCHITECTURAL PLACEHOLDER)
+          ───────────────────────────────────────────────────────────── */}
+      <section id="apps" className={styles.categorySection}>
+        <div className={styles.container}>
+          <div className={styles.categoryHeaderBlock}>
+            <div className={styles.categoryEyebrow}>
+              <span className={styles.eyebrowMarker} aria-hidden="true" />
+              <span className={styles.eyebrowText}>02 / APPS</span>
+            </div>
+            <h2 className={styles.categorySectionTitle}>MOBILE ECOSYSTEMS.</h2>
+            <p className={styles.categorySectionSubtitle}>
+              Native iOS and Android engineering engineered with tactile haptics, offline-first
+              resilience, and modern fluid ergonomics.
+            </p>
+          </div>
+
+          <div className={styles.appsPlaceholderCard}>
+            {/* Device Wireframe Mockup */}
+            <div className={styles.appsVisualMockup}>
+              <div className={styles.phoneWireframeFrame}>
+                <div className={styles.phoneIslandMock} />
+                <div className={styles.phoneScreenContentMock}>
+                  <div className={styles.phoneWireHero}>
+                    <img
+                      src="/AD Transparent SVG.svg"
+                      alt="Aranea Den"
+                      className={styles.phoneWireLogo}
+                    />
+                  </div>
+                  <div className={styles.phoneWireBlock} style={{ width: '85%' }} />
+                  <div className={styles.phoneWireBlock} style={{ width: '60%' }} />
+                  <div className={styles.phoneWireBlock} style={{ width: '92%' }} />
+                  <div
+                    className={styles.phoneWireBlock}
+                    style={{
+                      width: '100%',
+                      marginTop: 'auto',
+                      height: '36px',
+                      background: 'rgba(223, 37, 49, 0.2)',
+                      border: '1px solid rgba(223, 37, 49, 0.4)',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Architecture Details */}
+            <div className={styles.appsPlaceholderContent}>
+              <div className={styles.appStatusPill}>
+                <span className={styles.pulseDot} />
+                <span>PLATFORMS IN ACTIVE DEVELOPMENT</span>
+              </div>
+
+              <h3 className={styles.appsPlaceholderHeading}>
+                CLIENT MOBILE SUITES LAUNCHING SOON
+              </h3>
+
+              <p className={styles.appsPlaceholderText}>
+                We are actively engineering cross-platform and native mobile software for our
+                enterprise clientele. Projects span real-time operational hubs, customer loyalty
+                ecosystems, and high-security transactional portals.
+              </p>
+
+              <div className={styles.appSpecsRow}>
+                <div className={styles.appSpecBadge}>iOS (Swift / SwiftUI)</div>
+                <div className={styles.appSpecBadge}>Android (Kotlin)</div>
+                <div className={styles.appSpecBadge}>Cross-Platform (React Native)</div>
+                <div className={styles.appSpecBadge}>Offline-First SQLite</div>
+                <div className={styles.appSpecBadge}>Biometric Security</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 03 — DIGITAL MARKETING (5 PROJECTS)
+          ───────────────────────────────────────────────────────────── */}
+      <section id="digital-marketing" className={styles.categorySection}>
+        <div className={styles.container}>
+          <div className={styles.categoryHeaderBlock}>
+            <div className={styles.categoryEyebrow}>
+              <span className={styles.eyebrowMarker} aria-hidden="true" />
+              <span className={styles.eyebrowText}>03 / DIGITAL MARKETING</span>
+            </div>
+            <h2 className={styles.categorySectionTitle}>GROWTH & DIGITAL CAMPAIGNS.</h2>
+            <p className={styles.categorySectionSubtitle}>
+              Strategic market positioning, data-backed audience growth, and high-converting creative
+              campaigns executed across regional and national landscapes.
+            </p>
+          </div>
+
+          <div className={styles.marketingGrid}>
+            {REQUIRED_MARKETING_PROJECTS.map((proj: MarketingProject, index: number) => {
+              const isFifth = index === 4;
+              return (
+                <article
+                  key={proj.id}
+                  className={`${styles.marketingCard} ${
+                    isFifth ? styles.marketingCardFeatured : ''
+                  }`}
+                >
+                  {/* Campaign Media Canvas */}
+                  <div
+                    className={styles.marketingMedia}
+                    style={{ cursor: proj.videoSrc ? 'pointer' : 'default' }}
+                    onClick={() => {
+                      if (proj.videoSrc) {
+                        setActiveModalVideo({
+                          src: proj.videoSrc,
+                          title: `${proj.name} — Campaign Video`,
+                          client: proj.client,
+                          caption: proj.description,
+                        });
+                      }
+                    }}
+                  >
+                    <img
+                      src={proj.image}
+                      alt={proj.name}
+                      className={styles.marketingImg}
+                      loading="lazy"
+                    />
+
+                    {/* Client Official Logo Overlay */}
+                    {proj.logo && (
+                      <div className={styles.marketingLogoOverlay}>
+                        <img
+                          src={proj.logo}
+                          alt={proj.client}
+                          className={styles.marketingLogoImg}
+                        />
+                      </div>
+                    )}
+
+                    {/* Play Button Indicator if video available */}
+                    {proj.videoSrc && (
+                      <div className={styles.reelPlayOverlay}>
+                        <div className={styles.playCircleBtn} aria-label="Play Campaign Reel">
+                          <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Editorial Body Content */}
+                  <div className={styles.marketingBody}>
+                    <div className={styles.marketingMetaRow}>
+                      <span className={styles.marketingIndex}>{proj.number}</span>
+                      <span className={styles.marketingCategoryTag}>{proj.category}</span>
+                    </div>
+
+                    <h3 className={styles.marketingTitle}>{proj.name}</h3>
+
+                    <p className={styles.marketingDesc}>{proj.description}</p>
+
+                    <div className={styles.tagsContainer}>
+                      {proj.tags.map((tag) => (
+                        <span key={tag} className={styles.tagPill}>
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </article>
@@ -229,58 +664,96 @@ export const PortfolioPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Reels & Motion Section (Ready for user video/reel links) */}
-      <section ref={reelsRef} id="reels" className={styles.reelsSection}>
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 04 — AD IMPERIAL VISUALS (VERTICAL REELS SHOWCASE)
+          ───────────────────────────────────────────────────────────── */}
+      <section id="ad-imperial-visuals" className={styles.categorySection}>
         <div className={styles.container}>
-          <div className={styles.eyebrow}>
-            <span className={styles.crimsonMarker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>02 — MOTION CINEMATICS</span>
-          </div>
-
-          <div className={styles.reelsHeader}>
-            <h2 className={styles.reelsTitle}>REELS & BRAND CINEMATICS.</h2>
-            <p className={styles.reelsLead}>
-              High-impact vertical storytelling, commercial reels, and creative direction designed
-              for modern social distribution.
+          <div className={styles.categoryHeaderBlock}>
+            <div className={styles.categoryEyebrow}>
+              <span className={styles.eyebrowMarker} aria-hidden="true" />
+              <span className={styles.eyebrowText}>04 / AD IMPERIAL VISUALS</span>
+            </div>
+            <h2 className={styles.categorySectionTitle}>VERTICAL CINEMATICS.</h2>
+            <p className={styles.categorySectionSubtitle}>
+              High-impact 9:16 cinematography, sensory culinary reels, executive summit broadcasts,
+              and viral founder pitch choreography.
             </p>
           </div>
 
-          {/* Reels Showcase Grid with 9:16 Aspect Frames */}
           <div className={styles.reelsGrid}>
-            {ARANEA_REELS.map((reel) => (
-              <article key={reel.id} className={styles.reelCard}>
-                <div className={styles.reelFrame}>
-                  <video
-                    src={reel.videoSrc}
-                    poster={reel.thumbnail}
-                    className={styles.reelVideo}
-                    loop
-                    muted
-                    playsInline
-                    autoPlay
-                    preload="metadata"
+            {ARANEA_REELS.map((reel: AraneaReel) => (
+              <article
+                key={reel.id}
+                className={styles.reelCard}
+                onClick={() =>
+                  setActiveModalVideo({
+                    src: reel.videoSrc,
+                    title: reel.title,
+                    caption: reel.caption,
+                    client: reel.client,
+                  })
+                }
+              >
+                {/* 9:16 Vertical Video Frame */}
+                <div className={styles.reelMediaFrame}>
+                  <img
+                    src={reel.thumbnail}
+                    alt={reel.title}
+                    className={styles.reelThumbnail}
+                    loading="lazy"
                   />
-                  <div className={styles.reelOverlay}>
-                    <span className={styles.reelBadge}>{reel.tag || reel.aspectRatio}</span>
-                    {reel.likes && (
-                      <span className={styles.reelLikesBadge}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                        </svg>
-                        {reel.likes}
-                      </span>
-                    )}
+
+                  {/* Play Overlay */}
+                  <div className={styles.reelPlayOverlay}>
+                    <div
+                      className={styles.playCircleBtn}
+                      aria-label={`Play ${reel.title}`}
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
                   </div>
+
+                  {/* Badge & Engagement Metas */}
+                  <span className={styles.reelBadgeTag}>
+                    {reel.tag || reel.aspectRatio}
+                  </span>
+
+                  {reel.likes && (
+                    <span className={styles.reelLikesBadge}>
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                      </svg>
+                      <span>{reel.likes}</span>
+                    </span>
+                  )}
                 </div>
-                <div className={styles.reelInfo}>
-                  <div className={styles.reelClient}>{reel.client}</div>
-                  <h3 className={styles.reelCardTitle}>{reel.title}</h3>
-                  <p className={styles.reelCardDesc}>{reel.caption}</p>
+
+                {/* Card Editorial Info */}
+                <div className={styles.reelCardBody}>
+                  <div className={styles.reelClientText}>{reel.client}</div>
+                  <h4 className={styles.reelTitle}>{reel.title}</h4>
+                  <p className={styles.reelCaption}>{reel.caption}</p>
+
                   <a
                     href={reel.instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.reelInstaBtn}
+                    onClick={(e) => e.stopPropagation()}
                     aria-label={`Watch ${reel.title} on Instagram`}
                   >
                     <span>WATCH ON INSTAGRAM</span>
@@ -290,33 +763,93 @@ export const PortfolioPage: React.FC = () => {
               </article>
             ))}
           </div>
-
-          {/* Notification badge that more reels can be linked */}
-          <div className={styles.reelsNote}>
-            <span className={styles.noteDot} />
-            <span className={styles.noteText}>
-              More client reels will appear here as new campaign links are added.
-            </span>
-          </div>
         </div>
       </section>
+      </div>
 
-      {/* Closing Collaboration Banner */}
+      {/* ─────────────────────────────────────────────────────────────
+          05 — CLOSING COLLABORATION CALL TO ACTION
+          ───────────────────────────────────────────────────────────── */}
       <section className={styles.ctaSection}>
+        <div className={styles.ctaGlow} aria-hidden="true" />
         <div className={styles.container}>
-          <div className={styles.eyebrow} style={{ justifyContent: 'center' }}>
-            <span className={styles.crimsonMarker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>START A COLLABORATION</span>
+          <div className={styles.ctaContent}>
+            <div className={styles.eyebrow} style={{ justifyContent: 'center' }}>
+              <span className={styles.eyebrowMarker} aria-hidden="true" />
+              <span className={styles.eyebrowText} style={{ color: '#DF2531' }}>
+                START A COLLABORATION
+              </span>
+            </div>
+
+            <h2 className={styles.ctaHeading}>HAVE A PROJECT TO BUILD?</h2>
+
+            <p className={styles.ctaSubtext}>
+              From custom web architectures and native mobile ecosystems to commercial video
+              campaigns, let's architect your brand's next digital milestone.
+            </p>
+
+            <Link to="/contact" className={styles.ctaBtnPrimary}>
+              <span>COMMISSION A PROJECT</span>
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
-
-          <h2 className={styles.ctaHeadline}>HAVE A PROJECT TO BUILD?</h2>
-
-          <Link to="/contact" className={styles.ctaBtn}>
-            <span>COMMISSION A PROJECT</span>
-            <span>→</span>
-          </Link>
         </div>
       </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          INTERACTIVE CINEMATIC VIDEO MODAL
+          ───────────────────────────────────────────────────────────── */}
+      {activeModalVideo && (
+        <div
+          className={styles.videoModalBackdrop}
+          onClick={() => setActiveModalVideo(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={activeModalVideo.title}
+        >
+          <div
+            className={styles.videoModalDialog}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={styles.videoModalCloseBtn}
+              onClick={() => setActiveModalVideo(null)}
+              aria-label="Close video player"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+
+            <video
+              src={activeModalVideo.src}
+              controls
+              autoPlay
+              playsInline
+              className={styles.videoPlayerElement}
+            />
+
+            <div className={styles.videoModalFooter}>
+              {activeModalVideo.client && (
+                <div className={styles.reelClientText}>
+                  {activeModalVideo.client}
+                </div>
+              )}
+              <h3 className={styles.videoModalTitle}>{activeModalVideo.title}</h3>
+              {activeModalVideo.caption && (
+                <p className={styles.videoModalCaption}>
+                  {activeModalVideo.caption}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

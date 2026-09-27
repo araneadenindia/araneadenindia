@@ -32,6 +32,7 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
 
   // Passion Stage Refs
   const passionStageRef = useRef<HTMLDivElement>(null);
+  const heroWebSvgRef = useRef<SVGSVGElement>(null);
   const chapterBarRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLSpanElement>(null);
   const line2Ref = useRef<HTMLSpanElement>(null);
@@ -90,22 +91,15 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
 
     const ctx = gsap.context(() => {
       const mobile = window.innerWidth <= 768;
-      const initialPad = mobile ? 12 : 20;
-      const initialRadius = mobile ? 18 : 24;
 
       // ── Initial State Calibration ──
-      gsap.set(wrapper, {
-        paddingTop: initialPad,
-        paddingBottom: initialPad,
-        paddingLeft: mobile ? initialPad : 24,
-        paddingRight: mobile ? initialPad : 24,
-        backgroundColor: '#F8F8F5',
+      const initialClip = mobile ? 'inset(12px 12px round 18px)' : 'inset(20px 24px round 24px)';
+      gsap.set(card, {
+        clipPath: initialClip,
       });
 
-      gsap.set(card, {
-        borderRadius: initialRadius,
-        height: mobile ? 'calc(100dvh - 24px)' : 'calc(100dvh - 40px)',
-        boxShadow: '0 12px 48px rgba(0, 0, 0, 0.14)',
+      gsap.set(wrapper, {
+        backgroundColor: '#F8F8F5',
       });
 
       if (initialOverlay) {
@@ -171,28 +165,24 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
       // PHASE 1: FRAMED VIDEO -> FULLSCREEN EXPANSION (0.00 -> 0.35)
       // ==========================================
 
-      // 1. Collapse frame padding
+      // 1. Expand card container to full viewport via GPU clip-path (Desktop only)
+      if (!isMobile) {
+        tl.to(
+          card,
+          {
+            clipPath: 'inset(0px 0px round 0px)',
+            ease: 'power1.inOut',
+            duration: 0.35,
+          },
+          0
+        );
+      }
+
+      // 2. Transition surrounding canvas to obsidian
       tl.to(
         wrapper,
         {
-          paddingTop: 0,
-          paddingBottom: 0,
-          paddingLeft: 0,
-          paddingRight: 0,
           backgroundColor: '#070708',
-          ease: 'power1.inOut',
-          duration: 0.35,
-        },
-        0
-      );
-
-      // 2. Expand card container to full viewport
-      tl.to(
-        card,
-        {
-          height: '100vh',
-          borderRadius: 0,
-          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
           ease: 'power1.inOut',
           duration: 0.35,
         },
@@ -232,8 +222,7 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
       tl.to(
         video,
         {
-          opacity: 0.12,
-          filter: 'brightness(0.65) contrast(1.05) saturate(1.1) blur(6px)',
+          opacity: 0.10,
           ease: 'power2.inOut',
           duration: 0.30,
         },
@@ -250,6 +239,22 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         },
         0.35
       );
+
+      // 6b. Silk strands reveal integrated into scrub timeline (reversible, 60fps)
+      if (heroWebSvgRef.current) {
+        const strands = heroWebSvgRef.current.querySelectorAll('.hero-silk-strand');
+        tl.fromTo(
+          strands,
+          { strokeDashoffset: 800 },
+          {
+            strokeDashoffset: 0,
+            duration: 0.28,
+            stagger: 0.03,
+            ease: 'power2.out',
+          },
+          0.38
+        );
+      }
 
       // 7. Chapter Bar slides in
       if (chapterBar) {
@@ -343,8 +348,8 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
     return () => ctx.revert();
   }, [isMobile]);
 
-  // Video source: 9:16 portrait on mobile, 16:9 landscape on desktop
-  const videoSrc = isMobile ? '/9.16 Ratio Vid Final.mp4' : '/16.9 Ratio Vid FINAL.mp4';
+  // Video source: 9:16 portrait on mobile, 16:9 landscape on desktop (Final Renders)
+  const videoSrc = isMobile ? '/Final Render 9.16.mp4' : '/Final Render 16.9.mp4';
 
   const handleExploreClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -406,6 +411,29 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         <div ref={passionStageRef} id="passion" className={styles.passionStage} aria-label="Our Passion">
           <div className={styles.ambientGlow} aria-hidden="true" />
 
+          {/* Interactive Architectural Tensile Web Weave in Backdrop */}
+          <svg
+            ref={heroWebSvgRef}
+            className={styles.heroWebSilkSvg}
+            viewBox="0 0 1000 600"
+            fill="none"
+            aria-hidden="true"
+          >
+            <ellipse cx="500" cy="300" rx="460" ry="260" stroke="rgba(255, 255, 255, 0.05)" strokeWidth="1" />
+            <ellipse cx="500" cy="300" rx="340" ry="190" stroke="rgba(223, 37, 49, 0.22)" strokeWidth="1" strokeDasharray="3 3" />
+            <ellipse cx="500" cy="300" rx="200" ry="110" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="1" />
+            <path className="hero-silk-strand" d="M 60 300 Q 500 230 940 300" stroke="rgba(223, 37, 49, 0.32)" strokeWidth="1.2" />
+            <path className="hero-silk-strand" d="M 140 100 Q 500 200 860 500" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
+            <path className="hero-silk-strand" d="M 140 500 Q 500 400 860 100" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
+            <path className="hero-silk-strand" d="M 500 40 L 500 560" stroke="rgba(223, 37, 49, 0.25)" strokeWidth="1.2" />
+            <polygon
+              className="hero-silk-strand"
+              points="500,110 740,190 740,410 500,490 260,410 260,190"
+              stroke="rgba(223, 37, 49, 0.25)"
+              strokeWidth="1.1"
+            />
+          </svg>
+
           <div className={styles.passionContainer}>
             {/* Chapter Header Bar */}
             <div ref={chapterBarRef} className={styles.chapterBar}>
@@ -454,10 +482,7 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
                 <div ref={dividerRef} className={styles.editorialDivider} aria-hidden="true" />
 
                 <p ref={copyRef} className={styles.copy}>
-                  At Aranea Den, we reject the disposable nature of modern web design.
-                  We view digital flagships as architectural monuments — engineered with
-                  structural precision, cinematic resonance, and profound aesthetic intent.
-                  Every interface is sculpted to captivate, endure, and elevate your brand above the noise.
+                  At Aranea Den, we believe exceptional digital experiences should be accessible to everyone. We combine creativity, strategy, and technology to deliver high-quality digital solutions at affordable, transparent prices—empowering businesses of every size to build their presence, connect with their audiences, and grow with confidence.
                 </p>
               </div>
             </div>

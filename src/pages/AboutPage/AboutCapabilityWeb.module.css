@@ -1,0 +1,432 @@
+/* ============================================================
+   ABOUT CAPABILITY WEB — LIGHT LUXURY STUDIO THEME
+   Inspired by Reference Image 1 (8-Legged Capability Spider Web)
+   Engineered for Light Studio Palette: Warm Canvas, Obsidian, Crimson
+   ============================================================ */
+
+.capabilityWebSection {
+  padding: 80px 0 100px 0;
+  position: relative;
+  border-bottom: 1px solid var(--color-hairline, rgba(11, 11, 12, 0.08));
+}
+
+.container {
+  max-width: var(--container-max-width, 1560px);
+  margin: 0 auto;
+  padding: 0 var(--gutter-desktop, 48px);
+}
+
+.sectionHeader {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 50px auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.crimsonMarker {
+  width: 7px;
+  height: 7px;
+  background-color: var(--color-crimson, #df2531);
+  display: inline-block;
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-crimson, #df2531);
+}
+
+.sectionTitle {
+  margin: 0 0 14px 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+}
+
+.sectionSubtitle {
+  margin: 0;
+  font-family: var(--font-sans, 'Figtree', sans-serif);
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.55;
+  color: var(--color-text-secondary, #505155);
+}
+
+/* ── Master Card Wrap ── */
+.masterCard {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-hairline, rgba(11, 11, 12, 0.08));
+  border-radius: 18px;
+  box-shadow: 0 14px 44px rgba(11, 11, 12, 0.035);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle Crimson Ambient Lighting Behind Spider */
+.ambientSpiderGlow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  width: 600px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(223, 37, 49, 0.07) 0%, rgba(223, 37, 49, 0.02) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Desktop Symmetrical 3-Column Layout ── */
+.diagramGrid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  align-items: center;
+  padding: 56px 48px 40px 48px;
+  gap: 24px;
+}
+
+/* SVG Web & Connector Overlay for Desktop */
+.webSvgOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.connectorLine {
+  stroke: rgba(223, 37, 49, 0.28);
+  stroke-width: 1.4;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.activeConnectorLine {
+  stroke: var(--color-crimson, #df2531);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 6px rgba(223, 37, 49, 0.8));
+}
+
+.connectorDot {
+  fill: #FFFFFF;
+  stroke: var(--color-crimson, #df2531);
+  stroke-width: 1.5;
+  transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+.activeConnectorDot {
+  fill: var(--color-crimson, #df2531);
+  transform: scale(1.3);
+  transform-origin: center;
+}
+
+/* ── Service Node Columns ── */
+.nodesColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  z-index: 3;
+}
+
+.leftColumn {
+  align-items: flex-end;
+}
+
+.rightColumn {
+  align-items: flex-start;
+}
+
+/* ── Individual Service Node Item ── */
+.nodeItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.leftNode {
+  flex-direction: row;
+  text-align: right;
+}
+
+.rightNode {
+  flex-direction: row-reverse;
+  text-align: left;
+}
+
+.nodeItem:hover {
+  transform: translateY(-2px);
+}
+
+.nodeText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 260px;
+}
+
+.nodeTitle {
+  margin: 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-black, #0B0B0C);
+  transition: color 0.2s ease;
+}
+
+.nodeItem:hover .nodeTitle,
+.activeNodeItem .nodeTitle {
+  color: var(--color-crimson, #df2531);
+}
+
+.nodeDesc {
+  margin: 0;
+  font-family: var(--font-sans, 'Figtree', sans-serif);
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--color-text-secondary, #505155);
+}
+
+/* ── Circular Icon Badge (Matches Reference Artwork) ── */
+.nodeBadge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1.5px solid rgba(223, 37, 49, 0.4);
+  box-shadow: 0 4px 14px rgba(223, 37, 49, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-crimson, #df2531);
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.nodeItem:hover .nodeBadge,
+.activeNodeItem .nodeBadge {
+  background-color: var(--color-crimson, #df2531);
+  color: #FFFFFF;
+  border-color: var(--color-crimson, #df2531);
+  box-shadow: 0 0 22px rgba(223, 37, 49, 0.5);
+  transform: scale(1.08);
+}
+
+/* ── Center Stage (Master Spider & Branding) ── */
+.centerStage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  padding: 0 10px;
+}
+
+.spiderWrap {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 20px auto;
+  position: relative;
+}
+
+.spiderSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 24px rgba(223, 37, 49, 0.18));
+}
+
+.brandCenter {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.brandName {
+  margin: 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-black, #0B0B0C);
+  text-transform: uppercase;
+}
+
+.brandTagline {
+  margin: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  color: var(--color-crimson, #df2531);
+  text-transform: uppercase;
+}
+
+/* ── Bottom 4 Core Values Bar (From Reference Image 1) ── */
+.valuesBar {
+  border-top: 1px solid var(--color-hairline, rgba(11, 11, 12, 0.08));
+  background-color: rgba(248, 248, 245, 0.6);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+}
+
+.valueItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 22px 18px;
+  border-right: 1px solid var(--color-hairline, rgba(11, 11, 12, 0.08));
+  transition: background-color 0.2s ease;
+}
+
+.valueItem:last-child {
+  border-right: none;
+}
+
+.valueItem:hover {
+  background-color: rgba(223, 37, 49, 0.035);
+}
+
+.valueIcon {
+  color: var(--color-crimson, #df2531);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 4px rgba(223, 37, 49, 0.25));
+}
+
+.valueLabel {
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--color-black, #0B0B0C);
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN (Tablet & Mobile Adaptations)
+   ============================================================ */
+@media (max-width: 1120px) {
+  .diagramGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 40px 28px 36px 28px;
+  }
+
+  .webSvgOverlay {
+    display: none;
+  }
+
+  .centerStage {
+    order: 1;
+    margin-bottom: 12px;
+  }
+
+  .leftColumn {
+    order: 2;
+    align-items: stretch;
+  }
+
+  .rightColumn {
+    order: 3;
+    align-items: stretch;
+  }
+
+  .nodeItem {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(11, 11, 12, 0.08);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+
+  .leftNode,
+  .rightNode {
+    flex-direction: row-reverse;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .nodeText {
+    max-width: 100%;
+  }
+
+  .valuesBar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .valueItem:nth-child(2) {
+    border-right: none;
+  }
+
+  .valueItem:nth-child(-n+2) {
+    border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+  }
+}
+
+@media (max-width: 640px) {
+  .capabilityWebSection {
+    padding: 56px 0 72px 0;
+  }
+
+  .container {
+    padding: 0 var(--gutter-mobile, 20px);
+  }
+
+  .spiderWrap {
+    max-width: 290px;
+  }
+
+  .diagramGrid {
+    padding: 30px 18px 26px 18px;
+    gap: 20px;
+  }
+
+  .nodesColumn {
+    gap: 16px;
+  }
+
+  .nodeBadge {
+    width: 44px;
+    height: 44px;
+  }
+
+  .valuesBar {
+    grid-template-columns: 1fr;
+  }
+
+  .valueItem {
+    border-right: none;
+    border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+    padding: 16px;
+    justify-content: flex-start;
+  }
+
+  .valueItem:last-child {
+    border-bottom: none;
+  }
+}

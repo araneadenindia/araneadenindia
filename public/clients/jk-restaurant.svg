@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-jk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181D"/>
+      <stop offset="100%" stop-color="#0E0E11"/>
+    </linearGradient>
+    <linearGradient id="rose-jk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="100%" stop-color="#C92A2A"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg-jk)" stroke="#26262D" stroke-width="2"/>
+  <!-- Dining Cloche & Sensory Monogram -->
+  <g transform="translate(64, 48)">
+    <circle cx="0" cy="-14" r="3.5" fill="#FFFFFF"/>
+    <path d="M -18 8 C -18 -8 18 -8 18 8 Z" fill="none" stroke="url(#rose-jk)" stroke-width="2.5"/>
+    <line x1="-22" y1="12" x2="22" y2="12" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="0" cy="2" r="3" fill="#DF2531"/>
+  </g>
+  <text x="64" y="94" font-family="'Exo', 'Inter', sans-serif" font-size="10" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">JK</text>
+  <text x="64" y="106" font-family="'Exo', 'Inter', sans-serif" font-size="7.5" font-weight="600" fill="url(#rose-jk)" text-anchor="middle" letter-spacing="1.5">RESTAURANT</text>
+</svg>

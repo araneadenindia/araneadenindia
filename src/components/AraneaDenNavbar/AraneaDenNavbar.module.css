@@ -33,6 +33,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  position: relative;
 }
 
 /* ── Brand Logo on Left ── */
@@ -221,10 +222,10 @@
   animation: spiderIdleSway 2.5s ease-in-out infinite 0.32s;
 }
 
-/* ── Walking Spider Track (CRAWLS across navigation when clicked) ── */
+/* ── Walking Spider Track (CRAWLS across top of navigation when moving to another page) ── */
 .walkingSpiderContainer {
   position: absolute;
-  top: 100%;
+  top: 0;
   left: 0;
   display: none;
   flex-direction: column;
@@ -237,16 +238,21 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: 1px;
-  height: 18px;
+  width: 1.2px;
+  height: 20px;
   background: linear-gradient(to bottom, rgba(223, 37, 49, 0.4), #df2531);
-  transform-origin: top;
+  transform-origin: top center;
   transform: scaleY(0);
-  box-shadow: 0 0 3px rgba(223, 37, 49, 0.5);
-  margin-left: -0.5px;
+  box-shadow: 0 0 4px rgba(223, 37, 49, 0.6);
+  margin-left: -0.6px;
 }
 
+
 .walkingSpiderBody {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -258,46 +264,159 @@
   height: 20px;
   color: var(--color-crimson, #df2531);
   fill: var(--color-crimson, #df2531);
-  filter: drop-shadow(0 2px 5px rgba(223, 37, 49, 0.45));
+  filter: drop-shadow(0 2px 6px rgba(223, 37, 49, 0.6));
 }
 
-.silkTrail {
+/* 3D Side-view walking spider icon */
+.walkingSpiderIcon3D {
+  width: 30px;
+  height: 22px;
+  filter: drop-shadow(0 0 5px rgba(223, 37, 49, 0.85));
+  transition: transform 0.15s ease;
+  transform-origin: center center;
+  display: block;
+}
+
+.facingLeft {
+  transform: scaleX(-1);
+}
+
+/* ── Mobile Walking Spider Track (CRAWLS across top of mobile navbar) ── */
+.mobileWalkingSpiderContainer {
   position: absolute;
-  top: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(223, 37, 49, 0.2), #df2531, rgba(223, 37, 49, 0.2));
-  box-shadow: 0 0 3px rgba(223, 37, 49, 0.4);
+  top: -4px;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
   pointer-events: none;
-  z-index: 25;
-  opacity: 0;
+  z-index: 30;
 }
 
-/* Walking leg alternating scuttle */
+.mobileWalkingSilkThread {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1.2px;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(223, 37, 49, 0.4), #df2531);
+  transform-origin: top center;
+  transform: scaleY(0);
+  box-shadow: 0 0 4px rgba(223, 37, 49, 0.6);
+  margin-left: -0.6px;
+}
+
+.mobileWalkingSpiderBody {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+/* 3D Side-view Scuttling Mechanics */
+.spiderWalkingSide {
+  animation: spiderSideScuttle 0.11s ease-in-out infinite alternate;
+}
+
+.fgLegSet1 {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: legStepPair1 0.11s ease-in-out infinite alternate;
+}
+
+.fgLegSet2 {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: legStepPair2 0.11s ease-in-out infinite alternate;
+}
+
+.bgLegSet {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: legStepBg 0.11s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes legStepPair1 {
+  0% {
+    transform: rotate(-15deg) translateY(-0.8px);
+  }
+  100% {
+    transform: rotate(15deg) translateY(0.8px);
+  }
+}
+
+@keyframes legStepPair2 {
+  0% {
+    transform: rotate(15deg) translateY(0.8px);
+  }
+  100% {
+    transform: rotate(-15deg) translateY(-0.8px);
+  }
+}
+
+@keyframes legStepBg {
+  0% {
+    transform: rotate(12deg);
+  }
+  100% {
+    transform: rotate(-12deg);
+  }
+}
+
+@keyframes spiderSideScuttle {
+  0% {
+    transform: translateY(-0.8px) rotate(-1.5deg);
+  }
+  100% {
+    transform: translateY(0.8px) rotate(1.5deg);
+  }
+}
+
+/* Walking leg alternating scuttle (top-down fallback) */
+.spiderWalking {
+  animation: spiderBodyScuttle 0.11s ease-in-out infinite alternate;
+}
+
 .spiderWalking .legSet1 {
+  transform-box: view-box;
+  transform-origin: 12px 11px;
   animation: spiderLegWalk1 0.11s ease-in-out infinite alternate;
-  transform-origin: 12px 10px;
 }
 
 .spiderWalking .legSet2 {
+  transform-box: view-box;
+  transform-origin: 12px 11px;
   animation: spiderLegWalk2 0.11s ease-in-out infinite alternate;
-  transform-origin: 12px 10px;
 }
 
 @keyframes spiderLegWalk1 {
   0% {
-    transform: rotate(-12deg);
+    transform: rotate(-16deg) scale(0.94);
   }
   100% {
-    transform: rotate(12deg);
+    transform: rotate(16deg) scale(1.06);
   }
 }
 
 @keyframes spiderLegWalk2 {
   0% {
-    transform: rotate(12deg);
+    transform: rotate(16deg) scale(1.06);
   }
   100% {
-    transform: rotate(-12deg);
+    transform: rotate(-16deg) scale(0.94);
+  }
+}
+
+@keyframes spiderBodyScuttle {
+  0% {
+    transform: translateY(-0.8px) rotate(-1.5deg);
+  }
+  100% {
+    transform: translateY(0.8px) rotate(1.5deg);
   }
 }
 

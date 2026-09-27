@@ -283,13 +283,13 @@
 }
 
 /* ─────────────────────────────────────────
-   02 — VISION & MISSION SECTION (RESTRUCTURED)
-   Cinematic split visual architecture with generated assets and logo watermark
+   02 — VISION & MISSION SECTION (EDITORIAL REDESIGN)
+   Minimal, architectural 2-column layout with generous whitespace
 ───────────────────────────────────────── */
 .visionMissionSection {
   width: 100%;
-  padding: clamp(80px, 10vh, 128px) 0;
-  background-color: #0C0D10;
+  padding: clamp(88px, 11vh, 140px) 0;
+  background-color: #0B0B0D;
   color: #FFFFFF;
   position: relative;
   overflow: hidden;
@@ -297,6 +297,159 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.visionHeader {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto clamp(48px, 6.5vh, 76px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.visionEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(12px, 1.8vh, 18px);
+}
+
+.visionHeading {
+  margin: 0;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.visionIntro {
+  margin: 14px auto 0;
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.68);
+  max-width: 580px;
+  text-align: center;
+}
+
+.visionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.visionBlock {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.blockDivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+  margin-bottom: clamp(24px, 3vh, 32px);
+}
+
+.dividerAccent {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background-color: var(--color-crimson, #df2531);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visionBlock:hover .dividerAccent {
+  width: 52px;
+}
+
+.blockImageFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #0E0F12;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: clamp(20px, 2.5vh, 26px);
+}
+
+.blockImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visionBlock:hover .blockImage {
+  transform: scale(1.04);
+}
+
+.blockImageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 11, 13, 0) 50%, rgba(11, 11, 13, 0.35) 100%);
+  pointer-events: none;
+}
+
+.blockMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(14px, 1.8vh, 18px);
+}
+
+.blockIndex {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(12px, 0.95vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-crimson, #df2531);
+}
+
+.blockSep {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: rgba(223, 37, 49, 0.5);
+}
+
+.blockTag {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(11.5px, 0.9vw, 12.5px);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.blockHeading {
+  margin: 0 0 clamp(16px, 2vh, 20px);
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.blockParagraph {
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(15px, 1.05vw, 16.5px);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 540px;
+}
+
+/* Reused Section Header / Title for Clientele */
 .sectionHeaderCenter {
   text-align: center;
   max-width: 760px;
@@ -315,131 +468,6 @@
   letter-spacing: -0.015em;
   text-transform: uppercase;
   color: var(--color-black, #0B0B0C);
-}
-
-.sectionTitleDark {
-  margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(28px, 3.2vw, 44px);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-  text-transform: uppercase;
-  color: #FFFFFF;
-}
-
-.sectionSubtitleDark {
-  margin: 14px auto 0;
-  font-family: 'Figtree', sans-serif;
-  font-size: clamp(15px, 1.15vw, 17.5px);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.7);
-  max-width: 640px;
-  text-align: center;
-}
-
-.visionMissionGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 3.5vw, 48px);
-}
-
-.visionMissionCard {
-  background: #141519;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 28px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.4s ease;
-  position: relative;
-}
-
-.visionMissionCard:hover {
-  transform: translateY(-6px);
-  border-color: rgba(223, 37, 49, 0.45);
-  box-shadow: 0 28px 64px rgba(223, 37, 49, 0.12), 0 16px 32px rgba(0, 0, 0, 0.5);
-}
-
-.cardVisualContainer {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background-color: #08090a;
-}
-
-.cardVisualImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.visionMissionCard:hover .cardVisualImg {
-  transform: scale(1.05);
-}
-
-.cardVisualOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(12, 13, 16, 0.1) 0%, rgba(20, 21, 25, 0.95) 100%);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 20px 24px;
-}
-
-.cardVisualLogoWatermark {
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  height: 34px;
-  width: auto;
-  opacity: 0.9;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.7));
-}
-
-.cardVisualPill {
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--color-crimson, #df2531);
-  background: rgba(12, 13, 16, 0.85);
-  border: 1px solid rgba(223, 37, 49, 0.35);
-  padding: 6px 14px;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  text-transform: uppercase;
-}
-
-.cardBodyWrapper {
-  padding: clamp(28px, 3.5vw, 40px);
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.cardHeading {
-  margin: 0 0 16px;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(22px, 2.2vw, 30px);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: #FFFFFF;
-  text-transform: uppercase;
-}
-
-.cardBodyText {
-  margin: 0;
-  font-family: 'Figtree', sans-serif;
-  font-size: clamp(14.5px, 1.1vw, 16.5px);
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.78);
 }
 
 /* ─────────────────────────────────────────
@@ -1093,6 +1121,10 @@
     gap: 40px;
   }
 
+  .visionGrid {
+    gap: clamp(32px, 4vw, 48px);
+  }
+
   .heroVisualStage {
     order: -1;
   }
@@ -1111,12 +1143,19 @@
 }
 
 @media (max-width: 768px) {
-  .visionMissionGrid {
-    grid-template-columns: 1fr;
-  }
-
   .founderPortraitFrame {
     max-width: 320px;
+  }
+}
+
+@media (max-width: 720px) {
+  .visionGrid {
+    grid-template-columns: 1fr;
+    gap: clamp(36px, 5vh, 44px);
+  }
+
+  .blockParagraph {
+    max-width: 100%;
   }
 }
 

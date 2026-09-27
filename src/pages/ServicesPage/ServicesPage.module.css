@@ -3,10 +3,11 @@
    Cinematic Horizontal Split Cards & Pack-of-Cards Stacking
    ───────────────────────────────────────────────────────────── */
 
+/* ── UTILITIES & ROOT ── */
 .page {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--color-bg-primary, #F7F7F4);
+  background-color: var(--color-bg-primary, #F8F8F5);
   color: var(--color-text-primary, #0B0B0C);
   overflow-x: clip;
   position: relative;
@@ -23,22 +24,22 @@
    ───────────────────────────────────────────────────────────── */
 .hero {
   position: relative;
-  padding-top: clamp(100px, 10vw, 130px);
-  padding-bottom: clamp(44px, 4.5vw, 64px);
+  padding-top: clamp(100px, 11vw, 140px);
+  padding-bottom: clamp(44px, 5vw, 68px);
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
   overflow: hidden;
   background:
-    radial-gradient(ellipse 55% 60% at 78% 50%, rgba(223, 37, 49, 0.055) 0%, transparent 100%),
-    linear-gradient(180deg, #F7F7F4 0%, #F2F2EE 100%);
+    radial-gradient(ellipse 60% 65% at 80% 50%, rgba(223, 37, 49, 0.045) 0%, transparent 100%),
+    linear-gradient(180deg, #F8F8F5 0%, #F1F1ED 100%);
 }
 
 .heroWeb {
   position: absolute;
   top: 50%;
-  right: -4%;
+  right: -3%;
   transform: translateY(-50%);
-  width: clamp(380px, 46vw, 640px);
-  height: clamp(380px, 46vw, 640px);
+  width: clamp(380px, 48vw, 640px);
+  height: clamp(380px, 48vw, 640px);
   pointer-events: none;
   opacity: 1;
   z-index: 0;
@@ -47,9 +48,7 @@
 .heroContainer {
   position: relative;
   z-index: 1;
-  max-width: 740px;
-  margin: 0 auto 0 0;
-  padding: 0 48px;
+  max-width: 760px;
 }
 
 /* Breadcrumb Navigation */
@@ -57,7 +56,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   font-family: var(--font-mono, monospace);
   font-size: 11px;
   letter-spacing: 0.14em;
@@ -75,28 +74,16 @@
 }
 
 .breadcrumbSep {
-  color: rgba(11, 11, 12, 0.22);
+  color: rgba(11, 11, 12, 0.2);
   user-select: none;
 }
 
 .breadcrumbActive {
   color: #DF2531;
   font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
 }
 
-.breadcrumbActive::before {
-  content: '';
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: #DF2531;
-}
-
-/* Eyebrow */
+/* Hero Eyebrow */
 .heroEyebrow {
   display: flex;
   align-items: center;
@@ -107,9 +94,9 @@
 .eyebrowDot {
   width: 7px;
   height: 7px;
-  background-color: #DF2531;
-  display: inline-block;
+  background: #DF2531;
   border-radius: 1px;
+  flex-shrink: 0;
 }
 
 .eyebrowText {
@@ -121,20 +108,20 @@
   color: var(--color-text-secondary, #424348);
 }
 
-/* Heading */
+/* Hero Heading */
 .heroHeading {
   margin: 0 0 16px 0;
   font-family: var(--font-display, 'Mokoto', sans-serif);
-  font-size: clamp(32px, 4vw, 56px);
+  font-size: clamp(34px, 4.2vw, 62px);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: 0.02em;
-  color: #0B0B0C;
   text-transform: uppercase;
+  color: #0B0B0C;
 }
 
 .heroSub {
-  margin: 0 0 30px 0;
+  margin: 0 0 32px 0;
   font-family: var(--font-sans, system-ui, sans-serif);
   font-size: clamp(14.5px, 1.1vw, 16.5px);
   line-height: 1.65;
@@ -142,7 +129,7 @@
   max-width: 620px;
 }
 
-/* Hero Stats Row */
+/* Hero Stats */
 .heroStats {
   display: flex;
   align-items: center;
@@ -152,7 +139,7 @@
 .heroStat {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .statNum {
@@ -172,15 +159,15 @@
 
 .heroStatDivider {
   width: 1px;
-  height: 32px;
-  background-color: rgba(11, 11, 12, 0.12);
+  height: 34px;
+  background: rgba(11, 11, 12, 0.12);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   02 — CONTROLS BAR: CATEGORY FILTER + VIEW SWITCHER
+   02 — CONTROLS & NAVIGATION BAR
    ───────────────────────────────────────────────────────────── */
 .servicesSection {
-  padding: clamp(36px, 4vw, 56px) 0 clamp(70px, 8vw, 110px) 0;
+  padding: clamp(36px, 4vw, 56px) 0 clamp(80px, 8vw, 120px) 0;
   position: relative;
 }
 
@@ -189,17 +176,17 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 44px;
-  padding-bottom: 18px;
+  margin-bottom: 48px;
+  padding-bottom: 20px;
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
   flex-wrap: wrap;
 }
 
-/* Category Filter Navigation */
+/* Filter Bar */
 .filterBar {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   flex-wrap: wrap;
   flex: 1;
   min-width: 0;
@@ -209,9 +196,9 @@
   background: #FFFFFF;
   border: 1px solid rgba(11, 11, 12, 0.1);
   border-radius: 999px;
-  padding: 7px 15px;
+  padding: 8px 16px;
   font-family: var(--font-mono, monospace);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -219,8 +206,8 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 8px;
+  transition: all 0.22s ease;
   white-space: nowrap;
 }
 
@@ -233,7 +220,6 @@
   background: #0B0B0C !important;
   color: #FFFFFF !important;
   border-color: #0B0B0C !important;
-  box-shadow: 0 4px 12px rgba(11, 11, 12, 0.12);
 }
 
 .filterCount {
@@ -242,11 +228,11 @@
   justify-content: center;
   min-width: 18px;
   height: 18px;
-  padding: 0 4px;
+  padding: 0 5px;
   border-radius: 9px;
   background: rgba(11, 11, 12, 0.06);
   color: #73747A;
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 600;
   transition: background 0.2s ease, color 0.2s ease;
 }
@@ -256,26 +242,26 @@
   color: #FFFFFF;
 }
 
-/* View Switcher: SPLIT VIEW + GRID VIEW */
+/* View Mode Switcher */
 .viewToggle {
   display: flex;
   align-items: center;
   gap: 3px;
   background: #FFFFFF;
   border: 1px solid rgba(11, 11, 12, 0.1);
-  border-radius: 999px;
-  padding: 3px;
+  border-radius: 10px;
+  padding: 4px;
   flex-shrink: 0;
 }
 
 .viewBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   padding: 7px 14px;
   border: none;
   background: transparent;
-  border-radius: 999px;
+  border-radius: 7px;
   font-family: var(--font-mono, monospace);
   font-size: 10.5px;
   font-weight: 600;
@@ -284,7 +270,6 @@
   color: #73747A;
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
 }
 
 .viewBtn:hover {
@@ -294,128 +279,130 @@
 .viewBtnActive {
   background: #0B0B0C;
   color: #FFFFFF !important;
-  box-shadow: 0 2px 8px rgba(11, 11, 12, 0.15);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   03 — PACK OF CARDS STACKING CONTAINER (SPLIT VIEW)
+   03 — SPLIT VIEW (DEFAULT): EXACT ONE-UPON-ONE CARD STACKING
    ───────────────────────────────────────────────────────────── */
-.stackContainer {
+.splitDeckContainer {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-bottom: 60px;
+  padding-bottom: 120px;
 }
 
-/* The outer sticky wrapper that stays pinned as user scrolls */
-.stackCardWrapper {
+.splitCardWrapper {
   position: sticky;
-  margin-bottom: clamp(48px, 7vh, 88px);
-  will-change: transform, filter;
-  transition: transform 0.25s ease-out;
+  top: 96px;
+  z-index: var(--stack-index, 1);
+  margin-bottom: clamp(70px, 10vh, 100px);
+  will-change: transform;
 }
 
-/* The actual Card Element */
+.splitCardWrapper:last-child {
+  margin-bottom: 0;
+}
+
+/* Individual Split Card */
 .splitCard {
   display: grid;
   grid-template-columns: 46fr 54fr;
+  height: clamp(480px, 52vh, 530px);
   min-height: 480px;
   background: #FFFFFF;
   border: 1px solid rgba(11, 11, 12, 0.08);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.09);
   transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.35s ease,
-    filter 0.35s ease;
-  will-change: transform, filter;
+    box-shadow 0.35s ease;
+  will-change: transform, opacity;
   position: relative;
 }
 
 .splitCard:hover {
-  border-color: rgba(223, 37, 49, 0.28);
-  box-shadow: 0 28px 70px -10px rgba(11, 11, 12, 0.14), 0 0 1px rgba(223, 37, 49, 0.2);
+  border-color: rgba(223, 37, 49, 0.25);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
 }
 
-/* LEFT PANEL — Content */
+/* LEFT PANEL — CONTENT */
 .splitContent {
-  padding: clamp(38px, 4.5vw, 60px) clamp(34px, 4vw, 56px);
+  padding: clamp(36px, 4vw, 56px) clamp(32px, 4vw, 52px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: #FFFFFF;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-.scMetaRow {
+.scHeaderRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   margin-bottom: 20px;
 }
 
-.scMetaLeft {
+.scMetaGroup {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-.scNum {
+.scNumber {
   font-family: var(--font-mono, monospace);
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: #DF2531;
 }
 
-.scNumTotal {
+.scNumberTotal {
   color: rgba(11, 11, 12, 0.32);
   font-weight: 400;
+  font-size: 11px;
 }
 
-.scCat {
+.scCategory {
   font-family: var(--font-mono, monospace);
   font-size: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(11, 11, 12, 0.5);
+  color: rgba(11, 11, 12, 0.45);
   border-left: 1px solid rgba(11, 11, 12, 0.14);
-  padding-left: 14px;
+  padding-left: 12px;
 }
 
-.scIconWrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: rgba(11, 11, 12, 0.04);
-  border: 1px solid rgba(11, 11, 12, 0.08);
+/* Service Line Icon */
+.scIconBox {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0B0B0C;
-  transition: all 0.25s ease;
-}
-
-.splitCard:hover .scIconWrap {
-  background: rgba(223, 37, 49, 0.08);
-  border-color: rgba(223, 37, 49, 0.2);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(223, 37, 49, 0.05);
+  border: 1px solid rgba(223, 37, 49, 0.12);
   color: #DF2531;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
-.scIcon {
-  width: 18px;
-  height: 18px;
+.splitCard:hover .scIconBox {
+  background: #DF2531;
+  color: #FFFFFF;
+  border-color: #DF2531;
+  transform: translateY(-2px);
 }
 
 .scTitle {
   margin: 0 0 16px 0;
   font-family: var(--font-display, 'Mokoto', sans-serif);
-  font-size: clamp(22px, 2.3vw, 34px);
+  font-size: clamp(22px, 2.3vw, 32px);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.18;
   letter-spacing: 0.015em;
   text-transform: uppercase;
   color: #0B0B0C;
@@ -426,8 +413,7 @@
   font-family: var(--font-sans, system-ui, sans-serif);
   font-size: clamp(14px, 1.05vw, 15.5px);
   line-height: 1.65;
-  color: #48494F;
-  max-width: 540px;
+  color: #52535A;
 }
 
 .scDeliverables {
@@ -439,38 +425,37 @@
 
 .scPill {
   background: rgba(11, 11, 12, 0.035);
-  border: 1px solid rgba(11, 11, 12, 0.07);
+  border: 1px solid rgba(11, 11, 12, 0.08);
   border-radius: 6px;
   padding: 5px 11px;
   font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  letter-spacing: 0.04em;
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
   color: #0B0B0C;
-  transition: all 0.2s ease;
+  transition: all 0.22s ease;
 }
 
 .splitCard:hover .scPill {
-  background: rgba(223, 37, 49, 0.04);
-  border-color: rgba(223, 37, 49, 0.15);
-}
-
-.scCtaWrapper {
-  margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  background: rgba(223, 37, 49, 0.045);
+  border-color: rgba(223, 37, 49, 0.14);
 }
 
 .scCta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--font-mono, monospace);
   font-size: 11.5px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   color: #0B0B0C;
+  padding-top: 20px;
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  margin-top: auto;
+  align-self: flex-start;
+  width: 100%;
   transition: color 0.25s ease;
 }
 
@@ -478,7 +463,6 @@
   color: #DF2531;
   transition: transform 0.25s ease;
   display: inline-block;
-  font-size: 14px;
 }
 
 .splitCard:hover .scCta {
@@ -489,11 +473,12 @@
   transform: translateX(6px);
 }
 
-/* RIGHT PANEL — Visual */
+/* RIGHT PANEL — VISUAL */
 .splitMedia {
   position: relative;
   overflow: hidden;
   background: #0B0B0C;
+  min-height: 320px;
 }
 
 .splitImage {
@@ -502,6 +487,7 @@
   object-fit: cover;
   display: block;
   transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 .splitCard:hover .splitImage {
@@ -511,18 +497,14 @@
 .splitMediaOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(11, 11, 12, 0.06) 0%,
-    rgba(11, 11, 12, 0.38) 100%
-  );
+  background: linear-gradient(135deg, rgba(11, 11, 12, 0.06) 0%, rgba(11, 11, 12, 0.35) 100%);
   pointer-events: none;
 }
 
 .splitBadge {
   position: absolute;
-  top: 18px;
-  left: 18px;
+  top: 20px;
+  right: 20px;
   background: rgba(11, 11, 12, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -534,7 +516,7 @@
   padding: 5px 12px;
   border-radius: 999px;
   text-transform: uppercase;
-  z-index: 2;
+  z-index: 3;
 }
 
 .badgeCrimson {
@@ -544,9 +526,9 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   04 — OPTION B: GRID VIEW (3-COLUMN RESPONSIVE GRID)
+   04 — GRID VIEW (ALTERNATIVE VIEW)
    ───────────────────────────────────────────────────────────── */
-.gridContainer {
+.gridList {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
@@ -559,12 +541,11 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 24px rgba(11, 11, 12, 0.04);
   transition:
     transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.32s ease,
     border-color 0.32s ease;
-  position: relative;
+  will-change: opacity, transform;
 }
 
 .gridCard:hover {
@@ -577,7 +558,6 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  max-height: 220px;
   background: #0B0B0C;
   overflow: hidden;
 }
@@ -587,7 +567,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gridCard:hover .gcImage {
@@ -597,7 +577,7 @@
 .gcOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(11, 11, 12, 0.08) 0%, rgba(11, 11, 12, 0.42) 100%);
+  background: linear-gradient(180deg, rgba(11, 11, 12, 0.05) 0%, rgba(11, 11, 12, 0.4) 100%);
   pointer-events: none;
 }
 
@@ -605,22 +585,22 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(11, 11, 12, 0.75);
+  background: rgba(11, 11, 12, 0.72);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #FFF;
   font-family: var(--font-mono, monospace);
   font-size: 9.5px;
   letter-spacing: 0.08em;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: 999px;
   text-transform: uppercase;
   z-index: 2;
 }
 
 .gcBody {
-  padding: 22px;
+  padding: 22px 22px 20px 22px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -635,7 +615,7 @@
 
 .gcIndex {
   font-family: var(--font-mono, monospace);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #DF2531;
@@ -646,13 +626,13 @@
   font-size: 9.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(11, 11, 12, 0.45);
+  color: rgba(11, 11, 12, 0.4);
 }
 
 .gcTitle {
   margin: 0 0 10px 0;
   font-family: var(--font-display, 'Mokoto', sans-serif);
-  font-size: clamp(17px, 1.3vw, 21px);
+  font-size: clamp(16px, 1.25vw, 20px);
   font-weight: 400;
   line-height: 1.25;
   letter-spacing: 0.01em;
@@ -665,30 +645,11 @@
   font-family: var(--font-sans, system-ui, sans-serif);
   font-size: 13.5px;
   line-height: 1.55;
-  color: #525358;
+  color: #52535A;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.gcDeliverables {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 20px;
-  margin-top: auto;
-}
-
-.gcPill {
-  background: rgba(11, 11, 12, 0.035);
-  border: 1px solid rgba(11, 11, 12, 0.06);
-  border-radius: 6px;
-  padding: 4px 9px;
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  letter-spacing: 0.03em;
-  color: #0B0B0C;
 }
 
 .gcCta {
@@ -697,19 +658,21 @@
   gap: 6px;
   font-family: var(--font-mono, monospace);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #0B0B0C;
   text-decoration: none;
+  color: #0B0B0C;
   padding-top: 14px;
   border-top: 1px solid rgba(11, 11, 12, 0.06);
-  transition: all 0.25s ease;
+  margin-top: auto;
+  transition: color 0.22s ease;
 }
 
 .gcArrow {
-  transition: transform 0.25s ease;
   color: #DF2531;
+  transition: transform 0.22s ease;
+  display: inline-block;
 }
 
 .gridCard:hover .gcCta {
@@ -721,10 +684,115 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   05 — CLOSING PROJECT INQUIRY CTA
+   04 — OUR CLIENTELE SECTION
+   ───────────────────────────────────────────────────────────── */
+.clienteleSection {
+  width: 100%;
+  padding: clamp(72px, 8vw, 110px) 0;
+  background-color: #F1F1ED;
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.clienteleHeader {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto clamp(36px, 5vw, 54px) auto;
+}
+
+.clienteleEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.clienteleTitle {
+  margin: 0 0 14px 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(26px, 3.2vw, 42px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #0B0B0C;
+}
+
+.clienteleSub {
+  margin: 0 auto;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(14px, 1.05vw, 15.5px);
+  line-height: 1.6;
+  color: #52535A;
+}
+
+.clienteleMarqueeWrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  padding: 12px 0;
+}
+
+.clienteleTrack {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.5vw, 32px);
+  width: max-content;
+  animation: marqueeScroll 36s linear infinite;
+  will-change: transform;
+}
+
+.clienteleMarqueeWrapper:hover .clienteleTrack {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.clienteleCard {
+  width: clamp(130px, 10vw, 150px);
+  height: clamp(130px, 10vw, 150px);
+  border-radius: 20px;
+  background: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  box-shadow: 0 6px 20px rgba(11, 11, 12, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.clienteleCard:hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: #DF2531;
+  box-shadow: 0 14px 32px rgba(223, 37, 49, 0.16);
+}
+
+.clienteleLogoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   05 — PROJECT INQUIRY CTA SECTION
    ───────────────────────────────────────────────────────────── */
 .ctaSection {
-  padding: clamp(70px, 8vw, 110px) 0;
+  padding: clamp(72px, 8vw, 112px) 0;
   background: #0B0B0C;
   color: #FFFFFF;
   position: relative;
@@ -744,7 +812,7 @@
 }
 
 .ctaInner {
-  max-width: 720px;
+  max-width: 680px;
   margin: 0 auto 52px auto;
   text-align: center;
   position: relative;
@@ -763,34 +831,34 @@
 }
 
 .ctaEyebrow .eyebrowText {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .ctaHeading {
   margin: 0 0 16px 0;
   font-family: var(--font-display, 'Mokoto', sans-serif);
-  font-size: clamp(26px, 3.2vw, 44px);
+  font-size: clamp(28px, 3.4vw, 46px);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.12;
   letter-spacing: 0.02em;
-  color: #FFFFFF;
   text-transform: uppercase;
+  color: #FFFFFF;
 }
 
 .ctaSub {
-  margin: 0 auto 30px auto;
+  margin: 0 auto 28px auto;
   font-family: var(--font-sans, system-ui, sans-serif);
   font-size: 15px;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.7);
-  max-width: 580px;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 520px;
 }
 
 .ctaActions {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -799,18 +867,18 @@
   color: #FFFFFF;
   border: 1px solid #DF2531;
   border-radius: 999px;
-  padding: 13px 30px;
+  padding: 13px 28px;
   font-family: var(--font-mono, monospace);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 6px 24px rgba(223, 37, 49, 0.35);
+  gap: 9px;
+  transition: all 0.28s ease;
+  box-shadow: 0 6px 22px rgba(223, 37, 49, 0.35);
 }
 
 .ctaPrimary:hover {
@@ -823,72 +891,71 @@
 .ctaSecondary {
   background: rgba(255, 255, 255, 0.06);
   color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
-  padding: 13px 26px;
+  padding: 13px 24px;
   font-family: var(--font-mono, monospace);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.28s ease;
 }
 
 .ctaSecondary:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-/* Studio Information Cards Grid */
 .ctaMeta {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  gap: 12px;
   position: relative;
   z-index: 1;
 }
 
 .ctaMetaCard {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 12px;
-  padding: 18px 20px;
+  padding: 16px 18px;
   text-decoration: none;
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  transition: all 0.25s ease;
+  gap: 5px;
+  transition: all 0.22s ease;
 }
 
 .ctaMetaCard:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(223, 37, 49, 0.4);
+  border-color: rgba(223, 37, 49, 0.35);
   transform: translateY(-2px);
 }
 
 .ctaMetaLabel {
   font-family: var(--font-mono, monospace);
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .ctaMetaVal {
   font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   color: #FFFFFF;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   RESPONSIVENESS & BREAKPOINTS
+   06 — RESPONSIVE DESIGN
    ───────────────────────────────────────────────────────────── */
 @media (max-width: 1200px) {
-  .gridContainer {
+  .gridList {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -897,43 +964,18 @@
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 992px) {
+  .container {
+    padding: 0 32px;
+  }
+
   .splitCard {
     grid-template-columns: 50fr 50fr;
     min-height: 440px;
   }
 
   .splitContent {
-    padding: 34px 28px;
-  }
-}
-
-@media (max-width: 860px) {
-  /* On tablets and mobile, convert cards to vertical stack for readability */
-  .stackCardWrapper {
-    position: static;
-    margin-bottom: 24px;
-  }
-
-  .splitCard {
-    grid-template-columns: 1fr;
-    min-height: unset;
-    border-radius: 16px;
-  }
-
-  .splitMedia {
-    aspect-ratio: 16 / 9;
-    min-height: 220px;
-    order: 1;
-  }
-
-  .splitContent {
-    order: 2;
-    padding: 28px 22px;
-  }
-
-  .scTitle {
-    font-size: 22px;
+    padding: 32px 28px;
   }
 }
 
@@ -942,30 +984,29 @@
     padding: 0 20px;
   }
 
-  .heroContainer {
-    padding: 0 20px;
+  .hero {
+    padding-top: 96px;
+    padding-bottom: 36px;
   }
 
-  .heroWeb {
-    opacity: 0.45;
-    width: 300px;
-    height: 300px;
-    right: -10%;
+  .heroStats {
+    gap: 16px;
   }
 
   .controlsBar {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 32px;
   }
 
+  /* Horizontally scrollable category filter on mobile */
   .filterBar {
     overflow-x: auto;
     flex-wrap: nowrap;
     padding-bottom: 6px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    width: 100%;
   }
 
   .filterBar::-webkit-scrollbar {
@@ -976,33 +1017,48 @@
     align-self: flex-start;
   }
 
-  .gridContainer {
+  /* Mobile Split Card Stacking: Vertical Stack Layout */
+  .splitCardWrapper {
+    top: 76px;
+    margin-bottom: 40px;
+  }
+
+  .splitCard {
+    display: flex;
+    flex-direction: column-reverse;
+    min-height: auto;
+    border-radius: 16px;
+  }
+
+  .splitMedia {
+    min-height: 220px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .splitContent {
+    padding: 24px 20px;
+  }
+
+  .scTitle {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .scDescription {
+    font-size: 13.5px;
+    margin-bottom: 18px;
+  }
+
+  .scDeliverables {
+    margin-bottom: 20px;
+  }
+
+  .gridList {
     grid-template-columns: 1fr;
     gap: 18px;
   }
 
   .ctaMeta {
     grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .ctaPrimary,
-  .ctaSecondary {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .heroHeading {
-    font-size: 28px;
-  }
-
-  .splitContent {
-    padding: 22px 18px;
-  }
-
-  .scTitle {
-    font-size: 19px;
   }
 }

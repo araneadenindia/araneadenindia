@@ -1,9 +1,9 @@
 export type ServiceCategory =
   | 'all'
   | 'digital-products'
-  | 'marketing-growth'
-  | 'visual-production'
-  | 'innovation-learning';
+  | 'digital-marketing'
+  | 'ad-imperial-visuals'
+  | 'technology-community';
 
 export interface ServiceCategoryTab {
   id: ServiceCategory;
@@ -16,7 +16,7 @@ export interface ServiceItem {
   number: string;
   title: string;
   category: string;
-  categorySlug: 'digital-products' | 'marketing-growth' | 'visual-production' | 'innovation-learning';
+  categorySlug: 'digital-products' | 'digital-marketing' | 'ad-imperial-visuals' | 'technology-community';
   badge?: string;
   description: string;
   detailedCopy: string;
@@ -28,15 +28,15 @@ export interface ServiceItem {
 }
 
 export const SERVICE_CATEGORIES: ServiceCategoryTab[] = [
-  { id: 'all', label: 'ALL SERVICES', count: 14 },
+  { id: 'all', label: 'ALL SERVICES', count: 15 },
   { id: 'digital-products', label: 'DIGITAL PRODUCTS', count: 3 },
-  { id: 'marketing-growth', label: 'DIGITAL MARKETING', count: 4 },
-  { id: 'visual-production', label: 'AD IMPERIAL VISUALS', count: 5 },
-  { id: 'innovation-learning', label: 'TECHNOLOGY & COMMUNITY', count: 2 },
+  { id: 'digital-marketing', label: 'DIGITAL MARKETING', count: 4 },
+  { id: 'ad-imperial-visuals', label: 'AD IMPERIAL VISUALS', count: 5 },
+  { id: 'technology-community', label: 'TECHNOLOGY & COMMUNITY', count: 3 },
 ];
 
 export const ALL_SERVICES: ServiceItem[] = [
-  // ── 01: WEB DEVELOPMENT (Flagship Feature) ──
+  // ── 01: WEB DEVELOPMENT ──
   {
     id: 'web-development',
     number: '01',
@@ -82,13 +82,36 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=mobile-development',
   },
 
-  // ── 03: DIGITAL MARKETING ──
+  // ── 03: UI / UX DESIGN ──
+  {
+    id: 'ui-ux-design',
+    number: '03',
+    title: 'UI / UX DESIGN',
+    category: 'DIGITAL PRODUCTS',
+    categorySlug: 'digital-products',
+    badge: 'DESIGN SYSTEMS',
+    description: 'Create intuitive user interfaces, design systems, and interaction architectures that delight users.',
+    detailedCopy:
+      'We craft high-fidelity design systems, user journey maps, wireframes, and interactive prototypes. Every interface is sculpted with pixel-perfect precision, accessibility compliance, and rhythmic typographic hierarchies.',
+    deliverables: [
+      'Design Systems & UI Kits',
+      'Wireframing & Prototyping',
+      'User Journey & UX Audits',
+      'Mobile & Web App UX',
+      'Micro-Interactions & Motion',
+    ],
+    image: '/services/ui-ux-design.jpg',
+    actionLabel: 'EXPLORE SERVICE →',
+    actionUrl: '/contact?service=ui-ux-design',
+  },
+
+  // ── 04: DIGITAL MARKETING ──
   {
     id: 'digital-marketing',
-    number: '03',
+    number: '04',
     title: 'DIGITAL MARKETING',
-    category: 'MARKETING & GROWTH',
-    categorySlug: 'marketing-growth',
+    category: 'DIGITAL MARKETING',
+    categorySlug: 'digital-marketing',
     description: 'Create strategic digital campaigns that strengthen brand visibility, audience engagement, and business growth.',
     detailedCopy:
       'Data-driven performance campaigns and strategic positioning that turn passive observers into devoted advocates. We build closed-loop analytics architectures and multi-touch attribution systems to ensure every marketing investment compounds brand equity.',
@@ -104,13 +127,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=digital-marketing',
   },
 
-  // ── 04: SOCIAL MEDIA MANAGEMENT ──
+  // ── 05: SOCIAL MEDIA MANAGEMENT ──
   {
     id: 'social-media-management',
-    number: '04',
+    number: '05',
     title: 'SOCIAL MEDIA MANAGEMENT',
-    category: 'MARKETING & GROWTH',
-    categorySlug: 'marketing-growth',
+    category: 'DIGITAL MARKETING',
+    categorySlug: 'digital-marketing',
     description: 'Manage social media presence through content planning, creative direction, publishing, and audience engagement.',
     detailedCopy:
       'Holistic social media direction that establishes unmistakable authority across modern digital channels. From strategic calendar planning to bespoke aesthetic curation and active community management, we build enduring brand affinity.',
@@ -126,13 +149,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=social-media',
   },
 
-  // ── 05: META / GOOGLE / INSTAGRAM ADS ──
+  // ── 06: META / GOOGLE / INSTAGRAM ADVERTISING ──
   {
     id: 'meta-google-instagram-ads',
-    number: '05',
-    title: 'META / GOOGLE / INSTAGRAM ADS',
-    category: 'MARKETING & GROWTH',
-    categorySlug: 'marketing-growth',
+    number: '06',
+    title: 'META / GOOGLE / INSTAGRAM ADVERTISING',
+    category: 'DIGITAL MARKETING',
+    categorySlug: 'digital-marketing',
     description: 'Create and manage paid advertising campaigns across Meta, Google, and Instagram to reach relevant audiences and support business objectives.',
     detailedCopy:
       'High-velocity paid media campaigns engineered for measurable return on ad spend. We orchestrate algorithmic bidding, hyper-targeted demographic cohorts, and relentless creative testing across Meta, Google Search/Display, and Instagram networks.',
@@ -148,13 +171,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=paid-ads',
   },
 
-  // ── 06: GOOGLE BUSINESS PROFILE & LOCAL LISTING ──
+  // ── 07: GOOGLE BUSINESS LISTING ──
   {
     id: 'google-business-profile',
-    number: '06',
-    title: 'GOOGLE BUSINESS PROFILE & LOCAL LISTING',
-    category: 'MARKETING & GROWTH',
-    categorySlug: 'marketing-growth',
+    number: '07',
+    title: 'GOOGLE BUSINESS LISTING',
+    category: 'DIGITAL MARKETING',
+    categorySlug: 'digital-marketing',
     description: 'Set up and optimize Google Business Profiles to improve local business visibility and help customers discover businesses online.',
     detailedCopy:
       'Dominate high-intent local search and map discovery. We set up, verify, and continuously optimize your Google Business Profiles and local directory listings, ensuring verified trust, accurate geo-coordinates, and automated customer review workflows.',
@@ -170,13 +193,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=local-listing',
   },
 
-  // ── 07: VIDEOGRAPHY ──
+  // ── 08: VIDEOGRAPHY ──
   {
     id: 'videography',
-    number: '07',
+    number: '08',
     title: 'VIDEOGRAPHY',
-    category: 'VISUAL PRODUCTION',
-    categorySlug: 'visual-production',
+    category: 'AD IMPERIAL VISUALS',
+    categorySlug: 'ad-imperial-visuals',
     description: 'Capture cinematic footage, brand stories, events, and promotional content with a strong visual identity.',
     detailedCopy:
       'Studio-grade cinematography engineered with cinema camera systems, high-dynamic-range glass, and intentional lighting. We shoot commercial advertisements, corporate documentaries, event coverage, and flagship brand narrative films.',
@@ -192,13 +215,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=videography',
   },
 
-  // ── 08: PHOTOGRAPHY ──
+  // ── 09: PHOTOGRAPHY ──
   {
     id: 'photography',
-    number: '08',
+    number: '09',
     title: 'PHOTOGRAPHY',
-    category: 'VISUAL PRODUCTION',
-    categorySlug: 'visual-production',
+    category: 'AD IMPERIAL VISUALS',
+    categorySlug: 'ad-imperial-visuals',
     description: 'Create professional visual content for brands, products, people, events, and campaigns.',
     detailedCopy:
       'High-resolution commercial photography tailored for international campaigns and digital storefronts. Our studio specializes in precision product lighting, editorial portraits, architecture, and live event documentation.',
@@ -214,13 +237,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=photography',
   },
 
-  // ── 09: VIDEO EDITING ──
+  // ── 10: VIDEO EDITING ──
   {
     id: 'video-editing',
-    number: '09',
+    number: '10',
     title: 'VIDEO EDITING',
-    category: 'VISUAL PRODUCTION',
-    categorySlug: 'visual-production',
+    category: 'AD IMPERIAL VISUALS',
+    categorySlug: 'ad-imperial-visuals',
     description: 'Transform raw footage into polished, engaging visual stories through professional editing, pacing, color grading, and sound design.',
     detailedCopy:
       'Post-production craft that turns hours of raw capture into rhythmic, emotionally arresting cinematic narratives. Our editing suite executes non-linear multi-track assemblies, DaVinci Resolve color grading, audio spatialization, and seamless visual effects.',
@@ -236,13 +259,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=video-editing',
   },
 
-  // ── 10: POSTER & GRAPHIC DESIGN ──
+  // ── 11: POSTER & GRAPHIC DESIGN ──
   {
     id: 'poster-graphic-design',
-    number: '10',
+    number: '11',
     title: 'POSTER & GRAPHIC DESIGN',
-    category: 'VISUAL PRODUCTION',
-    categorySlug: 'visual-production',
+    category: 'AD IMPERIAL VISUALS',
+    categorySlug: 'ad-imperial-visuals',
     description: 'Create compelling posters, promotional creatives, visual identities, and graphic assets for brands, events, and campaigns.',
     detailedCopy:
       'Bold typographic compositions and visual architecture grounded in the Swiss international typographic style. We design arresting event posters, billboard creatives, social identity assets, and brand design guidelines that stand out instantly.',
@@ -258,13 +281,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=graphic-design',
   },
 
-  // ── 11: REEL SHOOTS — AD IMPERIAL VISUALS (Feature Card) ──
+  // ── 12: REELS — AD IMPERIAL VISUALS ──
   {
     id: 'ad-imperial-visuals',
-    number: '11',
-    title: 'REEL SHOOTS — AD IMPERIAL VISUALS',
-    category: 'VISUAL PRODUCTION',
-    categorySlug: 'visual-production',
+    number: '12',
+    title: 'REELS — AD IMPERIAL VISUALS',
+    category: 'AD IMPERIAL VISUALS',
+    categorySlug: 'ad-imperial-visuals',
     badge: 'AD IMPERIAL VISUALS',
     description: 'Create short-form vertical video content, promotional reels, and social-first visual stories through AD Imperial Visuals.',
     detailedCopy:
@@ -282,13 +305,14 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=reels-production',
   },
 
-  // ── 12: IoT PROTOTYPING ──
+  // ── 13: IoT PROTOTYPING ──
   {
     id: 'iot-prototyping',
-    number: '12',
+    number: '13',
     title: 'IoT PROTOTYPING',
-    category: 'DIGITAL PRODUCTS',
-    categorySlug: 'digital-products',
+    category: 'TECHNOLOGY & COMMUNITY',
+    categorySlug: 'technology-community',
+    badge: 'EMBEDDED HARDWARE',
     description: 'Develop IoT concepts and functional prototypes that connect hardware, software, sensors, and digital systems.',
     detailedCopy:
       'Bridging computational intelligence with physical reality. We build connected hardware prototypes using ESP32, STM32, and custom PCB boards integrated with cloud telemetry pipelines, embedded sensors, and real-time mobile companion applications.',
@@ -304,13 +328,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=iot-prototyping',
   },
 
-  // ── 13: HACKATHONS & UPDATES ──
+  // ── 14: HACKATHONS & UPDATES ──
   {
     id: 'hackathons-updates',
-    number: '13',
+    number: '14',
     title: 'HACKATHONS & UPDATES',
-    category: 'INNOVATION & LEARNING',
-    categorySlug: 'innovation-learning',
+    category: 'TECHNOLOGY & COMMUNITY',
+    categorySlug: 'technology-community',
     description: 'Provide hackathon-related updates, announcements, opportunities, event information, and relevant community content.',
     detailedCopy:
       'Connecting aspiring engineers, creative technologists, and founders with high-impact technology hackathons, algorithmic challenges, and open-source sprints. We provide curated event briefings, problem statements, and real-time community updates.',
@@ -326,13 +350,13 @@ export const ALL_SERVICES: ServiceItem[] = [
     actionUrl: '/contact?service=hackathons',
   },
 
-  // ── 14: WORKSHOPS & TRAINING ──
+  // ── 15: WORKSHOPS & TRAINING ──
   {
     id: 'workshops-training',
-    number: '14',
+    number: '15',
     title: 'WORKSHOPS & TRAINING',
-    category: 'INNOVATION & LEARNING',
-    categorySlug: 'innovation-learning',
+    category: 'TECHNOLOGY & COMMUNITY',
+    categorySlug: 'technology-community',
     description: 'Conduct workshops and practical learning sessions focused on technology, creativity, digital tools, and emerging skills.',
     detailedCopy:
       'Empowering engineering teams, students, and emerging designers through intensive, practical hands-on workshops. Our sessions cover modern full-stack web engineering, UI/UX systems design, generative AI workflows, and cinematic digital production.',

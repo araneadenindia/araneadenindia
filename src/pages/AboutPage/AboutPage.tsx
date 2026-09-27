@@ -81,22 +81,35 @@ export const AboutPage: React.FC = () => {
 
       // 02 — Vision & Mission
       if (visionRef.current) {
-        const cards = visionRef.current.querySelectorAll(`.${styles.visionMissionCard}`);
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 36 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: visionRef.current,
-              start: 'top 80%',
-            },
-          }
-        );
+        const eyebrow = visionRef.current.querySelector(`.${styles.visionEyebrow}`);
+        const heading = visionRef.current.querySelector(`.${styles.visionHeading}`);
+        const intro = visionRef.current.querySelector(`.${styles.visionIntro}`);
+        const visionCol = visionRef.current.querySelector(`.${styles.visionCol}`);
+        const missionCol = visionRef.current.querySelector(`.${styles.missionCol}`);
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: visionRef.current,
+            start: 'top 80%',
+          },
+          defaults: { ease: 'power2.out' },
+        });
+
+        if (eyebrow) {
+          tl.fromTo(eyebrow, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 });
+        }
+        if (heading) {
+          tl.fromTo(heading, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.3');
+        }
+        if (intro) {
+          tl.fromTo(intro, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.35');
+        }
+        if (visionCol) {
+          tl.fromTo(visionCol, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.65 }, '-=0.25');
+        }
+        if (missionCol) {
+          tl.fromTo(missionCol, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.65 }, '-=0.45');
+        }
       }
 
       // 03 — The Aranea Advantage (Difference)
@@ -305,79 +318,82 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* ─────────────────────────────────────────
-          02 — VISION & MISSION (RESTRUCTURED EDITORIAL SHOWCASE)
-          With high-impact visual imagery and brand logo watermark
+          02 — VISION & MISSION (EDITORIAL MINIMAL LAYOUT)
+          Balanced two-column architecture with refined typography,
+          subtle accents, and generous whitespace
       ───────────────────────────────────────── */}
       <section ref={visionRef} className={styles.visionMissionSection} aria-labelledby="vision-title">
         <div className={styles.container}>
-          <div className={styles.sectionHeaderCenter}>
-            <div className={styles.eyebrow}>
+          <div className={styles.visionHeader}>
+            <div className={styles.visionEyebrow}>
               <span className={styles.eyebrowMarker} />
               <span className={styles.eyebrowText}>VISION & MISSION</span>
             </div>
-            <h2 id="vision-title" className={styles.sectionTitleDark}>
+            <h2 id="vision-title" className={styles.visionHeading}>
               GUIDED BY PURPOSE
             </h2>
-            <p className={styles.sectionSubtitleDark}>
+            <p className={styles.visionIntro}>
               Building purposeful digital architectures with computational rigor and creative ambition.
             </p>
           </div>
 
-          <div className={styles.visionMissionGrid}>
-            {/* Vision Card */}
-            <div className={styles.visionMissionCard}>
-              <div className={styles.cardVisualContainer}>
+          <div className={styles.visionGrid}>
+            {/* 01 — OUR VISION */}
+            <div className={`${styles.visionBlock} ${styles.visionCol}`}>
+              <div className={styles.blockDivider}>
+                <span className={styles.dividerAccent} />
+              </div>
+
+              <div className={styles.blockImageFrame}>
                 <img
                   src="/about/vision.jpg"
-                  alt="Aranea Den Studio Vision"
-                  className={styles.cardVisualImg}
+                  alt="Aranea Den Vision"
+                  className={styles.blockImage}
                   loading="lazy"
                 />
-                <div className={styles.cardVisualOverlay}>
-                  <span className={styles.cardVisualPill}>01 / OUR VISION</span>
-                  <img
-                    src={adLogo}
-                    alt="Aranea Den Seal"
-                    className={styles.cardVisualLogoWatermark}
-                    aria-hidden="true"
-                  />
-                </div>
+                <div className={styles.blockImageOverlay} />
               </div>
 
-              <div className={styles.cardBodyWrapper}>
-                <h3 className={styles.cardHeading}>THE WORLD WE ARE BUILDING</h3>
-                <p className={styles.cardBodyText}>
-                  To be recognized globally as a benchmark creative technology studio where imagination meets engineering rigor. We envision a digital landscape where brands do not simply broadcast messages, but build meaningful, enduring ecosystems that enrich user lives and accelerate business growth.
-                </p>
+              <div className={styles.blockMeta}>
+                <span className={styles.blockIndex}>01</span>
+                <span className={styles.blockSep}>—</span>
+                <span className={styles.blockTag}>OUR VISION</span>
               </div>
+
+              <h3 className={styles.blockHeading}>THE WORLD WE ARE BUILDING</h3>
+
+              <p className={styles.blockParagraph}>
+                To be recognized globally as a benchmark creative technology studio where imagination meets engineering rigor. We envision a digital landscape where brands do not simply broadcast messages, but build meaningful, enduring ecosystems that enrich user lives and accelerate business growth.
+              </p>
             </div>
 
-            {/* Mission Card */}
-            <div className={styles.visionMissionCard}>
-              <div className={styles.cardVisualContainer}>
-                <img
-                  src="/about/mission.jpg"
-                  alt="Aranea Den Studio Mission"
-                  className={styles.cardVisualImg}
-                  loading="lazy"
-                />
-                <div className={styles.cardVisualOverlay}>
-                  <span className={styles.cardVisualPill}>02 / OUR MISSION</span>
-                  <img
-                    src={adLogo}
-                    alt="Aranea Den Seal"
-                    className={styles.cardVisualLogoWatermark}
-                    aria-hidden="true"
-                  />
-                </div>
+            {/* 02 — OUR MISSION */}
+            <div className={`${styles.visionBlock} ${styles.missionCol}`}>
+              <div className={styles.blockDivider}>
+                <span className={styles.dividerAccent} />
               </div>
 
-              <div className={styles.cardBodyWrapper}>
-                <h3 className={styles.cardHeading}>WHAT WE DO EVERY DAY</h3>
-                <p className={styles.cardBodyText}>
-                  To empower visionary entrepreneurs, forward-thinking institutions, and emerging brands by designing and engineering superior digital products. We bridge the gap between aesthetic beauty and technical precision, delivering measurable competitive advantage with relentless craft.
-                </p>
+              <div className={styles.blockImageFrame}>
+                <img
+                  src="/about/mission.jpg"
+                  alt="Aranea Den Mission"
+                  className={styles.blockImage}
+                  loading="lazy"
+                />
+                <div className={styles.blockImageOverlay} />
               </div>
+
+              <div className={styles.blockMeta}>
+                <span className={styles.blockIndex}>02</span>
+                <span className={styles.blockSep}>—</span>
+                <span className={styles.blockTag}>OUR MISSION</span>
+              </div>
+
+              <h3 className={styles.blockHeading}>WHAT WE DO EVERY DAY</h3>
+
+              <p className={styles.blockParagraph}>
+                To empower visionary entrepreneurs, forward-thinking institutions, and emerging brands by designing and engineering superior digital products. We bridge the gap between aesthetic beauty and technical precision, delivering measurable competitive advantage with relentless craft.
+              </p>
             </div>
           </div>
         </div>

@@ -14,6 +14,14 @@ export interface ClientLogo {
 
 export const CLIENT_LOGOS: ClientLogo[] = [
   { id: 1, src: '/clientele/meghana-builders.webp', name: 'Meghana Builders', url: 'https://meghanabuilders.com' },
+  { id: 2, src: '/clientele/pooja-productions.png', name: 'Pooja Productions', url: 'https://poojaproductions.com' },
+  { id: 3, src: '/clientele/makaan-infrastructure.png', name: 'Makaan Infrastructure', url: 'https://makaaninfra.com' },
+  { id: 4, src: '/clientele/pp-connekts.png', name: 'P&P Connekts', url: 'https://pandpconnektss.web.app' },
+  { id: 5, src: '/clientele/thor-cuisine.png', name: 'Thor Indian Cuisine', url: 'https://thor-indian-cuisinse.firebaseapp.com' },
+  { id: 6, src: '/clientele/nri-360.png', name: 'NRI 360', url: 'https://nri360degrees.com' },
+  { id: 7, src: '/clientele/viraj-academy.png', name: 'Viraj Academy', url: 'https://virajedu.com' },
+  { id: 8, src: '/clientele/ishoots.jpg', name: 'ISHOOTS', url: 'https://ishoots.com' },
+  { id: 9, src: '/clientele/sriya-janak.jpg', name: 'Sriya & Janak', url: 'https://sriyasjaan.com' },
 ];
 
 export interface ClienteleSectionProps {

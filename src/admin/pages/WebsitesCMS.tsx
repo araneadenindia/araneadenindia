@@ -23,6 +23,7 @@ export const WebsitesCMS: React.FC = () => {
   const [thumbPreview, setThumbPreview] = useState('');
   const [uploading, setUploading] = useState(false);
 
+
   const showToast = (msg: string) => {
     setToast(msg);
     setTimeout(() => setToast(''), 3000);
@@ -79,6 +80,7 @@ export const WebsitesCMS: React.FC = () => {
     setError('');
     setShowForm(true);
   };
+
 
   const handleThumbChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

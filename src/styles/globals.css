@@ -60,7 +60,7 @@
   padding: 0;
 }
 
-html {
+html:not(.admin-mode) {
   width: 100%;
   min-height: 100%;
   scroll-behavior: auto;
@@ -70,22 +70,48 @@ html {
   background-color: var(--color-black, #0B0B0C);
 }
 
-/* ── Pure Full-Screen Immersive Website (Zero Scrollbars / Side Bars) ── */
-::-webkit-scrollbar {
+/* ── Pure Full-Screen Immersive Website (Zero Scrollbars on Public Site) ── */
+body:not(.admin-mode) ::-webkit-scrollbar {
   display: none !important;
   width: 0px !important;
   height: 0px !important;
   background: transparent !important;
 }
 
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-thumb,
-::-webkit-scrollbar-button,
-::-webkit-scrollbar-corner {
+body:not(.admin-mode) ::-webkit-scrollbar-track,
+body:not(.admin-mode) ::-webkit-scrollbar-thumb,
+body:not(.admin-mode) ::-webkit-scrollbar-button,
+body:not(.admin-mode) ::-webkit-scrollbar-corner {
   display: none !important;
   width: 0px !important;
   height: 0px !important;
   background: transparent !important;
+}
+
+/* ── Admin CMS Scrollbars (Clean, Subtle, Fully Scrollable) ── */
+html.admin-mode,
+body.admin-mode {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(11, 11, 14, 0.3) rgba(11, 11, 14, 0.05) !important;
+  overflow-y: auto !important;
+  background-color: #F8F8FA !important;
+}
+
+body.admin-mode ::-webkit-scrollbar {
+  display: block !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: rgba(11, 11, 14, 0.04) !important;
+}
+
+body.admin-mode ::-webkit-scrollbar-thumb {
+  display: block !important;
+  background: rgba(11, 11, 14, 0.25) !important;
+  border-radius: 999px !important;
+}
+
+body.admin-mode ::-webkit-scrollbar-thumb:hover {
+  background: #DF2531 !important;
 }
 
 body {

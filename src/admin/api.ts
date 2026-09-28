@@ -131,6 +131,10 @@ export const announcementsApi = {
   remove: (id: number) => api.delete(`/cms/announcements/${id}`),
 };
 
+export const seedApi = {
+  seed: () => api.post<{ ok: boolean; message: string; inserted: Record<string, number> }>('/cms/seed', {}),
+};
+
 
 // ── Resilient Cloudinary & Data URL Upload Helper ─────────────
 export async function uploadToCloudinary(

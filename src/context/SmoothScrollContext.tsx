@@ -27,7 +27,20 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const lenisRef = useRef<Lenis | null>(null);
   const location = useLocation();
 
+  const isAdmin = location.pathname.startsWith('/admin');
+
   useEffect(() => {
+    // Completely bypass Lenis on /admin routes to prevent wheel event locking and restore native scroll
+    if (isAdmin) {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+        setLenisInstance(null);
+        delete (window as any).lenis;
+      }
+      return;
+    }
+
     // Respect reduced motion preferences
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
@@ -66,7 +79,7 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
       setLenisInstance(null);
       delete (window as any).lenis;
     };
-  }, []);
+  }, [isAdmin]);
 
   // On route change, reset scroll position instantly and recalibrate ScrollTrigger
   useEffect(() => {

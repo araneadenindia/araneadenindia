@@ -85,6 +85,8 @@ export async function handleApiRequest(req, res, next) {
     handlerPath = path.join(basePath, 'cms', 'upload-signature.js');
   } else if (pathname === '/api/cms/delete-media') {
     handlerPath = path.join(basePath, 'cms', 'delete-media.js');
+  } else if (pathname === '/api/cms/seed') {
+    handlerPath = path.join(basePath, 'cms', 'seed.js');
   } else {
     // Dynamic matching for cms collections: /api/cms/:resource or /api/cms/:resource/:id
     const parts = pathname.replace('/api/cms/', '').split('/');

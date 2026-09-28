@@ -2,7 +2,9 @@
 
 .layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   background: #F8F8FA;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Exo', sans-serif;
   color: #0B0B0C;
@@ -187,18 +189,25 @@
 
 /* ── Main Content Area ──────────────────────────────────────── */
 .main {
-  flex: 1;
-  overflow-y: auto;
+  flex: 1 1 auto;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto !important;
+  overflow-x: hidden;
   padding: clamp(20px, 3.5vw, 44px);
   max-width: 100%;
   background: #F8F8FA;
   box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Fluid Tablet & Mobile Layout ───────────────────────────── */
 @media (max-width: 900px) {
   .layout {
     flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
   }
 
   .sidebar {
@@ -265,6 +274,11 @@
   }
 
   .main {
+    height: auto;
+    overflow-y: visible !important;
     padding: 20px 14px;
   }
 }
+
+
+

@@ -1,15 +1,16 @@
 /* ============================================================
-   ARANEA SYSTEM / OUR PHILOSOPHY — MINIMAL EDITORIAL DESIGN
-   - Restrained luxury design studio aesthetic
-   - Single continuous architectural composition
-   - Precision timeline track with crimson progress runner
-   - Flawless vertical flow on mobile
+   ARANEA SYSTEM / OUR PHILOSOPHY — DARK THEME PREMIUM METAL
+   - High-end dark aesthetic with obsidian titanium background
+   - Dark red / crimson laser highlights & brushed metal sheen
+   - Delicate generative luminous architectural silk installation
+   - Smoked-glass metallic 4-stage process cards
+   - Precision timeline with cybernetic growing metal spider
    ============================================================ */
 
 .systemWrapper {
   width: 100%;
   position: relative;
-  background-color: var(--color-bg-primary, #F8F8F5);
+  background-color: #070709;
 }
 
 .section {
@@ -19,12 +20,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--color-bg-primary, #F8F8F5);
-  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  background-color: #070709;
+  background: radial-gradient(ellipse 90% 70% at 50% 18%, #1A090D 0%, #0B090C 52%, #050506 100%);
+  border-top: 1px solid rgba(223, 37, 49, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  padding: 80px 0;
+  padding: 96px 0;
 }
 
 .container {
@@ -42,65 +45,59 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .marker {
   width: 6px;
   height: 6px;
-  background-color: var(--color-crimson, #df2531);
+  background-color: #DF2531;
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.9);
   display: inline-block;
   flex-shrink: 0;
+  border-radius: 1px;
 }
 
 .eyebrowText {
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-text-secondary, #424348);
+  color: #9A9BA6;
 }
 
-/* Headline & Subtext Editorial Lockup */
+/* Master Editorial Header */
 .headerBlock {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  max-width: 1180px;
-  margin-bottom: clamp(48px, 6vw, 84px);
+  gap: 16px;
+  max-width: 1100px;
+  margin-bottom: clamp(48px, 5.5vw, 76px);
 }
 
 .headline {
   margin: 0;
   font-family: var(--font-display, 'Exo', sans-serif);
-  font-size: clamp(22px, 2.5vw, 40px);
-  font-weight: 400;
-  line-height: 1.25;
-  letter-spacing: 0.02em;
-  color: var(--color-black, #0B0B0C);
+  font-size: clamp(24px, 2.7vw, 42px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  color: #F5F5F7;
   text-transform: uppercase;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.8);
 }
 
 .subtext {
   margin: 0;
-  font-family: var(--font-sans);
-  font-size: clamp(15px, 1.15vw, 17px);
-  line-height: 1.65;
-  color: var(--color-text-secondary, #424348);
-  max-width: 680px;
+  font-family: var(--font-sans, 'Figtree', sans-serif);
+  font-size: clamp(15px, 1.1vw, 16.5px);
+  line-height: 1.7;
+  color: #9C9EA9;
+  max-width: 660px;
 }
 
-/* ─────────────────────────────────────────
-   DESKTOP CONTINUOUS EDITORIAL COMPOSITION
-───────────────────────────────────────── */
-.desktopComposition {
-  width: 100%;
-  position: relative;
-  padding-top: 8px;
-}
-
-/* ── Immersive Architectural Background Spiderweb ── */
+/* ── Refined Generative Architectural Silk Installation ── */
 .bgWebContainer {
   position: absolute;
   inset: 0;
@@ -109,13 +106,28 @@
   pointer-events: none;
   z-index: 1;
   overflow: hidden;
+  mask-image: radial-gradient(ellipse 80% 70% at 55% 32%, black 25%, rgba(0, 0, 0, 0.5) 65%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 55% 32%, black 25%, rgba(0, 0, 0, 0.5) 65%, transparent 95%);
 }
 
 .bgWebSvg {
   width: 100%;
   height: 100%;
   display: block;
-  opacity: 0.85;
+  opacity: 0.95;
+  animation: webSway 20s ease-in-out infinite alternate;
+}
+
+@keyframes webSway {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(0.12deg); }
+  100% { transform: translateY(2px) rotate(-0.12deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bgWebSvg {
+    animation: none;
+  }
 }
 
 /* ─────────────────────────────────────────
@@ -124,14 +136,14 @@
 .desktopComposition {
   width: 100%;
   position: relative;
-  padding-top: 16px;
+  padding-top: 12px;
 }
 
-/* Precision Timeline Progress Track */
+/* Precision Hairline Timeline Progress Track */
 .timelineTrack {
   position: relative;
   width: 100%;
-  height: 2px;
+  height: 1.5px;
   margin-bottom: 48px;
 }
 
@@ -140,29 +152,31 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background-color: rgba(11, 11, 12, 0.1);
-  border-radius: 2px;
+  height: 1.5px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .timelineProgressBar {
   position: absolute;
   top: 0;
   left: 0;
-  height: 2px;
+  height: 1.5px;
   width: 0%;
-  background-color: var(--color-crimson, #df2531);
-  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(223, 37, 49, 0.5) 0%, #DF2531 75%, #FF4D5A 100%);
+  box-shadow: 0 0 12px rgba(223, 37, 49, 0.85);
+  border-radius: 1px;
   will-change: width;
 }
 
-/* ── Small Navbar 3D Spider Perched Above the Line ── */
+/* ── Cybernetic Growing Metal Spider ── */
 .timelineSpider {
   position: absolute;
-  bottom: -1px; /* Feet step directly on top of the 2px line, body stays cleanly ABOVE */
-  left: -24px;
-  opacity: 0;
-  transform: translate(-50%, 0) scale(0);
+  bottom: -1px;
+  left: 0%;
+  opacity: 1;
+  transform: translate(-50%, 0) scale(0.85);
   transform-origin: bottom center;
   pointer-events: none;
   z-index: 10;
@@ -174,10 +188,11 @@
 
 .mobileSpider {
   position: absolute;
-  left: -16px;
-  top: -20px;
-  opacity: 0;
-  transform: translate(0, -50%) rotate(90deg) scale(0);
+  left: -14px;
+  top: 0%;
+  opacity: 1;
+  transform: translate(0, -50%) rotate(90deg) scale(0.85);
+  transform-origin: center center;
   pointer-events: none;
   z-index: 10;
   display: flex;
@@ -186,58 +201,71 @@
   will-change: top, transform, opacity;
 }
 
-/* Base Resting / Idle Stance (Stationary by default) */
+/* Base Resting Stance */
 .spiderWalkingSide {
-  filter: drop-shadow(0 2px 4px rgba(223, 37, 49, 0.35));
-  transition: filter 0.2s ease;
+  filter: drop-shadow(0 2px 8px rgba(223, 37, 49, 0.65));
+  transition: filter 0.25s ease;
 }
 
-/* 3D Side-view Scuttling Mechanics (Activates ONLY when user is scrolling) */
+/* Subtle scuttle motion while user scrolls */
 .timelineSpider.isWalking .spiderWalkingSide,
 .mobileSpider.isWalking .spiderWalkingSide {
-  animation: spiderSideScuttle 0.11s ease-in-out infinite alternate;
-  filter: drop-shadow(0 2px 6px rgba(223, 37, 49, 0.5));
+  animation: spiderSideScuttle 0.12s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 18px rgba(223, 37, 49, 0.95)) drop-shadow(0 0 8px rgba(255, 60, 75, 0.6));
 }
 
 .timelineSpider.isWalking .fgLegSet1,
 .mobileSpider.isWalking .fgLegSet1 {
   transform-box: fill-box;
   transform-origin: top center;
-  animation: legStepPair1 0.11s ease-in-out infinite alternate;
+  animation: legStepPair1 0.13s ease-in-out infinite alternate;
 }
 
 .timelineSpider.isWalking .fgLegSet2,
 .mobileSpider.isWalking .fgLegSet2 {
   transform-box: fill-box;
   transform-origin: top center;
-  animation: legStepPair2 0.11s ease-in-out infinite alternate;
+  animation: legStepPair2 0.13s ease-in-out infinite alternate;
 }
 
 .timelineSpider.isWalking .bgLegSet,
 .mobileSpider.isWalking .bgLegSet {
   transform-box: fill-box;
   transform-origin: top center;
-  animation: legStepBg 0.11s ease-in-out infinite alternate-reverse;
+  animation: legStepBg 0.13s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes legStepPair1 {
-  0% { transform: rotate(-15deg) translateY(-0.8px); }
-  100% { transform: rotate(15deg) translateY(0.8px); }
+  0% { transform: rotate(-12deg) translateY(-0.6px); }
+  100% { transform: rotate(12deg) translateY(0.6px); }
 }
 
 @keyframes legStepPair2 {
-  0% { transform: rotate(15deg) translateY(0.8px); }
-  100% { transform: rotate(-15deg) translateY(-0.8px); }
+  0% { transform: rotate(12deg) translateY(0.6px); }
+  100% { transform: rotate(-12deg) translateY(-0.6px); }
 }
 
 @keyframes legStepBg {
-  0% { transform: rotate(12deg); }
-  100% { transform: rotate(-12deg); }
+  0% { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
 }
 
 @keyframes spiderSideScuttle {
-  0% { transform: translateY(-0.8px) rotate(-1.5deg); }
-  100% { transform: translateY(0.8px) rotate(1.5deg); }
+  0% { transform: translateY(-0.6px) rotate(-1deg); }
+  100% { transform: translateY(0.6px) rotate(1deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timelineSpider.isWalking .spiderWalkingSide,
+  .mobileSpider.isWalking .spiderWalkingSide,
+  .timelineSpider.isWalking .fgLegSet1,
+  .mobileSpider.isWalking .fgLegSet1,
+  .timelineSpider.isWalking .fgLegSet2,
+  .mobileSpider.isWalking .fgLegSet2,
+  .timelineSpider.isWalking .bgLegSet,
+  .mobileSpider.isWalking .bgLegSet {
+    animation: none;
+  }
 }
 
 .timelineNodes {
@@ -248,7 +276,7 @@
   transform: translateY(-50%);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(24px, 3.5vw, 56px);
+  gap: clamp(20px, 2.5vw, 40px);
   pointer-events: none;
 }
 
@@ -256,83 +284,87 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #F8F8F5;
-  border: 1.5px solid rgba(11, 11, 12, 0.25);
-  transition: all 0.3s ease;
+  background-color: #121218;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
 }
 
 .timelineNode.nodeActive {
-  border-color: var(--color-crimson, #df2531);
-  background-color: var(--color-crimson, #df2531);
-  box-shadow: 0 0 10px rgba(223, 37, 49, 0.45);
-  transform: scale(1.2);
+  border-color: #FF3B47;
+  background-color: #DF2531;
+  box-shadow: 0 0 14px rgba(223, 37, 49, 0.95), 0 0 0 3px rgba(223, 37, 49, 0.28);
+  transform: scale(1.3);
 }
 
-/* 4 Connected Philosophy Columns */
+/* ── 4 Connected Philosophy Process Columns / Smoked-Glass Metal Cards ── */
 .stagesRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(24px, 3.5vw, 56px);
+  gap: clamp(20px, 2.5vw, 40px);
 }
 
 .stageCol {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 18px 16px 20px;
+  padding: clamp(26px, 2.4vw, 34px) clamp(22px, 2vw, 28px);
   cursor: pointer;
-  background: rgba(248, 248, 245, 0.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(11, 11, 12, 0.05);
-  border-radius: 6px;
+  background: linear-gradient(145deg, rgba(24, 20, 26, 0.65) 0%, rgba(13, 11, 16, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
   text-align: left;
-  transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-  opacity: 0.85;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow: hidden;
 }
 
 .stageCol:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.94);
-  border-color: rgba(223, 37, 49, 0.25);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  background: linear-gradient(145deg, rgba(34, 24, 30, 0.8) 0%, rgba(18, 14, 20, 0.95) 100%);
+  border-color: rgba(223, 37, 49, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 24px rgba(223, 37, 49, 0.18), inset 0 1px 0 rgba(255, 120, 130, 0.2);
 }
 
-/* When stage is reached during scroll progression */
+/* Stage Reached during Scroll Progression */
 .stageCol.stageReached {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.88);
-  border-color: rgba(223, 37, 49, 0.2);
+  background: linear-gradient(145deg, rgba(28, 22, 28, 0.75) 0%, rgba(15, 12, 18, 0.9) 100%);
+  border-color: rgba(223, 37, 49, 0.28);
 }
 
-.stageCol.stageReached .stageNumber {
-  color: var(--color-crimson, #df2531);
-}
-
-/* Stage Name strictly remains bold BLACK for 100% readability */
-.stageCol.stageReached .stageName,
-.stageCol.stageActive .stageName {
-  color: #0B0B0C !important;
-  text-shadow: none !important;
-}
-
-.stageCol.stageReached .stageAccentBar {
-  width: 32px;
-  background-color: var(--color-crimson, #df2531);
-}
-
-/* Currently active stage: Elevated card */
+/* Currently Active Focused Stage */
 .stageCol.stageActive {
-  opacity: 1;
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.96);
-  border-color: rgba(223, 37, 49, 0.4);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  background: linear-gradient(145deg, rgba(38, 20, 26, 0.9) 0%, rgba(20, 13, 18, 0.98) 100%);
+  border-color: rgba(223, 37, 49, 0.65);
+  transform: translateY(-5px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.8), 0 0 32px rgba(223, 37, 49, 0.28), inset 0 1px 0 rgba(255, 120, 130, 0.35);
 }
 
-.stageCol.stageActive .stageAccentBar {
+/* Radiant Top Laser Hairline Indicator */
+.stageIndicator {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #DF2531, #FF5562);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.9);
+  border-radius: 0 0 2px 2px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  opacity: 0;
+}
+
+.stageCol.stageReached .stageIndicator {
+  width: 28px;
+  opacity: 0.8;
+}
+
+.stageCol.stageActive .stageIndicator {
   width: 48px;
-  background-color: var(--color-crimson, #df2531);
+  opacity: 1;
 }
 
 .stageMeta {
@@ -342,49 +374,38 @@
 }
 
 .stageNumber {
-  font-family: var(--font-mono, monospace);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-text-secondary, #424348);
-  letter-spacing: 0.08em;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: #7E7F8C;
+  letter-spacing: 0.14em;
   transition: color 0.3s ease;
 }
 
+.stageCol.stageReached .stageNumber,
 .stageCol.stageActive .stageNumber {
-  color: var(--color-crimson, #df2531);
+  color: #FF3B47;
+  text-shadow: 0 0 8px rgba(223, 37, 49, 0.6);
 }
 
 .stageName {
   margin: 0;
   font-family: var(--font-display, 'Exo', sans-serif);
-  font-size: clamp(18px, 1.5vw, 24px);
-  font-weight: 400;
-  letter-spacing: 0.03em;
-  color: #0B0B0C !important;
+  font-size: clamp(17px, 1.3vw, 20px);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #FFFFFF !important;
   text-transform: uppercase;
   line-height: 1.25;
 }
 
 .stageSummary {
   margin: 0;
-  font-family: var(--font-sans);
-  font-size: clamp(14px, 1vw, 15px);
+  font-family: var(--font-sans, 'Figtree', sans-serif);
+  font-size: 13.5px;
   line-height: 1.65;
-  color: #25262B !important;
-  font-weight: 450;
-}
-
-.stageAccentBar {
-  width: 24px;
-  height: 2px;
-  background-color: transparent;
-  margin-top: 6px;
-  transition: width 0.35s ease, background-color 0.35s ease;
-}
-
-.stageCol.stageActive .stageAccentBar {
-  width: 48px;
-  background-color: var(--color-crimson, #df2531);
+  color: #A6A7B4 !important;
+  font-weight: 400;
 }
 
 /* ─────────────────────────────────────────
@@ -401,7 +422,7 @@
   top: 12px;
   bottom: 24px;
   left: 4px;
-  width: 2px;
+  width: 1.5px;
 }
 
 .mobileRailTrack {
@@ -409,24 +430,25 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 1px;
-  background-color: rgba(11, 11, 12, 0.12);
+  width: 1.5px;
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .mobileRailProgress {
   position: absolute;
   top: 0;
   left: 0;
-  width: 2px;
+  width: 1.5px;
   height: 25%;
-  background-color: var(--color-crimson, #df2531);
+  background: linear-gradient(180deg, rgba(223, 37, 49, 0.6) 0%, #DF2531 100%);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.8);
   transition: height 0.15s ease-out;
 }
 
 .mobileStagesList {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 24px;
 }
 
 .mobileStageItem {
@@ -435,11 +457,11 @@
   flex-direction: column;
   gap: 8px;
   transition: opacity 0.3s ease;
-  opacity: 0.55;
+  opacity: 0.7;
 }
 
 .mobileStageItem.mobileStageReached {
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 .mobileStageItem.mobileStageActive {
@@ -449,7 +471,7 @@
 .mobileStageIndicator {
   position: absolute;
   left: -28px;
-  top: 4px;
+  top: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -461,29 +483,42 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #F8F8F5;
-  border: 1.5px solid rgba(11, 11, 12, 0.25);
+  background-color: #121218;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
   transition: all 0.3s ease;
 }
 
 .mobileNode.mobileNodeActive,
 .mobileStageItem.mobileStageActive .mobileNode {
-  background-color: var(--color-crimson, #df2531);
-  border-color: var(--color-crimson, #df2531);
-  box-shadow: 0 0 8px rgba(223, 37, 49, 0.4);
-  transform: scale(1.2);
+  background-color: #DF2531;
+  border-color: #FF3B47;
+  box-shadow: 0 0 12px rgba(223, 37, 49, 0.9), 0 0 0 3px rgba(223, 37, 49, 0.25);
+  transform: scale(1.25);
 }
 
 .mobileStageContent {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: rgba(248, 248, 245, 0.82);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 16px 16px;
-  border-radius: 6px;
-  border: 1px solid rgba(11, 11, 12, 0.05);
+  background: linear-gradient(145deg, rgba(24, 20, 26, 0.8) 0%, rgba(13, 11, 16, 0.95) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 20px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.mobileStageItem.mobileStageReached .mobileStageContent {
+  background: linear-gradient(145deg, rgba(28, 22, 28, 0.85) 0%, rgba(15, 12, 18, 0.98) 100%);
+  border-color: rgba(223, 37, 49, 0.3);
+}
+
+.mobileStageItem.mobileStageActive .mobileStageContent {
+  background: linear-gradient(145deg, rgba(38, 20, 26, 0.95) 0%, rgba(20, 13, 18, 1) 100%);
+  border-color: rgba(223, 37, 49, 0.65);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 24px rgba(223, 37, 49, 0.25);
 }
 
 .mobileStageMeta {
@@ -494,42 +529,37 @@
 
 .mobileStageNumber {
   font-family: var(--font-mono, monospace);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-text-secondary, #424348);
-  letter-spacing: 0.06em;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7E7F8C;
+  letter-spacing: 0.12em;
   transition: color 0.3s ease;
 }
 
 .mobileStageItem.mobileStageReached .mobileStageNumber,
 .mobileStageItem.mobileStageActive .mobileStageNumber {
-  color: var(--color-crimson, #df2531);
+  color: #FF3B47;
+  text-shadow: 0 0 8px rgba(223, 37, 49, 0.6);
 }
 
 .mobileStageName {
   margin: 0;
   font-family: var(--font-display, 'Exo', sans-serif);
-  font-size: 19px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: #0B0B0C !important;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #FFFFFF !important;
   text-transform: uppercase;
   line-height: 1.25;
 }
 
-.mobileStageItem.mobileStageReached .mobileStageName,
-.mobileStageItem.mobileStageActive .mobileStageName {
-  color: #0B0B0C !important;
-  text-shadow: none !important;
-}
-
 .mobileStageSummary {
   margin: 0;
-  font-family: var(--font-sans);
-  font-size: 14.5px;
+  font-family: var(--font-sans, 'Figtree', sans-serif);
+  font-size: 13.5px;
   line-height: 1.6;
-  color: #25262B !important;
-  font-weight: 450;
+  color: #A6A7B4 !important;
+  font-weight: 400;
 }
 
 /* ─────────────────────────────────────────
@@ -537,11 +567,11 @@
 ───────────────────────────────────────── */
 @media (max-width: 1024px) {
   .stagesRow {
-    gap: 32px;
+    gap: 20px;
   }
 
   .stageName {
-    font-size: 19px;
+    font-size: 18px;
   }
 }
 
@@ -562,6 +592,6 @@
   }
 
   .headerBlock {
-    margin-bottom: 40px;
+    margin-bottom: 36px;
   }
 }

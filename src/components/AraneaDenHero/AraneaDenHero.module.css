@@ -157,18 +157,6 @@
   z-index: 1;
 }
 
-.heroWebSilkSvg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(1100px, 94vw);
-  height: min(700px, 80vh);
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.75;
-}
-
 .passionContainer {
   max-width: 1360px;
   width: 100%;

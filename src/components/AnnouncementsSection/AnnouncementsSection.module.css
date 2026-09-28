@@ -1,6 +1,6 @@
 /* ============================================================
-   ANNOUNCEMENTS SECTION — Continuous GSAP Infinite Marquee
-   Smooth auto-scroll, pauses on hover, minimal cards
+   ANNOUNCEMENTS SECTION — Refined Editorial 16:9 Card Slider
+   Compact, balanced, and unified with signature curved red gradient
    ============================================================ */
 
 .section {
@@ -8,25 +8,82 @@
   background-color: var(--color-bg-primary, #F8F8F5);
   border-top: 1px solid rgba(11, 11, 12, 0.08);
   border-bottom: 1px solid rgba(11, 11, 12, 0.08);
-  padding: clamp(48px, 6vw, 80px) 0;
+  padding: clamp(36px, 4.5vh, 56px) 0;
   position: relative;
   box-sizing: border-box;
 }
 
 .container {
-  max-width: var(--container-max-width, 1560px);
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--gutter-desktop, 48px);
+  padding: 0 clamp(16px, 3vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   box-sizing: border-box;
 }
 
-/* ── Header ── */
-.headerBar {
-  display: flex;
+/* ── Red Navigation Arrows in Section White Space (Pure red chevrons, no circles) ── */
+.sideNavBtn {
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  color: var(--color-crimson, #DF2531);
+  border: none;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.sideNavBtn svg {
+  stroke: var(--color-crimson, #DF2531);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s ease, filter 0.2s ease;
+}
+
+.sideNavBtn:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
+.sideNavPrev:hover svg {
+  transform: translateX(-4px) scale(1.18);
+  stroke: #EF2D3B;
+  filter: drop-shadow(0 0 10px rgba(223, 37, 49, 0.5));
+}
+
+.sideNavNext:hover svg {
+  transform: translateX(4px) scale(1.18);
+  stroke: #EF2D3B;
+  filter: drop-shadow(0 0 10px rgba(223, 37, 49, 0.5));
+}
+
+.sideNavBtn:active svg {
+  transform: scale(0.9);
+}
+
+.sideNavPrev {
+  margin-right: clamp(16px, 4vw, 72px);
+}
+
+.sideNavNext {
+  margin-left: clamp(16px, 4vw, 72px);
+}
+
+/* ── Header Bar — Aligned directly with the card ── */
+.headerBar {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: clamp(24px, 3vw, 36px);
+  margin-bottom: clamp(16px, 2vh, 22px);
 }
 
 .headerLeft {
@@ -42,10 +99,10 @@
 }
 
 .crimsonDot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background-color: var(--color-crimson, #df2531);
+  background-color: var(--color-crimson, #DF2531);
   display: inline-block;
   flex-shrink: 0;
 }
@@ -53,125 +110,94 @@
 .eyebrowText {
   font-family: var(--font-mono, monospace);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-text-secondary, #55565B);
+  color: var(--color-crimson, #DF2531);
 }
 
 .sectionTitle {
   margin: 0;
   font-family: var(--font-display, 'Exo', sans-serif);
-  font-size: clamp(20px, 2.2vw, 30px);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: 0.06em;
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-black, #0B0B0C);
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
-.titleLogo {
-  height: 26px;
-  width: auto;
-  display: inline-block;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 4px rgba(223, 37, 49, 0.35));
-}
-
-/* ── Controls ── */
-.controlsWrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.arrowBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(11, 11, 12, 0.12);
-  background-color: #FFFFFF;
-  color: #0B0B0C;
+/* ── Slide Counter (Top Right of Card) ── */
+.slideCounter {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.1);
+  color: var(--color-text-secondary, #73747A);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  user-select: none;
+  flex-shrink: 0;
 }
 
-.arrowBtn:hover {
-  background-color: var(--color-crimson, #df2531);
-  color: #FFFFFF;
-  border-color: var(--color-crimson, #df2531);
+.counterCurrent {
+  color: var(--color-black, #0B0B0C);
+  font-weight: 700;
 }
 
-/* ── Carousel Stage — clips the overflow ── */
-.carouselStage {
-  position: relative;
+.counterDivider {
+  margin: 0 4px;
+  color: rgba(11, 11, 12, 0.25);
+}
+
+.counterTotal {
+  color: var(--color-text-secondary, #73747A);
+}
+
+/* ── Centered Editorial 16:9 Stage ── */
+.stageWrapper {
   width: 100%;
-  overflow: hidden;
-}
-
-/* Edge fades to dissolve cards at the sides */
-.fadeLeft,
-.fadeRight {
-  position: absolute;
-  top: 0;
-  width: clamp(40px, 7vw, 120px);
-  height: 100%;
-  z-index: 5;
-  pointer-events: none;
-}
-.fadeLeft {
-  left: 0;
-  background: linear-gradient(to right, var(--color-bg-primary, #F8F8F5) 20%, transparent 100%);
-}
-.fadeRight {
-  right: 0;
-  background: linear-gradient(to left, var(--color-bg-primary, #F8F8F5) 20%, transparent 100%);
-}
-
-/* ── Infinite Track — GSAP moves this ── */
-.carouselTrack {
-  display: flex;
-  gap: 16px;
-  width: max-content;
-  will-change: transform;
-  /* No CSS animation here — GSAP controls it entirely */
-}
-
-/* ── Minimal Announcement Card ── */
-.card {
-  flex: 0 0 300px;
-  background: #FFFFFF;
-  border: 1px solid rgba(11, 11, 12, 0.07);
-  border-radius: 12px;
-  overflow: hidden;
+  max-width: min(660px, 100%);
+  position: relative;
   display: flex;
   flex-direction: column;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  cursor: default;
-}
-
-.card:hover {
-  border-color: rgba(223, 37, 49, 0.22);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
-  transform: translateY(-2px);
-}
-
-/* Small compact thumbnail */
-.imageFrame {
-  position: relative;
-  width: 100%;
-  height: 130px;
-  overflow: hidden;
-  background-color: #0B0B0C;
+  align-items: stretch;
   flex-shrink: 0;
+}
+
+/* 16:9 Viewport */
+.sliderViewport {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: #0B0B0C;
+  box-shadow: 0 16px 42px rgba(11, 11, 12, 0.12);
+  border: 1px solid rgba(11, 11, 12, 0.09);
+}
+
+.sliderTrack {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+/* Single 16:9 Card Slide */
+.cardSlide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .cardImage {
@@ -179,123 +205,306 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.card:hover .cardImage {
+.cardSlide:hover .cardImage {
   transform: scale(1.04);
 }
 
-.categoryBadge {
+/* ── Light Curved Red Bottom-Left Gradient ── */
+.cardGradientOverlay {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(11, 11, 12, 0.82);
-  color: #FFFFFF;
-  font-family: var(--font-mono, monospace);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  padding: 3px 7px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  backdrop-filter: blur(6px);
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 75% 70% at 0% 100%, rgba(223, 37, 49, 0.76) 0%, rgba(223, 37, 49, 0.28) 42%, transparent 75%),
+    linear-gradient(to top, rgba(11, 11, 12, 0.88) 0%, rgba(11, 11, 12, 0.2) 42%, transparent 72%);
+  transition: background 0.3s ease;
 }
 
-.dateBadge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: var(--color-crimson, #df2531);
-  color: #FFFFFF;
-  font-family: var(--font-mono, monospace);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  padding: 3px 7px;
-  border-radius: 3px;
-  text-transform: uppercase;
+.cardSlide:hover .cardGradientOverlay {
+  background:
+    radial-gradient(ellipse 80% 75% at 0% 100%, rgba(223, 37, 49, 0.86) 0%, rgba(223, 37, 49, 0.36) 44%, transparent 78%),
+    linear-gradient(to top, rgba(11, 11, 12, 0.92) 0%, rgba(11, 11, 12, 0.24) 44%, transparent 72%);
 }
 
-/* Text */
-.cardContent {
-  padding: 14px;
+/* ── Crisp White Title (Bottom-Left) ── */
+.cardTitle {
+  position: absolute;
+  bottom: clamp(14px, 2vw, 20px);
+  left: clamp(16px, 2vw, 22px);
+  right: clamp(16px, 2vw, 22px);
+  margin: 0;
+  color: #FFFFFF;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(13px, 1.35vw, 17.5px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Subtle click-to-expand prompt icon */
+.expandBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(11, 11, 12, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.cardSlide:hover .expandBadge {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Centered Bottom Meta (Dots + Full Date) ── */
+.bottomMeta {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: 6px;
-}
-
-.cardTitle {
-  margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--color-black, #0B0B0C);
-}
-
-.cardDesc {
-  margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--color-text-secondary, #55565B);
-  flex: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* MORE INFO button */
-.actionBtn {
-  display: inline-flex;
   align-items: center;
+  gap: 8px;
+  margin-top: clamp(14px, 2vh, 18px);
+}
+
+/* Pagination Dots */
+.paginationDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 6px;
-  margin-top: 8px;
-  padding: 6px 12px;
-  background: transparent;
-  border: 1px solid rgba(11, 11, 12, 0.12);
-  border-radius: 6px;
-  color: var(--color-black, #0B0B0C);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(11, 11, 12, 0.18);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dot:hover {
+  background: rgba(223, 37, 49, 0.5);
+}
+
+.dotActive {
+  width: 22px;
+  background: var(--color-crimson, #DF2531);
+}
+
+.slideDate {
   font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-decoration: none;
-  text-transform: uppercase;
-  align-self: flex-start;
-  transition: all 0.2s ease;
-}
-
-.actionBtn:hover {
-  background: var(--color-crimson, #df2531);
-  color: #FFFFFF;
-  border-color: var(--color-crimson, #df2531);
-}
-
-.btnArrow {
   font-size: 11px;
-  transition: transform 0.2s ease;
+  letter-spacing: 0.12em;
+  color: var(--color-text-secondary, #6C6D74);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.actionBtn:hover .btnArrow {
-  transform: translateX(3px);
-}
-
-/* ── Mobile ── */
-@media (max-width: 768px) {
-  .section {
-    padding: 40px 0;
-  }
+@media (max-width: 860px) {
   .container {
-    padding: 0 var(--gutter-mobile, 20px);
+    padding: 0 16px;
+    position: relative;
+    display: block;
   }
-  .sectionTitle {
-    font-size: 18px;
+
+  .stageWrapper {
+    max-width: 100%;
+    margin: 0 auto;
   }
-  .card {
-    flex: 0 0 250px;
+
+  .sideNavBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
   }
+
+  .sideNavPrev {
+    left: 8px;
+    margin: 0;
+  }
+
+  .sideNavNext {
+    right: 8px;
+    margin: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FULL SCREEN LIGHTBOX MODAL WITH BACKGROUND BLUR
+   ───────────────────────────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(8, 8, 10, 0.88);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 40px);
+  box-sizing: border-box;
+  animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  width: min(1040px, 92vw);
+  aspect-ratio: 16 / 9;
+  max-height: 84vh;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 88px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0B0B0C;
+  animation: modalScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleIn {
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: clamp(14px, 2vw, 20px);
+  right: clamp(14px, 2vw, 20px);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(11, 11, 12, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modalCloseBtn:hover {
+  background: var(--color-crimson, #DF2531);
+  border-color: var(--color-crimson, #DF2531);
+  transform: rotate(90deg) scale(1.08);
+}
+
+.modalNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(11, 11, 12, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modalNavPrev {
+  left: clamp(12px, 2vw, 20px);
+}
+
+.modalNavNext {
+  right: clamp(12px, 2vw, 20px);
+}
+
+.modalNavBtn:hover {
+  background: var(--color-crimson, #DF2531);
+  border-color: var(--color-crimson, #DF2531);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.modalDateTag {
+  position: absolute;
+  top: clamp(14px, 2vw, 20px);
+  left: clamp(16px, 2vw, 24px);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(11, 11, 12, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 5px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+.modalTitle {
+  position: absolute;
+  bottom: clamp(20px, 3.5vw, 36px);
+  left: clamp(20px, 3.5vw, 40px);
+  right: clamp(20px, 3.5vw, 40px);
+  margin: 0;
+  color: #FFFFFF;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(18px, 2.5vw, 32px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+  z-index: 5;
 }

@@ -48,15 +48,32 @@ const NavbarSpiderWalking: React.FC<{ className?: string }> = ({ className }) =>
     className={`${className || ''} ${styles.spiderWalkingSide}`}
     aria-hidden="true"
   >
-    {/* 3D Depth Layer 1: Background Legs (darker crimson, 0.55 opacity for stereoscopic depth) */}
+    <defs>
+      <linearGradient id="spiderDarkMetalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#3A3C4A" />
+        <stop offset="50%" stopColor="#1C1D24" />
+        <stop offset="100%" stopColor="#0B0B0E" />
+      </linearGradient>
+      <linearGradient id="spiderCrimsonChassis" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FF3B47" />
+        <stop offset="35%" stopColor="#DF2531" />
+        <stop offset="85%" stopColor="#6E0911" />
+        <stop offset="100%" stopColor="#250305" />
+      </linearGradient>
+      <filter id="spiderLaserGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="0" stdDeviation="1.8" floodColor="#FF3847" floodOpacity="0.9" />
+      </filter>
+    </defs>
+
+    {/* Background Legs (Dark titanium alloy with ruby reflection) */}
     <g
       className={styles.bgLegSet}
       fill="none"
-      stroke="#7A1016"
+      stroke="#551219"
       strokeWidth="1.3"
       strokeLinecap="round"
       strokeLinejoin="round"
-      opacity="0.55"
+      opacity="0.6"
     >
       <path d="M 23 14 L 27 6 L 31 10 L 33 22" />
       <path d="M 20 13.5 L 23 4.5 L 26 7.5 L 29 22" />
@@ -64,46 +81,52 @@ const NavbarSpiderWalking: React.FC<{ className?: string }> = ({ className }) =>
       <path d="M 13 14 L 8 6 L 3 11 L 1 22" />
     </g>
 
-    {/* Spinneret Silk Node at rear tip of abdomen */}
-    <circle cx="2" cy="12.5" r="1.1" fill="#df2531" />
+    {/* Spinneret Silk Node / Luminous Laser Port */}
+    <circle cx="2" cy="12.5" r="1.1" fill="#FF3847" filter="url(#spiderLaserGlow)" />
 
-    {/* Spider Body - 3D side profile */}
-    {/* Abdomen (arched, tilted up at back) */}
+    {/* Spider Abdomen (Sculpted Dark Crimson Metallic Carapace) */}
     <path
       d="M 15 12.5 C 15 8.5, 9.5 6, 4.5 8 C 1.5 9.5, 1 13.5, 3.5 15.5 C 6.5 17.5, 12 17, 15 12.5 Z"
-      fill="#df2531"
+      fill="url(#spiderCrimsonChassis)"
+      stroke="rgba(255, 255, 255, 0.15)"
+      strokeWidth="0.4"
     />
-    {/* Abdomen 3D specular highlight */}
-    <ellipse cx="7.5" cy="10.5" rx="3.5" ry="1.8" fill="rgba(255, 255, 255, 0.45)" transform="rotate(-15 7.5 10.5)" />
+    {/* Abdomen High-Gloss Metal Specular Highlight */}
+    <ellipse cx="7.5" cy="10" rx="3.2" ry="1.4" fill="rgba(255, 255, 255, 0.45)" transform="rotate(-15 7.5 10)" />
 
-    {/* Cephalothorax (head & thorax) */}
+    {/* Cephalothorax (Dark Titanium Armor Plate) */}
     <path
-      d="M 14.5 13 C 15 10, 20 9.5, 23 11.5 C 24.5 12.5, 24.5 15, 23 16 C 20.5 17, 16 16.5, 14.5 13 Z"
-      fill="#b81622"
+      d="M 14.5 13 C 15 9.5, 20 9, 23 11.2 C 24.5 12.2, 24.5 15, 23 16 C 20.5 17, 16 16.5, 14.5 13 Z"
+      fill="url(#spiderDarkMetalGrad)"
+      stroke="#DF2531"
+      strokeWidth="0.5"
     />
 
-    {/* Chelicerae / Pedipalps (front feelers) */}
+    {/* Glowing Cybernetic Ocular Sensor / Laser Eye */}
+    <circle cx="22.2" cy="12.2" r="0.8" fill="#FF4D5A" filter="url(#spiderLaserGlow)" />
+
+    {/* Chelicerae / Metal Pedipalps */}
     <path
       d="M 23 13 Q 26 14.5, 27 17"
       fill="none"
-      stroke="#df2531"
+      stroke="#FF3847"
       strokeWidth="1.2"
       strokeLinecap="round"
     />
     <path
       d="M 22.5 12 Q 25 13, 26.5 15.5"
       fill="none"
-      stroke="#ff4a58"
-      strokeWidth="1.0"
+      stroke="#DF2531"
+      strokeWidth="1"
       strokeLinecap="round"
     />
 
-    {/* 3D Depth Layer 2: Foreground Legs (vivid bright crimson, sharp joint articulation) */}
+    {/* Foreground Articulated Metal Legs (Polished Crimson Chrome) */}
     <g
       className={styles.fgLegSet1}
       fill="none"
-      stroke="#df2531"
-      strokeWidth="1.4"
+      stroke="#DF2531"
+      strokeWidth="1.35"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -114,8 +137,8 @@ const NavbarSpiderWalking: React.FC<{ className?: string }> = ({ className }) =>
     <g
       className={styles.fgLegSet2}
       fill="none"
-      stroke="#df2531"
-      strokeWidth="1.4"
+      stroke="#DF2531"
+      strokeWidth="1.35"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -158,73 +181,81 @@ export const AraneaSystem: React.FC = () => {
   // Walk debounce timer: spider stops walking when scroll stops
   const walkTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Generate authentic continuous SPIRAL spiderweb geometry
+  // Generate subtle, elegant, architectural generative spider-web geometry
   const bgWebData = useMemo(() => {
-    const cx = 800;
-    const cy = 380;
-    const spokeCount = 24;
-    const maxRadius = 1250;
+    // Structural Anchor Apex (off-center upper third)
+    const apexX = 940;
+    const apexY = 190;
 
-    // 24 Radial Spokes
-    const spokes: { id: string; d: string; isAccent: boolean }[] = [];
-    for (let i = 0; i < spokeCount; i++) {
-      const angle = (i * 2 * Math.PI) / spokeCount;
-      const x2 = cx + maxRadius * Math.cos(angle);
-      const y2 = cy + maxRadius * Math.sin(angle);
-      spokes.push({
-        id: `spoke-${i}`,
-        d: `M ${cx} ${cy} L ${x2.toFixed(1)} ${y2.toFixed(1)}`,
-        isAccent: i % 4 === 0,
-      });
-    }
+    // 8 Primary Tensile Cables draping outward with natural organic catenary sag
+    const strandConfigs = [
+      { endX: 80, endY: 210, sagX: 480, sagY: 240, isAccent: false },
+      { endX: 60, endY: 520, sagX: 440, sagY: 410, isAccent: false },
+      { endX: 220, endY: 820, sagX: 520, sagY: 600, isAccent: true }, // subtle warm crimson accent strand
+      { endX: 640, endY: 890, sagX: 760, sagY: 630, isAccent: false },
+      { endX: 1120, endY: 890, sagX: 1050, sagY: 620, isAccent: false },
+      { endX: 1540, endY: 740, sagX: 1320, sagY: 530, isAccent: false },
+      { endX: 1580, endY: 340, sagX: 1350, sagY: 280, isAccent: false },
+      { endX: 1400, endY: 80, sagX: 1180, sagY: 110, isAccent: false },
+    ];
 
-    // 14 Full Revolutions of Continuous Organic Spiral Silk Strand
-    const revolutions = 14;
-    const totalSteps = revolutions * spokeCount; // 336 steps
-    const rStart = 32;
-    const rEnd = 1200;
-    const deltaAngle = (2 * Math.PI) / spokeCount;
+    const spokes = strandConfigs.map((s, idx) => ({
+      id: `spoke-${idx}`,
+      d: `M ${apexX} ${apexY} Q ${s.sagX} ${s.sagY}, ${s.endX} ${s.endY}`,
+      isAccent: s.isAccent,
+    }));
 
+    // 5 Delicate Transverse Silk Arcs bridging between structural cables
+    const arcFractions = [0.18, 0.36, 0.54, 0.74, 0.92];
     let spiralD = '';
     const dewNodes: { cx: number; cy: number; r: number; stepFraction: number }[] = [];
 
-    for (let k = 0; k < totalSteps; k++) {
-      const theta1 = k * deltaAngle;
-      const t1 = k / totalSteps;
-      const r1 = rStart + t1 * (rEnd - rStart);
-      const p1x = cx + r1 * Math.cos(theta1);
-      const p1y = cy + r1 * Math.sin(theta1);
+    arcFractions.forEach((f, arcIdx) => {
+      // Interpolate points on each spoke at fraction f using quadratic bezier formula
+      const arcPoints = strandConfigs.map((s) => {
+        const t = f;
+        const mt = 1 - t;
+        const px = mt * mt * apexX + 2 * mt * t * s.sagX + t * t * s.endX;
+        const py = mt * mt * apexY + 2 * mt * t * s.sagY + t * t * s.endY;
+        return { x: px, y: py };
+      });
 
-      const theta2 = (k + 1) * deltaAngle;
-      const t2 = (k + 1) / totalSteps;
-      const r2 = rStart + t2 * (rEnd - rStart);
-      const p2x = cx + r2 * Math.cos(theta2);
-      const p2y = cy + r2 * Math.sin(theta2);
+      // Chain the points with subtle inward catenary curves between adjacent strands
+      for (let j = 0; j < arcPoints.length - 1; j++) {
+        const p1 = arcPoints[j];
+        const p2 = arcPoints[j + 1];
+        const midX = (p1.x + p2.x) / 2;
+        const midY = (p1.y + p2.y) / 2;
+        const sagFactor = 0.08;
+        const cpx = midX + (apexX - midX) * sagFactor;
+        const cpy = midY + (apexY - midY) * sagFactor;
 
-      // Catenary sag curve toward center
-      const thetaMid = (theta1 + theta2) / 2;
-      const rMid = ((r1 + r2) / 2) * 0.94;
-      const cpx = cx + rMid * Math.cos(thetaMid);
-      const cpy = cy + rMid * Math.sin(thetaMid);
-
-      if (k === 0) {
-        spiralD += `M ${p1x.toFixed(1)} ${p1y.toFixed(1)}`;
+        if (j === 0) {
+          spiralD += `${spiralD ? ' ' : ''}M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)}`;
+        }
+        spiralD += ` Q ${cpx.toFixed(1)} ${cpy.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
       }
-      spiralD += ` Q ${cpx.toFixed(1)} ${cpy.toFixed(1)}, ${p2x.toFixed(1)} ${p2y.toFixed(1)}`;
 
-      // Dew drop nodes at spoke intersections on accent revolutions
-      const revIndex = Math.floor(k / spokeCount);
-      if (revIndex % 2 === 0 && k % 3 === 0 && r1 > 60) {
+      // Add 4 minimal, restrained connection micro-nodes
+      if (arcIdx === 1 || arcIdx === 3) {
+        const pA = arcPoints[2];
+        const pB = arcPoints[5];
         dewNodes.push({
-          cx: Number(p1x.toFixed(1)),
-          cy: Number(p1y.toFixed(1)),
-          r: revIndex > 7 ? 2.4 : 1.8,
-          stepFraction: t1,
+          cx: Number(pA.x.toFixed(1)),
+          cy: Number(pA.y.toFixed(1)),
+          r: 1.6,
+          stepFraction: f,
+        });
+        dewNodes.push({
+          cx: Number(pB.x.toFixed(1)),
+          cy: Number(pB.y.toFixed(1)),
+          r: 1.4,
+          stepFraction: f,
         });
       }
-    }
+    });
 
-    return { spokes, spiralD, dewNodes };
+    return { spokes, spiralD, dewNodes, apexX, apexY };
   }, []);
 
   // Click on stage column on desktop
@@ -247,7 +278,7 @@ export const AraneaSystem: React.FC = () => {
       }
       if (spiderDesktopRef.current) {
         spiderDesktopRef.current.classList.add(styles.isWalking);
-        const spiderScale = 0.40 + (index / 3) * 0.82;
+        const spiderScale = 0.65;
         gsap.to(spiderDesktopRef.current, {
           left: `${targetPercent}%`,
           scale: spiderScale,
@@ -338,46 +369,30 @@ export const AraneaSystem: React.FC = () => {
               desktopProgressRef.current.style.width = `${targetWidth}%`;
             }
 
-            // 2. Spider Birth from the left & Growing across timeline
+            // 2. Cybernetic Metal Spider Traversal & Dynamic Growth (GROW GROW GROW GROW)
             if (spiderDesktopRef.current) {
-              if (p <= 0.005) {
-                // Not born yet (completely invisible)
-                spiderDesktopRef.current.style.opacity = '0';
-                spiderDesktopRef.current.style.left = '-24px';
-                spiderDesktopRef.current.style.transform = 'translate(-50%, 0) scale(0)';
-                spiderDesktopRef.current.classList.remove(styles.isWalking);
-              } else if (p <= 0.04) {
-                // Birth phase: hatches and emerges from imaginary space onto the track
-                const birthT = p / 0.04;
-                const birthLeft = -24 + birthT * 24; // -24px to 0px
-                const birthScale = 0.38 * birthT;
-                spiderDesktopRef.current.style.opacity = `${birthT}`;
-                spiderDesktopRef.current.style.left = `${birthLeft}px`;
-                spiderDesktopRef.current.style.transform = `translate(-50%, 0) scale(${birthScale.toFixed(3)})`;
+              const spiderLeft = Math.min(100, Math.max(0, p * 100));
+              // Dynamic scale growth: from sleek 0.85 at Strategy to monumental 2.65 at GROW!
+              const currentScale = 0.85 + p * 1.80;
+              spiderDesktopRef.current.style.opacity = '1';
+              spiderDesktopRef.current.style.left = `${spiderLeft}%`;
+              spiderDesktopRef.current.style.transform = `translate(-50%, 0) scale(${currentScale.toFixed(3)})`;
+              spiderDesktopRef.current.style.transformOrigin = 'bottom center';
+
+              if (p > 0.005) {
                 spiderDesktopRef.current.classList.add(styles.isWalking);
+                if (walkTimerRef.current) {
+                  clearTimeout(walkTimerRef.current);
+                }
+                walkTimerRef.current = setTimeout(() => {
+                  spiderDesktopRef.current?.classList.remove(styles.isWalking);
+                }, 140);
               } else {
-                // Walking & Growing phase
-                const progressAlongLine = ((p - 0.04) / 0.96) * 100;
-                const spiderLeft = Math.min(100, Math.max(0, progressAlongLine));
-                // Grows dramatically from tiny newborn (0.40) to massive fully grown spider (3.2×)
-                const spiderScale = 0.40 + p * 2.8;
-
-                spiderDesktopRef.current.style.opacity = '1';
-                spiderDesktopRef.current.style.left = `${spiderLeft}%`;
-                spiderDesktopRef.current.style.transform = `translate(-50%, 0) scale(${spiderScale.toFixed(3)})`;
-                spiderDesktopRef.current.classList.add(styles.isWalking);
+                spiderDesktopRef.current.classList.remove(styles.isWalking);
               }
-
-              // Debounce stop: spider stops walking when user stops scrolling
-              if (walkTimerRef.current) {
-                clearTimeout(walkTimerRef.current);
-              }
-              walkTimerRef.current = setTimeout(() => {
-                spiderDesktopRef.current?.classList.remove(styles.isWalking);
-              }, 140);
             }
 
-            // 3. Continuous Spiral Web Weaving (spins spirally outward)
+            // 3. Continuous Silk Weaving
             if (spiralPathRef.current) {
               const spiralOffset = 1000 * (1 - Math.min(1, Math.max(0, p)));
               spiralPathRef.current.style.strokeDashoffset = `${spiralOffset}`;
@@ -390,7 +405,7 @@ export const AraneaSystem: React.FC = () => {
               spokeNodes[i].style.strokeDashoffset = `${spokeOffset}`;
             }
 
-            // Dew drops appear as the spiral reaches them (Cached & Diffed)
+            // Dew drops appear as the silk reaches them (Cached & Diffed)
             for (let i = 0; i < dewNodes.length; i++) {
               const shouldBeActive = p >= dewNodes[i].fraction;
               if (dewNodes[i].active !== shouldBeActive) {
@@ -399,16 +414,14 @@ export const AraneaSystem: React.FC = () => {
               }
             }
 
-            // 4. Weaving Tip Cursor spins around the spiral head
+            // 4. Weaving Tip Micro-Accent
             if (weavingTipRef.current) {
               if (p > 0.02 && p < 0.98) {
-                const currentAngle = p * 14 * 2 * Math.PI;
-                const currentR = 32 + p * (1200 - 32);
-                const tipX = 800 + currentR * Math.cos(currentAngle);
-                const tipY = 380 + currentR * Math.sin(currentAngle);
+                const tipX = bgWebData.apexX + (p - 0.5) * 350;
+                const tipY = bgWebData.apexY + p * 200;
                 weavingTipRef.current.setAttribute('cx', tipX.toFixed(1));
                 weavingTipRef.current.setAttribute('cy', tipY.toFixed(1));
-                weavingTipRef.current.style.opacity = '1';
+                weavingTipRef.current.style.opacity = '0.4';
               } else {
                 weavingTipRef.current.style.opacity = '0';
               }
@@ -484,38 +497,26 @@ export const AraneaSystem: React.FC = () => {
               mobileProgressRef.current.style.height = `${targetHeight}%`;
             }
 
-            // Spider Birth & Growth on Mobile Vertical Rail
+            // Spider Movement & Dynamic Growth on Mobile Vertical Rail (GROW GROW GROW GROW)
             if (spiderMobileRef.current) {
-              if (p <= 0.005) {
-                spiderMobileRef.current.style.opacity = '0';
-                spiderMobileRef.current.style.top = '-20px';
-                spiderMobileRef.current.style.transform = 'translate(0, -50%) rotate(90deg) scale(0)';
-                spiderMobileRef.current.classList.remove(styles.isWalking);
-              } else if (p <= 0.04) {
-                const birthT = p / 0.04;
-                const birthTop = -20 + birthT * 20;
-                const birthScale = 0.38 * birthT;
-                spiderMobileRef.current.style.opacity = `${birthT}`;
-                spiderMobileRef.current.style.top = `${birthTop}px`;
-                spiderMobileRef.current.style.transform = `translate(0, -50%) rotate(90deg) scale(${birthScale.toFixed(3)})`;
+              const spiderTop = Math.min(100, Math.max(0, p * 100));
+              const currentScale = 0.85 + p * 1.80;
+              spiderMobileRef.current.style.opacity = '1';
+              spiderMobileRef.current.style.top = `${spiderTop}%`;
+              spiderMobileRef.current.style.transform = `translate(0, -50%) rotate(90deg) scale(${currentScale.toFixed(3)})`;
+              spiderMobileRef.current.style.transformOrigin = 'center center';
+
+              if (p > 0.005) {
                 spiderMobileRef.current.classList.add(styles.isWalking);
+                if (walkTimerRef.current) {
+                  clearTimeout(walkTimerRef.current);
+                }
+                walkTimerRef.current = setTimeout(() => {
+                  spiderMobileRef.current?.classList.remove(styles.isWalking);
+                }, 140);
               } else {
-                const progressAlongRail = ((p - 0.04) / 0.96) * 100;
-                const spiderTop = Math.min(100, Math.max(0, progressAlongRail));
-                const spiderScale = 0.40 + p * 2.8;
-
-                spiderMobileRef.current.style.opacity = '1';
-                spiderMobileRef.current.style.top = `${spiderTop}%`;
-                spiderMobileRef.current.style.transform = `translate(0, -50%) rotate(90deg) scale(${spiderScale.toFixed(3)})`;
-                spiderMobileRef.current.classList.add(styles.isWalking);
+                spiderMobileRef.current.classList.remove(styles.isWalking);
               }
-
-              if (walkTimerRef.current) {
-                clearTimeout(walkTimerRef.current);
-              }
-              walkTimerRef.current = setTimeout(() => {
-                spiderMobileRef.current?.classList.remove(styles.isWalking);
-              }, 140);
             }
 
             // Spiral Weave on Mobile
@@ -581,7 +582,7 @@ export const AraneaSystem: React.FC = () => {
   return (
     <div ref={wrapperRef} className={styles.systemWrapper}>
       <section ref={sectionRef} id="philosophy" className={styles.section} aria-label="Our Philosophy">
-        {/* ── IMMERSIVE ARCHITECTURAL BACKGROUND SPIDERWEB (Woven Spirally) ── */}
+        {/* ── REFINED ARCHITECTURAL GENERATIVE SILK INSTALLATION ── */}
         <div className={styles.bgWebContainer} aria-hidden="true">
           <svg
             ref={bgWebSvgRef}
@@ -590,38 +591,49 @@ export const AraneaSystem: React.FC = () => {
             className={styles.bgWebSvg}
           >
             <defs>
-              <filter id="bgDewGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="rgba(223, 37, 49, 0.6)" />
+              {/* Luminous Neon Crimson Glow Filter */}
+              <filter id="darkNeonGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="0" stdDeviation="3.5" floodColor="#DF2531" floodOpacity="0.85" />
               </filter>
-
-              {/* Delicate Spiral Silk Gradient */}
-              <linearGradient id="spiralSilkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#df2531" stopOpacity="0.35" />
-                <stop offset="50%" stopColor="#df2531" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#df2531" stopOpacity="0.28" />
+              <filter id="softCrimsonGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#DF2531" floodOpacity="0.6" />
+              </filter>
+              {/* Radiant Silk Weave Laser Gradient */}
+              <linearGradient id="silkWeaveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#DF2531" stopOpacity="0.95" />
+                <stop offset="50%" stopColor="#FF4D5A" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#9E0C17" stopOpacity="0.5" />
               </linearGradient>
             </defs>
 
-            {/* Central Nexus Core Anchor */}
-            <circle cx="800" cy="380" r="4.5" fill="#df2531" opacity="0.85" />
-            <circle cx="800" cy="380" r="14" fill="none" stroke="rgba(223, 37, 49, 0.35)" strokeWidth="1" />
+            {/* Central Architectural Apex Anchor (Glowing ruby core with concentric metallic rings) */}
+            <circle cx={bgWebData.apexX} cy={bgWebData.apexY} r="3" fill="#DF2531" filter="url(#darkNeonGlow)" />
+            <circle cx={bgWebData.apexX} cy={bgWebData.apexY} r="10" fill="none" stroke="rgba(223, 37, 49, 0.45)" strokeWidth="0.85" />
+            <circle cx={bgWebData.apexX} cy={bgWebData.apexY} r="22" fill="none" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="0.5" strokeDasharray="3 4" />
 
-            {/* Radial Spokes (Draw outward from center to bounds) */}
+            {/* Primary Structural Tensile Cables (Organic catenary curves) */}
             {bgWebData.spokes.map((spoke) => (
               <path
                 key={spoke.id}
                 className="bg-web-spoke"
                 d={spoke.d}
-                pathLength="1000"
-                strokeDasharray="1000"
-                strokeDashoffset="1000"
-                stroke={spoke.isAccent ? 'rgba(223, 37, 49, 0.18)' : 'rgba(11, 11, 12, 0.05)'}
-                strokeWidth={spoke.isAccent ? '1.1' : '0.75'}
+                stroke={spoke.isAccent ? 'rgba(223, 37, 49, 0.45)' : 'rgba(255, 255, 255, 0.12)'}
+                strokeWidth={spoke.isAccent ? '1.2' : '0.8'}
+                filter={spoke.isAccent ? 'url(#softCrimsonGlow)' : undefined}
                 fill="none"
               />
             ))}
 
-            {/* Continuous Spiral Silk Strand (Woven spirally from center outward) */}
+            {/* Base Transverse Silk Drape Curves */}
+            <path
+              className="bg-spiral-base"
+              d={bgWebData.spiralD}
+              stroke="rgba(255, 255, 255, 0.07)"
+              strokeWidth="0.7"
+              fill="none"
+            />
+
+            {/* Active Drawing Silk Weave Strand */}
             <path
               ref={spiralPathRef}
               className="bg-spiral-strand"
@@ -629,12 +641,13 @@ export const AraneaSystem: React.FC = () => {
               pathLength="1000"
               strokeDasharray="1000"
               strokeDashoffset="1000"
-              stroke="url(#spiralSilkGrad)"
-              strokeWidth="1.2"
+              stroke="url(#silkWeaveGrad)"
+              strokeWidth="1.3"
+              filter="url(#softCrimsonGlow)"
               fill="none"
             />
 
-            {/* Dew Drops appearing as spiral weaves past intersections */}
+            {/* Subtle Structural Connection Micro-Nodes */}
             {bgWebData.dewNodes.map((dew, dIdx) => (
               <circle
                 key={`dew-${dIdx}`}
@@ -643,21 +656,21 @@ export const AraneaSystem: React.FC = () => {
                 cx={dew.cx}
                 cy={dew.cy}
                 r={dew.r}
-                fill="#df2531"
-                opacity="0"
-                filter="url(#bgDewGlow)"
+                fill={dIdx === 0 ? '#FF3847' : '#DF2531'}
+                filter="url(#softCrimsonGlow)"
+                opacity={dIdx === 0 ? '0.85' : '0'}
               />
             ))}
 
-            {/* Active Silk Weaving Tip (Spins around the spiral leading edge) */}
+            {/* Weaving Tip Micro-Accent */}
             <circle
               ref={weavingTipRef}
-              cx="800"
-              cy="380"
-              r="3.5"
-              fill="#df2531"
+              cx={bgWebData.apexX}
+              cy={bgWebData.apexY}
+              r="2.5"
+              fill="#FF4D5A"
+              filter="url(#darkNeonGlow)"
               opacity="0"
-              filter="url(#bgDewGlow)"
             />
           </svg>
         </div>
@@ -681,19 +694,20 @@ export const AraneaSystem: React.FC = () => {
 
           {/* ── DESKTOP CONTINUOUS EDITORIAL COMPOSITION ── */}
           <div ref={desktopStagesRef} className={styles.desktopComposition}>
-            {/* Horizontal Timeline Track: Clean line with growing Navbar Walking Spider */}
+            {/* Horizontal Timeline Track: Clean hairline with growing Navbar Walking Spider */}
             <div className={styles.timelineTrack} aria-hidden="true">
               <div className={styles.timelineBaseLine} />
               <div ref={desktopProgressRef} className={styles.timelineProgressBar} />
 
-              {/* Small Navbar 3D Spider: Unborn at first, emerges from left, walks while scrolling, and grows */}
+              {/* Small Navbar 3D Spider: Refined jewel accent on timeline */}
               <div
                 ref={spiderDesktopRef}
                 className={styles.timelineSpider}
                 style={{
-                  left: '-24px',
-                  opacity: 0,
-                  transform: 'translate(-50%, 0) scale(0)',
+                  left: '0%',
+                  opacity: 1,
+                  transform: 'translate(-50%, 0) scale(0.85)',
+                  transformOrigin: 'bottom center',
                 }}
               >
                 <NavbarSpiderWalking />
@@ -709,7 +723,7 @@ export const AraneaSystem: React.FC = () => {
               </div>
             </div>
 
-            {/* 4 Connected Philosophy Columns with Solid Black High-Contrast Typography */}
+            {/* 4 Connected Philosophy Process Columns */}
             <div className={styles.stagesRow}>
               {PHILOSOPHY_STAGES.map((stage, idx) => {
                 const isCurrent = idx === activeStage;
@@ -728,19 +742,19 @@ export const AraneaSystem: React.FC = () => {
                     onClick={() => handleStageClick(idx)}
                     aria-label={`${stage.number} ${stage.name}`}
                   >
-                    {/* Stage Number (Turns Red as you scroll) */}
+                    {/* Subtle Top Accent Indicator */}
+                    <div className={styles.stageIndicator} aria-hidden="true" />
+
+                    {/* Stage Number */}
                     <div className={styles.stageMeta}>
                       <span className={styles.stageNumber}>{stage.number}</span>
                     </div>
 
-                    {/* Stage Title in Universal Mokoto Font (Solid BLACK for 100% readability) */}
+                    {/* Stage Title in Solid Dark Charcoal */}
                     <h3 className={styles.stageName}>{stage.name}</h3>
 
-                    {/* Stage Description in Universal Body Font (High contrast dark slate) */}
+                    {/* Stage Description in High Contrast Muted Slate */}
                     <p className={styles.stageSummary}>{stage.summary}</p>
-
-                    {/* Accent Baseline */}
-                    <div className={styles.stageAccentBar} />
                   </button>
                 );
               })}
@@ -757,9 +771,10 @@ export const AraneaSystem: React.FC = () => {
                 ref={spiderMobileRef}
                 className={styles.mobileSpider}
                 style={{
-                  top: '-20px',
-                  opacity: 0,
-                  transform: 'translate(0, -50%) rotate(90deg) scale(0)',
+                  top: '0%',
+                  opacity: 1,
+                  transform: 'translate(0, -50%) rotate(90deg) scale(0.85)',
+                  transformOrigin: 'center center',
                 }}
               >
                 <NavbarSpiderWalking />

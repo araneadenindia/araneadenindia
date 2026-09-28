@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import adLogo from '../../assets/AD Transparent SVG.svg';
+import { ClienteleSection } from '../../components/ClienteleSection';
 import styles from './AboutPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,23 +32,11 @@ const ADVANTAGE_PILLARS: DifferencePillar[] = [
   },
 ];
 
-const CLIENT_LOGOS = [
-  { id: 1, src: '/clientele/client-1.jpg', name: 'MOTÉC Luxury Tech' },
-  { id: 2, src: '/clientele/client-2.jpg', name: 'VOX Studio' },
-  { id: 3, src: '/clientele/client-3.jpg', name: 'KINETICA Future' },
-  { id: 4, src: '/clientele/client-4.jpg', name: 'NEXUS LABS AI' },
-  { id: 5, src: '/clientele/client-5.jpg', name: 'CYBERNEX Systems' },
-  { id: 6, src: '/clientele/client-6.jpg', name: 'MEDIA APERTURE' },
-  { id: 7, src: '/clientele/client-7.jpg', name: 'NEBULA Cloud Systems' },
-  { id: 8, src: '/clientele/client-8.jpg', name: 'BIOTECH Quantum' },
-];
-
 export const AboutPage: React.FC = () => {
   const pageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const visionRef = useRef<HTMLElement>(null);
   const differenceRef = useRef<HTMLElement>(null);
-  const clienteleRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -153,46 +142,6 @@ export const AboutPage: React.FC = () => {
         }
       }
 
-      // 06 — Clientele Marquee
-      if (clienteleRef.current) {
-        const header = clienteleRef.current.querySelector(`.${styles.sectionHeaderCenter}`);
-        const marquee = clienteleRef.current.querySelector(`.${styles.clienteleMarqueeWrapper}`);
-
-        if (header) {
-          gsap.fromTo(
-            header,
-            { opacity: 0, y: 24 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: clienteleRef.current,
-                start: 'top 85%',
-              },
-            }
-          );
-        }
-
-        if (marquee) {
-          gsap.fromTo(
-            marquee,
-            { opacity: 0, y: 20 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              delay: 0.15,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: clienteleRef.current,
-                start: 'top 80%',
-              },
-            }
-          );
-        }
-      }
 
       // 07 — Cinematic CTA
       if (ctaRef.current) {
@@ -439,40 +388,9 @@ export const AboutPage: React.FC = () => {
 
       {/* ─────────────────────────────────────────
           06 — OUR CLIENTELE
-          (Infinite smooth auto-scroll logo marquee)
+          (Universal infinite smooth auto-scroll logo marquee)
       ───────────────────────────────────────── */}
-      <section ref={clienteleRef} className={styles.clienteleSection} aria-labelledby="clientele-title">
-        <div className={styles.container}>
-          <div className={styles.sectionHeaderCenter}>
-            <div className={styles.eyebrow}>
-              <span className={styles.eyebrowMarker} />
-              <span className={styles.eyebrowText}>OUR CLIENTELE</span>
-            </div>
-            <h2 id="clientele-title" className={styles.sectionTitle}>
-              TRUSTED BY VISIONARY BRANDS
-            </h2>
-            <p className={styles.teamSubtitle}>
-              Partnering with ambitious teams across technology, luxury, commerce, and media.
-            </p>
-          </div>
-        </div>
-
-        {/* Seamless Infinite Marquee Track */}
-        <div className={styles.clienteleMarqueeWrapper}>
-          <div className={styles.clienteleTrack}>
-            {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, index) => (
-              <div key={`${logo.id}-${index}`} className={styles.clienteleCard} title={logo.name}>
-                <img
-                  src={logo.src}
-                  alt={logo.name}
-                  className={styles.clienteleLogoImg}
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ClienteleSection />
 
       {/* ─────────────────────────────────────────
           07 — INITIATE COLLABORATION (CINEMATIC CTA)

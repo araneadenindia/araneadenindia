@@ -262,7 +262,7 @@ export const TeamPreview: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className={styles.teamPreviewWrapper}>
       {/* ════════════════════════════════════════════════════════════
           PART 1: FOUNDER & CEO SPOTLIGHT (RESTORED AS IT WAS)
           ════════════════════════════════════════════════════════════ */}
@@ -610,7 +610,7 @@ export const TeamPreview: React.FC = () => {
 
       {/* Interactive Member Modal */}
       <TeamMemberModal member={selectedMember} onClose={() => setSelectedMember(null)} />
-    </>
+    </div>
   );
 };
 

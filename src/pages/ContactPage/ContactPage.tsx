@@ -5,7 +5,7 @@ import styles from './ContactPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const INNER_SERVICES = [
+export const SERVICES_LIST = [
   'Web Development',
   'UI / UX Design',
   'Mobile App Development',
@@ -14,9 +14,6 @@ export const INNER_SERVICES = [
   'Video Editing',
   'Poster & Graphic Design',
   'Digital Marketing',
-];
-
-export const OUTER_SERVICES = [
   'Social Media Management',
   'Meta / Google / Instagram Ads',
   'Google Business Listing',
@@ -26,41 +23,6 @@ export const OUTER_SERVICES = [
   'Workshops & Training',
   'Other',
 ];
-
-export const MOBILE_LEFT_SERVICES = INNER_SERVICES;
-export const MOBILE_RIGHT_SERVICES = OUTER_SERVICES;
-export const SERVICES_LIST = [...INNER_SERVICES, ...OUTER_SERVICES];
-
-const WEB_NODES = [
-  ...INNER_SERVICES.map((name, i) => {
-    const angle = -90 + i * 45;
-    const rad = (angle * Math.PI) / 180;
-    const r = 25;
-    return {
-      name,
-      x: +(50 + r * Math.cos(rad)).toFixed(2),
-      y: +(50 + r * Math.sin(rad)).toFixed(2),
-    };
-  }),
-  ...OUTER_SERVICES.map((name, i) => {
-    const angle = -67.5 + i * 45;
-    const rad = (angle * Math.PI) / 180;
-    const r = 42;
-    return {
-      name,
-      x: +(50 + r * Math.cos(rad)).toFixed(2),
-      y: +(50 + r * Math.sin(rad)).toFixed(2),
-    };
-  }),
-];
-
-const POLYGON_ANGLES = Array.from({ length: 16 }, (_, i) => -90 + i * 22.5);
-const POLYGON_RINGS = [15, 25, 34, 42].map((r) =>
-  POLYGON_ANGLES.map((a) => {
-    const rad = (a * Math.PI) / 180;
-    return `${(50 + r * Math.cos(rad)).toFixed(2)},${(50 + r * Math.sin(rad)).toFixed(2)}`;
-  }).join(' ')
-);
 
 const COUNTRY_CODES = [
   { code: '+91', country: 'IN (+91)' },
@@ -75,7 +37,6 @@ const COUNTRY_CODES = [
 
 interface ContactItem {
   id: string;
-  number: string;
   label: string;
   display: string;
   actionText: string;
@@ -87,10 +48,9 @@ interface ContactItem {
 const CONTACT_METHODS: ContactItem[] = [
   {
     id: 'phone',
-    number: '01',
-    label: 'CALL US',
+    label: 'Call Us',
     display: '+91 8106574159',
-    actionText: 'CALL NOW',
+    actionText: 'Call Now',
     href: 'tel:+918106574159',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -100,10 +60,9 @@ const CONTACT_METHODS: ContactItem[] = [
   },
   {
     id: 'email',
-    number: '02',
-    label: 'EMAIL US',
+    label: 'Email Us',
     display: 'contact@araneaden.com',
-    actionText: 'SEND EMAIL',
+    actionText: 'Send Email',
     href: 'mailto:contact@araneaden.com',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -114,10 +73,9 @@ const CONTACT_METHODS: ContactItem[] = [
   },
   {
     id: 'whatsapp',
-    number: '03',
-    label: 'WHATSAPP',
-    display: 'Chat with us',
-    actionText: 'MESSAGE ON WHATSAPP',
+    label: 'WhatsApp',
+    display: '+91 8106574159',
+    actionText: 'Start Chat',
     href: 'https://wa.me/918106574159',
     isExternal: true,
     icon: (
@@ -128,10 +86,9 @@ const CONTACT_METHODS: ContactItem[] = [
   },
   {
     id: 'instagram',
-    number: '04',
-    label: 'INSTAGRAM',
-    display: 'Instagram',
-    actionText: 'FOLLOW US',
+    label: 'Instagram',
+    display: '@araneaden_',
+    actionText: 'Follow Us',
     href: 'https://www.instagram.com/araneaden_',
     isExternal: true,
     icon: (
@@ -144,10 +101,9 @@ const CONTACT_METHODS: ContactItem[] = [
   },
   {
     id: 'youtube',
-    number: '05',
-    label: 'YOUTUBE',
-    display: 'YouTube',
-    actionText: 'WATCH OUR WORK',
+    label: 'YouTube',
+    display: '@araneaden_',
+    actionText: 'Watch Work',
     href: 'https://www.youtube.com/@araneaden_',
     isExternal: true,
     icon: (
@@ -158,10 +114,9 @@ const CONTACT_METHODS: ContactItem[] = [
   },
   {
     id: 'linkedin',
-    number: '06',
-    label: 'LINKEDIN',
-    display: 'LinkedIn',
-    actionText: 'CONNECT WITH US',
+    label: 'LinkedIn',
+    display: 'Aranea Den',
+    actionText: 'Connect',
     href: 'https://www.linkedin.com/company/araneaden',
     isExternal: true,
     icon: (
@@ -172,10 +127,9 @@ const CONTACT_METHODS: ContactItem[] = [
   },
   {
     id: 'location',
-    number: '07',
-    label: 'LOCATION',
-    display: 'HYDERABAD, INDIA',
-    actionText: 'VIEW ON MAPS',
+    label: 'Location',
+    display: 'Hyderabad, India',
+    actionText: 'View on Maps',
     href: 'https://maps.google.com/?q=Hyderabad,+India',
     isExternal: true,
     icon: (
@@ -202,124 +156,72 @@ export const ContactPage: React.FC = () => {
     waUrl: string;
   } | null>(null);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalError, setModalError] = useState('');
+
   const pageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const modalCardRef = useRef<HTMLDivElement>(null);
 
-  const [isWebModalOpen, setIsWebModalOpen] = useState(false);
-  const [modalError, setModalError] = useState('');
-  const modalOverlayRef = useRef<HTMLDivElement>(null);
-  const spiderHubRef = useRef<HTMLDivElement>(null);
-
+  // Keyboard accessibility and scroll lock for Modal
   useEffect(() => {
-    if (isWebModalOpen) {
+    if (isModalOpen) {
       document.body.style.overflow = 'hidden';
 
-      const ctx = gsap.context(() => {
-        // Overlay fade in
-        if (modalOverlayRef.current) {
-          gsap.fromTo(
-            modalOverlayRef.current,
-            { opacity: 0 },
-            { opacity: 1, duration: 0.28, ease: 'power2.out' }
-          );
-        }
-
-        // Center spider anchor pop
-        if (spiderHubRef.current) {
-          gsap.fromTo(
-            spiderHubRef.current,
-            { scale: 0.4, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.38, ease: 'back.out(2)' }
-          );
-        }
-
-        // Web lines draw/fade outward
-        const lines = modalOverlayRef.current?.querySelectorAll('line');
-        if (lines && lines.length > 0) {
-          gsap.fromTo(
-            lines,
-            { opacity: 0, scale: 0.85, transformOrigin: 'center center' },
-            { opacity: 1, scale: 1, duration: 0.35, ease: 'power2.out', delay: 0.04 }
-          );
-        }
-
-        // Text labels staggered reveal
-        const labels = modalOverlayRef.current?.querySelectorAll(
-          `.${styles.minimalTextLabel}, .${styles.mobileLabelLeft}, .${styles.mobileLabelRight}`
+      if (modalCardRef.current) {
+        gsap.fromTo(
+          modalCardRef.current,
+          { opacity: 0, scale: 0.96, y: 16 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.25, ease: 'power2.out' }
         );
-        if (labels && labels.length > 0) {
-          gsap.fromTo(
-            labels,
-            { opacity: 0, scale: 0.92 },
-            { opacity: 1, scale: 1, duration: 0.32, stagger: 0.018, ease: 'power2.out', delay: 0.08 }
-          );
-        }
-      });
+      }
 
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
-          setIsWebModalOpen(false);
+          setIsModalOpen(false);
         }
       };
       window.addEventListener('keydown', handleKeyDown);
 
       return () => {
-        ctx.revert();
         document.body.style.overflow = '';
         window.removeEventListener('keydown', handleKeyDown);
       };
     } else {
       document.body.style.overflow = '';
     }
-  }, [isWebModalOpen]);
+  }, [isModalOpen]);
 
-  const handleConfirm = () => {
-    if (selectedServices.length === 0) {
-      setModalError('Please select at least one service on the web.');
-      return;
-    }
-    setModalError('');
-    setIsWebModalOpen(false);
-    if (errors.services) {
-      setErrors((prev) => ({ ...prev, services: '' }));
-    }
-  };
-
-  const clearAllServices = () => {
-    setSelectedServices([]);
-  };
-
+  // Page entrance animations
   useEffect(() => {
     const page = pageRef.current;
     if (!page) return;
 
     const ctx = gsap.context(() => {
-      // 1. Hero entrance
       if (heroRef.current) {
         gsap.fromTo(
           heroRef.current.querySelectorAll(`.${styles.heroContent} > *`),
-          { opacity: 0, y: 24 },
+          { opacity: 0, y: 22 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            stagger: 0.12,
+            duration: 0.75,
+            stagger: 0.1,
             ease: 'power3.out',
           }
         );
       }
 
-      // 2. Form card entrance
       if (formRef.current) {
         gsap.fromTo(
           formRef.current,
-          { opacity: 0, y: 32 },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
+            duration: 0.8,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: formRef.current,
@@ -329,7 +231,6 @@ export const ContactPage: React.FC = () => {
         );
       }
 
-      // 3. Contact panel items entrance
       if (panelRef.current) {
         const items = panelRef.current.querySelectorAll(`.${styles.contactItem}`);
         gsap.fromTo(
@@ -338,8 +239,8 @@ export const ContactPage: React.FC = () => {
           {
             opacity: 1,
             x: 0,
-            duration: 0.65,
-            stagger: 0.08,
+            duration: 0.6,
+            stagger: 0.07,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: panelRef.current,
@@ -358,11 +259,28 @@ export const ContactPage: React.FC = () => {
       const next = prev.includes(service)
         ? prev.filter((s) => s !== service)
         : [...prev, service];
-      if (next.length > 0 && errors.services) {
-        setErrors((e) => ({ ...e, services: '' }));
+      if (next.length > 0) {
+        if (errors.services) setErrors((e) => ({ ...e, services: '' }));
+        if (modalError) setModalError('');
       }
       return next;
     });
+  };
+
+  const clearAllServices = () => {
+    setSelectedServices([]);
+  };
+
+  const handleModalConfirm = () => {
+    if (selectedServices.length === 0) {
+      setModalError('Please select at least one service to continue.');
+      return;
+    }
+    setModalError('');
+    setIsModalOpen(false);
+    if (errors.services) {
+      setErrors((prev) => ({ ...prev, services: '' }));
+    }
   };
 
   const validate = (): boolean => {
@@ -373,7 +291,7 @@ export const ContactPage: React.FC = () => {
     }
 
     if (!name.trim()) {
-      newErrors.name = 'Please enter your full name.';
+      newErrors.name = 'Please enter your name.';
     } else if (name.trim().length < 2) {
       newErrors.name = 'Name must be at least 2 characters.';
     }
@@ -382,7 +300,7 @@ export const ContactPage: React.FC = () => {
     if (!phone.trim()) {
       newErrors.phone = 'Please enter your phone number.';
     } else if (cleanPhone.length < 8) {
-      newErrors.phone = 'Please enter a valid phone number (at least 8-10 digits).';
+      newErrors.phone = 'Please enter a valid phone number.';
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -395,7 +313,7 @@ export const ContactPage: React.FC = () => {
     if (!note.trim()) {
       newErrors.note = 'Please tell us briefly about your project.';
     } else if (note.trim().length < 5) {
-      newErrors.note = 'Please provide a little more detail about your inquiry.';
+      newErrors.note = 'Please provide a little more detail about your project.';
     }
 
     setErrors(newErrors);
@@ -420,7 +338,7 @@ export const ContactPage: React.FC = () => {
     const targetNumber = '918106574159';
     const waUrl = `https://wa.me/${targetNumber}?text=${encodeURIComponent(waMessage)}`;
 
-    // Open WhatsApp in new tab / application
+    // Open WhatsApp in a new tab/application
     window.open(waUrl, '_blank', 'noopener,noreferrer');
 
     setSubmittedData({
@@ -432,20 +350,22 @@ export const ContactPage: React.FC = () => {
   return (
     <div ref={pageRef} className={styles.page}>
       {/* ─────────────────────────────────────────────────────────────
-          01 — COMPACT HERO SECTION
+          01 — HERO SECTION
           ───────────────────────────────────────────────────────────── */}
       <section ref={heroRef} className={styles.heroSection}>
-        {/* Subtle Minimal Arachnid Web SVG Backdrop */}
-
-
         <div className={styles.container}>
           <div className={styles.heroContent}>
-            {/* Breadcrumb Navigation */}
+            {/* Clean Breadcrumb Navigation */}
+            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+              <a href="/" className={styles.breadcrumbLink}>Home</a>
+              <span className={styles.breadcrumbSeparator}>/</span>
+              <span className={styles.breadcrumbActive}>Contact</span>
+            </nav>
 
+            <h1 className={styles.heroTitle}>LET&apos;S TALK.</h1>
 
-            {/* Supporting Text */}
-            <p className={styles.heroSupportingText}>
-              Have a project in mind? Tell us what you need, and let's create
+            <p className={styles.heroSubtitle}>
+              Have a project in mind? Tell us what you need, and let&apos;s create
               something meaningful together.
             </p>
           </div>
@@ -455,25 +375,18 @@ export const ContactPage: React.FC = () => {
       {/* ─────────────────────────────────────────────────────────────
           02 — MAIN TWO-COLUMN CONTACT SECTION
           ───────────────────────────────────────────────────────────── */}
-      <section className={styles.mainContactSection}>
+      <section className={styles.mainSection}>
         <div className={styles.container}>
-          <div className={styles.splitLayout}>
-            {/* ── LEFT SIDE — PROJECT INQUIRY FORM ── */}
+          <div className={styles.splitGrid}>
+            {/* ── LEFT COLUMN — PROJECT INQUIRY FORM ── */}
             <div ref={formRef} className={styles.formCol}>
               {submittedData ? (
                 <div className={styles.whatsappPromptBox}>
-                  <div className={styles.promptStatusRow}>
-                    <span className={styles.promptStatusDot} />
-                    <span className={styles.promptStatusText}>
-                      READY FOR WHATSAPP TRANSMISSION
-                    </span>
-                  </div>
-
                   <h2 className={styles.promptTitle}>CONTINUE IN WHATSAPP</h2>
 
                   <p className={styles.promptInstruction}>
                     We have formatted your project brief. Click below to continue in
-                    WhatsApp and deliver your inquiry directly to our direct desk at{' '}
+                    WhatsApp and chat directly with our team at{' '}
                     <strong>+91 8106574159</strong>.
                   </p>
 
@@ -488,7 +401,7 @@ export const ContactPage: React.FC = () => {
                       rel="noopener noreferrer"
                       className={styles.openWaBtn}
                     >
-                      <span>OPEN WHATSAPP NOW</span>
+                      <span>CONTINUE TO WHATSAPP</span>
                       <span aria-hidden="true">→</span>
                     </a>
 
@@ -497,55 +410,57 @@ export const ContactPage: React.FC = () => {
                       className={styles.editInquiryBtn}
                       onClick={() => setSubmittedData(null)}
                     >
-                      <span>EDIT INQUIRY DETAILS ↺</span>
+                      <span>EDIT DETAILS ↺</span>
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className={styles.formCard}>
                   <div className={styles.formHeader}>
-                    <span className={styles.formHeaderTag}>PROJECT INTAKE</span>
-                    <h2 className={styles.formHeaderTitle}>TELL US ABOUT YOUR SCOPE</h2>
+                    <h2 className={styles.formTitle}>Tell Us About Your Project</h2>
+                    <p className={styles.formSubtitle}>
+                      Fill in your details below and we&apos;ll reach out to discuss your vision.
+                    </p>
                   </div>
 
                   <form onSubmit={handleSubmit} noValidate>
-                    {/* 1. SELECT SERVICE */}
-                    <div className={styles.serviceSelectSection}>
+                    {/* SERVICES SELECTION */}
+                    <div className={styles.serviceFieldGroup}>
                       <label className={styles.fieldLabel}>
-                        1. SELECT SERVICE *
+                        Services Needed *
                       </label>
 
                       {/* Prominent Red Button */}
                       <button
                         type="button"
-                        className={styles.selectServiceTriggerBtn}
+                        className={styles.selectServicesBtn}
                         onClick={() => {
-                          setIsWebModalOpen(true);
+                          setIsModalOpen(true);
                           setModalError('');
                         }}
                         aria-haspopup="dialog"
-                        aria-expanded={isWebModalOpen}
+                        aria-expanded={isModalOpen}
                       >
-                        <span className={styles.triggerBtnLabel}>
+                        <span className={styles.btnActionText}>
                           {selectedServices.length === 0
                             ? 'SELECT SERVICES +'
-                            : `${selectedServices.length} ${selectedServices.length === 1 ? 'SERVICE' : 'SERVICES'} SELECTED`}
+                            : `SELECT SERVICES (${selectedServices.length})`}
                         </span>
                         {selectedServices.length > 0 && (
-                          <span className={styles.triggerEditBadge}>[✎ EDIT]</span>
+                          <span className={styles.btnEditHint}>EDIT SERVICES ✎</span>
                         )}
                       </button>
 
-                      {/* Clean & Compact Selected Services List */}
+                      {/* Selected Services Tags Display */}
                       {selectedServices.length > 0 && (
-                        <div className={styles.selectedServicesDisplay}>
+                        <div className={styles.selectedTagsList}>
                           {selectedServices.map((service) => (
-                            <span key={service} className={styles.selectedServicePill}>
-                              <span className={styles.pillDot} />
+                            <span key={service} className={styles.serviceTag}>
+                              <span className={styles.serviceTagDot} />
                               <span>{service}</span>
                               <button
                                 type="button"
-                                className={styles.pillRemoveBtn}
+                                className={styles.tagRemoveBtn}
                                 onClick={() => toggleService(service)}
                                 aria-label={`Remove ${service}`}
                               >
@@ -557,18 +472,18 @@ export const ContactPage: React.FC = () => {
                       )}
 
                       {errors.services && (
-                        <div className={styles.errorText}>
+                        <div className={styles.fieldError}>
                           <span>⚠</span>
                           <span>{errors.services}</span>
                         </div>
                       )}
                     </div>
 
-                    {/* 2. NAME & PHONE */}
+                    {/* NAME & PHONE */}
                     <div className={styles.inputsRow}>
                       <div className={styles.inputGroup}>
                         <label htmlFor="contact-name" className={styles.fieldLabel}>
-                          2. YOUR NAME *
+                          Your Name *
                         </label>
                         <input
                           id="contact-name"
@@ -579,13 +494,13 @@ export const ContactPage: React.FC = () => {
                             setName(e.target.value);
                             if (errors.name) setErrors((prev) => ({ ...prev, name: '' }));
                           }}
-                          placeholder="Enter your full name"
+                          placeholder="Your full name"
                           className={`${styles.inputField} ${
                             errors.name ? styles.inputError : ''
                           }`}
                         />
                         {errors.name && (
-                          <div className={styles.errorText}>
+                          <div className={styles.fieldError}>
                             <span>⚠</span>
                             <span>{errors.name}</span>
                           </div>
@@ -594,7 +509,7 @@ export const ContactPage: React.FC = () => {
 
                       <div className={styles.inputGroup}>
                         <label htmlFor="contact-phone" className={styles.fieldLabel}>
-                          3. PHONE NUMBER *
+                          Phone Number *
                         </label>
                         <div className={styles.phoneInputWrapper}>
                           <select
@@ -618,14 +533,14 @@ export const ContactPage: React.FC = () => {
                               setPhone(e.target.value);
                               if (errors.phone) setErrors((prev) => ({ ...prev, phone: '' }));
                             }}
-                            placeholder="Enter your phone number"
+                            placeholder="Phone number"
                             className={`${styles.inputField} ${
                               errors.phone ? styles.inputError : ''
                             }`}
                           />
                         </div>
                         {errors.phone && (
-                          <div className={styles.errorText}>
+                          <div className={styles.fieldError}>
                             <span>⚠</span>
                             <span>{errors.phone}</span>
                           </div>
@@ -633,11 +548,11 @@ export const ContactPage: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* 4. EMAIL ADDRESS */}
+                    {/* EMAIL ADDRESS */}
                     <div className={styles.fullRow}>
                       <div className={styles.inputGroup}>
                         <label htmlFor="contact-email" className={styles.fieldLabel}>
-                          4. EMAIL ADDRESS *
+                          Email Address *
                         </label>
                         <input
                           id="contact-email"
@@ -648,13 +563,13 @@ export const ContactPage: React.FC = () => {
                             setEmail(e.target.value);
                             if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
                           }}
-                          placeholder="Enter your email address"
+                          placeholder="your.email@company.com"
                           className={`${styles.inputField} ${
                             errors.email ? styles.inputError : ''
                           }`}
                         />
                         {errors.email && (
-                          <div className={styles.errorText}>
+                          <div className={styles.fieldError}>
                             <span>⚠</span>
                             <span>{errors.email}</span>
                           </div>
@@ -662,11 +577,11 @@ export const ContactPage: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* 5. PROJECT NOTE */}
+                    {/* PROJECT DETAILS / NOTE */}
                     <div className={styles.fullRow}>
                       <div className={styles.inputGroup}>
                         <label htmlFor="contact-note" className={styles.fieldLabel}>
-                          5. PROJECT NOTE *
+                          Project Details *
                         </label>
                         <textarea
                           id="contact-note"
@@ -676,13 +591,13 @@ export const ContactPage: React.FC = () => {
                             setNote(e.target.value);
                             if (errors.note) setErrors((prev) => ({ ...prev, note: '' }));
                           }}
-                          placeholder="Tell us briefly about your project, requirements, or ideas..."
+                          placeholder="Tell us briefly about your project, timeline, budget, or goals..."
                           className={`${styles.textareaField} ${
                             errors.note ? styles.inputError : ''
                           }`}
                         />
                         {errors.note && (
-                          <div className={styles.errorText}>
+                          <div className={styles.fieldError}>
                             <span>⚠</span>
                             <span>{errors.note}</span>
                           </div>
@@ -702,10 +617,10 @@ export const ContactPage: React.FC = () => {
               )}
             </div>
 
-            {/* ── RIGHT SIDE — CONTACT INFORMATION PANEL ── */}
-            <aside ref={panelRef} className={styles.contactPanel} aria-label="Contact Information">
+            {/* ── RIGHT COLUMN — DIRECT CONTACT & SOCIAL CHANNELS ── */}
+            <aside ref={panelRef} className={styles.contactPanel} aria-label="Direct Contact">
               <div className={styles.contactPanelHeader}>
-                <h2 className={styles.panelHeading}>GET IN TOUCH</h2>
+                <h2 className={styles.panelHeading}>Get in Touch</h2>
                 <p className={styles.panelSubtext}>
                   Choose the way that works best for you.
                 </p>
@@ -726,9 +641,7 @@ export const ContactPage: React.FC = () => {
                         {item.icon}
                       </div>
                       <div className={styles.contactItemMeta}>
-                        <span className={styles.itemLabel}>
-                          {item.number} — {item.label}
-                        </span>
+                        <span className={styles.itemLabel}>{item.label}</span>
                         <span className={styles.itemDisplay}>{item.display}</span>
                       </div>
                     </div>
@@ -746,177 +659,99 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          03 — MINIMAL SPIDER WEB MODAL — "LESS IS MORE"
+          03 — CLEAN SERVICE SELECTION MODAL
+          Clean, centered, dark modal with backdrop blur & checklist
           ───────────────────────────────────────────────────────────── */}
-      {isWebModalOpen && (
+      {isModalOpen && (
         <div
-          ref={modalOverlayRef}
-          className={`${styles.minimalWebOverlay} ${styles.minimalWebOverlayActive}`}
+          className={`${styles.modalOverlay} ${styles.modalOverlayActive}`}
           onClick={(e) => {
-            if (e.target === modalOverlayRef.current) {
-              setIsWebModalOpen(false);
+            if (e.target === e.currentTarget) {
+              setIsModalOpen(false);
             }
           }}
           role="dialog"
           aria-modal="true"
-          aria-label="Select Services Spider Web"
+          aria-labelledby="services-modal-title"
         >
-          {/* Top Bar: Subtle Close Button */}
-          <div className={styles.minimalTopBar}>
-            <button
-              type="button"
-              className={styles.minimalCloseBtn}
-              onClick={() => setIsWebModalOpen(false)}
-              aria-label="Close service web selector"
-            >
-              ✕
-            </button>
-          </div>
+          <div ref={modalCardRef} className={styles.modalCard}>
+            {/* Modal Header */}
+            <div className={styles.modalHeader}>
+              <div>
+                <h3 id="services-modal-title" className={styles.modalTitle}>
+                  Select Your Services
+                </h3>
+                <p className={styles.modalSubtitle}>
+                  Choose one or more disciplines for your project
+                </p>
+              </div>
 
-          {/* 1. Desktop Radial Spider Web (>= 768px) */}
-          <div className={styles.desktopWebContainer}>
-            {/* SVG Silk Canvas */}
-            <svg className={styles.webSvgCanvas} viewBox="0 0 100 100">
-              {/* Concentric Spider Web Polygon Rings */}
-              {POLYGON_RINGS.map((pts, i) => (
-                <polygon
-                  key={i}
-                  points={pts}
-                  className={styles.webPolygonRing}
-                />
-              ))}
-
-              {/* Radial Silk Lines */}
-              {WEB_NODES.map((node) => {
-                const isSelected = selectedServices.includes(node.name);
-                return (
-                  <line
-                    key={node.name}
-                    x1="50"
-                    y1="50"
-                    x2={node.x}
-                    y2={node.y}
-                    className={`${styles.silkLine} ${
-                      isSelected ? styles.silkLineActive : ''
-                    }`}
-                  />
-                );
-              })}
-            </svg>
-
-            {/* Central Spider Anchor */}
-            <div ref={spiderHubRef} className={styles.centerSpiderAnchor}>
-              <img
-                src="/AD Transparent SVG.svg"
-                alt="Aranea Den"
-                className={styles.centerSpiderLogo}
-              />
+              <button
+                type="button"
+                className={styles.modalCloseBtn}
+                onClick={() => setIsModalOpen(false)}
+                aria-label="Close service selector"
+              >
+                ✕
+              </button>
             </div>
 
-            {/* Simple, Clickable Text Labels Directly on the Web */}
-            {WEB_NODES.map((node) => {
-              const isSelected = selectedServices.includes(node.name);
-              return (
-                <button
-                  key={node.name}
-                  type="button"
-                  className={`${styles.minimalTextLabel} ${
-                    isSelected ? styles.minimalTextLabelActive : ''
-                  }`}
-                  style={{ left: `${node.x}%`, top: `${node.y}%` }}
-                  onClick={() => {
-                    toggleService(node.name);
-                    if (modalError) setModalError('');
-                  }}
-                  aria-pressed={isSelected}
-                >
-                  {isSelected && <span className={styles.labelDot} />}
-                  <span>{node.name}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* 2. Mobile Simplified Spine Web (< 768px) */}
-          <div className={styles.mobileWebContainer}>
-            {MOBILE_LEFT_SERVICES.map((leftService, i) => {
-              const rightService = MOBILE_RIGHT_SERVICES[i];
-              const isLeftSelected = selectedServices.includes(leftService);
-              const isRightSelected = selectedServices.includes(rightService);
-              const isKnotActive = isLeftSelected || isRightSelected;
-
-              return (
-                <div key={i} className={styles.mobileWebRow}>
-                  {/* Left Service Text Label */}
-                  <button
-                    type="button"
-                    className={`${styles.mobileLabelLeft} ${
-                      isLeftSelected ? styles.mobileLabelLeftActive : ''
-                    }`}
-                    onClick={() => {
-                      toggleService(leftService);
-                      if (modalError) setModalError('');
-                    }}
-                    aria-pressed={isLeftSelected}
-                  >
-                    {isLeftSelected ? `• ${leftService}` : leftService}
-                  </button>
-
-                  {/* Center Silk Spine Knot */}
-                  <div className={styles.mobileSpineCenter}>
-                    <div className={styles.mobileSpineLine} />
-                    <div
-                      className={`${styles.mobileSpineKnot} ${
-                        isKnotActive ? styles.mobileSpineKnotActive : ''
-                      }`}
-                    />
-                  </div>
-
-                  {/* Right Service Text Label */}
-                  <button
-                    type="button"
-                    className={`${styles.mobileLabelRight} ${
-                      isRightSelected ? styles.mobileLabelRightActive : ''
-                    }`}
-                    onClick={() => {
-                      toggleService(rightService);
-                      if (modalError) setModalError('');
-                    }}
-                    aria-pressed={isRightSelected}
-                  >
-                    {isRightSelected ? `${rightService} •` : rightService}
-                  </button>
+            {/* Modal Body: Compact Checklist */}
+            <div className={styles.modalServicesBody}>
+              {modalError && (
+                <div className={styles.modalValidationNotice}>
+                  ⚠ {modalError}
                 </div>
-              );
-            })}
-          </div>
+              )}
 
-          {/* Bottom Actions Bar */}
-          <div>
-            {modalError && (
-              <div className={styles.modalValidationNotice}>
-                ⚠ {modalError}
+              <div className={styles.modalServicesGrid}>
+                {SERVICES_LIST.map((service) => {
+                  const isSelected = selectedServices.includes(service);
+                  return (
+                    <button
+                      key={service}
+                      type="button"
+                      className={`${styles.serviceOption} ${
+                        isSelected ? styles.serviceOptionSelected : ''
+                      }`}
+                      onClick={() => toggleService(service)}
+                      aria-pressed={isSelected}
+                    >
+                      <span className={styles.serviceOptionText}>{service}</span>
+                      <span className={styles.serviceCheckIndicator} aria-hidden="true">
+                        {isSelected ? '✓' : ''}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
-            )}
-            <div className={styles.modalBottomControls}>
+            </div>
+
+            {/* Modal Footer Controls */}
+            <div className={styles.modalFooter}>
+              <div className={styles.modalFooterLeft}>
+                <span className={styles.modalSelectedCount}>
+                  {selectedServices.length}{' '}
+                  {selectedServices.length === 1 ? 'service' : 'services'} selected
+                </span>
+                {selectedServices.length > 0 && (
+                  <button
+                    type="button"
+                    className={styles.modalClearBtn}
+                    onClick={clearAllServices}
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
+
               <button
                 type="button"
-                className={styles.modalClearBtn}
-                onClick={clearAllServices}
+                className={styles.modalContinueBtn}
+                onClick={handleModalConfirm}
               >
-                CLEAR
-              </button>
-
-              <span className={styles.modalCountBadge}>
-                {selectedServices.length} {selectedServices.length === 1 ? 'SERVICE' : 'SERVICES'} SELECTED
-              </span>
-
-              <button
-                type="button"
-                className={styles.modalConfirmBtn}
-                onClick={handleConfirm}
-              >
-                CONFIRM SELECTION →
+                <span>CONTINUE</span>
+                <span aria-hidden="true">→</span>
               </button>
             </div>
           </div>

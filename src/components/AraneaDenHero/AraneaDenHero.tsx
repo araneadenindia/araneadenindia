@@ -32,7 +32,6 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
 
   // Passion Stage Refs
   const passionStageRef = useRef<HTMLDivElement>(null);
-  const heroWebSvgRef = useRef<SVGSVGElement>(null);
   const chapterBarRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLSpanElement>(null);
   const line2Ref = useRef<HTMLSpanElement>(null);
@@ -240,21 +239,6 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         0.35
       );
 
-      // 6b. Silk strands reveal integrated into scrub timeline (reversible, 60fps)
-      if (heroWebSvgRef.current) {
-        const strands = heroWebSvgRef.current.querySelectorAll('.hero-silk-strand');
-        tl.fromTo(
-          strands,
-          { strokeDashoffset: 800 },
-          {
-            strokeDashoffset: 0,
-            duration: 0.28,
-            stagger: 0.03,
-            ease: 'power2.out',
-          },
-          0.38
-        );
-      }
 
       // 7. Chapter Bar slides in
       if (chapterBar) {
@@ -411,29 +395,7 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         <div ref={passionStageRef} id="passion" className={styles.passionStage} aria-label="Our Passion">
           <div className={styles.ambientGlow} aria-hidden="true" />
 
-          {/* Interactive Architectural Tensile Web Weave in Backdrop */}
-          <svg
-            ref={heroWebSvgRef}
-            className={styles.heroWebSilkSvg}
-            viewBox="0 0 1000 600"
-            fill="none"
-            aria-hidden="true"
-          >
-            <ellipse cx="500" cy="300" rx="460" ry="260" stroke="rgba(255, 255, 255, 0.05)" strokeWidth="1" />
-            <ellipse cx="500" cy="300" rx="340" ry="190" stroke="rgba(223, 37, 49, 0.22)" strokeWidth="1" strokeDasharray="3 3" />
-            <ellipse cx="500" cy="300" rx="200" ry="110" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="1" />
-            <path className="hero-silk-strand" d="M 60 300 Q 500 230 940 300" stroke="rgba(223, 37, 49, 0.32)" strokeWidth="1.2" />
-            <path className="hero-silk-strand" d="M 140 100 Q 500 200 860 500" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
-            <path className="hero-silk-strand" d="M 140 500 Q 500 400 860 100" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
-            <path className="hero-silk-strand" d="M 500 40 L 500 560" stroke="rgba(223, 37, 49, 0.25)" strokeWidth="1.2" />
-            <polygon
-              className="hero-silk-strand"
-              points="500,110 740,190 740,410 500,490 260,410 260,190"
-              stroke="rgba(223, 37, 49, 0.25)"
-              strokeWidth="1.1"
-            />
-          </svg>
-
+          {/* Content Container */}
           <div className={styles.passionContainer}>
             {/* Chapter Header Bar */}
             <div ref={chapterBarRef} className={styles.chapterBar}>

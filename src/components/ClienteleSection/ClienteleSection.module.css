@@ -1,0 +1,390 @@
+/* ─────────────────────────────────────────────────────────────
+   UNIVERSAL CLIENTELE SECTION
+   Pure crisp white canvas with architectural crimson graphics,
+   delicate tensile silk lines, and seamless infinite marquee.
+   ───────────────────────────────────────────────────────────── */
+.clienteleSection {
+  width: 100%;
+  padding: clamp(70px, 8vw, 110px) 0 clamp(60px, 7vw, 95px) 0;
+  background-color: #FFFFFF;
+  background-image:
+    radial-gradient(ellipse 65% 50% at 50% 0%, rgba(223, 37, 49, 0.045) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 50% 100%, rgba(223, 37, 49, 0.035) 0%, transparent 70%);
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Crimson Top & Bottom Highlight Trims */
+.topAccentPip {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-crimson, #DF2531), transparent);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.6);
+  z-index: 3;
+}
+
+.bottomAccentPip {
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-crimson, #DF2531), transparent);
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.6);
+  z-index: 3;
+}
+
+/* Background Architectural Vector Canvas */
+.bgGraphicsWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.bgGraphicsSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .bgGraphicsWrapper text {
+    display: none;
+  }
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.headerCenter {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto clamp(36px, 5vh, 52px) auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Eyebrow Pill Badge with Pulse Dot */
+.eyebrowBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(223, 37, 49, 0.05);
+  border: 1px solid rgba(223, 37, 49, 0.22);
+  border-radius: 999px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(4px);
+}
+
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-crimson, #DF2531);
+  box-shadow: 0 0 8px #DF2531;
+  animation: redPulseDot 2.4s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+@keyframes redPulseDot {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(0.9);
+    box-shadow: 0 0 4px #DF2531;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+    box-shadow: 0 0 10px #DF2531;
+  }
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-crimson, #DF2531);
+}
+
+.badgeSeparator {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  color: rgba(223, 37, 49, 0.4);
+  user-select: none;
+}
+
+.badgeCount {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(11, 11, 12, 0.7);
+}
+
+.title {
+  margin: 0 0 14px 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(24px, 3.2vw, 42px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #0B0B0C;
+}
+
+.subtitle {
+  margin: 0 auto;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.6;
+  color: #5A5A60;
+  max-width: 620px;
+}
+
+/* Center Graphic Hairline Flank */
+.headerGraphicLine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.lineLeft {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(223, 37, 49, 0.45));
+}
+
+.lineRight {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(223, 37, 49, 0.45), transparent);
+}
+
+.centerDiamond {
+  color: var(--color-crimson, #DF2531);
+  font-size: 8px;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+/* Seamless Infinite Marquee Track */
+.marqueeWrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  padding: 16px 0;
+  box-sizing: border-box;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.5vw, 36px);
+  width: max-content;
+  animation: clienteleScroll 45s linear infinite;
+  will-change: transform;
+}
+
+.marqueeWrapper:hover .track {
+  animation-play-state: paused;
+}
+
+@keyframes clienteleScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Elegant Architectural Client Card */
+.clientCard {
+  width: clamp(145px, 12vw, 175px);
+  height: clamp(145px, 12vw, 175px);
+  border-radius: 20px;
+  background: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  box-shadow: 0 6px 20px rgba(11, 11, 12, 0.035), 0 1px 3px rgba(11, 11, 12, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 1.8vw, 22px);
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.35s ease;
+}
+
+.clientCard:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(223, 37, 49, 0.5);
+  box-shadow: 0 18px 38px rgba(223, 37, 49, 0.14), 0 0 0 1px rgba(223, 37, 49, 0.18);
+}
+
+/* Card Top Crimson Hairline */
+.cardAccentLine {
+  position: absolute;
+  top: 0;
+  left: 24%;
+  right: 24%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-crimson, #DF2531), transparent);
+  opacity: 0.35;
+  transition: opacity 0.3s ease, left 0.3s ease, right 0.3s ease;
+}
+
+.clientCard:hover .cardAccentLine {
+  left: 10%;
+  right: 10%;
+  opacity: 1;
+}
+
+/* Card Crimson Index Tag */
+.cardIndex {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(223, 37, 49, 0.45);
+  transition: color 0.25s ease;
+  user-select: none;
+}
+
+.clientCard:hover .cardIndex {
+  color: var(--color-crimson, #DF2531);
+}
+
+/* Card Subtle Corner Dot */
+.cardCornerTick {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(223, 37, 49, 0.2);
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.clientCard:hover .cardCornerTick {
+  background: var(--color-crimson, #DF2531);
+  transform: scale(1.4);
+}
+
+.clientLogoImg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: grayscale(12%) contrast(104%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.clientCard:hover .clientLogoImg {
+  filter: grayscale(0%) contrast(100%);
+  transform: scale(1.02);
+}
+
+/* Bottom Editorial Trust & Value Ribbon */
+.trustRibbon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.5vw, 32px);
+  flex-wrap: wrap;
+  margin-top: clamp(32px, 4.5vh, 48px);
+  padding: 12px 24px;
+  background: rgba(223, 37, 49, 0.025);
+  border: 1px solid rgba(223, 37, 49, 0.14);
+  border-radius: 12px;
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.ribbonItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ribbonDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-crimson, #DF2531);
+  box-shadow: 0 0 6px rgba(223, 37, 49, 0.6);
+  flex-shrink: 0;
+}
+
+.ribbonCross {
+  color: rgba(223, 37, 49, 0.45);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  user-select: none;
+}
+
+.ribbonText {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3A3A40;
+}
+
+@media (max-width: 768px) {
+  .trustRibbon {
+    gap: 12px;
+    padding: 12px 16px;
+    flex-direction: column;
+    text-align: center;
+  }
+  .ribbonCross {
+    display: none;
+  }
+}

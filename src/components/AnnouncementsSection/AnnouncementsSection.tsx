@@ -1,295 +1,449 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './AnnouncementsSection.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ─────────────────────────────────────────
-   10 ANNOUNCEMENTS — real Aranea Den data
-───────────────────────────────────────── */
 export interface AnnouncementItem {
   id: string;
-  category: string;
-  badge: string;
   title: string;
-  description: string;
   image: string;
-  link: string;
+  date: string;
 }
 
 const ANNOUNCEMENTS: AnnouncementItem[] = [
   {
+    id: 'sriyasjaan-collab',
+    title: 'Sriyasjaan Creative Collaboration',
+    image: '/portfolio-thumbs/sriyasjaan.jpg',
+    date: '24 SEPTEMBER 2026',
+  },
+  {
     id: 'hackathon-2026',
-    category: 'HACKATHONS',
-    badge: 'OCT 2026',
-    title: 'Aranea Code Nexus Hackathon 2026',
-    description: '48-hour global sprint for creative technologists. Build next-gen apps, spatial interfaces, and sensory prototypes with our team.',
+    title: 'Aranea Code Nexus Hackathon',
     image: '/portfolio-thumbs/thor.jpg',
-    link: '/contact',
+    date: '08 OCTOBER 2026',
   },
   {
     id: 'ai-masterclass',
-    category: 'WORKSHOPS',
-    badge: 'ENROLLING NOW',
     title: 'Systems Architecture & AI Masterclass',
-    description: 'Intensive hands-on training in production Next.js, WebGL, real-time microservices, and AI integrations directly with our lead engineers.',
     image: '/portfolio-thumbs/cornercraft.jpg',
-    link: '/services',
+    date: '16 OCTOBER 2026',
   },
   {
     id: 'imperial-visuals-launch',
-    category: 'IMPERIAL VISUALS',
-    badge: 'NEW',
-    title: 'AD Imperial Visuals — Creative Suite Launch',
-    description: 'Full-spectrum cinematic motion: 4K narrative reels, 3D motion design, acoustic choreography, and high-impact brand campaigns.',
+    title: 'AD Imperial Visuals Creative Suite',
     image: '/portfolio-thumbs/creators.jpg',
-    link: '/portfolio',
+    date: '25 OCTOBER 2026',
   },
   {
     id: 'iot-hardware-labs',
-    category: 'HARDWARE & IOT',
-    badge: 'LABS',
     title: 'Hardware & Embedded Solutions Lab',
-    description: 'Custom sensory microcontrollers, IoT installations, and interactive smart exhibits bridging physical and computational design.',
     image: '/portfolio-thumbs/viraj.jpg',
-    link: '/contact',
+    date: '03 NOVEMBER 2026',
   },
   {
     id: 'brand-identity-sprint',
-    category: 'GRAPHIC DESIGN',
-    badge: 'OPEN',
-    title: 'Brand Identity Sprint — Q4 2026',
-    description: 'End-to-end identity design in 7 days. Logomark, typography system, brand guidelines, and launch-ready visual assets.',
+    title: 'Brand Identity Sprint — Q4',
     image: '/portfolio-thumbs/meghana.jpg',
-    link: '/services/graphic-design',
+    date: '12 NOVEMBER 2026',
   },
   {
     id: 'web-dev-intake',
-    category: 'WEB DEVELOPMENT',
-    badge: 'INTAKE OPEN',
-    title: 'Premium Web Platform — Project Intake',
-    description: 'Accepting new bespoke web projects for Q4 2026. Engineered for speed, durability, and computational elegance.',
+    title: 'Premium Web Platform Intake',
     image: '/portfolio-thumbs/makaan.jpg',
-    link: '/contact',
+    date: '21 NOVEMBER 2026',
   },
   {
     id: 'digital-marketing-summit',
-    category: 'DIGITAL MARKETING',
-    badge: 'NOV 2026',
-    title: 'Growth Strategy Summit — Aranea Den',
-    description: 'Data-informed growth strategies and omnichannel marketing deep-dive. Real revenue and brand equity impact sessions.',
+    title: 'Growth Strategy Summit',
     image: '/portfolio-thumbs/nri360.jpg',
-    link: '/services/digital-marketing',
+    date: '02 DECEMBER 2026',
   },
   {
     id: 'mobile-app-workshop',
-    category: 'MOBILE',
-    badge: 'DEC 2026',
     title: 'Mobile App Development Bootcamp',
-    description: 'From zero to deployed: native iOS & Android with tactile micro-interactions, offline-first architecture, and scalable backends.',
     image: '/portfolio-thumbs/pooja.jpg',
-    link: '/services/mobile-development',
+    date: '11 DECEMBER 2026',
   },
   {
     id: 'uiux-critique',
-    category: 'UI / UX',
-    badge: 'FREE SESSION',
-    title: 'Open UI/UX Design Critique — Submit Your Work',
-    description: 'Submit your product for a live design critique session with our senior UI/UX team. Structural feedback, typographic precision, and UX audit.',
+    title: 'Open UI/UX Design Critique',
     image: '/portfolio-thumbs/pandp.jpg',
-    link: '/contact',
-  },
-  {
-    id: 'sriyasjaan-collab',
-    category: 'COLLABORATION',
-    badge: 'LIVE PROJECT',
-    title: 'Sriyasjaan Creative Collaboration — Case Study',
-    description: 'Behind-the-scenes on our latest fashion x digital collaboration: identity systems, campaign visuals, and social content strategy.',
-    image: '/portfolio-thumbs/sriyasjaan.jpg',
-    link: '/portfolio',
+    date: '19 DECEMBER 2026',
   },
 ];
 
-/* ─────────────────────────────────────────
-   COMPONENT
-───────────────────────────────────────── */
 export const AnnouncementsSection: React.FC = () => {
-  const [isPaused, setIsPaused] = useState(false);
+  const extendedSlides = useMemo(() => {
+    if (ANNOUNCEMENTS.length === 0) return [];
+    return [
+      ANNOUNCEMENTS[ANNOUNCEMENTS.length - 1], // Clone of last item (index 0)
+      ...ANNOUNCEMENTS,                         // Real items (indices 1 to length)
+      ANNOUNCEMENTS[0],                         // Clone of first item (index length + 1)
+    ];
+  }, []);
+
+  const [trackIndex, setTrackIndex] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
+
   const sectionRef = useRef<HTMLElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const touchStartXRef = useRef<number | null>(null);
 
-  // Duplicate for seamless infinite loop
-  const items = useMemo(() => [...ANNOUNCEMENTS, ...ANNOUNCEMENTS], []);
+  // Real active index (0 to ANNOUNCEMENTS.length - 1)
+  const activeRealIndex = (trackIndex - 1 + ANNOUNCEMENTS.length) % ANNOUNCEMENTS.length;
 
-  // GSAP continuous scroll (same technique as reels marquee)
+  // Prev / Next actions
+  const handlePrev = useCallback(() => {
+    setIsTransitioning(true);
+    setTrackIndex((prev) => prev - 1);
+  }, []);
+
+  const handleNext = useCallback(() => {
+    setIsTransitioning(true);
+    setTrackIndex((prev) => prev + 1);
+  }, []);
+
+  // Handle transition end for seamless infinite loop wrapping
+  const handleTransitionEnd = () => {
+    if (trackIndex >= extendedSlides.length - 1) {
+      setIsTransitioning(false);
+      setTrackIndex(1);
+    } else if (trackIndex <= 0) {
+      setIsTransitioning(false);
+      setTrackIndex(ANNOUNCEMENTS.length);
+    }
+  };
+
+  // Re-enable CSS transition on the next frame after instant index wrap
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
+    if (!isTransitioning) {
+      const raf = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+        });
+      });
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [isTransitioning]);
+
+  // Modal Prev / Next
+  const handleModalPrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setModalIndex((prev) => (prev === 0 ? ANNOUNCEMENTS.length - 1 : prev - 1));
+  }, []);
+
+  const handleModalNext = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setModalIndex((prev) => (prev === ANNOUNCEMENTS.length - 1 ? 0 : prev + 1));
+  }, []);
+
+  // Open modal at specified index
+  const handleCardClick = (index: number) => {
+    setModalIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Continuous smooth auto-slide every 2.6 seconds (pauses only when modal is open)
+  useEffect(() => {
+    if (isModalOpen) return;
+
+    const interval = setInterval(() => {
+      handleNext();
+    }, 2600);
+
+    return () => clearInterval(interval);
+  }, [isModalOpen, handleNext]);
+
+  // Lock body scroll and listen for escape / arrow keys when modal is open
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleCloseModal();
+      } else if (e.key === 'ArrowLeft') {
+        handleModalPrev();
+      } else if (e.key === 'ArrowRight') {
+        handleModalNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen, handleModalPrev, handleModalNext]);
+
+  // Touch swipe support for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartXRef.current - touchEndX;
+
+    if (Math.abs(diff) > 35) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    touchStartXRef.current = null;
+  };
+
+  // GSAP scroll entrance animation
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    // Animate -50% = one full set of 10 items
-    tweenRef.current = gsap.to(track, {
-      xPercent: -50,
-      ease: 'none',
-      duration: 50,   // slower than reels — readable
-      repeat: -1,
-    });
-
-    return () => {
-      tweenRef.current?.kill();
-    };
-  }, []);
-
-  // Pause / resume on hover
-  useEffect(() => {
-    if (!tweenRef.current) return;
-    if (isPaused) {
-      tweenRef.current.pause();
-    } else {
-      tweenRef.current.resume();
-    }
-  }, [isPaused]);
-
-  // Manual prev / next — seek GSAP tween progress by one card step
-  const handlePrev = useCallback(() => {
-    if (!tweenRef.current) return;
-    const wasRunning = !isPaused;
-    tweenRef.current.pause();
-    const cur = tweenRef.current.progress();
-    const step = 1 / ANNOUNCEMENTS.length;
-    const newProg = Math.max(0, cur - step);
-    tweenRef.current.progress(newProg);
-    if (wasRunning) tweenRef.current.resume();
-  }, [isPaused]);
-
-  const handleNext = useCallback(() => {
-    if (!tweenRef.current) return;
-    const wasRunning = !isPaused;
-    tweenRef.current.pause();
-    const cur = tweenRef.current.progress();
-    const step = 1 / ANNOUNCEMENTS.length;
-    const newProg = Math.min(0.99, cur + step);
-    tweenRef.current.progress(newProg);
-    if (wasRunning) tweenRef.current.resume();
-  }, [isPaused]);
-
-  // GSAP entrance
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        [section.querySelector(`.${styles.headerBar}`), section.querySelector(`.${styles.carouselStage}`)],
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.8, stagger: 0.12,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: section, start: 'top 82%' },
-        }
-      );
+      const stage = section.querySelector(`.${styles.stageWrapper}`);
 
-      // Pause ticker when section is offscreen to preserve CPU cycles
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        onEnter: () => tweenRef.current?.resume(),
-        onLeave: () => tweenRef.current?.pause(),
-        onEnterBack: () => tweenRef.current?.resume(),
-        onLeaveBack: () => tweenRef.current?.pause(),
-      });
+      if (stage) {
+        gsap.fromTo(
+          stage,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 85%',
+            },
+          }
+        );
+      }
     }, section);
+
     return () => ctx.revert();
   }, []);
+
+  const activeCurrentItem = ANNOUNCEMENTS[activeRealIndex];
+  const activeModalItem = ANNOUNCEMENTS[modalIndex];
 
   return (
     <section
       ref={sectionRef}
       className={styles.section}
       aria-label="Announcements"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       <div className={styles.container}>
+        {/* Left Red Arrow (Pure red chevron, no circle) */}
+        <button
+          type="button"
+          className={`${styles.sideNavBtn} ${styles.sideNavPrev}`}
+          onClick={handlePrev}
+          aria-label="Previous announcement"
+        >
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
 
-        {/* Header */}
-        <div className={styles.headerBar}>
-          <div className={styles.headerLeft}>
-            <div className={styles.eyebrow}>
-              <span className={styles.crimsonDot} aria-hidden="true" />
-              <span className={styles.eyebrowText}>ANNOUNCEMENTS</span>
+        {/* Centered Editorial 16:9 Stage */}
+        <div className={styles.stageWrapper}>
+          {/* Header Bar — perfectly aligned with the card */}
+          <div className={styles.headerBar}>
+            <div className={styles.headerLeft}>
+              <div className={styles.eyebrow}>
+                <span className={styles.crimsonDot} aria-hidden="true" />
+                <span className={styles.eyebrowText}>LATEST UPDATES</span>
+              </div>
+              <h2 className={styles.sectionTitle}>
+                ANNOUNCEMENTS
+              </h2>
             </div>
-            <h2 className={styles.sectionTitle}>
-              <img
-                src="/AD Transparent SVG.svg"
-                alt="Aranea Den"
-                className={styles.titleLogo}
-                aria-hidden="true"
-              />
-              ANNOUNCEMENTS
-            </h2>
+
+            <div className={styles.slideCounter} aria-live="polite">
+              <span className={styles.counterCurrent}>
+                {String(activeRealIndex + 1).padStart(2, '0')}
+              </span>
+              <span className={styles.counterDivider}>/</span>
+              <span className={styles.counterTotal}>
+                {String(ANNOUNCEMENTS.length).padStart(2, '0')}
+              </span>
+            </div>
           </div>
 
-          <div className={styles.controlsWrap}>
-            <button type="button" className={styles.arrowBtn} onClick={handlePrev} aria-label="Previous">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-            <button type="button" className={styles.arrowBtn} onClick={handleNext} aria-label="Next">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Infinite Carousel */}
-        <div className={styles.carouselStage}>
-          {/* Edge fades */}
-          <div className={styles.fadeLeft} aria-hidden="true" />
-          <div className={styles.fadeRight} aria-hidden="true" />
-
-          <div ref={trackRef} className={styles.carouselTrack}>
-            {items.map((item, i) => (
-              <article
-                key={`${item.id}-${i}`}
-                className={styles.card}
-                aria-label={item.title}
-              >
-                {/* Thumbnail */}
-                <div className={styles.imageFrame}>
+          {/* 16:9 Single Card Viewport */}
+          <div
+            className={styles.sliderViewport}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div
+              className={styles.sliderTrack}
+              style={{
+                transform: `translateX(-${trackIndex * 100}%)`,
+                transition: isTransitioning
+                  ? 'transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)'
+                  : 'none',
+              }}
+              onTransitionEnd={handleTransitionEnd}
+            >
+              {extendedSlides.map((item, idx) => (
+                <div
+                  key={`${item.id}-${idx}`}
+                  className={styles.cardSlide}
+                  onClick={() => handleCardClick(activeRealIndex)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && handleCardClick(activeRealIndex)}
+                  aria-label={`${item.title} — Click to expand full screen`}
+                >
                   <img
                     src={item.image}
                     alt={item.title}
                     className={styles.cardImage}
-                    loading={i < 3 ? 'eager' : 'lazy'}
+                    loading={idx <= 2 ? 'eager' : 'lazy'}
                   />
-                  <span className={styles.categoryBadge}>{item.category}</span>
-                  <span className={styles.dateBadge}>{item.badge}</span>
-                </div>
 
-                {/* Text */}
-                <div className={styles.cardContent}>
+                  {/* Light curved red bottom-left gradient */}
+                  <div className={styles.cardGradientOverlay} aria-hidden="true" />
+
+                  {/* Crisp White Title */}
                   <h3 className={styles.cardTitle}>{item.title}</h3>
-                  <p className={styles.cardDesc}>{item.description}</p>
-                  <Link to={item.link} className={styles.actionBtn}>
-                    MORE INFO
-                    <span className={styles.btnArrow} aria-hidden="true">→</span>
-                  </Link>
+
+                  {/* Fullscreen Expand Hint Badge */}
+                  <div className={styles.expandBadge} aria-hidden="true" title="View Fullscreen">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="15 3 21 3 21 9" />
+                      <polyline points="9 21 3 21 3 15" />
+                      <line x1="21" y1="3" x2="14" y2="10" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  </div>
                 </div>
-              </article>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Centered Bottom Meta: Dots + Full Date */}
+          <div className={styles.bottomMeta}>
+            <div className={styles.paginationDots} role="tablist" aria-label="Slide indicators">
+              {ANNOUNCEMENTS.map((item, idx) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeRealIndex === idx}
+                  className={`${styles.dot} ${activeRealIndex === idx ? styles.dotActive : ''}`}
+                  onClick={() => {
+                    setIsTransitioning(true);
+                    setTrackIndex(idx + 1);
+                  }}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+            <span className={styles.slideDate}>{activeCurrentItem.date}</span>
           </div>
         </div>
 
+        {/* Right Red Arrow (Pure red chevron, no circle) */}
+        <button
+          type="button"
+          className={`${styles.sideNavBtn} ${styles.sideNavNext}`}
+          onClick={handleNext}
+          aria-label="Next announcement"
+        >
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
       </div>
+
+      {/* ─────────────────────────────────────────────────────────────
+          FULL SCREEN LIGHTBOX MODAL WITH BACKGROUND BLUR
+          ───────────────────────────────────────────────────────────── */}
+      {isModalOpen && activeModalItem && (
+        <div
+          className={styles.modalOverlay}
+          onClick={handleCloseModal}
+          role="dialog"
+          aria-modal="true"
+          aria-label={activeModalItem.title}
+        >
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Close Button */}
+            <button
+              type="button"
+              className={styles.modalCloseBtn}
+              onClick={handleCloseModal}
+              aria-label="Close fullscreen modal"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* Modal Prev Button */}
+            <button
+              type="button"
+              className={`${styles.modalNavBtn} ${styles.modalNavPrev}`}
+              onClick={handleModalPrev}
+              aria-label="Previous announcement"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            {/* Modal Next Button */}
+            <button
+              type="button"
+              className={`${styles.modalNavBtn} ${styles.modalNavNext}`}
+              onClick={handleModalNext}
+              aria-label="Next announcement"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+
+            {/* Full Date Tag in Modal */}
+            <span className={styles.modalDateTag}>{activeModalItem.date}</span>
+
+            {/* Fullscreen Image */}
+            <img
+              src={activeModalItem.image}
+              alt={activeModalItem.title}
+              className={styles.modalImage}
+            />
+
+            {/* Light curved red bottom-left gradient */}
+            <div className={styles.cardGradientOverlay} aria-hidden="true" />
+
+            {/* White Title */}
+            <h3 className={styles.modalTitle}>{activeModalItem.title}</h3>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

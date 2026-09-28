@@ -277,9 +277,41 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: rgba(11, 11, 12, 0.02);
+  background: #0B0B0C;
   border-radius: 14px;
-  border: 1px solid rgba(11, 11, 12, 0.06);
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #08080A;
+}
+
+.cardVisualImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+.serviceCard:hover .cardVisualImage {
+  transform: scale(1.04);
+}
+
+.imageOverlayGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(223, 37, 49, 0.08) 0%, transparent 60%);
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .exploreLink {
@@ -465,10 +497,19 @@
 }
 
 .reelPoster {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.posterHidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .reelVideo {
@@ -478,6 +519,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 1;
 }
 
 /* Small curved ambient red bloom & shadow at bottom-left (Image-2 Inspiration) */
@@ -709,6 +751,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.mobileVisualImage {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
 }
 
 .mobileCardFooter {

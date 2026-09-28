@@ -18,6 +18,7 @@ import { PortfolioPage } from './pages/PortfolioPage';
 import { ContactPage } from './pages/ContactPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
+import { AdminApp } from './admin/AdminApp';
 
 import './styles/globals.css';
 
@@ -31,6 +32,7 @@ const AppContent: React.FC = () => {
   const location = useLocation();
 
   const isLaunchPage = location.pathname === '/launch';
+  const isAdminPage = location.pathname.startsWith('/admin');
   const isFromCurtainLaunch =
     (location.state as any)?.fromCurtainLaunch ||
     sessionStorage.getItem('aranea_curtain_launch') === 'true';
@@ -43,17 +45,39 @@ const AppContent: React.FC = () => {
     }
   }, [isFromCurtainLaunch, location.pathname, finishPreloader]);
 
-  // Halt smooth scroll when preloader is actively screening; resume & recalibrate upon dismissal
+  // Halt smooth scroll when preloader is actively screening or on admin routes; resume & recalibrate upon dismissal
   useEffect(() => {
     if (!lenis) return;
-    if (isActive && !isFromCurtainLaunch) {
+    if (isAdminPage || (isActive && !isFromCurtainLaunch)) {
       lenis.stop();
     } else {
       lenis.start();
       lenis.resize();
       ScrollTrigger.refresh();
     }
-  }, [isActive, isFromCurtainLaunch, lenis]);
+  }, [isActive, isFromCurtainLaunch, lenis, isAdminPage]);
+
+  // On route change: reset scroll to top and clear any lingering orphaned pin-spacers or nodes
+  useEffect(() => {
+    const main = document.querySelector('main');
+    if (main) {
+      const orphans = main.querySelectorAll(':scope > #collective-network, :scope > .pin-spacer');
+      orphans.forEach((el) => el.remove());
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [location.pathname, lenis]);
+
+  if (isAdminPage) {
+    return (
+      <Routes>
+        <Route path="/admin/*" element={<AdminApp />} />
+      </Routes>
+    );
+  }
 
   return (
     <div
@@ -106,6 +130,7 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
+          <Route path="/admin/*" element={<AdminApp />} />
 
           {/* Legacy & Fallback Redirects */}
           <Route path="/work" element={<Navigate to="/portfolio" replace />} />

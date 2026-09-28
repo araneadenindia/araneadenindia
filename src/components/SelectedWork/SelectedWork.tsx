@@ -15,35 +15,59 @@ const FEATURED_WEBSITES = PORTFOLIO_WEBSITES.filter((p) => p.featuredOnHome).sli
    SINGLE REEL CARD — matches Services section style
 ───────────────────────────────────────── */
 const ReelCard: React.FC<{ reel: AraneaReel }> = ({ reel }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const cardRef = useRef<HTMLAnchorElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const startPlayback = () => {
+      video.muted = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setIsVideoLoaded(true))
+          .catch(() => {});
+      }
+    };
+
+    startPlayback();
+
+    video.addEventListener('loadeddata', startPlayback);
+    video.addEventListener('canplay', startPlayback);
+
     const el = cardRef.current;
     if (!el) return;
 
-    // Disconnect playback when out of view
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) {
-          setIsPlaying(false);
+        if (entry.isIntersecting) {
+          video.muted = true;
+          video.play().catch(() => {});
+        } else {
+          video.pause();
         }
       },
-      { threshold: 0.1 }
+      {
+        rootMargin: '120px 60px 120px 60px',
+        threshold: 0.05,
+      }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
-  const handleMouseEnter = () => {
-    setIsPlaying(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsPlaying(false);
-  };
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('loadeddata', startPlayback);
+      video.removeEventListener('canplay', startPlayback);
+    };
+  }, [reel.videoSrc]);
 
   return (
     <a
@@ -53,28 +77,26 @@ const ReelCard: React.FC<{ reel: AraneaReel }> = ({ reel }) => {
       rel="noopener noreferrer"
       className={styles.reelCard}
       aria-label={`Watch reel: ${reel.title}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <div className={styles.reelMedia}>
         <img
           src={reel.thumbnail}
           alt={reel.title}
           loading="lazy"
-          className={styles.reelPoster}
+          className={`${styles.reelPoster} ${isVideoLoaded ? styles.posterHidden : ''}`}
         />
-        {isPlaying && (
-          <video
-            ref={videoRef}
-            src={reel.videoSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            className={styles.reelVideo}
-          />
-        )}
+        <video
+          ref={videoRef}
+          src={reel.videoSrc}
+          poster={reel.thumbnail}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className={styles.reelVideo}
+          onPlaying={() => setIsVideoLoaded(true)}
+        />
         {/* Bottom-left red bloom overlay + title */}
         <div className={styles.cleanReelOverlay}>
           <svg viewBox="0 0 24 24" fill="currentColor" className={styles.cleanReelInstaIcon} aria-hidden="true">

@@ -294,3 +294,114 @@ export const REQUIRED_MARKETING_PROJECTS: MarketingProject[] = [
     logo: '/clients/o2med-academy.svg',
   },
 ];
+
+/* ─────────────────────────────────────────────────────────────
+   PORTFOLIO REDESIGN DATA: 3 PRIMARY CATEGORIES
+   ───────────────────────────────────────────────────────────── */
+
+export interface WebsiteProject {
+  id: string;
+  number: string;
+  title: string;
+  client: string;
+  category: string;
+  description: string;
+  tags: string[];
+  thumbnail: string;
+  url: string;
+  year: string;
+}
+
+export const WEBSITE_PROJECTS: WebsiteProject[] = [
+  {
+    id: 'meghana-builders',
+    number: '01',
+    title: 'MEGHANA BUILDERS',
+    client: 'Meghana Builders',
+    category: 'REAL ESTATE & CIVIL CONSTRUCTION',
+    description:
+      'Premier residential, commercial & government construction in Hyderabad. Architectural innovation meets structural excellence.',
+    tags: ['React', 'Civil Architecture', 'Property Showcase', 'Lead Capture'],
+    thumbnail: '/portfolio-thumbs/meghana.jpg',
+    url: 'https://meghanabuilders.com',
+    year: '2026',
+  },
+];
+
+export interface AppProject {
+  id: string;
+  number: string;
+  name: string;
+  client: string;
+  platform: string;
+  category: string;
+  description: string;
+  tags: string[];
+  thumbnail: string;
+  url?: string;
+  year: string;
+  status: string;
+}
+
+export const APP_PROJECTS: AppProject[] = [
+  {
+    id: 'aranea-mobile-os',
+    number: '01',
+    name: 'ARANEA MOBILE OS',
+    client: 'Aranea Den Atelier',
+    platform: 'iOS / Swift & React Native',
+    category: 'MOBILE ECOSYSTEM & TELEMETRY',
+    description:
+      'Tactile companion application engineered with micro-interactions, low-latency telemetry, and biometric security.',
+    tags: ['SwiftUI', 'Offline-First SQLite', 'Biometrics', 'Haptics'],
+    thumbnail: '/services/ad-mobile-development.jpg',
+    url: '/services/mobile-development',
+    year: '2026',
+    status: 'In Development',
+  },
+  {
+    id: 'thor-mobile-orders',
+    number: '02',
+    name: 'THOR MOBILE ORDERS',
+    client: 'Thor Indian Cuisine',
+    platform: 'iOS & Android Native',
+    category: 'HOSPITALITY & LIVE ORDERING',
+    description:
+      'High-speed table reservations, instant kitchen telemetry, and synchronized curbside pickup notifications.',
+    tags: ['React Native', 'Live Orders', 'Push Notifications', 'Memphis TN'],
+    thumbnail: '/services/02-mobile-app-development.jpg',
+    url: 'https://thor-indian-cuisinse.firebaseapp.com',
+    year: '2025',
+    status: 'Private Beta',
+  },
+  {
+    id: 'nri360-concierge',
+    number: '03',
+    name: 'NRI360 MOBILE CONCIERGE',
+    client: 'NRI360 Global',
+    platform: 'Cross-Platform Mobile',
+    category: 'GLOBAL CONCIERGE & HEALTHCARE',
+    description:
+      'Real-time property monitoring, senior family healthcare check-ins, and direct encrypted concierge chat.',
+    tags: ['Flutter', 'Encrypted Chat', '100+ Cities', 'Legal Telemetry'],
+    thumbnail: '/services/ad-ui-ux-design.jpg',
+    url: 'https://nri360degrees.com',
+    year: '2026',
+    status: 'Production',
+  },
+  {
+    id: 'imperial-visuals-suite',
+    number: '04',
+    name: 'IMPERIAL VISUALS MEDIA SUITE',
+    client: 'AD Imperial Visuals',
+    platform: 'iOS / iPadOS & Android',
+    category: 'PORTABLE 4K MEDIA ARCHIVE',
+    description:
+      'Sensory vertical media showcase, client proofing suite, and instant social reel deployment companion.',
+    tags: ['Video Player', 'ProRes Delivery', 'Color Fidelity', 'Studio Suite'],
+    thumbnail: '/services/ui-ux-design.jpg',
+    url: '/services/video-production',
+    year: '2026',
+    status: 'Internal Release',
+  },
+];

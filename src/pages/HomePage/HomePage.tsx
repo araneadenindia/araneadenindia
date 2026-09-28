@@ -7,6 +7,7 @@ import { StatementMarquee } from '../../components/StatementMarquee';
 import { SelectedWork } from '../../components/SelectedWork';
 import { TestimonialsSection } from '../../components/TestimonialsSection';
 import { TeamPreview } from '../../components/TeamPreview';
+import { ClienteleSection } from '../../components/ClienteleSection';
 import { FinalCTA } from '../../components/FinalCTA';
 
 interface HomePageProps {
@@ -19,13 +20,13 @@ export const HomePage: React.FC<HomePageProps> = ({ isVisible }) => {
       {/* Scene 02 & 03: Master Pinned Flow (Framed Video Hero -> Fullscreen Expansion -> Our Passion) */}
       <AraneaDenHero isVisible={isVisible} />
 
+      {/* Announcements Section (Immediately below OUR PASSION) */}
+      <AnnouncementsSection />
+
       {/* Scene 04: Pinned 8-Chapter Disciplines Timeline (Services) */}
       <WhatWeDo />
 
-      {/* Announcements Section (Immediately after SERVICES) */}
-      <AnnouncementsSection />
-
-      {/* Scene 05: Connected Discipline Architecture Grid */}
+      {/* Scene 05: Connected Discipline Architecture Grid (Our Philosophy) */}
       <AraneaSystem />
 
       {/* Scene 06: Kinetic Typographic Ticker */}
@@ -39,6 +40,9 @@ export const HomePage: React.FC<HomePageProps> = ({ isVisible }) => {
 
       {/* Scene 08: Compact Editorial Team Preview */}
       <TeamPreview />
+
+      {/* Universal Clientele Section (Immediately before ENGAGEMENTS) */}
+      <ClienteleSection />
 
       {/* Scene 09: Monumental Closing Call to Action (Engagements) */}
       <FinalCTA />

@@ -3,16 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './WhatWeDo.module.css';
-import {
-  WebDevVisual,
-  MobileAppVisual,
-  UiUxVisual,
-  DigitalMarketingVisual,
-  VideoProductionVisual,
-  GraphicDesignVisual,
-  SoftwareSolutionsVisual,
-  IoTHardwareVisual,
-} from './ServiceVisuals';
+import { VideoProductionVisual } from './ServiceVisuals';
 import { ARANEA_REELS } from '../../data/reelsData';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,7 +17,8 @@ interface ServiceChapter {
   slug: string;
   name: string;
   description: string;
-  visualComponent: React.ReactNode;
+  imageSrc?: string;
+  visualComponent?: React.ReactNode;
 }
 
 /* ─────────────────────────────────────────
@@ -40,7 +32,7 @@ const SERVICES_DATA: ServiceChapter[] = [
     name: 'WEB DEVELOPMENT',
     description:
       'Engineered for speed, durability, and computational elegance. We construct bespoke web platforms, web applications, and immersive digital flagships using clean architecture and modern rendering pipelines.',
-    visualComponent: <WebDevVisual />,
+    imageSrc: '/services/ad-web-development.jpg',
   },
   {
     id: 'mobile-app',
@@ -49,7 +41,7 @@ const SERVICES_DATA: ServiceChapter[] = [
     name: 'MOBILE APP DEVELOPMENT',
     description:
       'Fluid native iOS and Android applications designed with tactile micro-interactions, uncompromising speed, and resilient offline-first architecture that seamlessly scale to millions of users.',
-    visualComponent: <MobileAppVisual />,
+    imageSrc: '/services/ad-mobile-development.jpg',
   },
   {
     id: 'ui-ux',
@@ -58,7 +50,7 @@ const SERVICES_DATA: ServiceChapter[] = [
     name: 'UI / UX DESIGN',
     description:
       'Disciplined design systems founded on structural harmony, typographic precision, and intuitive user psychology. We eliminate friction to create interfaces that feel natural, deliberate, and authoritative.',
-    visualComponent: <UiUxVisual />,
+    imageSrc: '/services/ad-ui-ux-design.jpg',
   },
   {
     id: 'digital-marketing',
@@ -67,7 +59,7 @@ const SERVICES_DATA: ServiceChapter[] = [
     name: 'DIGITAL MARKETING',
     description:
       'Data-informed growth strategies and omnichannel digital marketing that turn attention into sustained momentum. Every campaign is measured against real revenue and brand equity impact.',
-    visualComponent: <DigitalMarketingVisual />,
+    imageSrc: '/services/ad-digital-marketing.jpg',
   },
   {
     id: 'video-prod',
@@ -85,7 +77,7 @@ const SERVICES_DATA: ServiceChapter[] = [
     name: 'GRAPHIC DESIGN',
     description:
       'Editorial poster design, custom typographic identities, and iconic brand visuals engineered with aesthetic rigor to command authority across print and digital media.',
-    visualComponent: <GraphicDesignVisual />,
+    imageSrc: '/services/ad-graphic-design.jpg',
   },
   {
     id: 'software-hardware-solutions',
@@ -94,7 +86,7 @@ const SERVICES_DATA: ServiceChapter[] = [
     name: 'SOFTWARE / HARDWARE SOLUTIONS',
     description:
       'Custom software architectures, rapid hardware prototyping, intensive hands-on workshops, and hackathon incubation that transform visionary concepts into high-performance realities.',
-    visualComponent: <SoftwareSolutionsVisual />,
+    imageSrc: '/services/ad-software-solutions.jpg',
   },
   {
     id: 'iot-hardware',
@@ -103,7 +95,7 @@ const SERVICES_DATA: ServiceChapter[] = [
     name: 'IOT / HARDWARE SOLUTIONS',
     description:
       'Industrial IoT systems, smart connected hardware, embedded sensor telemetry, and ultra-low latency edge computing built for high reliability and scalable real-world deployment.',
-    visualComponent: <IoTHardwareVisual />,
+    imageSrc: '/services/ad-iot-hardware.jpg',
   },
 ];
 
@@ -112,38 +104,74 @@ const SERVICES_DATA: ServiceChapter[] = [
 ───────────────────────────────────────── */
 interface CleanReelCardProps {
   reel: (typeof ARANEA_REELS)[0];
+  isActive?: boolean;
 }
 
-const CleanReelCard: React.FC<CleanReelCardProps> = ({ reel }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+const CleanReelCard: React.FC<CleanReelCardProps> = ({ reel, isActive = true }) => {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Strict browser autoplay policy requires muted & playsInline
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    if (!isActive) {
+      video.pause();
+      return;
+    }
+
+    const startPlayback = () => {
+      video.muted = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setIsVideoLoaded(true))
+          .catch(() => {
+            // Browser autoplay policy handled safely
+          });
+      }
+    };
+
+    // Autoplay immediately on mount or when active
+    startPlayback();
+
+    video.addEventListener('loadeddata', startPlayback);
+    video.addEventListener('canplay', startPlayback);
+
     const el = cardRef.current;
     if (!el) return;
 
-    // Disconnect playback when out of view
+    // Pause when card is scrolled far out of view, resume when back in view
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) {
-          setIsPlaying(false);
+        if (!isActive) return;
+        if (entry.isIntersecting) {
+          video.muted = true;
+          video.play().catch(() => {});
+        } else {
+          video.pause();
         }
       },
-      { threshold: 0.1 }
+      {
+        rootMargin: '120px 60px 120px 60px',
+        threshold: 0.05,
+      }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
-  const handleMouseEnter = () => {
-    setIsPlaying(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsPlaying(false);
-  };
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('loadeddata', startPlayback);
+      video.removeEventListener('canplay', startPlayback);
+    };
+  }, [isActive, reel.videoSrc]);
 
   return (
     <a
@@ -153,29 +181,27 @@ const CleanReelCard: React.FC<CleanReelCardProps> = ({ reel }) => {
       rel="noopener noreferrer"
       className={styles.reelCard}
       aria-label={`${reel.client} - ${reel.title}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <div className={styles.reelMedia}>
         <img
           src={reel.thumbnail}
           alt={reel.client || reel.title}
           loading="lazy"
-          className={styles.reelPoster}
+          className={`${styles.reelPoster} ${isVideoLoaded ? styles.posterHidden : ''}`}
         />
 
-        {isPlaying && (
-          <video
-            ref={videoRef}
-            src={reel.videoSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            className={styles.reelVideo}
-          />
-        )}
+        <video
+          ref={videoRef}
+          src={reel.videoSrc}
+          poster={reel.thumbnail}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className={styles.reelVideo}
+          onPlaying={() => setIsVideoLoaded(true)}
+        />
 
         {/* Small curved ambient red bloom & shadow at bottom left (Inspired by Image 2) */}
         <div className={styles.cleanReelOverlay}>
@@ -194,9 +220,10 @@ const CleanReelCard: React.FC<CleanReelCardProps> = ({ reel }) => {
 ───────────────────────────────────────── */
 interface SmoothReelMarqueeProps {
   isMobile?: boolean;
+  isActive?: boolean;
 }
 
-const SmoothReelMarquee: React.FC<SmoothReelMarqueeProps> = ({ isMobile = false }) => {
+const SmoothReelMarquee: React.FC<SmoothReelMarqueeProps> = ({ isMobile = false, isActive = true }) => {
   const scrollTrackRef = useRef<HTMLDivElement>(null);
   // Duplicate reels to create seamless continuous marquee loop
   const marqueeReels = useMemo(() => [...ARANEA_REELS, ...ARANEA_REELS], []);
@@ -207,7 +234,7 @@ const SmoothReelMarquee: React.FC<SmoothReelMarqueeProps> = ({ isMobile = false 
         <div ref={scrollTrackRef} className={styles.reelTrack}>
           {marqueeReels.map((reel, idx) => (
             <div key={`${reel.id}-${idx}`} className={styles.reelCardWrapper}>
-              <CleanReelCard reel={reel} />
+              <CleanReelCard reel={reel} isActive={isActive} />
             </div>
           ))}
         </div>
@@ -449,7 +476,7 @@ export const WhatWeDo: React.FC = () => {
                         </div>
 
                         {/* Ultra-Smooth 60FPS Continuous Reel Marquee */}
-                        <SmoothReelMarquee />
+                        <SmoothReelMarquee isActive={isCurrent} />
                       </div>
                     ) : (
                       /* Services 01-04, 06-08: Split Layout (Text Left + Bespoke Visual Right) */
@@ -467,7 +494,19 @@ export const WhatWeDo: React.FC = () => {
 
                         {/* Visual Stage on Right */}
                         <div className={styles.cardVisualCol}>
-                          {srv.visualComponent}
+                          {srv.imageSrc ? (
+                            <div className={styles.imageContainer}>
+                              <img
+                                src={srv.imageSrc}
+                                alt={srv.name}
+                                className={styles.cardVisualImage}
+                                loading={idx === 0 ? 'eager' : 'lazy'}
+                              />
+                              <div className={styles.imageOverlayGlow} aria-hidden="true" />
+                            </div>
+                          ) : (
+                            srv.visualComponent
+                          )}
                         </div>
                       </div>
                     )}
@@ -538,6 +577,13 @@ export const WhatWeDo: React.FC = () => {
                     <div className={styles.mobileCardVisualContainer}>
                       {isVideoProd ? (
                         <SmoothReelMarquee isMobile={true} />
+                      ) : srv.imageSrc ? (
+                        <img
+                          src={srv.imageSrc}
+                          alt={srv.name}
+                          className={styles.mobileVisualImage}
+                          loading="lazy"
+                        />
                       ) : (
                         <div className={styles.mobileVisualWrapper}>
                           {srv.visualComponent}

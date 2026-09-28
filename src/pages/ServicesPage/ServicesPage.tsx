@@ -8,6 +8,7 @@ import {
   ServiceCategory,
   ServiceItem,
 } from '../../data/servicesData';
+import { ClienteleSection } from '../../components/ClienteleSection';
 import styles from './ServicesPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -307,31 +308,11 @@ const SplitCard: React.FC<SplitCardProps> = ({ service, index, total }) => {
   );
 };
 
-/* ─── Client Logos for Clientele Marquee ─── */
-const CLIENTELE_LOGOS = [
-  { id: 'pooja-productions', name: 'Pooja Productions', logo: '/clients/pooja-productions.svg' },
-  { id: 'corner-craft', name: 'Corner Craft', logo: '/clients/corner-craft.svg' },
-  { id: 'makaan-infra', name: 'Makaan Infra', logo: '/clients/makaan-infra.svg' },
-  { id: 'jk-restaurant', name: 'JK Restaurant', logo: '/clients/jk-restaurant.svg' },
-  { id: 'ceo-expos', name: 'CEO Expos', logo: '/clients/ceo-expos.svg' },
-  { id: 'creators-events', name: 'Creators Events', logo: '/clients/creators-events.svg' },
-  { id: 'finance-with-veeru', name: 'Finance With Veeru', logo: '/clients/finance-with-veeru.svg' },
-  { id: 'meghana-builders', name: 'Meghana Builders', logo: '/clients/meghana-builders.svg' },
-  { id: 'nri360', name: 'NRI 360', logo: '/clients/nri360.svg' },
-  { id: 'o2med-academy', name: 'O2Med Academy', logo: '/clients/o2med-academy.svg' },
-  { id: 'pelli-kaburulu', name: 'Pelli Kaburulu', logo: '/clients/pelli-kaburulu.svg' },
-  { id: 'pp-connekts', name: 'PP Connekts', logo: '/clients/pp-connekts.svg' },
-  { id: 'startup-potluck', name: 'Startup Potluck', logo: '/clients/startup-potluck.svg' },
-  { id: 'thor-cuisine', name: 'Thor Cuisine', logo: '/clients/thor-cuisine.svg' },
-  { id: 'viraj-academy', name: 'Viraj Academy', logo: '/clients/viraj-academy.svg' },
-];
-
 /* ─── Main Services Page Component ─── */
 export const ServicesPage: React.FC = () => {
   const location = useLocation();
   const pageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const clienteleRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -352,10 +333,37 @@ export const ServicesPage: React.FC = () => {
     }
   }, [location.pathname]);
 
+  const [servicesList, setServicesList] = useState<ServiceItem[]>(ALL_SERVICES);
+
+  useEffect(() => {
+    fetch('/api/cms/services')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
+          const mapped: ServiceItem[] = res.data.map((s: any, idx: number) => ({
+            id: s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            number: String(idx + 1).padStart(2, '0'),
+            title: s.name.toUpperCase(),
+            category: 'ALL SERVICES',
+            categorySlug: 'digital-products',
+            description: s.description || '',
+            detailedCopy: s.description || '',
+            deliverables: ['Strategy & Architecture', 'Full Execution & Production', 'Quality Assurance & Delivery'],
+            image: s.thumbnail_url || '/services/01-web-development.jpg',
+            featured: true,
+            actionLabel: 'EXPLORE SERVICE →',
+            actionUrl: `/contact?service=${s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+          }));
+          setServicesList(mapped);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const displayedServices = useMemo(() => {
-    if (activeCategory === 'all') return ALL_SERVICES;
-    return ALL_SERVICES.filter((s) => s.categorySlug === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === 'all') return servicesList;
+    return servicesList.filter((s) => s.categorySlug === activeCategory);
+  }, [activeCategory, servicesList]);
 
   // Page title & scroll restoration
   useEffect(() => {
@@ -433,29 +441,6 @@ export const ServicesPage: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  // Clientele section entrance animation
-  useEffect(() => {
-    const clientele = clienteleRef.current;
-    if (!clientele) return;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        clientele.querySelector(`.${styles.clienteleHeader}`),
-        { opacity: 0, y: 26 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: clientele, start: 'top 85%' },
-        }
-      );
-    }, clientele);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <div ref={pageRef} className={styles.page}>
@@ -654,44 +639,8 @@ export const ServicesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 03: OUR CLIENTELE SECTION ── */}
-      <section ref={clienteleRef} className={styles.clienteleSection} aria-labelledby="clientele-heading">
-        <div className={styles.container}>
-          <div className={styles.clienteleHeader}>
-            <div className={styles.clienteleEyebrow}>
-              <span className={styles.eyebrowDot} />
-              <span className={styles.eyebrowText}>OUR CLIENTELE // TRUSTED COLLABORATORS</span>
-            </div>
-            <h2 id="clientele-heading" className={styles.clienteleTitle}>
-              TRUSTED BY VISIONARY BRANDS
-            </h2>
-            <p className={styles.clienteleSub}>
-              Partnering with forward-thinking businesses and studios to engineer standout digital products,
-              creative campaigns, and cinematic productions.
-            </p>
-          </div>
-        </div>
-
-        {/* Seamless Infinite Marquee Track */}
-        <div className={styles.clienteleMarqueeWrapper}>
-          <div className={styles.clienteleTrack}>
-            {[...CLIENTELE_LOGOS, ...CLIENTELE_LOGOS].map((item, idx) => (
-              <div
-                key={`${item.id}-${idx}`}
-                className={styles.clienteleCard}
-                title={item.name}
-              >
-                <img
-                  src={item.logo}
-                  alt={item.name}
-                  className={styles.clienteleLogoImg}
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── 03: UNIVERSAL CLIENTELE SECTION ── */}
+      <ClienteleSection />
 
       {/* ── 04: MINIMAL PROJECT INQUIRY CTA ── */}
       <section ref={ctaRef} className={styles.ctaSection} aria-labelledby="cta-heading">

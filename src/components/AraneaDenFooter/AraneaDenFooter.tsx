@@ -51,14 +51,14 @@ export const AraneaDenFooter: React.FC = () => {
         );
       }
 
-      // 3. Continuous glow breathing animation on logo
+      // 3. Smooth breathing glow on left logo
       if (glowRef.current) {
         gsap.fromTo(
           glowRef.current,
           { opacity: 0.28, scale: 0.92 },
           {
-            opacity: 0.65,
-            scale: 1.2,
+            opacity: 0.72,
+            scale: 1.25,
             duration: 2.8,
             ease: 'sine.inOut',
             yoyo: true,
@@ -89,21 +89,29 @@ export const AraneaDenFooter: React.FC = () => {
     <footer ref={footerRef} className={styles.footer} role="contentinfo" aria-label="Aranea Den Footer">
       <div className={styles.container}>
 
-        {/* ── Top Grid: Nav / Services / Connect ── */}
+        {/* ── Top Grid: Brand / Nav / Services / Connect ── */}
         <div ref={topGridRef} className={styles.topGrid}>
-          {/* Brand Logo in Top Grid */}
+
+          {/* Left Column: Logo + Tagline */}
           <div className={styles.thesisCol}>
-            <Link to="/" className={styles.footerBrandLogoLink} aria-label="Aranea Den Home">
-              <img
-                src={adLogo}
-                alt="Aranea Den"
-                className={styles.footerBrandLogo}
-              />
-            </Link>
+            <div ref={logoRef} className={styles.leftLogoWrap}>
+              {/* Smooth breathing red glow behind logo */}
+              <div ref={glowRef} className={styles.leftLogoGlow} aria-hidden="true" />
+              <Link to="/" className={styles.footerBrandLogoLink} aria-label="Aranea Den Home">
+                <img
+                  src={adLogo}
+                  alt="Aranea Den"
+                  className={styles.footerBrandLogo}
+                />
+              </Link>
+            </div>
+            {/* Glowing red tagline */}
+            <p className={styles.leftTagline}>WE WEAVE YOUR DIGITAL EXCELLENCE.</p>
           </div>
 
-          {/* Nav columns */}
+          {/* Right Columns: Nav / Services / Connect */}
           <div className={styles.navColumns}>
+
             {/* 1. Navigate */}
             <div className={styles.navGroup}>
               <h4 className={styles.navHeading}>NAVIGATE</h4>
@@ -200,24 +208,11 @@ export const AraneaDenFooter: React.FC = () => {
                 </li>
               </ul>
             </div>
+
           </div>
         </div>
 
-        {/* ── Centered Logo Brand Signature ── */}
-        <div className={styles.logoSection}>
-          <div ref={logoRef} className={styles.logoWrap}>
-            {/* Glow behind logo */}
-            <div ref={glowRef} className={styles.logoGlow} aria-hidden="true" />
-            <img
-              src={adLogo}
-              alt="Aranea Den"
-              className={styles.footerLogo}
-              draggable={false}
-            />
-          </div>
-        </div>
-
-        {/* ── Bottom Legal Row (With Back-To-Top Clearance) ── */}
+        {/* ── Bottom Legal Row ── */}
         <div ref={bottomRef} className={styles.bottomRow}>
           <div className={styles.legalInfo}>
             <p className={styles.copyright}>© 2026 ARANEA DEN. ALL RIGHTS RESERVED.</p>

@@ -12,78 +12,54 @@ export interface AnnouncementItem {
   date: string;
 }
 
-const ANNOUNCEMENTS: AnnouncementItem[] = [
-  {
-    id: 'sriyasjaan-collab',
-    title: 'Sriyasjaan Creative Collaboration',
-    image: '/portfolio-thumbs/sriyasjaan.jpg',
-    date: '24 SEPTEMBER 2026',
-  },
-  {
-    id: 'hackathon-2026',
-    title: 'Aranea Code Nexus Hackathon',
-    image: '/portfolio-thumbs/thor.jpg',
-    date: '08 OCTOBER 2026',
-  },
-  {
-    id: 'ai-masterclass',
-    title: 'Systems Architecture & AI Masterclass',
-    image: '/portfolio-thumbs/cornercraft.jpg',
-    date: '16 OCTOBER 2026',
-  },
-  {
-    id: 'imperial-visuals-launch',
-    title: 'AD Imperial Visuals Creative Suite',
-    image: '/portfolio-thumbs/creators.jpg',
-    date: '25 OCTOBER 2026',
-  },
-  {
-    id: 'iot-hardware-labs',
-    title: 'Hardware & Embedded Solutions Lab',
-    image: '/portfolio-thumbs/viraj.jpg',
-    date: '03 NOVEMBER 2026',
-  },
-  {
-    id: 'brand-identity-sprint',
-    title: 'Brand Identity Sprint — Q4',
-    image: '/portfolio-thumbs/meghana.jpg',
-    date: '12 NOVEMBER 2026',
-  },
-  {
-    id: 'web-dev-intake',
-    title: 'Premium Web Platform Intake',
-    image: '/portfolio-thumbs/makaan.jpg',
-    date: '21 NOVEMBER 2026',
-  },
-  {
-    id: 'digital-marketing-summit',
-    title: 'Growth Strategy Summit',
-    image: '/portfolio-thumbs/nri360.jpg',
-    date: '02 DECEMBER 2026',
-  },
-  {
-    id: 'mobile-app-workshop',
-    title: 'Mobile App Development Bootcamp',
-    image: '/portfolio-thumbs/pooja.jpg',
-    date: '11 DECEMBER 2026',
-  },
-  {
-    id: 'uiux-critique',
-    title: 'Open UI/UX Design Critique',
-    image: '/portfolio-thumbs/pandp.jpg',
-    date: '19 DECEMBER 2026',
-  },
+// Fallback data shown while API loads or if CMS has no entries yet
+const FALLBACK_ANNOUNCEMENTS: AnnouncementItem[] = [
+  { id: 'sriyasjaan-collab', title: 'Sriyasjaan Creative Collaboration', image: '/portfolio-thumbs/sriyasjaan.jpg', date: '24 SEPTEMBER 2026' },
+  { id: 'hackathon-2026', title: 'Aranea Code Nexus Hackathon', image: '/portfolio-thumbs/thor.jpg', date: '08 OCTOBER 2026' },
+  { id: 'ai-masterclass', title: 'Systems Architecture & AI Masterclass', image: '/portfolio-thumbs/cornercraft.jpg', date: '16 OCTOBER 2026' },
+  { id: 'imperial-visuals-launch', title: 'AD Imperial Visuals Creative Suite', image: '/portfolio-thumbs/creators.jpg', date: '25 OCTOBER 2026' },
+  { id: 'iot-hardware-labs', title: 'Hardware & Embedded Solutions Lab', image: '/portfolio-thumbs/viraj.jpg', date: '03 NOVEMBER 2026' },
+  { id: 'brand-identity-sprint', title: 'Brand Identity Sprint — Q4', image: '/portfolio-thumbs/meghana.jpg', date: '12 NOVEMBER 2026' },
+  { id: 'web-dev-intake', title: 'Premium Web Platform Intake', image: '/portfolio-thumbs/makaan.jpg', date: '21 NOVEMBER 2026' },
+  { id: 'digital-marketing-summit', title: 'Growth Strategy Summit', image: '/portfolio-thumbs/nri360.jpg', date: '02 DECEMBER 2026' },
+  { id: 'mobile-app-workshop', title: 'Mobile App Development Bootcamp', image: '/portfolio-thumbs/pooja.jpg', date: '11 DECEMBER 2026' },
+  { id: 'uiux-critique', title: 'Open UI/UX Design Critique', image: '/portfolio-thumbs/pandp.jpg', date: '19 DECEMBER 2026' },
 ];
 
 export const AnnouncementsSection: React.FC = () => {
-  const extendedSlides = useMemo(() => {
-    if (ANNOUNCEMENTS.length === 0) return [];
-    return [
-      ANNOUNCEMENTS[ANNOUNCEMENTS.length - 1], // Clone of last item (index 0)
-      ...ANNOUNCEMENTS,                         // Real items (indices 1 to length)
-      ANNOUNCEMENTS[0],                         // Clone of first item (index length + 1)
-    ];
+  const [announcements, setAnnouncements] = useState<AnnouncementItem[]>(FALLBACK_ANNOUNCEMENTS);
+
+  // Fetch live announcements from CMS
+  useEffect(() => {
+    fetch('/api/cms/announcements')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+          const mapped: AnnouncementItem[] = data.data.map((item: {
+            id: number; title: string; image_url: string | null; event_date: string | null;
+          }) => ({
+            id: String(item.id),
+            title: item.title,
+            image: item.image_url || '/portfolio-thumbs/sriyasjaan.jpg',
+            date: item.event_date || '',
+          }));
+          setAnnouncements(mapped);
+        }
+        // If CMS has no published entries, keep fallback data
+      })
+      .catch(() => { /* silently keep fallback */ });
   }, []);
+
+  const extendedSlides = useMemo(() => {
+    if (announcements.length === 0) return [];
+
+    return [
+      announcements[announcements.length - 1], // Clone of last item (index 0)
+      ...announcements,                         // Real items (indices 1 to length)
+      announcements[0],                         // Clone of first item (index length + 1)
+    ];
+  }, [announcements]);
+
 
   const [trackIndex, setTrackIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(true);
@@ -93,8 +69,8 @@ export const AnnouncementsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartXRef = useRef<number | null>(null);
 
-  // Real active index (0 to ANNOUNCEMENTS.length - 1)
-  const activeRealIndex = (trackIndex - 1 + ANNOUNCEMENTS.length) % ANNOUNCEMENTS.length;
+  // Real active index (0 to announcements.length - 1)
+  const activeRealIndex = (trackIndex - 1 + announcements.length) % announcements.length;
 
   // Prev / Next actions
   const handlePrev = useCallback(() => {
@@ -114,9 +90,10 @@ export const AnnouncementsSection: React.FC = () => {
       setTrackIndex(1);
     } else if (trackIndex <= 0) {
       setIsTransitioning(false);
-      setTrackIndex(ANNOUNCEMENTS.length);
+      setTrackIndex(announcements.length);
     }
   };
+
 
   // Re-enable CSS transition on the next frame after instant index wrap
   useEffect(() => {
@@ -133,13 +110,14 @@ export const AnnouncementsSection: React.FC = () => {
   // Modal Prev / Next
   const handleModalPrev = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    setModalIndex((prev) => (prev === 0 ? ANNOUNCEMENTS.length - 1 : prev - 1));
-  }, []);
+    setModalIndex((prev) => (prev === 0 ? announcements.length - 1 : prev - 1));
+  }, [announcements.length]);
 
   const handleModalNext = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    setModalIndex((prev) => (prev === ANNOUNCEMENTS.length - 1 ? 0 : prev + 1));
-  }, []);
+    setModalIndex((prev) => (prev === announcements.length - 1 ? 0 : prev + 1));
+  }, [announcements.length]);
+
 
   // Open modal at specified index
   const handleCardClick = (index: number) => {
@@ -239,8 +217,9 @@ export const AnnouncementsSection: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  const activeCurrentItem = ANNOUNCEMENTS[activeRealIndex];
-  const activeModalItem = ANNOUNCEMENTS[modalIndex];
+  const activeCurrentItem = announcements[activeRealIndex];
+  const activeModalItem = announcements[modalIndex];
+
 
   return (
     <section
@@ -281,7 +260,7 @@ export const AnnouncementsSection: React.FC = () => {
               </span>
               <span className={styles.counterDivider}>/</span>
               <span className={styles.counterTotal}>
-                {String(ANNOUNCEMENTS.length).padStart(2, '0')}
+                {String(announcements.length).padStart(2, '0')}
               </span>
             </div>
           </div>
@@ -342,7 +321,7 @@ export const AnnouncementsSection: React.FC = () => {
           {/* Centered Bottom Meta: Dots + Full Date */}
           <div className={styles.bottomMeta}>
             <div className={styles.paginationDots} role="tablist" aria-label="Slide indicators">
-              {ANNOUNCEMENTS.map((item, idx) => (
+              {announcements.map((item, idx) => (
                 <button
                   key={item.id}
                   type="button"

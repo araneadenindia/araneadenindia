@@ -118,6 +118,20 @@ export const clientsApi = {
   remove: (id: number) => api.delete(`/cms/clients/${id}`),
 };
 
+export type CmsAnnouncement = {
+  id: number; title: string; image_url: string | null; image_public_id: string | null;
+  event_date: string | null; display_order: number; published: number | boolean;
+  created_at: string; updated_at: string;
+};
+
+export const announcementsApi = {
+  list: () => api.get<ListResponse<CmsAnnouncement>>('/cms/announcements'),
+  create: (data: Partial<CmsAnnouncement>) => api.post<ItemResponse<CmsAnnouncement>>('/cms/announcements', data),
+  update: (id: number, data: Partial<CmsAnnouncement>) => api.put<ItemResponse<CmsAnnouncement>>(`/cms/announcements/${id}`, data),
+  remove: (id: number) => api.delete(`/cms/announcements/${id}`),
+};
+
+
 // ── Resilient Cloudinary & Data URL Upload Helper ─────────────
 export async function uploadToCloudinary(
   file: File,

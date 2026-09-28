@@ -10,6 +10,7 @@ import { AppsCMS } from './pages/AppsCMS';
 import { ReelsCMS } from './pages/ReelsCMS';
 import { ServicesCMS } from './pages/ServicesCMS';
 import { ClientsCMS } from './pages/ClientsCMS';
+import { AnnouncementsCMS } from './pages/AnnouncementsCMS';
 import styles from './AdminApp.module.css';
 
 interface AdminUser {
@@ -86,11 +87,16 @@ export const AdminApp: React.FC = () => {
       {/* ── Sidebar ── */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarBrand}>
-          <img src="/AD Transparent SVG.svg" alt="Aranea Den" className={styles.brandLogo} />
-          <div>
-            <div className={styles.brandTitle}>ARANEA DEN</div>
-            <span className={styles.brandLabel}>STUDIO CMS</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <img src="/AD Transparent SVG.svg" alt="Aranea Den" className={styles.brandLogo} />
+            <div>
+              <div className={styles.brandTitle}>ARANEA DEN</div>
+              <span className={styles.brandLabel}>STUDIO CMS</span>
+            </div>
           </div>
+          <button className={styles.mobileLogoutBtn} onClick={handleLogout} title="Log out">
+            Log out →
+          </button>
         </div>
 
         <nav className={styles.sidebarNav}>
@@ -108,6 +114,9 @@ export const AdminApp: React.FC = () => {
           </NavLink>
           <NavLink to="/admin/clients" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
             <ClientIcon /> Clients
+          </NavLink>
+          <NavLink to="/admin/announcements" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
+            <AnnounceIcon /> Announcements
           </NavLink>
         </nav>
 
@@ -128,6 +137,7 @@ export const AdminApp: React.FC = () => {
           <Route path="reels" element={<ReelsCMS />} />
           <Route path="services" element={<ServicesCMS />} />
           <Route path="clients" element={<ClientsCMS />} />
+          <Route path="announcements" element={<AnnouncementsCMS />} />
           <Route path="/" element={<Navigate to="websites" replace />} />
           <Route path="*" element={<Navigate to="websites" replace />} />
         </Routes>
@@ -161,6 +171,11 @@ const ServiceIcon = () => (
 const ClientIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+  </svg>
+);
+const AnnounceIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
   </svg>
 );
 

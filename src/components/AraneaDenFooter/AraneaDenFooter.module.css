@@ -60,6 +60,9 @@
   width: clamp(160px, 18vw, 240px);
   height: auto;
   display: block;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 12px rgba(223, 37, 49, 0.35));
 }
 
 .footerCta {
@@ -157,33 +160,23 @@
   filter: drop-shadow(0 0 6px rgba(223, 37, 49, 0.6));
 }
 
-/* ── Centered Logo Brand Signature (Clean, Reduced Spacing) ── */
-.logoSection {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 0 12px 0;
+/* ── Left Column Logo Wrap (glow behind the left logo) ── */
+.leftLogoWrap {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
 }
 
-.logoWrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-/* Radial Glow Behind Logo */
-.logoGlow {
+/* Smooth radial red glow behind the left logo */
+.leftLogoGlow {
   position: absolute;
-  width: 180px;
-  height: 180px;
+  inset: -24px;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
-    rgba(223, 37, 49, 0.3) 0%,
-    rgba(223, 37, 49, 0.08) 45%,
+    rgba(223, 37, 49, 0.35) 0%,
+    rgba(223, 37, 49, 0.1) 50%,
     transparent 75%
   );
   pointer-events: none;
@@ -191,16 +184,42 @@
   transform-origin: center;
 }
 
-.footerLogo {
-  position: relative;
-  z-index: 1;
-  width: auto;
-  height: clamp(42px, 4.5vw, 60px);
-  max-width: 90vw;
-  object-fit: contain;
-  display: block;
-  filter: drop-shadow(0 0 16px rgba(223, 37, 49, 0.25));
+/* Left column tagline — glowing crimson, pulsing */
+.leftTagline {
+  margin: 8px 0 0 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--color-crimson, #df2531);
+  text-shadow:
+    0 0 8px rgba(223, 37, 49, 0.7),
+    0 0 18px rgba(223, 37, 49, 0.4),
+    0 0 32px rgba(223, 37, 49, 0.2);
+  animation: taglineGlow 2.8s ease-in-out infinite alternate;
 }
+
+@keyframes taglineGlow {
+  from {
+    text-shadow:
+      0 0 6px rgba(223, 37, 49, 0.5),
+      0 0 14px rgba(223, 37, 49, 0.3),
+      0 0 24px rgba(223, 37, 49, 0.15);
+    opacity: 0.85;
+  }
+  to {
+    text-shadow:
+      0 0 10px rgba(223, 37, 49, 0.9),
+      0 0 24px rgba(223, 37, 49, 0.55),
+      0 0 44px rgba(223, 37, 49, 0.3);
+    opacity: 1;
+  }
+}
+
+/* ── Centered Logo Brand Signature (REMOVED — replaced by left logo) ── */
+/* .logoSection, .logoWrap, .logoGlow, .footerLogo no longer used */
+
 
 /* ── Bottom Legal Row ── */
 .bottomRow {

@@ -101,9 +101,9 @@ export async function handleApiRequest(req, res, next) {
 
   if (handlerPath && fs.existsSync(handlerPath)) {
     try {
-      // Dynamic import with file URL
+      // Dynamic import with file URL and cache-busting query for instant reload
       const fileUrl = new URL(`file://${handlerPath.replace(/\\/g, '/')}`).href;
-      const mod = await import(fileUrl);
+      const mod = await import(`${fileUrl}?t=${Date.now()}`);
       const handler = mod.default || mod;
       await handler(req, res);
     } catch (err) {

@@ -13,7 +13,6 @@ const NAV_LINKS: NavLink[] = [
   { label: 'ABOUT', path: '/about', href: '/about' },
   { label: 'SERVICES', path: '/services', href: '/services' },
   { label: 'PORTFOLIO', path: '/portfolio', href: '/portfolio' },
-  { label: 'TEAM', path: '/team', href: '/team' },
   { label: 'CONTACT', path: '/contact', href: '/contact' },
 ];
 
@@ -22,7 +21,6 @@ const FULL_MENU_LINKS: NavLink[] = [
   { label: 'ABOUT', path: '/about', href: '/about' },
   { label: 'SERVICES', path: '/services', href: '/services' },
   { label: 'PORTFOLIO', path: '/portfolio', href: '/portfolio' },
-  { label: 'TEAM', path: '/team', href: '/team' },
   { label: 'CONTACT', path: '/contact', href: '/contact' },
 ];
 

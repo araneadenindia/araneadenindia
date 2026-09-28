@@ -199,6 +199,7 @@ const CleanReelCard: React.FC<CleanReelCardProps> = ({ reel, isActive = true }) 
           muted
           playsInline
           preload="auto"
+          crossOrigin="anonymous"
           className={styles.reelVideo}
           onPlaying={() => setIsVideoLoaded(true)}
         />

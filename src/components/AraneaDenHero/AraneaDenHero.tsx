@@ -332,8 +332,9 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
     return () => ctx.revert();
   }, [isMobile]);
 
-  // Video source: 9:16 portrait on mobile, 16:9 landscape on desktop
+  // Video source & poster: 9:16 portrait on mobile, 16:9 landscape on desktop
   const videoSrc = isMobile ? '/hero-9-16.mp4' : '/hero-16-9.mp4';
+  const posterSrc = isMobile ? '/hero-poster-mobile.jpg' : '/hero-poster-desktop.jpg';
 
   // Ensure robust programmatic autoplay across all modern browsers
   useEffect(() => {
@@ -389,11 +390,13 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
             key={videoSrc}
             className={styles.heroVideo}
             src={videoSrc}
+            poster={posterSrc}
             autoPlay
             loop
             muted
             playsInline
             preload="auto"
+            crossOrigin="anonymous"
           />
           <div className={styles.videoGlow} />
         </div>

@@ -94,6 +94,7 @@ const ReelCard: React.FC<{ reel: AraneaReel }> = ({ reel }) => {
           muted
           playsInline
           preload="auto"
+          crossOrigin="anonymous"
           className={styles.reelVideo}
           onPlaying={() => setIsVideoLoaded(true)}
         />

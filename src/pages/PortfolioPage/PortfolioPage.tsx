@@ -88,10 +88,12 @@ const AutoplayReelCard: React.FC<AutoplayReelCardProps> = ({ reel, onClick }) =>
           ref={videoRef}
           src={reel.videoSrc}
           poster={reel.thumbnail}
+          autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
+          crossOrigin="anonymous"
           className={`${styles.reelAutoplayVideo} ${isPlaying ? styles.videoPlaying : ''}`}
           onPlaying={() => setIsPlaying(true)}
         />

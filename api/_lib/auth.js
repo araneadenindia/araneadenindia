@@ -42,12 +42,14 @@ export function getTokenFromRequest(req) {
 
 // Build a Set-Cookie header string for the session token
 export function buildSessionCookie(token) {
-  return `${COOKIE_NAME}=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=604800`;
+  const isSecure = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+  return `${COOKIE_NAME}=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=604800${isSecure ? '; Secure' : ''}`;
 }
 
 // Build a cookie that clears the session
 export function buildLogoutCookie() {
-  return `${COOKIE_NAME}=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0`;
+  const isSecure = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+  return `${COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${isSecure ? '; Secure' : ''}`;
 }
 
 // Middleware: verify the request is authenticated; returns admin payload or null
@@ -66,5 +68,9 @@ export function setCorsHeaders(res) {
 
 export function sendJson(res, statusCode, data) {
   res.setHeader('Content-Type', 'application/json');
-  res.status(statusCode).json(data);
+  if (typeof res.status === 'function' && typeof res.json === 'function') {
+    return res.status(statusCode).json(data);
+  }
+  res.statusCode = statusCode;
+  return res.end(JSON.stringify(data));
 }

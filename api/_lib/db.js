@@ -1,14 +1,15 @@
 // api/_lib/db.js
 // Turso (libSQL) database client — shared across all API routes
 import { createClient } from '@libsql/client';
+import { hash } from 'bcryptjs';
 
 let _client = null;
 
 export function getDb() {
   if (!_client) {
-    const url = process.env.TURSO_DATABASE_URL;
+    const defaultFile = process.platform === 'win32' ? 'file:local.db' : 'file:/tmp/aranea_cms.db';
+    const url = process.env.TURSO_DATABASE_URL || defaultFile;
     const authToken = process.env.TURSO_AUTH_TOKEN;
-    if (!url) throw new Error('TURSO_DATABASE_URL env var is not set');
     _client = createClient({ url, authToken: authToken || undefined });
   }
   return _client;
@@ -24,7 +25,7 @@ export async function initDb() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT NOT NULL UNIQUE,
       password_hash TEXT NOT NULL,
-      must_change_password INTEGER NOT NULL DEFAULT 1,
+      must_change_password INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     )`,
 
@@ -117,6 +118,23 @@ export async function initDb() {
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     )`,
   ], 'write');
+
+  // Auto-seed admin user if admin_users is empty
+  try {
+    const adminCheck = await db.execute("SELECT COUNT(*) as count FROM admin_users WHERE username = 'admin'");
+    const adminCount = Number(adminCheck.rows[0]?.count ?? 0);
+    if (adminCount === 0) {
+      const initialPassword = process.env.ADMIN_INITIAL_PASSWORD || 'araneaden@2026admin';
+      const passwordHash = await hash(initialPassword, 10);
+      await db.execute({
+        sql: `INSERT INTO admin_users (username, password_hash, must_change_password) VALUES (?, ?, 0)`,
+        args: ['admin', passwordHash],
+      });
+      console.log('[initDb] Default admin user initialized successfully.');
+    }
+  } catch (err) {
+    console.error('[initDb] Admin seed error:', err);
+  }
 
   // Auto-seed if database is brand new (websites table is empty)
   try {

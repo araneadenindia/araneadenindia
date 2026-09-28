@@ -1,7 +1,7 @@
 // api/auth/login.js — POST /api/auth/login
 import { compare } from 'bcryptjs';
-import { initDb, getDb } from '../_lib/db.js';
-import { signToken, buildSessionCookie, sendJson } from '../_lib/auth.js';
+import { initDb, getDb } from '../../_lib/db.js';
+import { signToken, buildSessionCookie, sendJson } from '../../_lib/auth.js';
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {

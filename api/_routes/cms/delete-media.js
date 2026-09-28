@@ -1,7 +1,7 @@
 // api/cms/delete-media.js — POST /api/cms/delete-media
 // Deletes a Cloudinary asset by public_id (server-side, API secret never exposed)
 import crypto from 'crypto';
-import { requireAuth, sendJson } from '../_lib/auth.js';
+import { requireAuth, sendJson } from '../../_lib/auth.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return sendJson(res, 405, { error: 'Method not allowed' });

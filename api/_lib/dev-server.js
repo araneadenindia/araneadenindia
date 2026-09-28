@@ -2,6 +2,7 @@
 // Local development middleware for Vite to route /api/* requests to serverless handlers
 import fs from 'fs';
 import path from 'path';
+import masterHandler from '../[...slug].js';
 
 // Load .env.local if present
 try {
@@ -66,56 +67,12 @@ export async function handleApiRequest(req, res, next) {
     req.body = {};
   }
 
-  // Map pathname to route handler file
-  let handlerPath = null;
-  const basePath = path.resolve(process.cwd(), 'api');
-
-  // Direct matches
-  if (pathname === '/api/setup') {
-    handlerPath = path.join(basePath, 'setup.js');
-  } else if (pathname === '/api/auth/login') {
-    handlerPath = path.join(basePath, 'auth', 'login.js');
-  } else if (pathname === '/api/auth/logout') {
-    handlerPath = path.join(basePath, 'auth', 'logout.js');
-  } else if (pathname === '/api/auth/me') {
-    handlerPath = path.join(basePath, 'auth', 'me.js');
-  } else if (pathname === '/api/auth/change-password') {
-    handlerPath = path.join(basePath, 'auth', 'change-password.js');
-  } else if (pathname === '/api/cms/upload-signature') {
-    handlerPath = path.join(basePath, 'cms', 'upload-signature.js');
-  } else if (pathname === '/api/cms/delete-media') {
-    handlerPath = path.join(basePath, 'cms', 'delete-media.js');
-  } else if (pathname === '/api/cms/seed') {
-    handlerPath = path.join(basePath, 'cms', 'seed.js');
-  } else {
-    // Dynamic matching for cms collections: /api/cms/:resource or /api/cms/:resource/:id
-    const parts = pathname.replace('/api/cms/', '').split('/');
-    const resource = parts[0];
-    const id = parts[1];
-
-    if (resource && id) {
-      handlerPath = path.join(basePath, 'cms', resource, '[id].js');
-      req.query.id = id;
-    } else if (resource) {
-      handlerPath = path.join(basePath, 'cms', `${resource}.js`);
+  try {
+    await masterHandler(req, res);
+  } catch (err) {
+    console.error(`[dev-server] Error handling ${pathname}:`, err);
+    if (!res.headersSent) {
+      res.status(500).json({ ok: false, error: err.message });
     }
-  }
-
-  if (handlerPath && fs.existsSync(handlerPath)) {
-    try {
-      // Dynamic import with file URL and cache-busting query for instant reload
-      const fileUrl = new URL(`file://${handlerPath.replace(/\\/g, '/')}`).href;
-      const mod = await import(`${fileUrl}?t=${Date.now()}`);
-      const handler = mod.default || mod;
-      await handler(req, res);
-    } catch (err) {
-      console.error(`[dev-server] Error handling ${pathname}:`, err);
-      if (!res.headersSent) {
-        res.status(500).json({ ok: false, error: err.message });
-      }
-    }
-  } else {
-    console.warn(`[dev-server] No handler found for ${pathname} (mapped to: ${handlerPath})`);
-    res.status(404).json({ ok: false, error: `Route ${pathname} not found` });
   }
 }

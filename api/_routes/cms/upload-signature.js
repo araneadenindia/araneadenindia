@@ -2,7 +2,7 @@
 // Returns a signed Cloudinary upload signature so the browser can upload directly
 // to Cloudinary without exposing the API secret in frontend code.
 import crypto from 'crypto';
-import { requireAuth, sendJson } from '../_lib/auth.js';
+import { requireAuth, sendJson } from '../../_lib/auth.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return sendJson(res, 405, { error: 'Method not allowed' });

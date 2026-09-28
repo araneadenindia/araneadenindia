@@ -1,7 +1,7 @@
 // api/auth/change-password.js — POST /api/auth/change-password
 import { hash } from 'bcryptjs';
-import { requireAuth, sendJson, signToken, buildSessionCookie } from '../_lib/auth.js';
-import { getDb } from '../_lib/db.js';
+import { requireAuth, sendJson, signToken, buildSessionCookie } from '../../_lib/auth.js';
+import { getDb } from '../../_lib/db.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return sendJson(res, 405, { error: 'Method not allowed' });

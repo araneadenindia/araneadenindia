@@ -1,8 +1,8 @@
 // api/cms/seed.js — POST /api/cms/seed
 // Seeds all existing hardcoded data into the DB if tables are empty.
 // Safe to run repeatedly — uses INSERT OR IGNORE so existing rows are never overwritten.
-import { initDb, getDb } from '../_lib/db.js';
-import { requireAuth, sendJson } from '../_lib/auth.js';
+import { initDb, getDb } from '../../_lib/db.js';
+import { requireAuth, sendJson } from '../../_lib/auth.js';
 
 // ── Static data mirrored from src/data/ ─────────────────────────────────────
 const WEBSITES = [

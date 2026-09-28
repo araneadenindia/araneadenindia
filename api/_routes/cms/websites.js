@@ -1,8 +1,8 @@
 // api/cms/websites.js — GET/POST /api/cms/websites
 // GET: public — returns published websites ordered by display_order
 // POST: admin-only — creates a new website entry
-import { initDb, getDb } from '../_lib/db.js';
-import { requireAuth, sendJson } from '../_lib/auth.js';
+import { initDb, getDb } from '../../_lib/db.js';
+import { requireAuth, sendJson } from '../../_lib/auth.js';
 
 export default async function handler(req, res) {
   await initDb();

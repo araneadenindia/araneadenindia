@@ -1,6 +1,6 @@
 // api/cms/announcements.js — GET/POST /api/cms/announcements
-import { initDb, getDb } from '../_lib/db.js';
-import { requireAuth, sendJson } from '../_lib/auth.js';
+import { initDb, getDb } from '../../_lib/db.js';
+import { requireAuth, sendJson } from '../../_lib/auth.js';
 
 export default async function handler(req, res) {
   await initDb();

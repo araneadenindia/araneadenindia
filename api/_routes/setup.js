@@ -1,7 +1,7 @@
 // api/setup.js
 // One-time database initialization + admin user seeding
 // GET /api/setup — safe to call multiple times (idempotent)
-import { initDb, getDb } from './_lib/db.js';
+import { initDb, getDb } from '../_lib/db.js';
 import { hash } from 'bcryptjs';
 
 export default async function handler(req, res) {

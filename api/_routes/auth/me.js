@@ -1,5 +1,5 @@
 // api/auth/me.js — GET /api/auth/me — returns current session info
-import { requireAuth, sendJson } from '../_lib/auth.js';
+import { requireAuth, sendJson } from '../../_lib/auth.js';
 
 export default async function handler(req, res) {
   const admin = await requireAuth(req);

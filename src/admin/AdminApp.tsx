@@ -151,8 +151,10 @@ export const AdminApp: React.FC = () => {
           <Route path="services" element={<ServicesCMS />} />
           <Route path="clients" element={<ClientsCMS />} />
           <Route path="announcements" element={<AnnouncementsCMS />} />
-          <Route path="/" element={<Navigate to="websites" replace />} />
-          <Route path="*" element={<Navigate to="websites" replace />} />
+          <Route path="login" element={<Navigate to="/admin/websites" replace />} />
+          <Route path="/" element={<Navigate to="/admin/websites" replace />} />
+          <Route path="" element={<Navigate to="/admin/websites" replace />} />
+          <Route path="*" element={<Navigate to="/admin/websites" replace />} />
         </Routes>
       </main>
     </div>

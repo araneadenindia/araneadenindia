@@ -42,6 +42,26 @@ export async function initDb() {
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     )`,
 
+    // Apps (mobile & web applications)
+    `CREATE TABLE IF NOT EXISTS apps (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      client TEXT,
+      platform TEXT,
+      category TEXT,
+      description TEXT,
+      tags TEXT,
+      thumbnail_url TEXT,
+      thumbnail_public_id TEXT,
+      url TEXT,
+      year TEXT,
+      status TEXT DEFAULT 'Production',
+      display_order INTEGER NOT NULL DEFAULT 0,
+      published INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )`,
+
     // Reels (short-form video portfolio)
     `CREATE TABLE IF NOT EXISTS reels (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

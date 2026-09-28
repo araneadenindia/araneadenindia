@@ -279,6 +279,7 @@ export const PortfolioPage: React.FC = () => {
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
 
   const [websites, setWebsites] = useState<WebsiteProject[]>(WEBSITE_PROJECTS);
+  const [apps, setApps] = useState<AppProject[]>(APP_PROJECTS);
   const [reels, setReels] = useState<AraneaReel[]>(ARANEA_REELS);
 
   useEffect(() => {
@@ -299,6 +300,29 @@ export const PortfolioPage: React.FC = () => {
             year: '2026',
           }));
           setWebsites(mapped);
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/cms/apps')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
+          const mapped: AppProject[] = res.data.map((a: any, index: number) => ({
+            id: String(a.id),
+            number: String(index + 1).padStart(2, '0'),
+            name: a.name,
+            client: a.client || 'Aranea Den',
+            platform: a.platform || 'iOS / Android',
+            category: a.category || 'Mobile Application',
+            description: a.description || '',
+            tags: a.tags ? a.tags.split(',').map((t: string) => t.trim()) : ['React Native', 'Mobile App'],
+            thumbnail: a.thumbnail_url || '/services/ad-mobile-development.jpg',
+            url: a.url || '/services/mobile-development',
+            year: a.year || '2026',
+            status: a.status || 'Production',
+          }));
+          setApps(mapped);
         }
       })
       .catch(() => {});
@@ -609,7 +633,7 @@ export const PortfolioPage: React.FC = () => {
               {viewMode === 'grid' ? (
                 /* ── GRID VIEW (Portrait 9:16 Subtle Mobile Mockup) ── */
                 <div className={styles.appsGrid}>
-                  {APP_PROJECTS.map((app: AppProject) => {
+                  {apps.map((app: AppProject) => {
                     const isExternal = app.url?.startsWith('http');
                     const CardElement = isExternal ? 'a' : Link;
                     const linkProps = isExternal
@@ -651,7 +675,7 @@ export const PortfolioPage: React.FC = () => {
               ) : (
                 /* ── EDITORIAL VIEW (Horizontal Card with Phone on Left) ── */
                 <div className={styles.appsEditorialList}>
-                  {APP_PROJECTS.map((app: AppProject) => {
+                  {apps.map((app: AppProject) => {
                     const isExternal = app.url?.startsWith('http');
                     const CardElement = isExternal ? 'a' : Link;
                     const linkProps = isExternal

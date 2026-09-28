@@ -1,6 +1,5 @@
-/* src/admin/AdminApp.module.css */
+/* src/admin/AdminApp.module.css — Ultra-Sleek Studio Architecture */
 
-/* ── Reset ─────────────────────────────────────────────────── */
 .layout {
   display: flex;
   min-height: 100vh;
@@ -14,12 +13,12 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #F8F8F5;
+  background: #0B0B0E;
 }
 
 .loadingSpinner {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border: 3px solid rgba(223, 37, 49, 0.2);
   border-top-color: #DF2531;
   border-radius: 50%;
@@ -28,118 +27,167 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Sidebar ────────────────────────────────────────────────── */
+/* ── High-End Studio Sidebar ────────────────────────────────── */
 .sidebar {
-  width: 220px;
+  width: 250px;
   flex-shrink: 0;
-  background: #FFFFFF;
-  border-right: 1px solid rgba(11, 11, 12, 0.08);
+  background: #0E0E12;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
   height: 100vh;
   overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+  z-index: 100;
 }
 
 .sidebarBrand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid rgba(11, 11, 12, 0.06);
+  gap: 12px;
+  padding: 24px 22px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .brandLogo {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(223, 37, 49, 0.3));
+}
+
+.brandTitle {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #FFFFFF;
+  font-family: 'Exo', sans-serif;
+  line-height: 1.2;
 }
 
 .brandLabel {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #DF2531;
+  display: block;
+  margin-top: 2px;
 }
 
 .sidebarNav {
   flex: 1;
-  padding: 12px 8px;
+  padding: 20px 12px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .navLink {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 14px;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 9px;
+  font-size: 13.5px;
   font-weight: 500;
-  color: #424348;
+  color: #9C9EA8;
   text-decoration: none;
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
 }
 
 .navLink:hover {
-  background: rgba(11, 11, 12, 0.04);
-  color: #0B0B0C;
+  background: rgba(255, 255, 255, 0.05);
+  color: #FFFFFF;
+  transform: translateX(3px);
 }
 
 .navLinkActive {
-  background: rgba(223, 37, 49, 0.08) !important;
-  color: #DF2531 !important;
+  background: rgba(223, 37, 49, 0.14) !important;
+  color: #FFFFFF !important;
   font-weight: 600;
+  box-shadow: inset 3px 0 0 #DF2531;
 }
 
+.navLinkActive svg {
+  color: #DF2531;
+}
+
+/* ── Sidebar Footer ─────────────────────────────────────────── */
 .sidebarFooter {
-  padding: 16px 20px;
-  border-top: 1px solid rgba(11, 11, 12, 0.06);
+  padding: 20px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.adminBadge {
+  display: flex;
+  align-items: center;
   gap: 8px;
 }
 
+.adminPulse {
+  width: 8px;
+  height: 8px;
+  background: #22C55E;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #22C55E;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
 .adminName {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  color: #424348;
-  letter-spacing: 0.02em;
+  color: #E2E3E8;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
 }
 
 .logoutBtn {
-  background: transparent;
-  border: 1px solid rgba(11, 11, 12, 0.12);
-  border-radius: 6px;
-  padding: 7px 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #424348;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+  padding: 9px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #B5B7C2;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   text-align: center;
 }
 
 .logoutBtn:hover {
+  background: rgba(223, 37, 49, 0.15);
   border-color: #DF2531;
-  color: #DF2531;
+  color: #FFFFFF;
 }
 
-/* ── Main Content ───────────────────────────────────────────── */
+/* ── Main Content Area ──────────────────────────────────────── */
 .main {
   flex: 1;
   overflow-y: auto;
-  padding: 32px;
+  padding: 40px;
   max-width: 100%;
+  background: #F8F8F5;
 }
 
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
-  .sidebar { width: 100%; height: auto; position: static; flex-direction: row; flex-wrap: wrap; }
-  .sidebarNav { flex-direction: row; padding: 8px; }
-  .main { padding: 20px 16px; }
+  .sidebar { width: 100%; height: auto; position: static; }
+  .sidebarNav { flex-direction: row; flex-wrap: wrap; padding: 10px; }
+  .main { padding: 24px 16px; }
 }

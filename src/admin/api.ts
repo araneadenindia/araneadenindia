@@ -71,6 +71,15 @@ export type CmsClient = {
   display_order: number; published: number | boolean; created_at: string; updated_at: string;
 };
 
+export type CmsApp = {
+  id: number; name: string; client: string | null; platform: string | null;
+  category: string | null; description: string | null; tags: string | null;
+  thumbnail_url: string | null; thumbnail_public_id: string | null;
+  url: string | null; year: string | null; status: string | null;
+  display_order: number; published: number | boolean;
+  created_at: string; updated_at: string;
+};
+
 type ListResponse<T> = { ok: boolean; data: T[] };
 type ItemResponse<T> = { ok: boolean; data: T };
 
@@ -79,6 +88,13 @@ export const websitesApi = {
   create: (data: Partial<CmsWebsite>) => api.post<ItemResponse<CmsWebsite>>('/cms/websites', data),
   update: (id: number, data: Partial<CmsWebsite>) => api.put<ItemResponse<CmsWebsite>>(`/cms/websites/${id}`, data),
   remove: (id: number) => api.delete(`/cms/websites/${id}`),
+};
+
+export const appsApi = {
+  list: () => api.get<ListResponse<CmsApp>>('/cms/apps'),
+  create: (data: Partial<CmsApp>) => api.post<ItemResponse<CmsApp>>('/cms/apps', data),
+  update: (id: number, data: Partial<CmsApp>) => api.put<ItemResponse<CmsApp>>(`/cms/apps/${id}`, data),
+  remove: (id: number) => api.delete(`/cms/apps/${id}`),
 };
 
 export const reelsApi = {
@@ -102,31 +118,55 @@ export const clientsApi = {
   remove: (id: number) => api.delete(`/cms/clients/${id}`),
 };
 
-// ── Cloudinary upload helper ──────────────────────────────────
+// ── Resilient Cloudinary & Data URL Upload Helper ─────────────
 export async function uploadToCloudinary(
   file: File,
   folder: string = 'aranea-den',
   resourceType: 'image' | 'video' = 'image'
 ): Promise<{ secure_url: string; public_id: string }> {
-  // 1. Get signed params from server
-  const sigData = await api.post<{
-    ok: boolean; signature: string; timestamp: number;
-    apiKey: string; cloudName: string; folder: string; resource_type: string;
-  }>('/cms/upload-signature', { folder, resource_type: resourceType });
+  try {
+    const sigData = await api.post<{
+      ok: boolean; signature: string; timestamp: number;
+      apiKey: string; cloudName: string; folder: string; resource_type: string;
+    }>('/cms/upload-signature', { folder, resource_type: resourceType });
 
-  // 2. Upload directly to Cloudinary
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('api_key', sigData.apiKey);
-  formData.append('timestamp', String(sigData.timestamp));
-  formData.append('signature', sigData.signature);
-  formData.append('folder', sigData.folder);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('api_key', sigData.apiKey);
+    formData.append('timestamp', String(sigData.timestamp));
+    formData.append('signature', sigData.signature);
+    formData.append('folder', sigData.folder);
 
-  const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${sigData.cloudName}/${resourceType}/upload`,
-    { method: 'POST', body: formData }
-  );
-  if (!res.ok) throw new Error('Cloudinary upload failed');
-  const data = await res.json();
-  return { secure_url: data.secure_url, public_id: data.public_id };
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${sigData.cloudName}/${resourceType}/upload`,
+      { method: 'POST', body: formData }
+    );
+    const data = await res.json();
+    if (res.ok && data.secure_url) {
+      return { secure_url: data.secure_url, public_id: data.public_id };
+    }
+
+    // If Cloudinary rejected the request (e.g. invalid cloud name), convert images to local Data URL
+    if (resourceType === 'image') {
+      const dataUrl = await fileToDataUrl(file);
+      return { secure_url: dataUrl, public_id: 'data_uri_' + Date.now() };
+    }
+
+    throw new Error(data.error?.message || 'Cloudinary upload failed');
+  } catch (err: any) {
+    if (resourceType === 'image') {
+      const dataUrl = await fileToDataUrl(file);
+      return { secure_url: dataUrl, public_id: 'data_uri_' + Date.now() };
+    }
+    throw err;
+  }
+}
+
+function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }

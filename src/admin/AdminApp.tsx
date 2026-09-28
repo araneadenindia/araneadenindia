@@ -6,6 +6,7 @@ import { authApi } from './api';
 import { AdminLogin } from './pages/AdminLogin';
 import { AdminChangePassword } from './pages/AdminChangePassword';
 import { WebsitesCMS } from './pages/WebsitesCMS';
+import { AppsCMS } from './pages/AppsCMS';
 import { ReelsCMS } from './pages/ReelsCMS';
 import { ServicesCMS } from './pages/ServicesCMS';
 import { ClientsCMS } from './pages/ClientsCMS';
@@ -86,12 +87,18 @@ export const AdminApp: React.FC = () => {
       <aside className={styles.sidebar}>
         <div className={styles.sidebarBrand}>
           <img src="/AD Transparent SVG.svg" alt="Aranea Den" className={styles.brandLogo} />
-          <span className={styles.brandLabel}>CMS</span>
+          <div>
+            <div className={styles.brandTitle}>ARANEA DEN</div>
+            <span className={styles.brandLabel}>STUDIO CMS</span>
+          </div>
         </div>
 
         <nav className={styles.sidebarNav}>
           <NavLink to="/admin/websites" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
             <WebIcon /> Websites
+          </NavLink>
+          <NavLink to="/admin/apps" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
+            <AppIcon /> Apps
           </NavLink>
           <NavLink to="/admin/reels" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
             <ReelIcon /> Reels
@@ -105,8 +112,11 @@ export const AdminApp: React.FC = () => {
         </nav>
 
         <div className={styles.sidebarFooter}>
-          <span className={styles.adminName}>{user.username}</span>
-          <button className={styles.logoutBtn} onClick={handleLogout}>Log out</button>
+          <div className={styles.adminBadge}>
+            <span className={styles.adminPulse} />
+            <span className={styles.adminName}>{user.username}</span>
+          </div>
+          <button className={styles.logoutBtn} onClick={handleLogout}>Log out →</button>
         </div>
       </aside>
 
@@ -114,6 +124,7 @@ export const AdminApp: React.FC = () => {
       <main className={styles.main}>
         <Routes>
           <Route path="websites" element={<WebsitesCMS />} />
+          <Route path="apps" element={<AppsCMS />} />
           <Route path="reels" element={<ReelsCMS />} />
           <Route path="services" element={<ServicesCMS />} />
           <Route path="clients" element={<ClientsCMS />} />
@@ -129,6 +140,12 @@ export const AdminApp: React.FC = () => {
 const WebIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" />
+  </svg>
+);
+const AppIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="5" y="2" width="14" height="20" rx="3" ry="3" />
+    <line x1="12" y1="18" x2="12.01" y2="18" />
   </svg>
 );
 const ReelIcon = () => (

@@ -1,14 +1,8 @@
-# Ignore heavy media and working scratch files for Vercel deployments
+# Ignore node_modules, build caches, and scratch files
 node_modules
-dist
 scratch/
-*.mp4
-*.realesrgan.mp4
-*.docx
-*.pdf
-Reels Video Files/
-public/Reels Video Files/
-Client Logos/
-Team/
+local.db
+reels.csv
+insta_reels.json
 scrape_insta*.cjs
 process_reels.cjs

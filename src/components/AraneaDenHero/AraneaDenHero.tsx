@@ -332,8 +332,37 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
     return () => ctx.revert();
   }, [isMobile]);
 
-  // Video source: 9:16 portrait on mobile, 16:9 landscape on desktop (Final Renders)
-  const videoSrc = isMobile ? '/Final Render 9.16.mp4' : '/Final Render 16.9.mp4';
+  // Video source: 9:16 portrait on mobile, 16:9 landscape on desktop
+  const videoSrc = isMobile ? '/hero-9-16.mp4' : '/hero-16-9.mp4';
+
+  // Ensure robust programmatic autoplay across all modern browsers
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const attemptPlay = () => {
+      video.muted = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay policy handled safely; will resume on first user interaction
+        });
+      }
+    };
+
+    attemptPlay();
+    video.addEventListener('loadeddata', attemptPlay);
+    video.addEventListener('canplay', attemptPlay);
+
+    return () => {
+      video.removeEventListener('loadeddata', attemptPlay);
+      video.removeEventListener('canplay', attemptPlay);
+    };
+  }, [videoSrc]);
 
   const handleExploreClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

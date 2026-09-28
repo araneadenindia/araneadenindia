@@ -27,10 +27,10 @@ const APPS = [
 ];
 
 const REELS = [
-  { title: 'Startup Potluck — Founder Pitch', video_url: '/reels-videos/startup_potluck_rjy_1786440024_3961264728183160298_74679998814.mp4', thumbnail_url: '/reels/reel_05.jpg', description: 'Official video coverage and cinematic launch showcase for Startup Potluck in Rajahmundry.', display_order: 1 },
-  { title: 'CEO Expos — Executive Summit', video_url: '/reels-videos/ceoexpos_1790094616_3991924443449835252_28995625029.mp4', thumbnail_url: '/reels/reel_02.jpg', description: 'High-impact conference branding and executive summit campaigns across Andhra Pradesh.', display_order: 2 },
-  { title: 'JK Restaurant — Culinary Branding', video_url: '/reels-videos/jkrestaurant_rjy_1778126188_3991526363185666723_29264016244.mp4', thumbnail_url: '/reels/reel_06.jpg', description: 'Sensory gastronomy campaign and culinary storytelling for JK Restaurant, Rajahmundry.', display_order: 3 },
-  { title: 'Finance with Veeru — Advisory Reels', video_url: '/reels-videos/financewithveeru.in_1789577476_3987584190576710280_80084628249.mp4', thumbnail_url: '/reels/reel_04.jpg', description: 'Authoritative financial education reels and high-trust audience growth.', display_order: 4 },
+  { title: 'Startup Potluck — Founder Pitch', video_url: '/reels-videos/startup-potluck.mp4', thumbnail_url: '/reels/reel_05.jpg', description: 'Official video coverage and cinematic launch showcase for Startup Potluck in Rajahmundry.', display_order: 1 },
+  { title: 'CEO Expos — Executive Summit', video_url: '/reels-videos/ceo-expos.mp4', thumbnail_url: '/reels/reel_02.jpg', description: 'High-impact conference branding and executive summit campaigns across Andhra Pradesh.', display_order: 2 },
+  { title: 'JK Restaurant — Culinary Branding', video_url: '/reels-videos/jk-restaurant.mp4', thumbnail_url: '/reels/reel_06.jpg', description: 'Sensory gastronomy campaign and culinary storytelling for JK Restaurant, Rajahmundry.', display_order: 3 },
+  { title: 'Finance with Veeru — Advisory Reels', video_url: '/reels-videos/finance-with-veeru.mp4', thumbnail_url: '/reels/reel_04.jpg', description: 'Authoritative financial education reels and high-trust audience growth.', display_order: 4 },
 ];
 
 const CLIENTS = [

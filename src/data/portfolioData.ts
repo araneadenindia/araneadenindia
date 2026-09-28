@@ -240,7 +240,7 @@ export const REQUIRED_MARKETING_PROJECTS: MarketingProject[] = [
     tags: ['Sensory Visuals', 'Local Acquisition', 'Social Strategy'],
     image: '/reels/reel_06.jpg',
     logo: '/clients/jk-restaurant.svg',
-    videoSrc: '/reels-videos/jkrestaurant_rjy_1778126188_3991526363185666723_29264016244.mp4',
+    videoSrc: '/reels-videos/jk-restaurant.mp4',
   },
   {
     id: 'ceo-expo',
@@ -253,7 +253,7 @@ export const REQUIRED_MARKETING_PROJECTS: MarketingProject[] = [
     tags: ['Summit Production', 'Key Visuals', 'Registration Media'],
     image: '/reels/reel_02.jpg',
     logo: '/clients/ceo-expos.svg',
-    videoSrc: '/reels-videos/ceoexpos_1790094616_3991924443449835252_28995625029.mp4',
+    videoSrc: '/reels-videos/ceo-expos.mp4',
   },
   {
     id: 'startup-potluck',
@@ -266,7 +266,7 @@ export const REQUIRED_MARKETING_PROJECTS: MarketingProject[] = [
     tags: ['Founder Community', 'Pitch Media', 'Ecosystem Growth'],
     image: '/reels/reel_05.jpg',
     logo: '/clients/startup-potluck.svg',
-    videoSrc: '/reels-videos/startup_potluck_rjy_1786440024_3961264728183160298_74679998814.mp4',
+    videoSrc: '/reels-videos/startup-potluck.mp4',
   },
   {
     id: 'finance-with-veeru',
@@ -279,7 +279,7 @@ export const REQUIRED_MARKETING_PROJECTS: MarketingProject[] = [
     tags: ['Wealth Advisory', 'Brand Authority', 'Educational Reels'],
     image: '/reels/reel_04.jpg',
     logo: '/clients/finance-with-veeru.svg',
-    videoSrc: '/reels-videos/financewithveeru.in_1789577476_3987584190576710280_80084628249.mp4',
+    videoSrc: '/reels-videos/finance-with-veeru.mp4',
   },
   {
     id: 'o2med-academy',

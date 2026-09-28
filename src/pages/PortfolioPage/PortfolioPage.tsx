@@ -337,7 +337,7 @@ export const PortfolioPage: React.FC = () => {
             client: r.title,
             caption: r.description || '',
             thumbnail: r.thumbnail_url || '/reels/reel_05.jpg',
-            videoSrc: r.video_url || '/reels-videos/startup_potluck_rjy_1786440024_3961264728183160298_74679998814.mp4',
+            videoSrc: r.video_url || '/reels-videos/startup-potluck.mp4',
             instagramUrl: 'https://www.instagram.com/araneaden_/',
             aspectRatio: '9:16',
             likes: 'HD Reel',

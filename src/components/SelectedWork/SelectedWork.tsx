@@ -100,58 +100,86 @@ const FEATURED_APPS: SelectedProject[] = [
   },
 ];
 
-const FEATURED_MARKETING: SelectedProject[] = [
+export interface MarketingCompanyCase {
+  id: string;
+  client: string;
+  category: string;
+  title: string;
+  deliverables: string[];
+  matter: string;
+  websiteThumb: string;
+  websiteUrl: string;
+  domain: string;
+  reelThumb: string;
+  reelVideo: string;
+  reelUrl: string;
+  actionUrl: string;
+}
+
+const MARKETING_COMPANIES: MarketingCompanyCase[] = [
   {
-    id: 'pp-connekts',
-    number: '01',
-    title: 'P & P Connekts — Make Your Mark Memorable',
-    domain: 'pandpconnektss.web.app',
-    url: 'https://pandpconnektss.web.app',
-    category: 'DIGITAL MARKETING & BRAND STRATEGY',
-    metaDescription:
-      'Full-stack digital marketing agency delivering strategic brand elevation, campaign execution, performance SEO, and creative presence across India.',
-    tags: ['Omnichannel Growth', 'Performance SEO', 'Brand Strategy', 'Campaigns'],
-    thumbnail: '/portfolio-thumbs/pandp.jpg',
-    actionLabel: 'VIEW CAMPAIGN PLATFORM',
+    id: 'ceo-expos',
+    client: 'CEO Expos',
+    category: 'EXECUTIVE CONFERENCES & BUSINESS SUMMITS',
+    title: 'CEO Expos — India’s Premier Business & Franchise Summits',
+    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'ATTENDEE CAMPAIGNS'],
+    matter:
+      'High-impact conference branding, executive summit campaigns, dynamic exhibitor acquisition, and attendee registration funnels driving full capacity across Andhra Pradesh.',
+    websiteThumb: '/portfolio-thumbs/creators.jpg',
+    websiteUrl: 'https://creatorseventsorganization.vercel.app/',
+    domain: 'creatorseventsorganization.vercel.app',
+    reelThumb: '/reels/reel_02.jpg',
+    reelVideo: '/reels-videos/ceo-expos.mp4',
+    reelUrl: 'https://www.instagram.com/araneaden_/',
+    actionUrl: 'https://creatorseventsorganization.vercel.app/',
   },
   {
     id: 'jk-restaurant',
-    number: '02',
-    title: 'JK Restaurant — Sensory Gastronomy Growth Campaign',
-    domain: 'jkrestaurant.campaign',
-    url: '/services/digital-marketing',
+    client: 'JK Restaurant',
     category: 'CULINARY BRANDING & SOCIAL GROWTH',
-    metaDescription:
-      'Sensory gastronomy campaign, culinary visual storytelling, and localized geo-targeted social media acquisition for Rajahmundry’s premier dining landmark.',
-    tags: ['Sensory Visuals', 'Local Acquisition', 'Social Strategy', 'Reels Funnel'],
-    thumbnail: '/reels/reel_06.jpg',
-    actionLabel: 'EXPLORE GROWTH CAMPAIGN',
-  },
-  {
-    id: 'ceo-expos',
-    number: '03',
-    title: 'CEO Expos — Executive Conferences & Business Summits',
-    domain: 'creatorseventsorganization.vercel.app',
-    url: 'https://creatorseventsorganization.vercel.app/',
-    category: 'EXECUTIVE CONFERENCES & SUMMITS',
-    metaDescription:
-      'High-impact conference branding, executive summit campaigns, dynamic exhibitor acquisition, and attendee registration media across Andhra Pradesh.',
-    tags: ['Summit Production', 'Key Visuals', 'Registration Media', 'Lead Funnels'],
-    thumbnail: '/reels/reel_02.jpg',
-    actionLabel: 'VIEW EXPO PLATFORM',
+    title: 'JK Restaurant — Sensory Gastronomy Growth Campaign',
+    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'LOCAL ACQUISITION'],
+    matter:
+      'Sensory gastronomy choreography, culinary visual storytelling, localized digital ordering platform, and geo-targeted social media acquisition for Rajahmundry’s premier dining landmark.',
+    websiteThumb: '/portfolio-thumbs/thor.jpg',
+    websiteUrl: '/services/digital-marketing',
+    domain: 'jkrestaurant.campaign',
+    reelThumb: '/reels/reel_06.jpg',
+    reelVideo: '/reels-videos/jk-restaurant.mp4',
+    reelUrl: 'https://www.instagram.com/araneaden_/',
+    actionUrl: '/services/digital-marketing',
   },
   {
     id: 'finance-with-veeru',
-    number: '04',
-    title: 'Finance with Veeru — Authoritative Personal Branding',
-    domain: 'financewithveeru.brand',
-    url: '/services/digital-marketing',
+    client: 'Finance with Veeru',
     category: 'FINANCIAL ADVISORY & REEL FUNNELS',
-    metaDescription:
-      'Authoritative financial education media, personal brand cinematography, viral educational hooks, and high-trust organic audience growth choreography.',
-    tags: ['Wealth Advisory', 'Brand Authority', 'Educational Reels', 'Conversion Funnels'],
-    thumbnail: '/reels/reel_04.jpg',
-    actionLabel: 'EXPLORE CAMPAIGN SYSTEM',
+    title: 'Finance with Veeru — Authoritative Personal Branding',
+    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'VIRAL HOOKS'],
+    matter:
+      'Authoritative financial education media, personal brand cinematography, viral educational hooks, and high-trust organic audience growth choreography across South India.',
+    websiteThumb: '/portfolio-thumbs/viraj.jpg',
+    websiteUrl: '/services/digital-marketing',
+    domain: 'financewithveeru.brand',
+    reelThumb: '/reels/reel_04.jpg',
+    reelVideo: '/reels-videos/finance-with-veeru.mp4',
+    reelUrl: 'https://www.instagram.com/araneaden_/',
+    actionUrl: '/services/digital-marketing',
+  },
+  {
+    id: 'startup-potluck',
+    client: 'Startup Potluck',
+    category: 'STARTUP ECOSYSTEM & BRAND ACCELERATION',
+    title: 'Startup Potluck — Founder Ecosystem & Pitch Summits',
+    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'FOUNDER MEDIA'],
+    matter:
+      'Official video coverage, founder pitch showcases, attendee networking platform, and cinematic launch campaigns accelerating regional startup ecosystems and investor connections.',
+    websiteThumb: '/portfolio-thumbs/pandp.jpg',
+    websiteUrl: 'https://pandpconnektss.web.app',
+    domain: 'pandpconnektss.web.app',
+    reelThumb: '/reels/reel_05.jpg',
+    reelVideo: '/reels-videos/startup-potluck.mp4',
+    reelUrl: 'https://www.instagram.com/araneaden_/reel/DaxbWhTz9hH/',
+    actionUrl: 'https://pandpconnektss.web.app',
   },
 ];
 
@@ -268,7 +296,7 @@ const FEATURED_BROADCASTING: SelectedProject[] = [
 const TABS: { id: WorkCategory; label: string; count: number }[] = [
   { id: 'websites', label: 'WEBSITES', count: FEATURED_WEBSITES.length },
   { id: 'apps', label: 'APPS', count: FEATURED_APPS.length },
-  { id: 'marketing', label: 'DIGITAL MARKETING', count: FEATURED_MARKETING.length },
+  { id: 'marketing', label: 'DIGITAL MARKETING', count: MARKETING_COMPANIES.length },
   { id: 'visuals', label: "AD'S IMPERIAL VISUALS", count: ARANEA_REELS.length },
   { id: 'hackathons', label: 'HACKATHONS / WORKSHOPS', count: FEATURED_HACKATHONS.length },
   { id: 'broadcasting', label: 'LIVE STREAMING & BROADCASTING', count: FEATURED_BROADCASTING.length },
@@ -283,10 +311,9 @@ const HEADLINES: Record<WorkCategory, string> = {
   broadcasting: 'STUDIO-GRADE LIVE STREAMING & BROADCASTING.',
 };
 
-const PROJECTS_BY_CATEGORY: Record<Exclude<WorkCategory, 'visuals'>, SelectedProject[]> = {
+const PROJECTS_BY_CATEGORY: Record<Exclude<WorkCategory, 'visuals' | 'marketing'>, SelectedProject[]> = {
   websites: FEATURED_WEBSITES,
   apps: FEATURED_APPS,
-  marketing: FEATURED_MARKETING,
   hackathons: FEATURED_HACKATHONS,
   broadcasting: FEATURED_BROADCASTING,
 };
@@ -414,6 +441,224 @@ const ReelMarquee: React.FC = () => {
 };
 
 /* ─────────────────────────────────────────
+   DIGITAL MARKETING COMPANY CARD (Collage: Website + Reel)
+───────────────────────────────────────── */
+const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: number }> = ({
+  company,
+  index,
+}) => {
+  const isReverse = index % 2 === 1;
+  const isExternalWeb = company.websiteUrl.startsWith('http');
+  const isExternalAction = company.actionUrl.startsWith('http');
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLElement>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const startPlayback = () => {
+      video.muted = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => setIsVideoLoaded(true)).catch(() => {});
+      }
+    };
+
+    startPlayback();
+    video.addEventListener('loadeddata', startPlayback);
+    video.addEventListener('canplay', startPlayback);
+
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.muted = true;
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: '100px 50px', threshold: 0.05 }
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('loadeddata', startPlayback);
+      video.removeEventListener('canplay', startPlayback);
+    };
+  }, [company.reelVideo]);
+
+  return (
+    <article
+      ref={cardRef}
+      className={`${styles.marketingItem} ${isReverse ? styles.marketingItemReverse : ''}`}
+    >
+      {/* Matter Column */}
+      <div className={styles.marketingMetaCol}>
+        <div className={styles.metaTop}>
+          <span className={styles.projectCategory}>{company.category}</span>
+        </div>
+
+        <h3 className={styles.projectTitle}>
+          {isExternalWeb ? (
+            <a
+              href={company.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.titleLink}
+            >
+              {company.title}
+            </a>
+          ) : (
+            <Link to={company.websiteUrl} className={styles.titleLink}>
+              {company.title}
+            </Link>
+          )}
+        </h3>
+
+        {/* Deliverables Indicators */}
+        <div className={styles.deliverablesRow} aria-label="Deliverables">
+          {company.deliverables.map((item, idx) => (
+            <span key={idx} className={styles.deliverableTag}>
+              <span className={styles.tagCheck} aria-hidden="true">✓</span>
+              <span>{item}</span>
+            </span>
+          ))}
+        </div>
+
+        <p className={styles.projectDescription}>{company.matter}</p>
+
+        <div className={styles.actionRow}>
+          {isExternalAction ? (
+            <a
+              href={company.actionUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.visitRedBtn}
+              aria-label={`Visit ${company.client}`}
+            >
+              <span>VISIT</span>
+              <span className={styles.visitRedBtnArrow} aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <Link
+              to={company.actionUrl}
+              className={styles.visitRedBtn}
+              aria-label={`Visit ${company.client}`}
+            >
+              <span>VISIT</span>
+              <span className={styles.visitRedBtnArrow} aria-hidden="true">↗</span>
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* Collage Tiles Column (Website Platform + Reel Video) */}
+      <div className={styles.marketingCollageCol}>
+        {/* Tile 1: Website */}
+        {isExternalWeb ? (
+          <a
+            href={company.websiteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.collageWebsiteTile}
+            aria-label={`Visit live site ${company.domain}`}
+          >
+            <div className={styles.tileBadgeRow}>
+              <span className={styles.tileBadge}>WEBSITE PLATFORM</span>
+            </div>
+            <div className={styles.tileImageWrapper}>
+              <img
+                src={company.websiteThumb}
+                alt={`${company.client} platform screenshot`}
+                className={styles.tileImg}
+                loading="lazy"
+              />
+              <div className={styles.imageOverlay}>
+                <span className={styles.overlayPill}>
+                  <span>{company.domain}</span>
+                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
+                </span>
+              </div>
+            </div>
+          </a>
+        ) : (
+          <Link
+            to={company.websiteUrl}
+            className={styles.collageWebsiteTile}
+            aria-label={`Visit site ${company.domain}`}
+          >
+            <div className={styles.tileBadgeRow}>
+              <span className={styles.tileBadge}>WEBSITE PLATFORM</span>
+            </div>
+            <div className={styles.tileImageWrapper}>
+              <img
+                src={company.websiteThumb}
+                alt={`${company.client} platform screenshot`}
+                className={styles.tileImg}
+                loading="lazy"
+              />
+              <div className={styles.imageOverlay}>
+                <span className={styles.overlayPill}>
+                  <span>{company.domain}</span>
+                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
+                </span>
+              </div>
+            </div>
+          </Link>
+        )}
+
+        {/* Tile 2: Reel Card */}
+        <a
+          href={company.reelUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.collageReelTile}
+          aria-label={`Watch reel for ${company.client}`}
+        >
+          <div className={styles.tileBadgeRow}>
+            <span className={`${styles.tileBadge} ${styles.tileBadgeReel}`}>
+              <svg className={styles.tileInstaIcon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              OFFICIAL REEL
+            </span>
+          </div>
+          <div className={styles.tileReelMedia}>
+            <img
+              src={company.reelThumb}
+              alt={`${company.client} Reel Poster`}
+              className={`${styles.tilePoster} ${isVideoLoaded ? styles.posterHidden : ''}`}
+            />
+            <video
+              ref={videoRef}
+              src={company.reelVideo}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className={styles.tileVideo}
+            />
+            <div className={styles.cleanReelOverlay}>
+              <span className={styles.cleanReelLabel}>{company.client}</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </article>
+  );
+};
+
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export const SelectedWork: React.FC = () => {
@@ -441,7 +686,7 @@ export const SelectedWork: React.FC = () => {
         );
       }
 
-      const items = listRef.current?.querySelectorAll(`.${styles.projectItem}`);
+      const items = listRef.current?.querySelectorAll(`.${styles.projectItem}, .${styles.marketingItem}`);
       if (items && items.length > 0) {
         items.forEach((item) => {
           gsap.fromTo(
@@ -473,7 +718,10 @@ export const SelectedWork: React.FC = () => {
     return () => ctx.revert();
   }, [activeCategory]);
 
-  const currentProjects = activeCategory !== 'visuals' ? PROJECTS_BY_CATEGORY[activeCategory] : [];
+  const currentProjects =
+    activeCategory !== 'visuals' && activeCategory !== 'marketing'
+      ? PROJECTS_BY_CATEGORY[activeCategory]
+      : [];
 
   return (
     <section ref={sectionRef} id="work" className={styles.section} aria-label="What We've Built">
@@ -516,6 +764,13 @@ export const SelectedWork: React.FC = () => {
           {activeCategory === 'visuals' ? (
             /* Reel Shoots — Continuous Marquee Carousel (same as Services section) */
             <ReelMarquee />
+          ) : activeCategory === 'marketing' ? (
+            /* Digital Marketing — Specific Company Showcase with Alternating Website + Reel Collage */
+            <div className={styles.marketingList}>
+              {MARKETING_COMPANIES.map((company, index) => (
+                <MarketingCompanyCard key={company.id} company={company} index={index} />
+              ))}
+            </div>
           ) : (
             <div className={styles.projectsList}>
               {currentProjects.map((project, index) => {

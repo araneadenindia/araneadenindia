@@ -335,6 +335,229 @@
   transform: translate(2px, -2px);
 }
 
+/* ─────────────────────────────────────────
+   DIGITAL MARKETING — SPECIFIC COMPANY COLLAGE
+───────────────────────────────────────── */
+.marketingList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.marketingItem {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  align-items: center;
+  gap: clamp(24px, 3.5vw, 48px);
+  padding: clamp(16px, 2vw, 24px);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  box-shadow: 0 4px 20px rgba(11, 11, 12, 0.03);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.marketingItem:hover {
+  border-color: rgba(223, 37, 49, 0.25);
+  box-shadow: 0 16px 40px rgba(11, 11, 12, 0.06);
+}
+
+/* Alternating Rhythm */
+.marketingItemReverse {
+  grid-template-columns: 1.35fr 1fr;
+}
+
+.marketingItemReverse .marketingCollageCol {
+  order: 1;
+}
+
+.marketingItemReverse .marketingMetaCol {
+  order: 2;
+}
+
+.marketingMetaCol {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Deliverables Indicators */
+.deliverablesRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.deliverableTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(223, 37, 49, 0.06);
+  border: 1px solid rgba(223, 37, 49, 0.22);
+  border-radius: 999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-crimson, #DF2531);
+  text-transform: uppercase;
+}
+
+.tagCheck {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--color-crimson, #DF2531);
+}
+
+/* Marketing Collage Column (Website Platform + Reel Card Side-by-Side) */
+.marketingCollageCol {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.collageWebsiteTile {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #0e0f13;
+  border: 1px solid rgba(11, 11, 12, 0.12);
+  box-shadow: 0 14px 34px rgba(11, 11, 12, 0.08);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.collageWebsiteTile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 50px rgba(11, 11, 12, 0.15);
+  border-color: rgba(223, 37, 49, 0.35);
+}
+
+.collageReelTile {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #070708;
+  border: 1px solid rgba(11, 11, 12, 0.14);
+  box-shadow: 0 14px 34px rgba(11, 11, 12, 0.08);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.collageReelTile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 50px rgba(223, 37, 49, 0.22);
+  border-color: var(--color-crimson, #DF2531);
+}
+
+.tileBadgeRow {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.tileBadge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(11, 11, 12, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tileBadgeReel {
+  background: rgba(223, 37, 49, 0.88);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.tileInstaIcon {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.tileImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  overflow: hidden;
+  background-color: #121316;
+}
+
+.tileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.collageWebsiteTile:hover .tileImg {
+  transform: scale(1.04);
+}
+
+.collageWebsiteTile:hover .imageOverlay {
+  opacity: 1;
+}
+
+.tileReelMedia {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.tilePoster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.tileVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+
 /* Archive CTA Wrap */
 .archiveCtaWrap {
   margin-top: 48px;
@@ -547,17 +770,22 @@
 /* Responsive */
 @media (max-width: 1024px) {
   .projectItem,
-  .projectItemReverse {
+  .projectItemReverse,
+  .marketingItem,
+  .marketingItemReverse {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  .projectItemReverse .visualFrame {
+  .projectItemReverse .visualFrame,
+  .marketingItemReverse .marketingCollageCol {
     order: 1;
   }
-  .projectItemReverse .metaCol {
+  .projectItemReverse .metaCol,
+  .marketingItemReverse .marketingMetaCol {
     order: 2;
   }
-  .projectsList {
+  .projectsList,
+  .marketingList {
     gap: 32px;
   }
 }
@@ -591,5 +819,20 @@
   }
   .archiveLinkText {
     font-size: 11px;
+  }
+}
+
+@media (max-width: 640px) {
+  .marketingCollageCol {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .tileImageWrapper {
+    min-height: 200px;
+    aspect-ratio: 16 / 9;
+  }
+  .tileReelMedia {
+    min-height: 280px;
+    aspect-ratio: 9 / 16;
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AraneaDenHero } from '../../components/AraneaDenHero';
 import { WhatWeDo } from '../../components/WhatWeDo';
 import { AnnouncementsSection } from '../../components/AnnouncementsSection';
@@ -15,6 +15,10 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ isVisible }) => {
+  useEffect(() => {
+    document.title = 'ARANEA DEN | Digital Experiences. Built to Connect.';
+  }, []);
+
   return (
     <>
       {/* Scene 02 & 03: Master Pinned Flow (Framed Video Hero -> Fullscreen Expansion -> Our Passion) */}

@@ -6,6 +6,7 @@ export const TermsPage: React.FC = () => {
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    document.title = 'TERMS OF SERVICE — ARANEA DEN';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
 
     const ctx = gsap.context(() => {

@@ -4,9 +4,41 @@ import gsap from 'gsap';
 import { MobileMenuProps } from './types';
 import styles from './MobileMenu.module.css';
 
+interface SpiderIconProps {
+  className?: string;
+}
+
+const SpiderIcon: React.FC<SpiderIconProps> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <ellipse cx="12" cy="8" rx="2.8" ry="3.5" />
+    <circle cx="12" cy="13.5" r="1.9" />
+    <g
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.35"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M 10.5 13.5 L 7.5 16.5 L 6.5 19.5" />
+      <path d="M 9.8 8.5 L 5.5 8 L 4 10.5" />
+      <path d="M 14 11 L 18 12.5 L 19.5 15" />
+      <path d="M 13.8 6.5 L 17 4.5 L 18.5 6" />
+      <path d="M 13.5 13.5 L 16.5 16.5 L 17.5 19.5" />
+      <path d="M 14.2 8.5 L 18.5 8 L 20 10.5" />
+      <path d="M 10 11 L 6 12.5 L 4.5 15" />
+      <path d="M 10.2 6.5 L 7 4.5 L 5.5 6" />
+    </g>
+  </svg>
+);
+
 /**
  * MobileMenu — Full-Screen Navigation Drawer with Heavy Background Blur
- * Usable on mobile and tablet viewport states.
+ * Usable on both mobile and desktop collapsed navbar state.
  */
 export const MobileMenu: React.FC<MobileMenuProps> = ({
   isOpen,
@@ -188,7 +220,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                     <span className={styles.linkLabelWrapper}>
                       <span>{link.label}</span>
                       {isActive && (
-                        <span className={styles.activeDot} aria-hidden="true" />
+                        <span className={styles.activeSpiderBadge} aria-hidden="true">
+                          <span className={styles.activeSilk} />
+                          <SpiderIcon className={styles.activeSpiderIcon} />
+                        </span>
                       )}
                     </span>
                     <span className={styles.navItemArrow} aria-hidden="true">→</span>

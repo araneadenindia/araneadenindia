@@ -9,6 +9,7 @@ export const TeamPage: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    document.title = 'THE POWERHOUSE — ARANEA DEN | Team & Leadership';
     // Scroll to top on mount
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
 

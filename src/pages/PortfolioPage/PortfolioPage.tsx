@@ -285,6 +285,11 @@ export const PortfolioPage: React.FC = () => {
   const [reels, setReels] = useState<AraneaReel[]>(ARANEA_REELS);
 
   useEffect(() => {
+    document.title = 'PORTFOLIO — ARANEA DEN | Selected Work & Client Archive';
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+  }, []);
+
+  useEffect(() => {
     fetch('/api/cms/websites')
       .then((res) => res.json())
       .then((res) => {

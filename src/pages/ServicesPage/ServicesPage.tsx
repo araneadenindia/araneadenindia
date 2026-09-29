@@ -209,9 +209,34 @@ export const ServicesPage: React.FC = () => {
 
   // Page title & scroll restoration
   useEffect(() => {
-    document.title = 'SERVICES — ARANEA DEN | Digital Experiences. Built to Connect.';
+    const path = location.pathname.toLowerCase().replace(/\/$/, '');
+    if (path.includes('web-development')) {
+      document.title = 'WEB DEVELOPMENT — ARANEA DEN';
+    } else if (path.includes('mobile-development')) {
+      document.title = 'MOBILE APP DEVELOPMENT — ARANEA DEN';
+    } else if (path.includes('ui-ux-design')) {
+      document.title = 'UI / UX DESIGN — ARANEA DEN';
+    } else if (path.includes('digital-marketing')) {
+      document.title = 'DIGITAL MARKETING — ARANEA DEN';
+    } else if (path.includes('video-production')) {
+      document.title = 'VIDEO PRODUCTION — ARANEA DEN';
+    } else if (path.includes('graphic-design')) {
+      document.title = 'GRAPHIC DESIGN — ARANEA DEN';
+    } else if (path.includes('live-streaming-broadcasting')) {
+      document.title = 'LIVE STREAMING & BROADCASTING — ARANEA DEN';
+    } else if (path.includes('software-hardware-solutions')) {
+      document.title = 'SOFTWARE & HARDWARE SOLUTIONS — ARANEA DEN';
+    } else if (path.includes('iot-hardware-solutions')) {
+      document.title = 'IOT & HARDWARE SOLUTIONS — ARANEA DEN';
+    } else if (path.includes('seo')) {
+      document.title = 'SEO ARCHITECTURE — ARANEA DEN';
+    } else if (path.includes('cloud-solutions')) {
+      document.title = 'CLOUD SOLUTIONS — ARANEA DEN';
+    } else {
+      document.title = 'SERVICES — ARANEA DEN | Digital Experiences. Built to Connect.';
+    }
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-  }, []);
+  }, [location.pathname]);
 
   // Recalculate ScrollTrigger on view or filter change
   useEffect(() => {

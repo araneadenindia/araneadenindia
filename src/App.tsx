@@ -22,6 +22,63 @@ import { AdminApp } from './admin/AdminApp';
 
 import './styles/globals.css';
 
+const getPageTitle = (pathname: string): string => {
+  const path = pathname.toLowerCase().replace(/\/$/, '') || '/';
+
+  if (path === '/') {
+    return 'ARANEA DEN | Digital Experiences. Built to Connect.';
+  }
+  if (path === '/about') {
+    return 'ABOUT — ARANEA DEN | Born on 20th July 2025';
+  }
+  if (path === '/services') {
+    return 'SERVICES — ARANEA DEN | Digital Experiences. Built to Connect.';
+  }
+  if (path.startsWith('/services/')) {
+    const slug = path.replace('/services/', '');
+    const titles: Record<string, string> = {
+      'web-development': 'WEB DEVELOPMENT — ARANEA DEN',
+      'mobile-development': 'MOBILE APP DEVELOPMENT — ARANEA DEN',
+      'ui-ux-design': 'UI / UX DESIGN — ARANEA DEN',
+      'digital-marketing': 'DIGITAL MARKETING — ARANEA DEN',
+      'video-production': 'VIDEO PRODUCTION — ARANEA DEN',
+      'graphic-design': 'GRAPHIC DESIGN — ARANEA DEN',
+      'live-streaming-broadcasting': 'LIVE STREAMING & BROADCASTING — ARANEA DEN',
+      'software-hardware-solutions': 'SOFTWARE & HARDWARE SOLUTIONS — ARANEA DEN',
+      'iot-hardware-solutions': 'IOT & HARDWARE SOLUTIONS — ARANEA DEN',
+      'seo': 'SEO ARCHITECTURE — ARANEA DEN',
+      'cloud-solutions': 'CLOUD SOLUTIONS — ARANEA DEN',
+    };
+    return titles[slug] || 'SERVICES — ARANEA DEN | Digital Experiences';
+  }
+  if (path === '/portfolio' || path === '/work') {
+    return 'PORTFOLIO — ARANEA DEN | Selected Work & Client Archive';
+  }
+  if (path === '/team') {
+    return 'THE POWERHOUSE — ARANEA DEN | Team & Leadership';
+  }
+  if (path === '/contact') {
+    return 'CONTACT — ARANEA DEN | Start a Project With Us';
+  }
+  if (path === '/announcements') {
+    return 'ANNOUNCEMENTS — ARANEA DEN | News & Opportunities';
+  }
+  if (path === '/launch') {
+    return 'ARANEA DEN — Studio Launch Portal';
+  }
+  if (path === '/privacy') {
+    return 'PRIVACY POLICY — ARANEA DEN';
+  }
+  if (path === '/terms') {
+    return 'TERMS OF SERVICE — ARANEA DEN';
+  }
+  if (path.startsWith('/admin')) {
+    return 'ADMIN PORTAL — ARANEA DEN';
+  }
+
+  return 'ARANEA DEN — We Weave Your Digital Excellence';
+};
+
 /**
  * AppContent Component
  * Connected to PreloaderContext and SmoothScroll for unified 3D preloader orchestration and fluid scrolling
@@ -57,8 +114,10 @@ const AppContent: React.FC = () => {
     }
   }, [isActive, isFromCurtainLaunch, lenis, isAdminPage]);
 
-  // On route change: reset scroll to top and clear any lingering orphaned pin-spacers or nodes
+  // On route change: dynamically update browser document title, reset scroll to top, and clear orphaned pin-spacers
   useEffect(() => {
+    document.title = getPageTitle(location.pathname);
+
     const main = document.querySelector('main');
     if (main) {
       const orphans = main.querySelectorAll(':scope > #collective-network, :scope > .pin-spacer');

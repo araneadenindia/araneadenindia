@@ -265,8 +265,9 @@ export const ContactPage: React.FC = () => {
     }
   }, [location.search]);
 
-  // Page entrance animations
+  // Page entrance animations and document title
   useEffect(() => {
+    document.title = 'CONTACT — ARANEA DEN | Start a Project With Us';
     const page = pageRef.current;
     if (!page) return;
 

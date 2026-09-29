@@ -47,16 +47,16 @@ const CLIENTS = [
 
 const ANNOUNCEMENTS = [
   { title: 'District Youth Festival – 2026', image_url: '/announcements/district-youth-festival-2026.jpg', event_date: '29 SEPTEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 1 },
-  { title: 'Sriyasjaan Creative Collaboration', image_url: '/portfolio-thumbs/sriyasjaan.jpg', event_date: '24 SEPTEMBER 2026', button_title: null, button_link: null, display_order: 2 },
-  { title: 'Aranea Code Nexus Hackathon', image_url: '/portfolio-thumbs/thor.jpg', event_date: '08 OCTOBER 2026', button_title: null, button_link: null, display_order: 3 },
-  { title: 'Systems Architecture & AI Masterclass', image_url: '/portfolio-thumbs/cornercraft.jpg', event_date: '16 OCTOBER 2026', button_title: null, button_link: null, display_order: 4 },
-  { title: 'AD Imperial Visuals Creative Suite', image_url: '/portfolio-thumbs/creators.jpg', event_date: '25 OCTOBER 2026', button_title: null, button_link: null, display_order: 5 },
-  { title: 'Hardware & Embedded Solutions Lab', image_url: '/portfolio-thumbs/viraj.jpg', event_date: '03 NOVEMBER 2026', button_title: null, button_link: null, display_order: 6 },
-  { title: 'Brand Identity Sprint — Q4', image_url: '/portfolio-thumbs/meghana.jpg', event_date: '12 NOVEMBER 2026', button_title: null, button_link: null, display_order: 7 },
-  { title: 'Premium Web Platform Intake', image_url: '/portfolio-thumbs/makaan.jpg', event_date: '21 NOVEMBER 2026', button_title: null, button_link: null, display_order: 8 },
-  { title: 'Growth Strategy Summit', image_url: '/portfolio-thumbs/nri360.jpg', event_date: '02 DECEMBER 2026', button_title: null, button_link: null, display_order: 9 },
-  { title: 'Mobile App Development Bootcamp', image_url: '/portfolio-thumbs/pooja.jpg', event_date: '11 DECEMBER 2026', button_title: null, button_link: null, display_order: 10 },
-  { title: 'Open UI/UX Design Critique', image_url: '/portfolio-thumbs/pandp.jpg', event_date: '19 DECEMBER 2026', button_title: null, button_link: null, display_order: 11 },
+  { title: 'Sriyasjaan Creative Collaboration', image_url: '/portfolio-thumbs/sriyasjaan.jpg', event_date: '24 SEPTEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 2 },
+  { title: 'Aranea Code Nexus Hackathon', image_url: '/portfolio-thumbs/thor.jpg', event_date: '08 OCTOBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 3 },
+  { title: 'Systems Architecture & AI Masterclass', image_url: '/portfolio-thumbs/cornercraft.jpg', event_date: '16 OCTOBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 4 },
+  { title: 'AD Imperial Visuals Creative Suite', image_url: '/portfolio-thumbs/creators.jpg', event_date: '25 OCTOBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 5 },
+  { title: 'Hardware & Embedded Solutions Lab', image_url: '/portfolio-thumbs/viraj.jpg', event_date: '03 NOVEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 6 },
+  { title: 'Brand Identity Sprint — Q4', image_url: '/portfolio-thumbs/meghana.jpg', event_date: '12 NOVEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 7 },
+  { title: 'Premium Web Platform Intake', image_url: '/portfolio-thumbs/makaan.jpg', event_date: '21 NOVEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 8 },
+  { title: 'Growth Strategy Summit', image_url: '/portfolio-thumbs/nri360.jpg', event_date: '02 DECEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 9 },
+  { title: 'Mobile App Development Bootcamp', image_url: '/portfolio-thumbs/pooja.jpg', event_date: '11 DECEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 10 },
+  { title: 'Open UI/UX Design Critique', image_url: '/portfolio-thumbs/pandp.jpg', event_date: '19 DECEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 11 },
 ];
 
 export default async function handler(req, res) {

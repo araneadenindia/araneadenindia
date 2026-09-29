@@ -14,26 +14,21 @@ export interface AnnouncementItem {
   button_link?: string | null;
 }
 
+const SAMPLE_REG_LINK = 'https://forms.gle/JSXfFGGESx6U2Mhr8';
+
 // Fallback data shown while API loads or if CMS has no entries yet
 const FALLBACK_ANNOUNCEMENTS: AnnouncementItem[] = [
-  {
-    id: 'district-youth-festival-2026',
-    title: 'District Youth Festival – 2026',
-    image: '/announcements/district-youth-festival-2026.jpg',
-    date: '29 SEPTEMBER 2026',
-    button_title: 'Register Now',
-    button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8',
-  },
-  { id: 'sriyasjaan-collab', title: 'Sriyasjaan Creative Collaboration', image: '/portfolio-thumbs/sriyasjaan.jpg', date: '24 SEPTEMBER 2026' },
-  { id: 'hackathon-2026', title: 'Aranea Code Nexus Hackathon', image: '/portfolio-thumbs/thor.jpg', date: '08 OCTOBER 2026' },
-  { id: 'ai-masterclass', title: 'Systems Architecture & AI Masterclass', image: '/portfolio-thumbs/cornercraft.jpg', date: '16 OCTOBER 2026' },
-  { id: 'imperial-visuals-launch', title: 'AD Imperial Visuals Creative Suite', image: '/portfolio-thumbs/creators.jpg', date: '25 OCTOBER 2026' },
-  { id: 'iot-hardware-labs', title: 'Hardware & Embedded Solutions Lab', image: '/portfolio-thumbs/viraj.jpg', date: '03 NOVEMBER 2026' },
-  { id: 'brand-identity-sprint', title: 'Brand Identity Sprint — Q4', image: '/portfolio-thumbs/meghana.jpg', date: '12 NOVEMBER 2026' },
-  { id: 'web-dev-intake', title: 'Premium Web Platform Intake', image: '/portfolio-thumbs/makaan.jpg', date: '21 NOVEMBER 2026' },
-  { id: 'digital-marketing-summit', title: 'Growth Strategy Summit', image: '/portfolio-thumbs/nri360.jpg', date: '02 DECEMBER 2026' },
-  { id: 'mobile-app-workshop', title: 'Mobile App Development Bootcamp', image: '/portfolio-thumbs/pooja.jpg', date: '11 DECEMBER 2026' },
-  { id: 'uiux-critique', title: 'Open UI/UX Design Critique', image: '/portfolio-thumbs/pandp.jpg', date: '19 DECEMBER 2026' },
+  { id: 'district-youth-festival-2026', title: 'District Youth Festival – 2026', image: '/announcements/district-youth-festival-2026.jpg', date: '29 SEPTEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'sriyasjaan-collab', title: 'Sriyasjaan Creative Collaboration', image: '/portfolio-thumbs/sriyasjaan.jpg', date: '24 SEPTEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'hackathon-2026', title: 'Aranea Code Nexus Hackathon', image: '/portfolio-thumbs/thor.jpg', date: '08 OCTOBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'ai-masterclass', title: 'Systems Architecture & AI Masterclass', image: '/portfolio-thumbs/cornercraft.jpg', date: '16 OCTOBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'imperial-visuals-launch', title: 'AD Imperial Visuals Creative Suite', image: '/portfolio-thumbs/creators.jpg', date: '25 OCTOBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'iot-hardware-labs', title: 'Hardware & Embedded Solutions Lab', image: '/portfolio-thumbs/viraj.jpg', date: '03 NOVEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'brand-identity-sprint', title: 'Brand Identity Sprint — Q4', image: '/portfolio-thumbs/meghana.jpg', date: '12 NOVEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'web-dev-intake', title: 'Premium Web Platform Intake', image: '/portfolio-thumbs/makaan.jpg', date: '21 NOVEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'digital-marketing-summit', title: 'Growth Strategy Summit', image: '/portfolio-thumbs/nri360.jpg', date: '02 DECEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'mobile-app-workshop', title: 'Mobile App Development Bootcamp', image: '/portfolio-thumbs/pooja.jpg', date: '11 DECEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
+  { id: 'uiux-critique', title: 'Open UI/UX Design Critique', image: '/portfolio-thumbs/pandp.jpg', date: '19 DECEMBER 2026', button_title: 'Register Now', button_link: SAMPLE_REG_LINK },
 ];
 
 export const AnnouncementsSection: React.FC = () => {
@@ -57,8 +52,8 @@ export const AnnouncementsSection: React.FC = () => {
             title: item.title,
             image: item.image_url || '/portfolio-thumbs/sriyasjaan.jpg',
             date: item.event_date || '',
-            button_title: item.button_title || null,
-            button_link: item.button_link || null,
+            button_title: item.button_title || 'Register Now',
+            button_link: item.button_link || SAMPLE_REG_LINK,
           }));
           setAnnouncements(mapped);
         }
@@ -319,29 +314,27 @@ export const AnnouncementsSection: React.FC = () => {
                   <div className={styles.cardGradientOverlay} aria-hidden="true" />
 
                   {/* Crisp White Title */}
-                  <h3 className={`${styles.cardTitle} ${item.button_link ? styles.cardTitleWithBtn : ''}`}>
+                  <h3 className={`${styles.cardTitle} ${styles.cardTitleWithBtn}`}>
                     {item.title}
                   </h3>
 
                   {/* Action / Register Button */}
-                  {item.button_link && (
-                    <a
-                      href={item.button_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.cardActionBtn}
-                      onClick={(e) => e.stopPropagation()}
-                      title={`${item.button_title || 'Register'} — Opens link`}
-                      aria-label={`${item.button_title || 'Register'} for ${item.title}`}
-                    >
-                      <span>{item.button_title || 'Register'}</span>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                        <polyline points="15 3 21 3 21 9" />
-                        <line x1="10" y1="14" x2="21" y2="3" />
-                      </svg>
-                    </a>
-                  )}
+                  <a
+                    href={item.button_link || SAMPLE_REG_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.cardActionBtn}
+                    onClick={(e) => e.stopPropagation()}
+                    title={`${item.button_title || 'Register Now'} — Opens link`}
+                    aria-label={`${item.button_title || 'Register Now'} for ${item.title}`}
+                  >
+                    <span>{item.button_title || 'Register Now'}</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                  </a>
 
                   {/* Fullscreen Expand Hint Badge */}
                   <div className={styles.expandBadge} aria-hidden="true" title="View Fullscreen">
@@ -458,29 +451,27 @@ export const AnnouncementsSection: React.FC = () => {
             <div className={styles.cardGradientOverlay} aria-hidden="true" />
 
             {/* White Title */}
-            <h3 className={`${styles.modalTitle} ${activeModalItem.button_link ? styles.modalTitleWithBtn : ''}`}>
+            <h3 className={`${styles.modalTitle} ${styles.modalTitleWithBtn}`}>
               {activeModalItem.title}
             </h3>
 
             {/* Modal Action / Register Button */}
-            {activeModalItem.button_link && (
-              <a
-                href={activeModalItem.button_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.modalActionBtn}
-                onClick={(e) => e.stopPropagation()}
-                title={`${activeModalItem.button_title || 'Register'} — Opens link`}
-                aria-label={`${activeModalItem.button_title || 'Register'} for ${activeModalItem.title}`}
-              >
-                <span>{activeModalItem.button_title || 'Register'}</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-              </a>
-            )}
+            <a
+              href={activeModalItem.button_link || SAMPLE_REG_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.modalActionBtn}
+              onClick={(e) => e.stopPropagation()}
+              title={`${activeModalItem.button_title || 'Register Now'} — Opens link`}
+              aria-label={`${activeModalItem.button_title || 'Register Now'} for ${activeModalItem.title}`}
+            >
+              <span>{activeModalItem.button_title || 'Register Now'}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            </a>
           </div>
         </div>
       )}

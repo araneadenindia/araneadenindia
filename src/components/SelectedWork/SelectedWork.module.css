@@ -1,6 +1,6 @@
 .section {
   width: 100%;
-  padding: clamp(32px, 4vh, 44px) 0 clamp(20px, 3vh, 32px) 0;
+  padding: 56px 0 36px 0;
   background-color: var(--color-bg-primary, #F8F8F5);
   border-top: 1px solid rgba(11, 11, 12, 0.08);
 }
@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 .crimsonMarker {
@@ -39,7 +39,7 @@
 /* Header */
 .header {
   max-width: 1100px;
-  margin-bottom: 18px;
+  margin-bottom: 28px;
 }
 
 .headline {

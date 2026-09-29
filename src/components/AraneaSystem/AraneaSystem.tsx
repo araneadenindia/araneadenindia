@@ -266,11 +266,7 @@ export const AraneaSystem: React.FC = () => {
     if (st) {
       const targetProgress = index / (PHILOSOPHY_STAGES.length - 1);
       const targetScroll = st.start + (st.end - st.start) * targetProgress;
-      if ((window as any).lenis) {
-        (window as any).lenis.scrollTo(targetScroll, { duration: 0.8 });
-      } else {
-        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-      }
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
     } else {
       const targetPercent = (index / (PHILOSOPHY_STAGES.length - 1)) * 100;
       if (desktopProgressRef.current) {
@@ -282,7 +278,7 @@ export const AraneaSystem: React.FC = () => {
       }
       if (spiderDesktopRef.current) {
         spiderDesktopRef.current.classList.add(styles.isWalking);
-        const spiderScale = 0.85 + (index / (PHILOSOPHY_STAGES.length - 1)) * 1.80;
+        const spiderScale = 0.65;
         gsap.to(spiderDesktopRef.current, {
           left: `${targetPercent}%`,
           scale: spiderScale,
@@ -358,7 +354,7 @@ export const AraneaSystem: React.FC = () => {
           id: 'philosophy-pin',
           trigger: wrapper,
           start: 'top top',
-          end: '+=110%',
+          end: '+=130%',
           pin: section,
           pinSpacing: true,
           anticipatePin: 1,

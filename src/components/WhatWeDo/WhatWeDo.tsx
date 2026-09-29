@@ -427,7 +427,6 @@ export const WhatWeDo: React.FC = () => {
                   key={srv.id}
                   type="button"
                   onClick={() => handleServiceClick(idx)}
-                  onMouseEnter={() => handleServiceClick(idx)}
                   className={`${styles.navItem} ${idx === activeIndex ? styles.active : ''}`}
                   aria-selected={idx === activeIndex}
                   role="tab"

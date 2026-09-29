@@ -267,50 +267,6 @@ export const WhatWeDo: React.FC = () => {
   const mobileCardsRef = useRef<(HTMLElement | null)[]>([]);
   const mobileNavTrackRef = useRef<HTMLDivElement>(null);
 
-  // 3D Scroll Wheel Navigation Refs (Desktop)
-  const navColRef = useRef<HTMLElement>(null);
-  const navTrackRef = useRef<HTMLDivElement>(null);
-  const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  // Scroll wheel positioning: smoothly center active item vertically in navCol viewport
-  useEffect(() => {
-    const updateWheelPosition = () => {
-      const activeItem = navItemRefs.current[activeIndex];
-      const navCol = navColRef.current;
-      const track = navTrackRef.current;
-      if (!activeItem || !navCol || !track) return;
-
-      const colHeight = navCol.clientHeight;
-      const itemTop = activeItem.offsetTop;
-      const itemHeight = activeItem.clientHeight;
-
-      // Perfectly center active item vertically inside navCol viewport
-      const targetY = colHeight / 2 - (itemTop + itemHeight / 2);
-      track.style.transform = `translate3d(0, ${targetY}px, 0)`;
-    };
-
-    updateWheelPosition();
-    window.addEventListener('resize', updateWheelPosition);
-    return () => window.removeEventListener('resize', updateWheelPosition);
-  }, [activeIndex]);
-
-  // Initial wheel calibration on mount
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      const activeItem = navItemRefs.current[0];
-      const navCol = navColRef.current;
-      const track = navTrackRef.current;
-      if (activeItem && navCol && track) {
-        const colHeight = navCol.clientHeight;
-        const itemTop = activeItem.offsetTop;
-        const itemHeight = activeItem.clientHeight;
-        const targetY = colHeight / 2 - (itemTop + itemHeight / 2);
-        track.style.transform = `translate3d(0, ${targetY}px, 0)`;
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
   // Direct click on service in directory (Desktop)
   const handleServiceClick = useCallback((index: number) => {
     setActiveIndex(index);
@@ -468,35 +424,25 @@ export const WhatWeDo: React.FC = () => {
 
           {/* ── DESKTOP STAGE: Left Navigation | Right Split Card with Visual ── */}
           <div className={styles.stageGrid}>
-            {/* Left Column: Interactive 3D Scroll-Wheel Service Directory */}
-            <nav
-              ref={navColRef}
-              className={styles.navCol}
-              aria-label="Services Wheel Directory"
-            >
-              <div ref={navTrackRef} className={styles.navTrack}>
+            {/* Left Column: Interactive Service Directory with Depth Effect */}
+            <nav className={styles.navCol} aria-label="Services List">
+              <div className={styles.navList}>
                 {SERVICES_DATA.map((srv, idx) => {
                   const distance = Math.abs(idx - activeIndex);
                   const isCurrent = idx === activeIndex;
-                  const isAbove = idx < activeIndex;
-                  const isBelow = idx > activeIndex;
 
                   return (
                     <button
                       key={srv.id}
-                      ref={(el) => {
-                        navItemRefs.current[idx] = el;
-                      }}
                       type="button"
                       onClick={() => handleServiceClick(idx)}
                       className={`${styles.navItem} ${isCurrent ? styles.active : ''} ${
                         distance === 1 ? styles.nearActive : ''
                       } ${distance === 2 ? styles.midActive : ''} ${
                         distance >= 3 ? styles.farActive : ''
-                      } ${isAbove ? styles.isAbove : ''} ${isBelow ? styles.isBelow : ''}`}
+                      }`}
                       aria-selected={isCurrent}
                       role="tab"
-                      tabIndex={0}
                     >
                       <span className={styles.navLine} aria-hidden="true" />
                       <span className={styles.navLinkContent}>

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './ContactPage.module.css';
@@ -18,11 +19,44 @@ export const SERVICES_LIST = [
   'Meta / Google / Instagram Ads',
   'Google Business Listing',
   'Reels — AD Imperial Visuals',
+  'Live Streaming & Broadcasting',
   'IoT Prototyping',
   'Hackathons & Updates',
   'Workshops & Training',
   'Other',
 ];
+
+const SERVICE_PARAM_MAP: Record<string, string> = {
+  'web-development': 'Web Development',
+  'web-architecture-engineering': 'Web Development',
+  'mobile-development': 'Mobile App Development',
+  'mobile-app-development': 'Mobile App Development',
+  'ui-ux-design': 'UI / UX Design',
+  'ui-ux': 'UI / UX Design',
+  'digital-marketing': 'Digital Marketing',
+  'video-production': 'Videography',
+  'videography': 'Videography',
+  'photography': 'Photography',
+  'video-editing': 'Video Editing',
+  'graphic-design': 'Poster & Graphic Design',
+  'poster-graphic-design': 'Poster & Graphic Design',
+  'social-media-management': 'Social Media Management',
+  'meta-google-instagram-ads': 'Meta / Google / Instagram Ads',
+  'google-business-profile': 'Google Business Listing',
+  'google-business-listing': 'Google Business Listing',
+  'reels-production': 'Reels — AD Imperial Visuals',
+  'ad-imperial-visuals': 'Reels — AD Imperial Visuals',
+  'live-streaming-broadcasting': 'Live Streaming & Broadcasting',
+  'live-streaming': 'Live Streaming & Broadcasting',
+  'broadcasting': 'Live Streaming & Broadcasting',
+  'iot-prototyping': 'IoT Prototyping',
+  'iot-hardware-solutions': 'IoT Prototyping',
+  'software-hardware-solutions': 'Web Development',
+  'hackathons-updates': 'Hackathons & Updates',
+  'hackathons': 'Hackathons & Updates',
+  'workshops-training': 'Workshops & Training',
+  'workshops': 'Workshops & Training',
+};
 
 const COUNTRY_CODES = [
   { code: '+91', country: 'IN (+91)' },
@@ -142,9 +176,23 @@ const CONTACT_METHODS: ContactItem[] = [
 ];
 
 export const ContactPage: React.FC = () => {
-  const [selectedServices, setSelectedServices] = useState<string[]>([
-    'Web Development',
-  ]);
+  const location = useLocation();
+
+  const [selectedServices, setSelectedServices] = useState<string[]>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const serviceParam = params.get('service');
+      if (serviceParam) {
+        const normalized = serviceParam.toLowerCase().trim();
+        const matched =
+          SERVICE_PARAM_MAP[normalized] ||
+          SERVICES_LIST.find((s) => s.toLowerCase() === normalized) ||
+          SERVICES_LIST.find((s) => s.toLowerCase().includes(normalized) || normalized.includes(s.toLowerCase().replace(/[^a-z0-9]+/g, '-')));
+        if (matched) return [matched];
+      }
+    }
+    return ['Web Development'];
+  });
   const [name, setName] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
   const [phone, setPhone] = useState('');
@@ -193,6 +241,29 @@ export const ContactPage: React.FC = () => {
       document.body.style.overflow = '';
     }
   }, [isModalOpen]);
+
+  // Handle URL query changes (e.g. navigation via Link /contact?service=...)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const serviceParam = params.get('service');
+    if (serviceParam) {
+      const normalized = serviceParam.toLowerCase().trim();
+      const matched =
+        SERVICE_PARAM_MAP[normalized] ||
+        SERVICES_LIST.find((s) => s.toLowerCase() === normalized) ||
+        SERVICES_LIST.find((s) => s.toLowerCase().includes(normalized) || normalized.includes(s.toLowerCase().replace(/[^a-z0-9]+/g, '-')));
+
+      if (matched) {
+        setSelectedServices([matched]);
+        // Smoothly scroll down to form
+        setTimeout(() => {
+          if (formRef.current) {
+            formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 150);
+      }
+    }
+  }, [location.search]);
 
   // Page entrance animations
   useEffect(() => {

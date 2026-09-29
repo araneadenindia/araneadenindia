@@ -440,6 +440,54 @@
   border-color: rgba(223, 37, 49, 0.14);
 }
 
+.scActionRow {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  display: flex;
+  align-items: center;
+}
+
+.bookServiceRedBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--color-crimson, #DF2531);
+  color: #FFFFFF !important;
+  font-family: var(--font-mono, monospace);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 1px solid var(--color-crimson, #DF2531);
+  box-shadow: 0 4px 14px rgba(223, 37, 49, 0.28);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: fit-content;
+}
+
+.bookServiceRedBtn:hover {
+  background-color: #B51B25;
+  border-color: #B51B25;
+  box-shadow: 0 6px 20px rgba(223, 37, 49, 0.45);
+  transform: translateY(-2px);
+  color: #FFFFFF !important;
+}
+
+.bookServiceArrow {
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  display: inline-block;
+}
+
+.bookServiceRedBtn:hover .bookServiceArrow {
+  transform: translateX(4px);
+}
+
 .scCta {
   display: inline-flex;
   align-items: center;

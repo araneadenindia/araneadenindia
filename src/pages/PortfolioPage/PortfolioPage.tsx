@@ -291,7 +291,7 @@ export const PortfolioPage: React.FC = () => {
         if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
           const mapped: WebsiteProject[] = res.data.map((w: any, index: number) => ({
             id: String(w.id),
-            number: String(index + 1).padStart(2, '0'),
+            number: String(WEBSITE_PROJECTS.length + index + 1).padStart(2, '0'),
             title: w.title,
             client: w.title,
             category: 'DIGITAL EXPERIENCE',
@@ -301,7 +301,11 @@ export const PortfolioPage: React.FC = () => {
             url: w.live_url || '#',
             year: '2026',
           }));
-          setWebsites(mapped);
+          setWebsites((prev) => {
+            const existingIds = new Set(prev.map((p) => p.id));
+            const newOnes = mapped.filter((p) => !existingIds.has(p.id));
+            return [...prev, ...newOnes];
+          });
         }
       })
       .catch(() => {});
@@ -312,7 +316,7 @@ export const PortfolioPage: React.FC = () => {
         if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
           const mapped: AppProject[] = res.data.map((a: any, index: number) => ({
             id: String(a.id),
-            number: String(index + 1).padStart(2, '0'),
+            number: String(APP_PROJECTS.length + index + 1).padStart(2, '0'),
             name: a.name,
             client: a.client || 'Aranea Den',
             platform: a.platform || 'iOS / Android',
@@ -324,7 +328,11 @@ export const PortfolioPage: React.FC = () => {
             year: a.year || '2026',
             status: a.status || 'Production',
           }));
-          setApps(mapped);
+          setApps((prev) => {
+            const existingIds = new Set(prev.map((p) => p.id));
+            const newOnes = mapped.filter((p) => !existingIds.has(p.id));
+            return [...prev, ...newOnes];
+          });
         }
       })
       .catch(() => {});
@@ -345,7 +353,11 @@ export const PortfolioPage: React.FC = () => {
             likes: 'HD Reel',
             tag: 'AD IMPERIAL VISUALS',
           }));
-          setReels(mapped);
+          setReels((prev) => {
+            const existingIds = new Set(prev.map((p) => p.id));
+            const newOnes = mapped.filter((p) => !existingIds.has(p.id));
+            return [...prev, ...newOnes];
+          });
         }
       })
       .catch(() => {});

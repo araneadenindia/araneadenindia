@@ -1,9 +1,10 @@
 /* ============================================================
-   AraneaDenNavbar — Pure Editorial Creative Studio Navigation
-   Philosophy: LESS IS MORE.
-   - Logo on the left, clean links on the right
-   - Adaptive contrast: dark text on light pages, white text on dark hero
-   - Mobile: 3 clean lines with dynamic contrast
+   ARANEA DEN — PREMIUM EDITORIAL STUDIO HEADER
+   - Clean, minimal, integrated aesthetic
+   - Natural page background blending (transparent at rest, frosted on scroll)
+   - Balanced typography (SERVICES · PORTFOLIO · CONTACT)
+   - Smooth active line indicator & hover states
+   - Zero childish effects or redundant buttons
    ============================================================ */
 
 .navbar {
@@ -13,17 +14,35 @@
   right: 0;
   width: 100%;
   z-index: 1000;
-  padding: 34px clamp(20px, 4vw, 48px) 16px clamp(20px, 4vw, 48px);
+  padding: clamp(20px, 2.5vw, 26px) clamp(24px, 4vw, 56px);
   box-sizing: border-box;
   background-color: transparent;
-  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
   border-bottom: 1px solid transparent;
+  transition:
+    padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    backdrop-filter 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.navbar.hidden {
-  opacity: 0;
-  transform: translateY(-100%);
-  pointer-events: none;
+/* ── Scrolled State: Refined Frosted Glass ── */
+.navbar.scrolled.lightTheme {
+  padding: clamp(12px, 1.4vw, 15px) clamp(24px, 4vw, 56px);
+  background-color: rgba(248, 248, 245, 0.78);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(11, 11, 12, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.navbar.scrolled.darkTheme {
+  padding: clamp(12px, 1.4vw, 15px) clamp(24px, 4vw, 56px);
+  background-color: rgba(11, 11, 14, 0.82);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 .inner {
@@ -42,559 +61,137 @@
   align-items: center;
   text-decoration: none;
   opacity: 0.95;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .brand:hover {
   opacity: 1;
-  transform: translateY(-1px);
+  transform: translateY(-0.5px);
 }
 
 .brandLogo {
-  height: 38px;
+  height: clamp(30px, 3.2vw, 36px);
   width: auto;
   object-fit: contain;
   display: block;
   user-select: none;
 }
 
-/* ── Desktop Navigation Links on Right ── */
+/* ── Desktop Navigation on Right: SERVICES · PORTFOLIO · CONTACT ── */
 .desktopNav {
   display: flex;
   align-items: center;
-  gap: 28px;
-  position: relative;
-}
-
-/* Suppress static hover previews while the walking spider is active */
-.desktopNav.hasWalkingSpider .hangingSpiderWrapper {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  transform: translateX(-50%) translateY(-10px) scale(0.6) !important;
-}
-
-/* Divider between navigation links and social icons */
-.navDivider {
-  width: 1px;
-  height: 18px;
-  background-color: rgba(11, 11, 12, 0.15);
-  margin: 0 4px;
-}
-
-.darkTheme .navDivider {
-  background-color: rgba(255, 255, 255, 0.22);
-}
-
-/* Red Social Icons Group in Navbar */
-.socialGroup {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.redSocialIcon {
-  color: var(--color-crimson, #df2531);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.25s ease,
-              opacity 0.2s ease;
-}
-
-.redSocialIcon:hover {
-  transform: scale(1.22) translateY(-1px);
-  filter: drop-shadow(0 0 8px rgba(223, 37, 49, 0.8));
-}
-
-/* Red Static Home Icon Link */
-.navHomeLink {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 2px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.homeIconWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.navHomeLink:hover .homeIconWrapper {
-  transform: scale(1.15) translateY(-1px);
-}
-
-.staticHomeIcon {
-  color: var(--color-crimson, #df2531);
-  fill: var(--color-crimson, #df2531);
-  display: block;
-  transition: filter 0.25s ease;
-}
-
-.navHomeLink:hover .staticHomeIcon {
-  filter: drop-shadow(0 0 6px rgba(223, 37, 49, 0.6));
+  gap: clamp(28px, 3.2vw, 44px);
 }
 
 .navLink {
   position: relative;
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: 13.5px;
-  font-weight: 500;
-  letter-spacing: 0.13em;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
+  color: var(--color-black, #0B0B0C);
   padding: 6px 0;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
 }
 
-/* ── Hanging Spider & Silk Web Thread (Appears ONLY on interaction with that item) ── */
-.hangingSpiderWrapper {
+.darkTheme .navLink {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.navLink:hover {
+  color: var(--color-crimson, #DF2531);
+}
+
+.darkTheme .navLink:hover {
+  color: var(--color-crimson, #DF2531);
+}
+
+/* Active Page Indicator */
+.activeLink {
+  color: var(--color-crimson, #DF2531) !important;
+}
+
+.navLink::after {
+  content: '';
   position: absolute;
-  top: 100%;
+  bottom: -2px;
   left: 50%;
-  transform: translateX(-50%) translateY(-10px) scale(0.6);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease-in, transform 0.22s ease-in, visibility 0.22s;
-  transform-origin: top center;
-  z-index: 20;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--color-crimson, #DF2531);
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 1px;
 }
 
-.silkThread {
-  width: 1px;
-  height: 18px;
-  background: linear-gradient(to bottom, rgba(223, 37, 49, 0.3), #df2531);
-  transform-origin: top;
-  transform: scaleY(0);
-  transition: transform 0.2s ease-in;
-  box-shadow: 0 0 2px rgba(223, 37, 49, 0.4);
-}
-
-.hangingSpider {
-  width: 20px;
-  height: 20px;
-  color: #df2531;
-  fill: #df2531;
-  filter: drop-shadow(0 2px 4px rgba(223, 37, 49, 0.4));
-  transform-origin: top center;
-}
-
-/* Spider drops down on interaction / hover / focus with that specific nav item */
-.navHomeLink:hover .hangingSpiderWrapper,
-.navHomeLink:focus-visible .hangingSpiderWrapper,
-.navLink:hover .hangingSpiderWrapper,
-.navLink:focus-visible .hangingSpiderWrapper {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0) scale(1);
-  transition: opacity 0.25s ease-out, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.navHomeLink:hover .silkThread,
-.navHomeLink:focus-visible .silkThread,
-.navLink:hover .silkThread,
-.navLink:focus-visible .silkThread {
-  transform: scaleY(1);
-  transition: transform 0.28s ease-out;
-}
-
-.navHomeLink:hover .hangingSpider,
-.navHomeLink:focus-visible .hangingSpider,
-.navLink:hover .hangingSpider,
-.navLink:focus-visible .hangingSpider {
-  animation: spiderIdleSway 2.5s ease-in-out infinite 0.32s;
-}
-
-/* ── Walking Spider Track (CRAWLS across top of navigation when moving to another page) ── */
-.walkingSpiderContainer {
-  position: absolute;
-  top: 0;
+.navLink:hover::after {
+  width: 100%;
   left: 0;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  z-index: 30;
 }
 
-.walkingSilkThread {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 1.2px;
-  height: 20px;
-  background: linear-gradient(to bottom, rgba(223, 37, 49, 0.4), #df2531);
-  transform-origin: top center;
-  transform: scaleY(0);
-  box-shadow: 0 0 4px rgba(223, 37, 49, 0.6);
-  margin-left: -0.6px;
-}
-
-
-.walkingSpiderBody {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
-}
-
-.walkingSpiderIcon {
-  width: 20px;
-  height: 20px;
-  color: var(--color-crimson, #df2531);
-  fill: var(--color-crimson, #df2531);
-  filter: drop-shadow(0 2px 6px rgba(223, 37, 49, 0.6));
-}
-
-/* 3D Side-view walking spider icon */
-.walkingSpiderIcon3D {
-  width: 30px;
-  height: 22px;
-  filter: drop-shadow(0 0 5px rgba(223, 37, 49, 0.85));
-  transition: transform 0.15s ease;
-  transform-origin: center center;
-  display: block;
-}
-
-.facingLeft {
-  transform: scaleX(-1);
-}
-
-/* ── Mobile Walking Spider Track (CRAWLS across top of mobile navbar) ── */
-.mobileWalkingSpiderContainer {
-  position: absolute;
-  top: -4px;
+.activeLink::after {
+  width: 100%;
   left: 0;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  z-index: 30;
 }
 
-.mobileWalkingSilkThread {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 1.2px;
-  height: 20px;
-  background: linear-gradient(to bottom, rgba(223, 37, 49, 0.4), #df2531);
-  transform-origin: top center;
-  transform: scaleY(0);
-  box-shadow: 0 0 4px rgba(223, 37, 49, 0.6);
-  margin-left: -0.6px;
-}
-
-.mobileWalkingSpiderBody {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
-}
-
-/* 3D Side-view Scuttling Mechanics */
-.spiderWalkingSide {
-  animation: spiderSideScuttle 0.11s ease-in-out infinite alternate;
-}
-
-.fgLegSet1 {
-  transform-box: fill-box;
-  transform-origin: top center;
-  animation: legStepPair1 0.11s ease-in-out infinite alternate;
-}
-
-.fgLegSet2 {
-  transform-box: fill-box;
-  transform-origin: top center;
-  animation: legStepPair2 0.11s ease-in-out infinite alternate;
-}
-
-.bgLegSet {
-  transform-box: fill-box;
-  transform-origin: top center;
-  animation: legStepBg 0.11s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes legStepPair1 {
-  0% {
-    transform: rotate(-15deg) translateY(-0.8px);
-  }
-  100% {
-    transform: rotate(15deg) translateY(0.8px);
-  }
-}
-
-@keyframes legStepPair2 {
-  0% {
-    transform: rotate(15deg) translateY(0.8px);
-  }
-  100% {
-    transform: rotate(-15deg) translateY(-0.8px);
-  }
-}
-
-@keyframes legStepBg {
-  0% {
-    transform: rotate(12deg);
-  }
-  100% {
-    transform: rotate(-12deg);
-  }
-}
-
-@keyframes spiderSideScuttle {
-  0% {
-    transform: translateY(-0.8px) rotate(-1.5deg);
-  }
-  100% {
-    transform: translateY(0.8px) rotate(1.5deg);
-  }
-}
-
-/* Walking leg alternating scuttle (top-down fallback) */
-.spiderWalking {
-  animation: spiderBodyScuttle 0.11s ease-in-out infinite alternate;
-}
-
-.spiderWalking .legSet1 {
-  transform-box: view-box;
-  transform-origin: 12px 11px;
-  animation: spiderLegWalk1 0.11s ease-in-out infinite alternate;
-}
-
-.spiderWalking .legSet2 {
-  transform-box: view-box;
-  transform-origin: 12px 11px;
-  animation: spiderLegWalk2 0.11s ease-in-out infinite alternate;
-}
-
-@keyframes spiderLegWalk1 {
-  0% {
-    transform: rotate(-16deg) scale(0.94);
-  }
-  100% {
-    transform: rotate(16deg) scale(1.06);
-  }
-}
-
-@keyframes spiderLegWalk2 {
-  0% {
-    transform: rotate(16deg) scale(1.06);
-  }
-  100% {
-    transform: rotate(-16deg) scale(0.94);
-  }
-}
-
-@keyframes spiderBodyScuttle {
-  0% {
-    transform: translateY(-0.8px) rotate(-1.5deg);
-  }
-  100% {
-    transform: translateY(0.8px) rotate(1.5deg);
-  }
-}
-
-@keyframes spiderIdleSway {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-6deg);
-  }
-  75% {
-    transform: rotate(6deg);
-  }
-}
-
-/* ── LIGHT THEME (active on all other pages like /services, /about, etc., and when scrolled past dark hero) ── */
-.navbar.lightTheme {
-  border-bottom-color: transparent;
-}
-
-.navbar.lightTheme.scrolled {
-  background-color: rgba(248, 248, 245, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(11, 11, 12, 0.06);
-  box-shadow: 0 4px 20px rgba(11, 11, 12, 0.03);
-}
-
-.navbar.lightTheme .navLink {
-  color: #0B0B0C !important;
-  opacity: 0.95;
-}
-
-.navbar.lightTheme .navLink:hover {
-  opacity: 1;
-  color: var(--color-crimson, #df2531) !important;
-}
-
-.navbar.lightTheme .activeLink {
-  opacity: 1;
-  color: var(--color-crimson, #df2531) !important;
-  font-weight: 600;
-}
-
-.navbar.lightTheme .line {
-  background-color: #0B0B0C !important;
-}
-
-/* ── DARK THEME (home page top over dark hero video, dark about page) ── */
-.navbar.darkTheme .navLink {
-  color: #FFFFFF !important;
-  opacity: 0.95;
-}
-
-.navbar.darkTheme .navLink:hover {
-  color: var(--color-crimson, #df2531) !important;
-  opacity: 1;
-}
-
-.navbar.darkTheme .activeLink {
-  color: var(--color-crimson, #df2531) !important;
-  opacity: 1;
-  font-weight: 600;
-}
-
-.navbar.darkTheme .line {
-  background-color: #FFFFFF !important;
-}
-
-.navbar.darkTheme.scrolled {
-  background-color: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid transparent;
-}
-
-/* ── Mobile Actions & Controls ── */
-.mobileActions {
-  display: none;
-  align-items: center;
-  gap: 16px;
-}
-
-.mobileHomeBtn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  text-decoration: none;
-  color: var(--color-crimson, #df2531);
-}
-
-.hangingSpiderWrapperMobile {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-10px) scale(0.6);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease-in, transform 0.22s ease-in, visibility 0.22s;
-  transform-origin: top center;
-  z-index: 20;
-}
-
-.mobileHomeBtn:hover .hangingSpiderWrapperMobile,
-.mobileHomeBtn:active .hangingSpiderWrapperMobile {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0) scale(1);
-  transition: opacity 0.25s ease-out, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.mobileHomeBtn:hover .silkThread,
-.mobileHomeBtn:active .silkThread {
-  transform: scaleY(1);
-  transition: transform 0.28s ease-out;
-}
-
-.mobileHomeBtn:hover .hangingSpider,
-.mobileHomeBtn:active .hangingSpider {
-  animation: spiderIdleSway 2.5s ease-in-out infinite 0.32s;
-}
-
-/* ── Hamburger Trigger (Mobile Only) ── */
+/* ── Mobile Hamburger Button ── */
 .hamburgerBtn {
   display: none;
   background: transparent;
   border: none;
-  padding: 10px 4px;
-  margin: 0;
+  padding: 8px;
   cursor: pointer;
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+
+.hamburgerBtn:hover {
+  opacity: 0.75;
 }
 
 .hamburgerLines {
+  width: 22px;
+  height: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 20px;
-  height: 12px;
+  position: relative;
 }
 
 .line {
-  display: block;
   width: 100%;
   height: 1.5px;
+  background-color: var(--color-black, #0B0B0C);
   border-radius: 1px;
-  transform-origin: center center;
-  transition: background-color 0.25s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s ease;
 }
 
-/* ── Responsive (< 768px) ── */
+.darkTheme .line {
+  background-color: #FFFFFF;
+}
+
+/* ── Responsive Breakpoints ── */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 24px 20px 16px 20px;
-  }
-
-  .brandLogo {
-    height: 28px;
-  }
-
   .desktopNav {
     display: none;
   }
 
-  .mobileActions {
+  .hamburgerBtn {
     display: flex;
   }
 
-  .hamburgerBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .navbar {
+    padding: 16px 20px;
+  }
+
+  .navbar.scrolled {
+    padding: 12px 20px;
   }
 }

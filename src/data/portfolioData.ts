@@ -312,21 +312,18 @@ export interface WebsiteProject {
   year: string;
 }
 
-export const WEBSITE_PROJECTS: WebsiteProject[] = [
-  {
-    id: 'meghana-builders',
-    number: '01',
-    title: 'MEGHANA BUILDERS',
-    client: 'Meghana Builders',
-    category: 'REAL ESTATE & CIVIL CONSTRUCTION',
-    description:
-      'Premier residential, commercial & government construction in Hyderabad. Architectural innovation meets structural excellence.',
-    tags: ['React', 'Civil Architecture', 'Property Showcase', 'Lead Capture'],
-    thumbnail: '/portfolio-thumbs/meghana.jpg',
-    url: 'https://meghanabuilders.com',
-    year: '2026',
-  },
-];
+export const WEBSITE_PROJECTS: WebsiteProject[] = PORTFOLIO_WEBSITES.map((p, idx) => ({
+  id: p.id,
+  number: String(idx + 1).padStart(2, '0'),
+  title: p.title.split(' — ')[0].toUpperCase(),
+  client: p.title.split(' — ')[0],
+  category: p.category,
+  description: p.metaDescription,
+  tags: p.tags,
+  thumbnail: p.thumbnail,
+  url: p.url,
+  year: p.year || '2026',
+}));
 
 export interface AppProject {
   id: string;

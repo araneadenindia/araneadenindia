@@ -15,162 +15,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 type ViewMode = 'split' | 'grid';
 
-/* ─── Minimal SVG Line Icons for Each Service ─── */
-const ServiceIcon: React.FC<{ serviceId: string }> = ({ serviceId }) => {
-  switch (serviceId) {
-    case 'web-development':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
-          <line x1="14" y1="4" x2="10" y2="20" />
-        </svg>
-      );
-    case 'mobile-app-development':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <rect x="5" y="2" width="14" height="20" rx="3" ry="3" />
-          <line x1="12" y1="18" x2="12.01" y2="18" />
-        </svg>
-      );
-    case 'ui-ux-design':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M12 19l7-7 3 3-7 7-3-3z" />
-          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-          <path d="M2 2l7.586 7.586" />
-          <circle cx="11" cy="11" r="2" />
-        </svg>
-      );
-    case 'digital-marketing':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-          <polyline points="17 6 23 6 23 12" />
-        </svg>
-      );
-    case 'social-media-management':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="18" cy="5" r="3" />
-          <circle cx="6" cy="12" r="3" />
-          <circle cx="18" cy="19" r="3" />
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-        </svg>
-      );
-    case 'meta-google-instagram-ads':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" />
-          <circle cx="12" cy="12" r="6" />
-          <circle cx="12" cy="12" r="2" />
-        </svg>
-      );
-    case 'google-business-profile':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-          <circle cx="12" cy="10" r="3" />
-        </svg>
-      );
-    case 'videography':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polygon points="23 7 16 12 23 17 23 7" />
-          <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-        </svg>
-      );
-    case 'photography':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-          <circle cx="12" cy="13" r="4" />
-        </svg>
-      );
-    case 'video-editing':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
-          <line x1="7" y1="2" x2="7" y2="22" />
-          <line x1="17" y1="2" x2="17" y2="22" />
-          <line x1="2" y1="12" x2="22" y2="12" />
-          <line x1="2" y1="7" x2="7" y2="7" />
-          <line x1="2" y1="17" x2="7" y2="17" />
-          <line x1="17" y1="17" x2="22" y2="17" />
-          <line x1="17" y1="7" x2="22" y2="7" />
-        </svg>
-      );
-    case 'poster-graphic-design':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polygon points="12 2 2 7 12 12 22 7 12 2" />
-          <polyline points="2 17 12 22 22 17" />
-          <polyline points="2 12 12 17 22 12" />
-        </svg>
-      );
-    case 'ad-imperial-visuals':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <rect x="6" y="2" width="12" height="20" rx="3" />
-          <circle cx="12" cy="10" r="3" />
-          <polygon points="11 9 14 10.5 11 12 11 9" fill="currentColor" stroke="none" />
-        </svg>
-      );
-    case 'iot-prototyping':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <rect x="4" y="4" width="16" height="16" rx="2" />
-          <rect x="9" y="9" width="6" height="6" />
-          <line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" />
-          <line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" />
-          <line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="14" x2="23" y2="14" />
-          <line x1="1" y1="9" x2="4" y2="9" /><line x1="1" y1="14" x2="4" y2="14" />
-        </svg>
-      );
-    case 'hackathons-updates':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="4 17 10 11 4 5" />
-          <line x1="12" y1="19" x2="20" y2="19" />
-        </svg>
-      );
-    case 'workshops-training':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-          <path d="M6 12v5c3 3 9 3 12 0v-5" />
-        </svg>
-      );
-    case 'live-streaming-broadcasting':
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M4.93 19.07A10 10 0 0 1 2 12a10 10 0 0 1 2.93-7.07" />
-          <path d="M7.76 16.24A6 6 0 0 1 6 12a6 6 0 0 1 1.76-4.24" />
-          <circle cx="12" cy="12" r="2" />
-          <path d="M16.24 7.76A6 6 0 0 1 18 12a6 6 0 0 1-1.76 4.24" />
-          <path d="M19.07 4.93A10 10 0 0 1 22 12a10 10 0 0 1-2.93 7.07" />
-        </svg>
-      );
-    default:
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-      );
-  }
-};
-
 /* ─── Stacked Split Card (Deck-of-Cards Scroll Experience) ─── */
 interface SplitCardProps {
   service: ServiceItem;
   index: number;
-  total: number;
+  total?: number;
 }
 
-const SplitCard: React.FC<SplitCardProps> = ({ service, index, total }) => {
+const SplitCard: React.FC<SplitCardProps> = ({ service, index }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -231,9 +83,6 @@ const SplitCard: React.FC<SplitCardProps> = ({ service, index, total }) => {
     };
   }, [service.id]);
 
-  const numStr = String(index + 1).padStart(2, '0');
-  const totalStr = String(total).padStart(2, '0');
-
   return (
     <div
       ref={wrapperRef}
@@ -248,46 +97,25 @@ const SplitCard: React.FC<SplitCardProps> = ({ service, index, total }) => {
       >
         {/* LEFT PANEL — CONTENT */}
         <div className={styles.splitContent}>
-          {/* Header Row: Number + Category + Service Line Icon */}
-          <div className={styles.scHeaderRow}>
-            <div className={styles.scMetaGroup}>
-              <span className={styles.scNumber}>
-                {numStr}&nbsp;<span className={styles.scNumberTotal}>/ {totalStr}</span>
-              </span>
-              <span className={styles.scCategory}>{service.category}</span>
-            </div>
-
-            <div className={styles.scIconBox} aria-hidden="true" title={service.title}>
-              <ServiceIcon serviceId={service.id} />
-            </div>
-          </div>
-
           {/* Service Title */}
           <h3 id={`sc-title-${service.id}`} className={styles.scTitle}>
             {service.title}
           </h3>
 
           {/* Description */}
-          <p className={styles.scDescription}>{service.description}</p>
+          <p className={styles.scDescription}>{service.detailedCopy || service.description}</p>
 
-          {/* Deliverables Pills */}
-          <div className={styles.scDeliverables}>
-            {service.deliverables.slice(0, 4).map((d) => (
-              <span key={d} className={styles.scPill}>
-                {d}
-              </span>
-            ))}
+          {/* Action Row: Red BOOK SERVICE button */}
+          <div className={styles.scActionRow}>
+            <Link
+              to={`/contact?service=${service.id}`}
+              className={styles.bookServiceRedBtn}
+              aria-label={`Book service ${service.title}`}
+            >
+              <span>BOOK SERVICE</span>
+              <span className={styles.bookServiceArrow} aria-hidden="true">→</span>
+            </Link>
           </div>
-
-          {/* Explore Link */}
-          <Link
-            to={service.actionUrl || `/contact?service=${service.id}`}
-            className={styles.scCta}
-            aria-label={`Explore ${service.title}`}
-          >
-            <span>EXPLORE SERVICE</span>
-            <span className={styles.scCtaArrow} aria-hidden="true">→</span>
-          </Link>
         </div>
 
         {/* RIGHT PANEL — VISUAL */}
@@ -351,20 +179,24 @@ export const ServicesPage: React.FC = () => {
       .then((res) => {
         if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
           const mapped: ServiceItem[] = res.data.map((s: any, idx: number) => ({
-            id: s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-            number: String(idx + 1).padStart(2, '0'),
+            id: s.slug || s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            number: String(ALL_SERVICES.length + idx + 1).padStart(2, '0'),
             title: s.name.toUpperCase(),
-            category: 'ALL SERVICES',
-            categorySlug: 'digital-products',
+            category: s.category || 'DIGITAL PRODUCTS',
+            categorySlug: (s.categorySlug || 'digital-products') as any,
             description: s.description || '',
             detailedCopy: s.description || '',
-            deliverables: ['Strategy & Architecture', 'Full Execution & Production', 'Quality Assurance & Delivery'],
+            deliverables: [],
             image: s.thumbnail_url || '/services/01-web-development.jpg',
             featured: true,
-            actionLabel: 'EXPLORE SERVICE →',
-            actionUrl: `/contact?service=${s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+            actionLabel: 'BOOK SERVICE →',
+            actionUrl: `/contact?service=${s.slug || s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
           }));
-          setServicesList(mapped);
+          setServicesList((prev) => {
+            const existingIds = new Set(prev.map((item) => item.id));
+            const newOnes = mapped.filter((item) => !existingIds.has(item.id));
+            return [...prev, ...newOnes];
+          });
         }
       })
       .catch(() => {});
@@ -636,9 +468,9 @@ export const ServicesPage: React.FC = () => {
                     <Link
                       to={service.actionUrl || `/contact?service=${service.id}`}
                       className={styles.gcCta}
-                      aria-label={`Explore ${service.title}`}
+                      aria-label={`Book service ${service.title}`}
                     >
-                      <span>EXPLORE</span>
+                      <span>BOOK SERVICE</span>
                       <span className={styles.gcArrow} aria-hidden="true">→</span>
                     </Link>
                   </div>

@@ -2,6 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
+import { EditableCollection } from '../../cms/components/EditableCollection/EditableCollection';
 import styles from './AdExperiencesSection.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -159,6 +163,21 @@ export const AdExperiencesSection: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
+  const { activeContent } = useCms();
+  const expData = activeContent?.home?.experiences;
+  const items = expData?.items?.length ? expData.items : SHOWCASE_DATA;
+
+  const createDefaultExperience = () => ({
+    id: `exp-${Date.now()}`,
+    client: 'New Client',
+    tag: 'DIGITAL INNOVATION',
+    title: 'New Flagship — Architectural Platform & Digital Presence',
+    matter: 'Designed and engineered an elite digital solution connecting brand strategy, bespoke aesthetics, and high-concurrency architecture.',
+    imageSrc: '/portfolio-thumbs/pooja.jpg',
+    linkUrl: 'https://araneaden.com',
+    isExternal: true,
+  });
+
   return (
     <section
       ref={sectionRef}
@@ -173,37 +192,80 @@ export const AdExperiencesSection: React.FC = () => {
         <div ref={headerRef} className={styles.header}>
           <div className={styles.eyebrow}>
             <span className={styles.marker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>AD EXPERIENCES</span>
+            <EditableField
+              fieldPath="home.experiences.eyebrow"
+              fieldLabel="Section Eyebrow"
+              value={expData?.eyebrow || 'AD EXPERIENCES'}
+            >
+              <span className={styles.eyebrowText}>{expData?.eyebrow || 'AD EXPERIENCES'}</span>
+            </EditableField>
           </div>
 
-          <h2 id="ad-experiences-heading" className={styles.heading}>
-            AD EXPERIENCES
-          </h2>
+          <EditableField
+            fieldPath="home.experiences.title"
+            fieldLabel="Section Title"
+            value={expData?.title || 'AD EXPERIENCES'}
+          >
+            <h2 id="ad-experiences-heading" className={styles.heading}>
+              {expData?.title || 'AD EXPERIENCES'}
+            </h2>
+          </EditableField>
 
-          <p className={styles.supportingLine}>
-            From the first idea to the final experience.
-          </p>
+          <EditableField
+            fieldPath="home.experiences.subtitle"
+            fieldLabel="Section Subtitle"
+            value={expData?.subtitle || 'From the first idea to the final experience.'}
+          >
+            <p className={styles.supportingLine}>
+              {expData?.subtitle || 'From the first idea to the final experience.'}
+            </p>
+          </EditableField>
 
           <p className={styles.headerDescription}>
             A curated index of how Aranea Den conceptualizes, designs, develops, and delivers digital reality—spanning flagship web platforms, brand systems, and physical computing.
           </p>
         </div>
 
-        {/* Full Cards Vertical Scroll List */}
-        <div className={styles.showcaseList}>
-          {SHOWCASE_DATA.map((item) => (
+        {/* Full Cards Vertical Scroll List with CMS Repeatable Collection Manager */}
+        <EditableCollection
+          collectionPath="home.experiences.items"
+          itemTypeLabel="Case Study"
+          items={items}
+          createDefaultItem={createDefaultExperience}
+          containerClassName={styles.showcaseList}
+          renderItem={(item, index) => (
             <article key={item.id} className={styles.showcaseCard}>
               {/* Left Column: Title & Detailed Matter */}
               <div className={styles.matterCol}>
                 <div className={styles.cardEyebrow}>
-                  <span className={styles.cardEyebrowText}>
-                    {item.tag}
-                  </span>
+                  <EditableField
+                    fieldPath={`home.experiences.items.${index}.tag`}
+                    fieldLabel="Category Tag"
+                    value={item.tag}
+                  >
+                    <span className={styles.cardEyebrowText}>
+                      {item.tag}
+                    </span>
+                  </EditableField>
                 </div>
 
-                <h3 className={styles.cardTitle}>{item.title}</h3>
+                <EditableField
+                  fieldPath={`home.experiences.items.${index}.title`}
+                  fieldLabel="Project Title"
+                  value={item.title}
+                >
+                  <h3 className={styles.cardTitle}>{item.title}</h3>
+                </EditableField>
 
-                <p className={styles.cardMatter}>{item.matter}</p>
+                <EditableField
+                  fieldPath={`home.experiences.items.${index}.matter`}
+                  fieldLabel="Project Matter / Summary"
+                  value={item.matter}
+                  isTextarea={true}
+                  isBlock={true}
+                >
+                  <p className={styles.cardMatter}>{item.matter}</p>
+                </EditableField>
 
                 <div className={styles.cardActionRow}>
                   {item.isExternal ? (
@@ -232,39 +294,23 @@ export const AdExperiencesSection: React.FC = () => {
 
               {/* Right Column: One Single Image */}
               <div className={styles.imageCol}>
-                {item.isExternal ? (
-                  <a
-                    href={item.linkUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.imageLinkWrapper}
-                    aria-label={`Preview of ${item.title}`}
-                  >
-                    <img
-                      src={item.imageSrc}
-                      alt={item.title}
-                      loading="lazy"
-                      className={styles.cardImage}
-                    />
-                  </a>
-                ) : (
-                  <Link
-                    to={item.linkUrl}
-                    className={styles.imageLinkWrapper}
-                    aria-label={`Preview of ${item.title}`}
-                  >
-                    <img
-                      src={item.imageSrc}
-                      alt={item.title}
-                      loading="lazy"
-                      className={styles.cardImage}
-                    />
-                  </Link>
-                )}
+                <EditableMedia
+                  mediaPath={`home.experiences.items.${index}.imageSrc`}
+                  mediaLabel={`${item.title} Visual`}
+                  media={{ type: 'image', url: item.imageSrc }}
+                  supportedTypes={['image']}
+                >
+                  <img
+                    src={item.imageSrc}
+                    alt={item.title}
+                    loading="lazy"
+                    className={styles.cardImage}
+                  />
+                </EditableMedia>
               </div>
             </article>
-          ))}
-        </div>
+          )}
+        />
       </div>
     </section>
   );

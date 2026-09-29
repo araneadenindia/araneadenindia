@@ -17,6 +17,13 @@
   box-sizing: border-box;
 }
 
+.adminClientsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
 /* Crimson Top & Bottom Highlight Trims */
 .topAccentPip {
   position: absolute;

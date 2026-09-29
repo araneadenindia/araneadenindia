@@ -29,6 +29,8 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
       passionTitle: 'WE WEAVE DIGITAL EXPERIENCES.',
       passionNarrative:
         'We are an innovative creative and technology studio dedicated to crafting impactful digital solutions. We combine strategic thinking, refined design, and robust engineering to help businesses create enduring digital presence.',
+      passionCopy:
+        'At Aranea Den, we believe exceptional digital experiences should be accessible to everyone. We combine creativity, strategy, and technology to deliver high-quality digital solutions at affordable, transparent prices—empowering businesses of every size to build their presence, connect with their audiences, and grow with confidence.',
     },
     announcements: {
       eyebrow: 'LATEST UPDATES // 2026',
@@ -72,17 +74,170 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
         },
       ],
     },
+    whatWeDo: {
+      eyebrow: 'DISCIPLINES // 04',
+      title: 'WHAT WE DO',
+      items: [
+        {
+          id: 'web-dev',
+          number: '01',
+          slug: 'web-development',
+          name: 'WEB DEVELOPMENT',
+          description:
+            'Engineered for speed, durability, and computational elegance. We construct bespoke web platforms, web applications, and immersive digital flagships using clean architecture and modern rendering pipelines.',
+          imageSrc: '/services/ad-web-development.jpg',
+        },
+        {
+          id: 'mobile-app',
+          number: '02',
+          slug: 'mobile-development',
+          name: 'MOBILE APP DEVELOPMENT',
+          description:
+            'Fluid native iOS and Android applications designed with tactile micro-interactions, uncompromising speed, and resilient offline-first architecture that seamlessly scale to millions of users.',
+          imageSrc: '/services/ad-mobile-development.jpg',
+        },
+        {
+          id: 'ui-ux',
+          number: '03',
+          slug: 'ui-ux-design',
+          name: 'UI / UX DESIGN',
+          description:
+            'Disciplined design systems founded on structural harmony, typographic precision, and intuitive user psychology. We eliminate friction to create interfaces that feel natural, deliberate, and authoritative.',
+          imageSrc: '/services/ad-ui-ux-design.jpg',
+        },
+        {
+          id: 'digital-marketing',
+          number: '04',
+          slug: 'digital-marketing',
+          name: 'DIGITAL MARKETING',
+          description:
+            'Data-driven growth architectures engineered for measurable market expansion. We deploy algorithmic audience modeling, precision conversion tracking, and high-velocity campaign systems that scale revenue.',
+          imageSrc: '/services/08-digital-marketing.jpg',
+        },
+        {
+          id: 'reels-production',
+          number: '05',
+          slug: 'ad-imperial-visuals',
+          name: 'REELS — AD IMPERIAL VISUALS',
+          description:
+            'Sensory vertical cinematography designed to stop thumbs in milliseconds. We direct high-impact reels, short-form master narratives, and color-graded brand vignettes tailored for digital distribution.',
+          imageSrc: '/services/05-reels-production.jpg',
+        },
+        {
+          id: 'video-production',
+          number: '06',
+          slug: 'video-production',
+          name: 'VIDEO PRODUCTION',
+          description:
+            'Cinematic storytelling crafted with studio-grade optics, dynamic lighting, and precise color science. From commercial brand films to high-fidelity event documentation, we deliver compelling visuals.',
+          imageSrc: '/services/video-production.jpg',
+        },
+        {
+          id: 'live-streaming',
+          number: '07',
+          slug: 'live-streaming-broadcasting',
+          name: 'LIVE STREAMING & BROADCASTING',
+          description:
+            'Zero-fail multi-camera broadcasting infrastructure for global product keynotes, leadership summits, and cultural events with redundant encoding and real-time audio telemetry.',
+          imageSrc: '/services/live-broadcasting.jpg',
+        },
+        {
+          id: 'iot-prototyping',
+          number: '08',
+          slug: 'iot-prototyping',
+          name: 'IOT & SMART HARDWARE PROTOTYPING',
+          description:
+            'Bridging physical environments with intelligent computing. We prototype interconnected IoT telemetry, embedded microcontroller circuits, and sensor-driven hardware solutions.',
+          imageSrc: '/services/04-iot-prototyping.jpg',
+        },
+      ],
+    },
     philosophy: {
-      title: 'THE ARANEA ECOSYSTEM',
-      body: 'Disciplines do not live in silos. From high-throughput web engineering to cinematic brand media, we connect strategy, craft, and technology into an enduring digital presence.',
+      eyebrow: 'THE ARANEA ECOSYSTEM',
+      title: 'A CONNECTED APPROACH TO DIGITAL EXCELLENCE',
+      subtitle:
+        'Disciplines do not live in silos. From high-throughput web engineering to cinematic brand media, we connect strategy, craft, and technology into an enduring digital presence.',
+      stages: [
+        {
+          number: '01',
+          name: 'STRATEGY',
+          summary: 'Understand the business, identify opportunities, and define a clear digital direction.',
+        },
+        {
+          number: '02',
+          name: 'DESIGN',
+          summary: 'Create intuitive, distinctive experiences that connect with people.',
+        },
+        {
+          number: '03',
+          name: 'BUILD',
+          summary: 'Develop scalable websites, applications, and digital solutions with precision.',
+        },
+        {
+          number: '04',
+          name: 'GROW',
+          summary: 'Improve performance, strengthen visibility, and evolve through continuous refinement.',
+        },
+      ],
     },
     marqueeText: [
-      'WE WEAVE DIGITAL EXPERIENCES',
+      'WE WEAVE YOUR DIGITAL EXCELLENCE',
       'HIGH-CONCURRENCY WEB PLATFORMS',
       'BESPOKE UI / UX ARCHITECTURE',
       'CINEMATIC BRAND MEDIA',
       'FULL-STACK CREATIVE TECHNOLOGY',
     ],
+    experiences: {
+      eyebrow: 'CASE STUDIES // 2026',
+      title: 'AD EXPERIENCES SHOWCASE',
+      subtitle: 'Editorial deep-dives into recent flagships, high-traffic systems, and cinematic digital productions.',
+      items: [
+        {
+          id: 'exp-pooja',
+          client: 'Pooja Productions',
+          tag: 'FILM & ENTERTAINMENT PLATFORM',
+          title: 'Pooja Productions — Editorial Film Platform & Streaming Archive',
+          matter:
+            'Architected an ultra-responsive, editorial-grade web platform and streaming preview portal for award-winning film production house Pooja Productions. The platform was engineered with custom video player pipelines, adaptive bitrate previews, and a monolithic archival architecture that balances cinematic immersion with sub-second page loads. Every interaction, from typography scaling to poster depth shaders, was designed to honor the artistry of high-caliber Indian cinema.',
+          imageSrc: '/portfolio-thumbs/pooja.jpg',
+          linkUrl: 'https://poojaproductions.com',
+          isExternal: true,
+        },
+        {
+          id: 'exp-ceo-expos',
+          client: 'CEO Expos',
+          tag: 'EXECUTIVE CONFERENCES & SUMMITS',
+          title: 'CEO Expos — National Exhibition Digital Infrastructure & Summit Media',
+          matter:
+            'Engineered the full-stack digital operational engine and attendee acquisition funnel for India’s premier franchise and business expositions. The system powers real-time exhibitor booth bookings, multi-tier visitor registration, dynamic pass generation, and multi-camera live telecast integrations across major convention centers in Andhra Pradesh. Delivered a scalable, edge-cached web architecture paired with on-ground technical production.',
+          imageSrc: '/portfolio-thumbs/creators.jpg',
+          linkUrl: 'https://creatorseventsorganization.vercel.app/',
+          isExternal: true,
+        },
+        {
+          id: 'exp-meghana',
+          client: 'Meghana Builders',
+          tag: 'CIVIL INFRASTRUCTURE & REAL ESTATE',
+          title: 'Meghana Builders — Architectural Landmark Platform & Property Showcase',
+          matter:
+            'Designed and developed a monumental landmark property platform for one of Hyderabad’s premier civil engineering and infrastructure firms. Crafted bespoke 3D spatial layout showcases, dynamic property spec sheets, interactive floor plan telemetry, and an encrypted client inquiry pipeline. Built with Next.js and optimized for effortless navigation across commercial and residential developments.',
+          imageSrc: '/portfolio-thumbs/meghana.jpg',
+          linkUrl: 'https://meghanabuilders.com',
+          isExternal: true,
+        },
+        {
+          id: 'exp-jk-restaurant',
+          client: 'JK Restaurant',
+          tag: 'CULINARY BRANDING & SOCIAL GROWTH',
+          title: 'JK Restaurant — Sensory Gastronomy Branding & Digital Ordering Ecosystem',
+          matter:
+            'Developed a synchronized digital ordering platform and culinary brand narrative for Rajahmundry’s premier dining landmark. The solution incorporates high-definition visual menu engineering, localized table reservation pipelines, instant kitchen telemetry, and geo-targeted social acquisition funnels that drove substantial footfall growth across East Godavari.',
+          imageSrc: '/portfolio-thumbs/jk-restaurant.jpg',
+          linkUrl: 'https://instagram.com/jkrestaurant',
+          isExternal: true,
+        },
+      ],
+    },
     testimonials: {
       eyebrow: 'VOICES OF OUR CLIENTS',
       title: 'WHAT PARTNERS SAY ABOUT ARANEA DEN',
@@ -111,21 +266,28 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
       ],
     },
     clients: {
-      eyebrow: 'SELECT COLLABORATORS',
-      title: 'TRUSTED BY FORWARD-THINKING BRANDS',
+      eyebrow: 'OUR CLIENTELE',
+      title: 'TRUSTED BY VISIONARY BRANDS',
+      subtitle: 'Partnering with ambitious teams across technology, luxury, commerce, and media.',
       items: [
-        { id: 'c-1', name: 'Makaan Infrastructure', media: { type: 'image', url: '/clientele/makaan-infrastructure.png' } },
-        { id: 'c-2', name: 'Meghana Builders', media: { type: 'image', url: '/clientele/meghana-builders.webp' } },
-        { id: 'c-3', name: 'Pooja Productions', media: { type: 'image', url: '/clientele/pooja-productions.png' } },
-        { id: 'c-4', name: 'P&P Connekts', media: { type: 'image', url: '/clientele/pp-connekts.png' } },
-        { id: 'c-5', name: 'Thor Indian Cuisine', media: { type: 'image', url: '/clientele/thor-cuisine.png' } },
-        { id: 'c-6', name: 'NRI 360', media: { type: 'image', url: '/clientele/nri-360.png' } },
+        { id: 'c-1', name: 'Meghana Builders', src: '/clientele/meghana-builders.webp', url: 'https://meghanabuilders.com' },
+        { id: 'c-2', name: 'Pooja Productions', src: '/clientele/pooja-productions.png', url: 'https://poojaproductions.com' },
+        { id: 'c-3', name: 'Makaan Infrastructure', src: '/clientele/makaan-infrastructure.png', url: 'https://makaaninfra.com' },
+        { id: 'c-4', name: 'P&P Connekts', src: '/clientele/pp-connekts.png', url: 'https://pandpconnektss.web.app' },
+        { id: 'c-5', name: 'Thor Indian Cuisine', src: '/clientele/thor-cuisine.png', url: 'https://thor-indian-cuisinse.firebaseapp.com' },
+        { id: 'c-6', name: 'NRI 360', src: '/clientele/nri-360.png', url: 'https://nri360degrees.com' },
+        { id: 'c-7', name: 'Viraj Academy', src: '/clientele/viraj-academy.png', url: 'https://virajedu.com' },
+        { id: 'c-8', name: 'ISHOOTS', src: '/clientele/ishoots.jpg', url: 'https://ishoots.com' },
+        { id: 'c-9', name: 'Sriya & Janak', src: '/clientele/sriya-janak.jpg', url: 'https://sriyasjaan.com' },
       ],
     },
     cta: {
-      headline: 'READY TO WEAVE SOMETHING EXCEPTIONAL?',
-      subheadline: 'Tell us about your next project, milestone, or digital flagship.',
-      buttonLabel: 'START A CONVERSATION →',
+      eyebrow: 'ENGAGEMENTS',
+      line1: 'LET’S WEAVE',
+      line2: 'SOMETHING',
+      line3: 'REMARKABLE.',
+      subtext: 'Transform your business objectives into a cohesive, high-performance digital experience. Let’s start the conversation.',
+      buttonLabel: 'START A PROJECT',
       buttonUrl: '/contact',
     },
   },
@@ -357,5 +519,15 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
     phone: '+91 8106574159',
     email: 'contact@araneaden.com',
     address: 'Hyderabad Studio · Est. 2025',
+    whatsappNumber: '918106574159',
+  },
+  footer: {
+    tagline: 'WE WEAVE YOUR DIGITAL EXCELLENCE.',
+    copyright: '© 2026 ARANEA DEN. ALL RIGHTS RESERVED.',
+    email: 'contact@araneaden.com',
+    phone: '+91 8106574159',
+    instagramUrl: 'https://www.instagram.com/araneaden_?stkn=MnoxZmk2d3Zmc2sw',
+    linkedinUrl: 'https://linkedin.com',
+    githubUrl: 'https://github.com/suryarajamandapalli/araneaden',
   },
 };

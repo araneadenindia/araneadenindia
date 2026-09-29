@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
 import styles from './AraneaDenHero.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -332,9 +335,12 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
     return () => ctx.revert();
   }, [isMobile]);
 
+  const { activeContent } = useCms();
+  const heroData = activeContent.home.hero;
+
   // Video source & poster: 9:16 portrait on mobile, 16:9 landscape on desktop
-  const videoSrc = isMobile ? '/hero-9-16.mp4' : '/hero-16-9.mp4';
-  const posterSrc = isMobile ? '/hero-poster-mobile.jpg' : '/hero-poster-desktop.jpg';
+  const videoSrc = heroData?.media?.url || (isMobile ? '/hero-9-16.mp4' : '/hero-16-9.mp4');
+  const posterSrc = heroData?.media?.posterUrl || (isMobile ? '/hero-poster-mobile.jpg' : '/hero-poster-desktop.jpg');
 
   // Ensure robust programmatic autoplay across all modern browsers
   useEffect(() => {
@@ -385,19 +391,26 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         <section ref={cardRef} className={styles.heroCard} aria-label="Aranea Den — Hero Video & Philosophy">
         {/* 1. Video Canvas Stage */}
         <div className={styles.videoStage} aria-hidden="true">
-          <video
-            ref={videoRef}
-            key={videoSrc}
-            className={styles.heroVideo}
-            src={videoSrc}
-            poster={posterSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            crossOrigin="anonymous"
-          />
+          <EditableMedia
+            mediaPath="home.hero.media"
+            mediaLabel="Hero Showcase Video"
+            media={heroData.media}
+            supportedTypes={['video', 'image']}
+          >
+            <video
+              ref={videoRef}
+              key={videoSrc}
+              className={styles.heroVideo}
+              src={videoSrc}
+              poster={posterSrc}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              crossOrigin="anonymous"
+            />
+          </EditableMedia>
           <div className={styles.videoGlow} />
         </div>
 
@@ -405,21 +418,39 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         <div ref={initialOverlayRef} className={styles.heroInitialOverlay}>
           <div className={styles.bottomBar}>
             <div>
-              <p className={styles.narrative} style={{ fontSize: '1.1rem', fontWeight: 600 }}>
-                We Weave Your Digital Excellence.
-              </p>
-              <p className={styles.narrative} style={{ marginTop: '0.4rem', fontSize: '0.9rem', opacity: 0.8 }}>
-                Crafted to help your brand move, stand out, and grow online.
-              </p>
+              <EditableField
+                fieldPath="home.hero.headline1"
+                fieldLabel="Hero Topline"
+                value={heroData.headline1}
+              >
+                <p className={styles.narrative} style={{ fontSize: '1.1rem', fontWeight: 600 }}>
+                  {heroData.headline1 || 'We Weave Your Digital Excellence.'}
+                </p>
+              </EditableField>
+              <EditableField
+                fieldPath="home.hero.narrative"
+                fieldLabel="Hero Subtitle"
+                value={heroData.narrative}
+              >
+                <p className={styles.narrative} style={{ marginTop: '0.4rem', fontSize: '0.9rem', opacity: 0.8 }}>
+                  {heroData.narrative || 'Crafted to help your brand move, stand out, and grow online.'}
+                </p>
+              </EditableField>
             </div>
-            <a
-              href="#passion"
-              className={styles.ctaButton}
-              onClick={handleExploreClick}
-              aria-label="Explore Our Passion section"
+            <EditableField
+              fieldPath="home.hero.ctaLabel"
+              fieldLabel="Explore Button Label"
+              value={heroData.ctaLabel}
             >
-              EXPLORE &darr;
-            </a>
+              <a
+                href={heroData.ctaUrl || '#passion'}
+                className={styles.ctaButton}
+                onClick={handleExploreClick}
+                aria-label="Explore Our Passion section"
+              >
+                {heroData.ctaLabel || 'EXPLORE ↓'}
+              </a>
+            </EditableField>
           </div>
         </div>
 
@@ -432,7 +463,13 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
             {/* Chapter Header Bar */}
             <div ref={chapterBarRef} className={styles.chapterBar}>
               <div className={styles.chapterLeft}>
-                <span className={styles.chapterTitle}>OUR PASSION</span>
+                <EditableField
+                  fieldPath="home.hero.passionTitle"
+                  fieldLabel="Passion Chapter Title"
+                  value={heroData.passionTitle}
+                >
+                  <span className={styles.chapterTitle}>{heroData.passionTitle || 'OUR PASSION'}</span>
+                </EditableField>
               </div>
               <div className={styles.chapterRight}>
                 <span>2026</span>
@@ -475,9 +512,18 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
 
                 <div ref={dividerRef} className={styles.editorialDivider} aria-hidden="true" />
 
-                <p ref={copyRef} className={styles.copy}>
-                  At Aranea Den, we believe exceptional digital experiences should be accessible to everyone. We combine creativity, strategy, and technology to deliver high-quality digital solutions at affordable, transparent prices—empowering businesses of every size to build their presence, connect with their audiences, and grow with confidence.
-                </p>
+                <EditableField
+                  fieldPath="home.hero.passionCopy"
+                  fieldLabel="Our Passion Philosophy Narrative"
+                  value={heroData.passionCopy}
+                  isTextarea={true}
+                  isBlock={true}
+                >
+                  <p ref={copyRef} className={styles.copy}>
+                    {heroData.passionCopy ||
+                      'At Aranea Den, we believe exceptional digital experiences should be accessible to everyone. We combine creativity, strategy, and technology to deliver high-quality digital solutions at affordable, transparent prices—empowering businesses of every size to build their presence, connect with their audiences, and grow with confidence.'}
+                  </p>
+                </EditableField>
               </div>
             </div>
           </div>

@@ -2,12 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
 import adLogo from '../../assets/AD Transparent SVG.svg';
 import styles from './AraneaDenFooter.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const AraneaDenFooter: React.FC = () => {
+  const { activeContent } = useCms();
+  const footer = activeContent.footer;
   const footerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
@@ -106,7 +110,13 @@ export const AraneaDenFooter: React.FC = () => {
               </Link>
             </div>
             {/* Glowing red tagline */}
-            <p className={styles.leftTagline}>WE WEAVE YOUR DIGITAL EXCELLENCE.</p>
+            <EditableField
+              fieldPath="footer.tagline"
+              fieldLabel="Footer Tagline"
+              value={footer?.tagline || 'WE WEAVE YOUR DIGITAL EXCELLENCE.'}
+            >
+              <p className={styles.leftTagline}>{footer?.tagline || 'WE WEAVE YOUR DIGITAL EXCELLENCE.'}</p>
+            </EditableField>
           </div>
 
           {/* Right Columns: Nav / Services / Connect */}
@@ -144,7 +154,7 @@ export const AraneaDenFooter: React.FC = () => {
               <ul className={styles.navList}>
                 <li>
                   <a
-                    href="https://www.instagram.com/araneaden_?stkn=MnoxZmk2d3Zmc2sw"
+                    href={footer?.instagramUrl || 'https://www.instagram.com/araneaden_?stkn=MnoxZmk2d3Zmc2sw'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.navLink}
@@ -162,7 +172,7 @@ export const AraneaDenFooter: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href="https://linkedin.com"
+                    href={footer?.linkedinUrl || 'https://linkedin.com'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.navLink}
@@ -178,7 +188,7 @@ export const AraneaDenFooter: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href="https://github.com/suryarajamandapalli/araneaden"
+                    href={footer?.githubUrl || 'https://github.com/suryarajamandapalli/araneaden'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.navLink}
@@ -194,7 +204,7 @@ export const AraneaDenFooter: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href="mailto:contact@araneaden.com"
+                    href={`mailto:${footer?.email || 'contact@araneaden.com'}`}
                     className={styles.navLink}
                     aria-label="Email Aranea Den"
                   >
@@ -204,7 +214,13 @@ export const AraneaDenFooter: React.FC = () => {
                         <polyline points="22,6 12,13 2,6"/>
                       </svg>
                     </span>
-                    <span>contact@araneaden.com</span>
+                    <EditableField
+                      fieldPath="footer.email"
+                      fieldLabel="Footer Email"
+                      value={footer?.email || 'contact@araneaden.com'}
+                    >
+                      <span>{footer?.email || 'contact@araneaden.com'}</span>
+                    </EditableField>
                   </a>
                 </li>
               </ul>
@@ -216,14 +232,26 @@ export const AraneaDenFooter: React.FC = () => {
         {/* ── Bottom Legal Row ── */}
         <div ref={bottomRef} className={styles.bottomRow}>
           <div className={styles.legalInfo}>
-            <p className={styles.copyright}>© 2026 ARANEA DEN. ALL RIGHTS RESERVED.</p>
+            <EditableField
+              fieldPath="footer.copyright"
+              fieldLabel="Copyright Notice"
+              value={footer?.copyright || '© 2026 ARANEA DEN. ALL RIGHTS RESERVED.'}
+            >
+              <p className={styles.copyright}>{footer?.copyright || '© 2026 ARANEA DEN. ALL RIGHTS RESERVED.'}</p>
+            </EditableField>
             <div className={styles.legalLinks}>
               <Link to="/privacy" className={styles.legalLink}>PRIVACY POLICY</Link>
               <span className={styles.legalDot} aria-hidden="true">&bull;</span>
               <Link to="/terms" className={styles.legalLink}>TERMS OF SERVICE</Link>
             </div>
           </div>
-          <p className={styles.tagline}>WE WEAVE YOUR DIGITAL EXCELLENCE.</p>
+          <EditableField
+            fieldPath="footer.tagline"
+            fieldLabel="Footer Tagline"
+            value={footer?.tagline || 'WE WEAVE YOUR DIGITAL EXCELLENCE.'}
+          >
+            <p className={styles.tagline}>{footer?.tagline || 'WE WEAVE YOUR DIGITAL EXCELLENCE.'}</p>
+          </EditableField>
         </div>
 
       </div>

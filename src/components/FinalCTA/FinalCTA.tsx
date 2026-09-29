@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
 import { Aranea3DLogo } from './Aranea3DLogo';
 import styles from './FinalCTA.module.css';
 
@@ -96,6 +98,9 @@ export const FinalCTA: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
+  const { activeContent } = useCms();
+  const ctaData = activeContent?.home?.cta;
+
   return (
     <section ref={sectionRef} className={styles.section} aria-label="Final Call to Action">
       {/* 3D Spider Web Full Background & Interactive Brandmark */}
@@ -108,41 +113,83 @@ export const FinalCTA: React.FC = () => {
             {/* Eyebrow Label */}
             <div className={styles.eyebrow}>
               <span className={styles.crimsonMarker} aria-hidden="true" />
-              <span className={styles.eyebrowText}>ENGAGEMENTS</span>
+              <EditableField
+                fieldPath="home.cta.eyebrow"
+                fieldLabel="CTA Eyebrow"
+                value={ctaData?.eyebrow || 'ENGAGEMENTS'}
+              >
+                <span className={styles.eyebrowText}>{ctaData?.eyebrow || 'ENGAGEMENTS'}</span>
+              </EditableField>
             </div>
 
             {/* Large Final Statement in MOKOTO with Masked Lines */}
             <h2 ref={headlineRef} className={styles.statement}>
               <span style={{ display: 'block', overflow: 'hidden' }}>
-                <span className={styles.line} style={{ display: 'block' }}>LET’S WEAVE</span>
+                <EditableField
+                  fieldPath="home.cta.line1"
+                  fieldLabel="Statement Line 1"
+                  value={ctaData?.line1 || 'LET’S WEAVE'}
+                >
+                  <span className={styles.line} style={{ display: 'block' }}>
+                    {ctaData?.line1 || 'LET’S WEAVE'}
+                  </span>
+                </EditableField>
               </span>
               <span style={{ display: 'block', overflow: 'hidden' }}>
-                <span className={styles.line} style={{ display: 'block' }}>SOMETHING</span>
+                <EditableField
+                  fieldPath="home.cta.line2"
+                  fieldLabel="Statement Line 2"
+                  value={ctaData?.line2 || 'SOMETHING'}
+                >
+                  <span className={styles.line} style={{ display: 'block' }}>
+                    {ctaData?.line2 || 'SOMETHING'}
+                  </span>
+                </EditableField>
               </span>
               <span style={{ display: 'block', overflow: 'hidden' }}>
-                <span className={`${styles.line} ${styles.crimsonText}`} style={{ display: 'block' }}>
-                  REMARKABLE.
-                </span>
+                <EditableField
+                  fieldPath="home.cta.line3"
+                  fieldLabel="Statement Line 3"
+                  value={ctaData?.line3 || 'REMARKABLE.'}
+                >
+                  <span className={`${styles.line} ${styles.crimsonText}`} style={{ display: 'block' }}>
+                    {ctaData?.line3 || 'REMARKABLE.'}
+                  </span>
+                </EditableField>
               </span>
             </h2>
 
             {/* Minimal Supporting Copy */}
-            <p ref={subtextRef} className={styles.subtext}>
-              Transform your business objectives into a cohesive, high-performance digital experience.
-              Let’s start the conversation.
-            </p>
+            <EditableField
+              fieldPath="home.cta.subtext"
+              fieldLabel="CTA Subtext"
+              value={ctaData?.subtext || 'Transform your business objectives into a cohesive, high-performance digital experience. Let’s start the conversation.'}
+              isTextarea={true}
+              isBlock={true}
+            >
+              <p ref={subtextRef} className={styles.subtext}>
+                {ctaData?.subtext ||
+                  'Transform your business objectives into a cohesive, high-performance digital experience. Let’s start the conversation.'}
+              </p>
+            </EditableField>
 
             {/* Flat Restrained Action Button with Magnetic GSAP Micro-Interaction */}
             <div className={styles.actionWrap}>
-              <Link
-                ref={buttonRef}
-                to="/contact"
-                className={styles.primaryBtn}
-                aria-label="Start a project with Aranea Den"
+              <EditableField
+                fieldPath="home.cta.buttonLabel"
+                fieldLabel="CTA Button Label"
+                value={ctaData?.buttonLabel || 'START A PROJECT'}
               >
-                <span className={styles.btnLabel}>START A PROJECT</span>
-                <span className={styles.btnArrow} aria-hidden="true">→</span>
-              </Link>
+                <Link
+                  ref={buttonRef}
+                  to={ctaData?.buttonUrl || '/contact'}
+                  className={styles.primaryBtn}
+                  aria-label="Start a project with Aranea Den"
+                >
+                  <span className={styles.btnLabel}>{ctaData?.buttonLabel || 'START A PROJECT'}</span>
+                  <span className={styles.btnArrow} aria-hidden="true">→</span>
+                </Link>
+              </EditableField>
             </div>
           </div>
 

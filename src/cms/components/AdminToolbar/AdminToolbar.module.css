@@ -109,6 +109,13 @@
   color: #FFFFFF;
 }
 
+.btnEditActive {
+  background-color: #070708;
+  border-color: #55FF77;
+  color: #55FF77;
+  box-shadow: 0 0 10px rgba(85, 255, 119, 0.25);
+}
+
 /* Distinctive Metallic Red Push Changes Button */
 .btnPush {
   background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 30%, #D4D4D4 100%);

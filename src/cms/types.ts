@@ -112,6 +112,59 @@ export interface CmsClientItem {
   link?: string;
 }
 
+export interface CmsWhatWeDoChapter {
+  id: string;
+  number: string;
+  slug: string;
+  name: string;
+  description: string;
+  imageSrc: string;
+}
+
+export interface CmsPhilosophyStage {
+  number: string;
+  name: string;
+  summary: string;
+}
+
+export interface CmsShowcaseExperience {
+  id: string;
+  client: string;
+  tag: string;
+  title: string;
+  matter: string;
+  imageSrc: string;
+  linkUrl: string;
+  isExternal?: boolean;
+}
+
+export interface CmsClientLogo {
+  id: string;
+  name: string;
+  src: string;
+  url?: string;
+}
+
+export interface CmsFinalCTA {
+  eyebrow: string;
+  line1: string;
+  line2: string;
+  line3: string;
+  subtext: string;
+  buttonLabel: string;
+  buttonUrl: string;
+}
+
+export interface CmsFooter {
+  tagline: string;
+  copyright: string;
+  email: string;
+  phone: string;
+  instagramUrl: string;
+  linkedinUrl: string;
+  githubUrl: string;
+}
+
 // ── Complete Site Content Tree ────────────────────────────────
 export interface CmsContentTree {
   metadata: {
@@ -130,17 +183,31 @@ export interface CmsContentTree {
       media: CmsMedia;
       passionTitle: string;
       passionNarrative: string;
+      passionCopy: string;
     };
     announcements: {
       eyebrow: string;
       title: string;
       items: CmsAnnouncementItem[];
     };
-    philosophy: {
+    whatWeDo: {
+      eyebrow: string;
       title: string;
-      body: string;
+      items: CmsWhatWeDoChapter[];
+    };
+    philosophy: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      stages: CmsPhilosophyStage[];
     };
     marqueeText: string[];
+    experiences: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      items: CmsShowcaseExperience[];
+    };
     testimonials: {
       eyebrow: string;
       title: string;
@@ -149,14 +216,10 @@ export interface CmsContentTree {
     clients: {
       eyebrow: string;
       title: string;
-      items: CmsClientItem[];
+      subtitle: string;
+      items: CmsClientLogo[];
     };
-    cta: {
-      headline: string;
-      subheadline: string;
-      buttonLabel: string;
-      buttonUrl: string;
-    };
+    cta: CmsFinalCTA;
   };
   about: {
     hero: {
@@ -235,5 +298,7 @@ export interface CmsContentTree {
     phone: string;
     email: string;
     address: string;
+    whatsappNumber: string;
   };
+  footer: CmsFooter;
 }

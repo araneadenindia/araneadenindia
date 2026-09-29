@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
 import styles from './WhatWeDo.module.css';
 import { VideoProductionVisual } from './ServiceVisuals';
 import { ARANEA_REELS } from '../../data/reelsData';
@@ -410,6 +413,10 @@ export const WhatWeDo: React.FC = () => {
     }
   }, []);
 
+  const { activeContent } = useCms();
+  const whatWeDo = activeContent?.home?.whatWeDo;
+  const rawServices = whatWeDo?.items?.length ? whatWeDo.items : SERVICES_DATA;
+
   return (
     <div ref={wrapperRef} className={styles.servicesWrapper}>
       <section ref={sectionRef} id="services" className={styles.servicesSection} aria-label="What We Do">
@@ -418,7 +425,13 @@ export const WhatWeDo: React.FC = () => {
           <div className={styles.topBar}>
             <div className={styles.eyebrow}>
               <span className={styles.marker} aria-hidden="true" />
-              <h2 className={styles.eyebrowText}>SERVICES</h2>
+              <EditableField
+                fieldPath="home.whatWeDo.eyebrow"
+                fieldLabel="Section Eyebrow"
+                value={whatWeDo?.eyebrow || 'SERVICES'}
+              >
+                <h2 className={styles.eyebrowText}>{whatWeDo?.eyebrow || 'SERVICES'}</h2>
+              </EditableField>
             </div>
           </div>
 
@@ -427,7 +440,7 @@ export const WhatWeDo: React.FC = () => {
             {/* Left Column: Interactive Service Directory with Depth Effect */}
             <nav className={styles.navCol} aria-label="Services List">
               <div className={styles.navList}>
-                {SERVICES_DATA.map((srv, idx) => {
+                {rawServices.map((srv, idx) => {
                   const distance = Math.abs(idx - activeIndex);
                   const isCurrent = idx === activeIndex;
 
@@ -457,7 +470,7 @@ export const WhatWeDo: React.FC = () => {
 
             {/* Right Column: Active Service Display */}
             <div className={styles.cardCol}>
-              {SERVICES_DATA.map((srv, idx) => {
+              {rawServices.map((srv, idx) => {
                 const isCurrent = idx === activeIndex;
                 const isVideoProd = srv.id === 'video-prod';
 
@@ -500,8 +513,22 @@ export const WhatWeDo: React.FC = () => {
                         <div className={styles.cardContentCol}>
                           <div className={styles.cardHeaderGroup}>
                             <span className={styles.cardNumber}>SERVICE {srv.number}</span>
-                            <h3 className={styles.cardTitle}>{srv.name}</h3>
-                            <p className={styles.cardDescription}>{srv.description}</p>
+                            <EditableField
+                              fieldPath={`home.whatWeDo.items.${idx}.name`}
+                              fieldLabel="Service Name"
+                              value={srv.name}
+                            >
+                              <h3 className={styles.cardTitle}>{srv.name}</h3>
+                            </EditableField>
+                            <EditableField
+                              fieldPath={`home.whatWeDo.items.${idx}.description`}
+                              fieldLabel="Service Description"
+                              value={srv.description}
+                              isTextarea={true}
+                              isBlock={true}
+                            >
+                              <p className={styles.cardDescription}>{srv.description}</p>
+                            </EditableField>
                           </div>
                           <Link to={`/services/${srv.slug}`} className={styles.exploreLink}>
                             EXPLORE FULL SERVICE &rarr;
@@ -512,16 +539,23 @@ export const WhatWeDo: React.FC = () => {
                         <div className={styles.cardVisualCol}>
                           {srv.imageSrc ? (
                             <div className={styles.imageContainer}>
-                              <img
-                                src={srv.imageSrc}
-                                alt={srv.name}
-                                className={styles.cardVisualImage}
-                                loading={idx === 0 ? 'eager' : 'lazy'}
-                              />
+                              <EditableMedia
+                                mediaPath={`home.whatWeDo.items.${idx}.imageSrc`}
+                                mediaLabel={`${srv.name} Image`}
+                                media={{ type: 'image', url: srv.imageSrc }}
+                                supportedTypes={['image']}
+                              >
+                                <img
+                                  src={srv.imageSrc}
+                                  alt={srv.name}
+                                  className={styles.cardVisualImage}
+                                  loading={idx === 0 ? 'eager' : 'lazy'}
+                                />
+                              </EditableMedia>
                               <div className={styles.imageOverlayGlow} aria-hidden="true" />
                             </div>
                           ) : (
-                            srv.visualComponent
+                            (srv as any).visualComponent
                           )}
                         </div>
                       </div>

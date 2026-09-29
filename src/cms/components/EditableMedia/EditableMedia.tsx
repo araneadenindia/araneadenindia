@@ -8,22 +8,28 @@ import styles from './EditableMedia.module.css';
 
 interface EditableMediaProps {
   mediaPath?: string;
+  mediaLabel?: string;
   media: CmsMedia | string;
   alt?: string;
   className?: string;
   style?: React.CSSProperties;
   aspectRatio?: string;
   objectFit?: 'cover' | 'contain';
+  supportedTypes?: string[];
+  children?: React.ReactNode;
   onMediaChange?: (updated: CmsMedia) => void;
 }
 
 export const EditableMedia: React.FC<EditableMediaProps> = ({
   mediaPath,
+  mediaLabel,
   media,
   alt = 'Aranea Den Media',
   className = '',
   style,
   objectFit = 'cover',
+  supportedTypes,
+  children,
   onMediaChange,
 }) => {
   const { isAdmin, isEditMode, isPreviewMode, updateField } = useCms();
@@ -142,7 +148,9 @@ export const EditableMedia: React.FC<EditableMediaProps> = ({
         onClick={canEdit ? handleClick : undefined}
         title={canEdit ? 'Click to replace media (Image or Video)' : undefined}
       >
-        {currentMedia.type === 'video' ? (
+        {children ? (
+          children
+        ) : currentMedia.type === 'video' ? (
           <video
             ref={videoRef}
             src={currentMedia.url}
@@ -167,7 +175,7 @@ export const EditableMedia: React.FC<EditableMediaProps> = ({
 
         {canEdit && (
           <span className={styles.mediaBadge} aria-hidden="true">
-            ✎ REPLACE {currentMedia.type.toUpperCase()}
+            ✎ {mediaLabel ? `REPLACE ${mediaLabel.toUpperCase()}` : `REPLACE ${currentMedia.type.toUpperCase()}`}
           </span>
         )}
       </div>
@@ -191,22 +199,28 @@ export const EditableMedia: React.FC<EditableMediaProps> = ({
 
             <div className={styles.modalBody}>
               {/* Type Switcher: Image vs Video */}
-              <div className={styles.typeSelector}>
-                <button
-                  type="button"
-                  className={`${styles.typeBtn} ${selectedType === 'image' ? styles.typeBtnActive : ''}`}
-                  onClick={() => setSelectedType('image')}
-                >
-                  🖼 IMAGE
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.typeBtn} ${selectedType === 'video' ? styles.typeBtnActive : ''}`}
-                  onClick={() => setSelectedType('video')}
-                >
-                  ▶ VIDEO (AUTOPLAY)
-                </button>
-              </div>
+              {(!supportedTypes || supportedTypes.length > 1) && (
+                <div className={styles.typeSelector}>
+                  {(!supportedTypes || supportedTypes.includes('image')) && (
+                    <button
+                      type="button"
+                      className={`${styles.typeBtn} ${selectedType === 'image' ? styles.typeBtnActive : ''}`}
+                      onClick={() => setSelectedType('image')}
+                    >
+                      🖼 IMAGE
+                    </button>
+                  )}
+                  {(!supportedTypes || supportedTypes.includes('video')) && (
+                    <button
+                      type="button"
+                      className={`${styles.typeBtn} ${selectedType === 'video' ? styles.typeBtnActive : ''}`}
+                      onClick={() => setSelectedType('video')}
+                    >
+                      ▶ VIDEO (AUTOPLAY)
+                    </button>
+                  )}
+                </div>
+              )}
 
               {/* Live Preview Frame */}
               <div className={styles.previewFrame}>

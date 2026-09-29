@@ -9,37 +9,42 @@
 
 .editMode {
   cursor: pointer;
+  outline: 2px dashed rgba(223, 37, 49, 0.55);
+  outline-offset: -2px;
+  transition: all 0.2s ease;
 }
 
 .editMode:hover {
-  outline: 2px dashed #DF2531;
+  outline: 2.5px solid #FF3B47;
   outline-offset: -2px;
+  box-shadow: inset 0 0 24px rgba(223, 37, 49, 0.3);
 }
 
 .mediaBadge {
   position: absolute;
   top: 12px;
   right: 12px;
-  background-color: rgba(14, 14, 18, 0.9);
+  background-color: rgba(14, 14, 18, 0.95);
   border: 1px solid #DF2531;
   color: #FFFFFF;
   font-family: var(--font-mono, monospace);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  opacity: 0.85;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
   z-index: 50;
   pointer-events: none;
 }
 
 .editMode:hover .mediaBadge {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(-2px);
+  background-color: #DF2531;
 }
 
 .renderedVideo {

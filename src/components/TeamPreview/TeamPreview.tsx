@@ -3,6 +3,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TEAM_MEMBERS, TeamMember } from '../../data/teamData';
 import { TeamMemberModal } from '../TeamMemberModal';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
 import styles from './TeamPreview.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -19,15 +22,19 @@ export const TeamPreview: React.FC = () => {
   const collectiveSectionRef = useRef<HTMLElement>(null);
   const networkStageRef = useRef<HTMLDivElement>(null);
 
+  const { activeContent } = useCms();
+  const teamData = activeContent?.team;
+  const membersList = (teamData?.members?.length ? teamData.members : TEAM_MEMBERS) as any[];
+
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [hoveredMemberId, setHoveredMemberId] = useState<string | null>(null);
 
   // Founder & CEO
-  const founder = TEAM_MEMBERS.find((m) => m.id === 'saikiran-chapa') || TEAM_MEMBERS[0];
+  const founder = membersList.find((m) => m.id === 'saikiran-chapa') || membersList[0];
 
   // The 7 collective craft members configured in symmetrical mathematical geometry around the Founder
   const surroundingMembers: MemberNodeConfig[] = useMemo(() => {
-    const getMember = (id: string) => TEAM_MEMBERS.find((m) => m.id === id) || TEAM_MEMBERS[0];
+    const getMember = (id: string) => membersList.find((m) => m.id === id) || membersList[0];
 
     return [
       {
@@ -271,15 +278,35 @@ export const TeamPreview: React.FC = () => {
           <div className={styles.headerBlock}>
             <div className={styles.eyebrow}>
               <span className={styles.crimsonMarker} aria-hidden="true" />
-              <span className={styles.eyebrowText}>THE POWERHOUSE // STUDIO TALENT</span>
+              <EditableField
+                fieldPath="team.hero.eyebrow"
+                fieldLabel="Team Eyebrow"
+                value={teamData?.hero?.eyebrow || 'THE POWERHOUSE // STUDIO TALENT'}
+              >
+                <span className={styles.eyebrowText}>{teamData?.hero?.eyebrow || 'THE POWERHOUSE // STUDIO TALENT'}</span>
+              </EditableField>
             </div>
 
             <div className={styles.titleRow}>
-              <h2 className={styles.mainHeading}>MINDS BEHIND THE CRAFT</h2>
-              <p className={styles.headingSub}>
-                A multidisciplinary collective of strategists, designers, and engineers united by a
-                singular discipline: building meaningful digital experiences with architectural purpose.
-              </p>
+              <EditableField
+                fieldPath="team.hero.heading"
+                fieldLabel="Team Heading"
+                value={teamData?.hero?.heading || 'MINDS BEHIND THE CRAFT'}
+              >
+                <h2 className={styles.mainHeading}>{teamData?.hero?.heading || 'MINDS BEHIND THE CRAFT'}</h2>
+              </EditableField>
+              <EditableField
+                fieldPath="team.hero.lead"
+                fieldLabel="Team Subtitle"
+                value={teamData?.hero?.lead || 'A multidisciplinary collective of strategists, designers, and engineers united by a singular discipline: building meaningful digital experiences with architectural purpose.'}
+                isTextarea={true}
+                isBlock={true}
+              >
+                <p className={styles.headingSub}>
+                  {teamData?.hero?.lead ||
+                    'A multidisciplinary collective of strategists, designers, and engineers united by a singular discipline: building meaningful digital experiences with architectural purpose.'}
+                </p>
+              </EditableField>
             </div>
           </div>
 
@@ -298,32 +325,58 @@ export const TeamPreview: React.FC = () => {
               }}
               aria-label={`View full details for ${founder.name}, ${founder.role}`}
             >
-              <img
-                src={founder.image}
-                alt={founder.name}
-                className={styles.founderImage}
-                loading="lazy"
-              />
+              <EditableMedia
+                mediaPath="team.members.0.media"
+                mediaLabel="Founder Photograph"
+                media={{ type: 'image', url: founder.image || founder.media?.url || '' }}
+                supportedTypes={['image']}
+              >
+                <img
+                  src={founder.image || founder.media?.url}
+                  alt={founder.name}
+                  className={styles.founderImage}
+                  loading="lazy"
+                />
+              </EditableMedia>
               <div className={styles.founderGlow} aria-hidden="true" />
             </div>
 
             <div className={styles.founderInfo}>
               <div className={styles.founderMeta}>
-                <span className={styles.founderRoleBadge}>{founder.role}</span>
+                <EditableField
+                  fieldPath="team.members.0.role"
+                  fieldLabel="Founder Role"
+                  value={founder.role}
+                >
+                  <span className={styles.founderRoleBadge}>{founder.role}</span>
+                </EditableField>
               </div>
 
-              <h3 className={styles.founderName}>{founder.name}</h3>
+              <EditableField
+                fieldPath="team.members.0.name"
+                fieldLabel="Founder Name"
+                value={founder.name}
+              >
+                <h3 className={styles.founderName}>{founder.name}</h3>
+              </EditableField>
 
               <blockquote className={styles.founderQuote}>
                 “Under his leadership, Aranea Den is shaped around the belief that every digital
                 experience should have purpose, clarity, and a meaningful connection with its audience.”
               </blockquote>
 
-              <p className={styles.founderBio}>
-                Saikiran Chapa leads Aranea Den with a vision to build a forward-thinking digital
-                studio where strategy, creativity, and technology work together to create meaningful
-                digital experiences and build distinctive brand identities.
-              </p>
+              <EditableField
+                fieldPath="team.members.0.bio"
+                fieldLabel="Founder Bio"
+                value={founder.bio}
+                isTextarea={true}
+                isBlock={true}
+              >
+                <p className={styles.founderBio}>
+                  {founder.bio ||
+                    'Saikiran Chapa leads Aranea Den with a vision to build a forward-thinking digital studio where strategy, creativity, and technology work together to create meaningful digital experiences and build distinctive brand identities.'}
+                </p>
+              </EditableField>
 
               <div className={styles.founderActions}>
                 <button

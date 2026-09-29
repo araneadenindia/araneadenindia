@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
 import styles from './AraneaSystem.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -579,6 +581,10 @@ export const AraneaSystem: React.FC = () => {
     };
   }, []);
 
+  const { activeContent } = useCms();
+  const phil = activeContent?.home?.philosophy;
+  const stages = phil?.stages?.length ? phil.stages : PHILOSOPHY_STAGES;
+
   return (
     <div ref={wrapperRef} className={styles.systemWrapper}>
       <section ref={sectionRef} id="philosophy" className={styles.section} aria-label="Our Philosophy">
@@ -679,17 +685,37 @@ export const AraneaSystem: React.FC = () => {
           {/* Eyebrow Label */}
           <div ref={eyebrowRef} className={styles.eyebrow}>
             <span className={styles.marker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>OUR PHILOSOPHY</span>
+            <EditableField
+              fieldPath="home.philosophy.eyebrow"
+              fieldLabel="Philosophy Eyebrow"
+              value={phil?.eyebrow || 'OUR PHILOSOPHY'}
+            >
+              <span className={styles.eyebrowText}>{phil?.eyebrow || 'OUR PHILOSOPHY'}</span>
+            </EditableField>
           </div>
 
           {/* Master Editorial Header */}
           <div ref={headerRef} className={styles.headerBlock}>
-            <h2 ref={headlineRef} className={styles.headline}>
-              Connecting Ideas, Design, and Technology.
-            </h2>
-            <p ref={subtextRef} className={styles.subtext}>
-              We bring strategy, creativity, and technology together to create meaningful digital experiences.
-            </p>
+            <EditableField
+              fieldPath="home.philosophy.title"
+              fieldLabel="Philosophy Headline"
+              value={phil?.title || 'Connecting Ideas, Design, and Technology.'}
+            >
+              <h2 ref={headlineRef} className={styles.headline}>
+                {phil?.title || 'Connecting Ideas, Design, and Technology.'}
+              </h2>
+            </EditableField>
+            <EditableField
+              fieldPath="home.philosophy.subtitle"
+              fieldLabel="Philosophy Subtext"
+              value={phil?.subtitle || 'We bring strategy, creativity, and technology together to create meaningful digital experiences.'}
+              isTextarea={true}
+              isBlock={true}
+            >
+              <p ref={subtextRef} className={styles.subtext}>
+                {phil?.subtitle || 'We bring strategy, creativity, and technology together to create meaningful digital experiences.'}
+              </p>
+            </EditableField>
           </div>
 
           {/* ── DESKTOP CONTINUOUS EDITORIAL COMPOSITION ── */}
@@ -714,7 +740,7 @@ export const AraneaSystem: React.FC = () => {
               </div>
 
               <div className={styles.timelineNodes}>
-                {PHILOSOPHY_STAGES.map((_, idx) => (
+                {stages.map((_, idx) => (
                   <div
                     key={idx}
                     className={`${styles.timelineNode} ${idx <= reachedStageIndex ? styles.nodeActive : ''}`}
@@ -725,7 +751,7 @@ export const AraneaSystem: React.FC = () => {
 
             {/* 4 Connected Philosophy Process Columns */}
             <div className={styles.stagesRow}>
-              {PHILOSOPHY_STAGES.map((stage, idx) => {
+              {stages.map((stage, idx) => {
                 const isCurrent = idx === activeStage;
                 const isReached = idx <= reachedStageIndex;
 
@@ -751,10 +777,24 @@ export const AraneaSystem: React.FC = () => {
                     </div>
 
                     {/* Stage Title in Solid Dark Charcoal */}
-                    <h3 className={styles.stageName}>{stage.name}</h3>
+                    <EditableField
+                      fieldPath={`home.philosophy.stages.${idx}.name`}
+                      fieldLabel="Stage Name"
+                      value={stage.name}
+                    >
+                      <h3 className={styles.stageName}>{stage.name}</h3>
+                    </EditableField>
 
                     {/* Stage Description in High Contrast Muted Slate */}
-                    <p className={styles.stageSummary}>{stage.summary}</p>
+                    <EditableField
+                      fieldPath={`home.philosophy.stages.${idx}.summary`}
+                      fieldLabel="Stage Summary"
+                      value={stage.summary}
+                      isTextarea={true}
+                      isBlock={true}
+                    >
+                      <p className={styles.stageSummary}>{stage.summary}</p>
+                    </EditableField>
                   </button>
                 );
               })}

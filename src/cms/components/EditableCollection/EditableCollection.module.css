@@ -17,19 +17,20 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: rgba(14, 14, 18, 0.92);
-  border: 1px solid rgba(223, 37, 49, 0.5);
+  background-color: rgba(14, 14, 18, 0.95);
+  border: 1px solid rgba(223, 37, 49, 0.6);
   border-radius: 999px;
   padding: 4px 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transform: translateY(2px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+  opacity: 0.85;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
 .itemWrapper:hover .itemActionBar {
   opacity: 1;
-  transform: translateY(0);
+  border-color: #FF3B47;
+  box-shadow: 0 6px 20px rgba(223, 37, 49, 0.4);
 }
 
 .actionBtn {

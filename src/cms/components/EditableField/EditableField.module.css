@@ -14,18 +14,23 @@
 
 .editMode {
   cursor: pointer;
+  outline: 1px dashed rgba(223, 37, 49, 0.45);
+  outline-offset: 3px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
 .editMode:hover {
-  outline: 1.5px dashed rgba(223, 37, 49, 0.75);
-  outline-offset: 4px;
-  border-radius: 3px;
+  outline: 2px solid #FF3B47;
+  outline-offset: 3px;
+  background-color: rgba(223, 37, 49, 0.1);
+  box-shadow: 0 0 14px rgba(223, 37, 49, 0.35);
 }
 
 .editBadge {
   position: absolute;
-  top: -10px;
-  right: -6px;
+  top: -12px;
+  right: -4px;
   background-color: #DF2531;
   color: #FFFFFF;
   font-family: var(--font-mono, monospace);
@@ -35,17 +40,18 @@
   padding: 2px 7px;
   border-radius: 4px;
   pointer-events: none;
-  opacity: 0;
-  transform: translateY(2px);
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  opacity: 0.75;
+  transform: translateY(0);
+  transition: opacity 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   white-space: nowrap;
 }
 
 .editMode:hover .editBadge {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(-2px);
+  background-color: #FF3B47;
 }
 
 /* Modal styles for editing field */

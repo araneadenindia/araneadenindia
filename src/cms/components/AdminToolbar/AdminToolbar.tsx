@@ -11,6 +11,7 @@ export const AdminToolbar: React.FC = () => {
     isPreviewMode,
     status,
     statusMessage,
+    setEditMode,
     setPreviewMode,
     saveDraft,
     setIsPublishModalOpen,
@@ -20,23 +21,33 @@ export const AdminToolbar: React.FC = () => {
 
   // Offset page body down by 42px while toolbar is visible so existing navbar sits seamlessly below
   useEffect(() => {
-    if (isAdmin && isEditMode) {
+    if (isAdmin) {
       document.body.style.paddingTop = '42px';
       return () => {
         document.body.style.paddingTop = '0px';
       };
     }
-  }, [isAdmin, isEditMode]);
+  }, [isAdmin]);
 
-  if (!isAdmin || !isEditMode) return null;
+  if (!isAdmin) return null;
 
   return (
     <aside className={styles.toolbar} aria-label="Admin Edit Mode Toolbar">
       <div className={styles.leftSection}>
         <div className={styles.brandBadge}>
           <span className={styles.brandDot} aria-hidden="true" />
-          <span>ADMIN EDIT MODE</span>
+          <span>ARANEA DEN CMS</span>
         </div>
+
+        {/* Edit Mode Master Switch */}
+        <button
+          type="button"
+          className={`${styles.btn} ${isEditMode ? styles.btnEditActive : styles.btnSecondary}`}
+          onClick={() => setEditMode(!isEditMode)}
+          title="Toggle In-Place Visual Editing On/Off"
+        >
+          <span>{isEditMode ? '● EDITING: ON' : '○ EDITING: OFF'}</span>
+        </button>
 
         <div className={styles.statusIndicator}>
           <span className={styles.statusText}>
@@ -79,7 +90,7 @@ export const AdminToolbar: React.FC = () => {
           onClick={() => setPreviewMode(!isPreviewMode)}
           title={isPreviewMode ? 'Exit preview and return to edit controls' : 'Preview draft without editing outlines'}
         >
-          <span>{isPreviewMode ? 'EDITING (EXIT PREVIEW)' : 'PREVIEW'}</span>
+          <span>{isPreviewMode ? 'EXIT PREVIEW' : 'PREVIEW'}</span>
         </button>
 
         {/* Push Changes Button */}
@@ -91,7 +102,7 @@ export const AdminToolbar: React.FC = () => {
           title="Publish current draft live to website visitors"
         >
           <span className={styles.pulsingDot} aria-hidden="true" />
-          <span>PUSH CHANGES</span>
+          <span>PUBLISH LIVE</span>
         </button>
 
         {/* Logout */}

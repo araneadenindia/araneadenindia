@@ -1,17 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
 import styles from './StatementMarquee.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 8 statement repetitions ensuring seamless 50% loop
-const MARQUEE_ITEMS = Array.from({ length: 8 }, (_, i) => ({
-  id: `statement-${i}`,
-  text: 'WE WEAVE YOUR DIGITAL EXCELLENCE',
-}));
-
 export const StatementMarquee: React.FC = () => {
+  const { activeContent } = useCms();
+  const statementText = activeContent.home?.marqueeText?.[0] || 'WE WEAVE YOUR DIGITAL EXCELLENCE';
+  const marqueeItems = Array.from({ length: 8 }, (_, i) => ({
+    id: `statement-${i}`,
+    text: statementText,
+  }));
+
   const sectionRef = useRef<HTMLElement>(null);
   const tickerRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
@@ -125,7 +128,7 @@ export const StatementMarquee: React.FC = () => {
     <section ref={sectionRef} className={styles.section} aria-label="Brand Statement Marquee">
       <div className={styles.inner}>
         <div ref={tickerRef} className={styles.ticker}>
-          {MARQUEE_ITEMS.map((item) => (
+          {marqueeItems.map((item, idx) => (
             <div key={item.id} className={styles.statementItem}>
               {/* Crisp Red Glowing Brand Emblem */}
               <div className={styles.glowingEmblem} aria-hidden="true">
@@ -138,7 +141,17 @@ export const StatementMarquee: React.FC = () => {
               </div>
 
               {/* Cinematic Red Glow Typography */}
-              <span className={styles.glowingText}>{item.text}</span>
+              {idx === 0 ? (
+                <EditableField
+                  fieldPath="home.marqueeText.0"
+                  fieldLabel="Marquee Statement"
+                  value={statementText}
+                >
+                  <span className={styles.glowingText}>{item.text}</span>
+                </EditableField>
+              ) : (
+                <span className={styles.glowingText}>{item.text}</span>
+              )}
             </div>
           ))}
         </div>

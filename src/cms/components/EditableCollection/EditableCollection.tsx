@@ -14,7 +14,7 @@ interface EditableCollectionProps<T> {
   onEditItem?: (item: T, index: number) => void;
 }
 
-export function EditableCollection<T extends { id?: string; title?: string; name?: string }>({
+export function EditableCollection<T extends { id?: string | number; title?: string; name?: string }>({
   collectionPath,
   itemTypeLabel,
   items,

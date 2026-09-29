@@ -470,12 +470,25 @@ export const AboutPage: React.FC = () => {
             </div>
 
             <div className={styles.pillarsTrio}>
-              {ADVANTAGE_PILLARS.map((pillar) => (
-                <div key={pillar.num} className={styles.pillarBlock}>
-                  <div className={styles.pillarMarker}>{pillar.num}</div>
+              {(about.pillars && about.pillars.length > 0 ? about.pillars : ADVANTAGE_PILLARS.map((p, i) => ({ id: `p-${i}`, title: p.title, description: p.summary }))).map((pillar, idx) => (
+                <div key={pillar.id || idx} className={styles.pillarBlock}>
+                  <div className={styles.pillarMarker}>{String(idx + 1).padStart(2, '0')}</div>
                   <div className={styles.pillarText}>
-                    <h3 className={styles.pillarTitle}>{pillar.title}</h3>
-                    <p className={styles.pillarSummary}>{pillar.summary}</p>
+                    <EditableField
+                      fieldPath={`about.pillars.${idx}.title`}
+                      fieldLabel={`Pillar ${idx + 1} Title`}
+                      value={pillar.title}
+                    >
+                      <h3 className={styles.pillarTitle}>{pillar.title}</h3>
+                    </EditableField>
+                    <EditableField
+                      fieldPath={`about.pillars.${idx}.description`}
+                      fieldLabel={`Pillar ${idx + 1} Description`}
+                      value={pillar.description}
+                      isTextarea
+                    >
+                      <p className={styles.pillarSummary}>{pillar.description}</p>
+                    </EditableField>
                   </div>
                 </div>
               ))}
@@ -498,12 +511,25 @@ export const AboutPage: React.FC = () => {
         <div className={styles.ctaGlowBackdrop} />
         <div className={styles.container}>
           <div className={styles.ctaMainBox}>
-            <h2 id="cta-title" className={styles.ctaHeading}>
-              READY TO WEAVE SOMETHING REMARKABLE?
-            </h2>
-            <p className={styles.ctaSubtext}>
-              Whether launching a new venture, redefining an existing brand, or engineering an enterprise platform, let's create something extraordinary together.
-            </p>
+            <EditableField
+              fieldPath="cta.line1"
+              fieldLabel="About CTA Heading"
+              value={activeContent.home?.cta?.line1 || 'READY TO WEAVE SOMETHING REMARKABLE?'}
+            >
+              <h2 id="cta-title" className={styles.ctaHeading}>
+                {activeContent.home?.cta?.line1 || 'READY TO WEAVE SOMETHING REMARKABLE?'}
+              </h2>
+            </EditableField>
+            <EditableField
+              fieldPath="cta.subtext"
+              fieldLabel="About CTA Subtext"
+              value={activeContent.home?.cta?.subtext || "Whether launching a new venture, redefining an existing brand, or engineering an enterprise platform, let's create something extraordinary together."}
+              isTextarea
+            >
+              <p className={styles.ctaSubtext}>
+                {activeContent.home?.cta?.subtext || "Whether launching a new venture, redefining an existing brand, or engineering an enterprise platform, let's create something extraordinary together."}
+              </p>
+            </EditableField>
             <div className={styles.ctaButtonsRow}>
               <Link to="/contact" className={styles.ctaPrimaryBtn}>
                 START A PROJECT

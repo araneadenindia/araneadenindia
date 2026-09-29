@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
 import styles from './ContactPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -69,113 +71,9 @@ const COUNTRY_CODES = [
   { code: '+1', country: 'CA (+1)' },
 ];
 
-interface ContactItem {
-  id: string;
-  label: string;
-  display: string;
-  actionText: string;
-  href: string;
-  isExternal?: boolean;
-  icon: React.ReactNode;
-}
-
-const CONTACT_METHODS: ContactItem[] = [
-  {
-    id: 'phone',
-    label: 'Call Us',
-    display: '+91 8106574159',
-    actionText: 'Call Now',
-    href: 'tel:+918106574159',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'email',
-    label: 'Email Us',
-    display: 'contact@araneaden.com',
-    actionText: 'Send Email',
-    href: 'mailto:contact@araneaden.com',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-      </svg>
-    ),
-  },
-  {
-    id: 'whatsapp',
-    label: 'WhatsApp',
-    display: '+91 8106574159',
-    actionText: 'Start Chat',
-    href: 'https://wa.me/918106574159',
-    isExternal: true,
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.79 14.12c-.24.68-1.39 1.3-1.92 1.38-.49.07-1.12.1-3.23-.77-2.69-1.12-4.41-3.87-4.54-4.05-.14-.17-1.09-1.46-1.09-2.78 0-1.32.69-1.96.93-2.22.25-.26.54-.33.72-.33.18 0 .36 0 .52.01.17.01.39-.06.61.47.23.54.78 1.92.85 2.06.07.14.11.3.02.48-.09.18-.14.29-.28.46-.14.17-.3.37-.43.5-.14.14-.29.3-.13.58.17.28.74 1.22 1.58 1.98 1.09.97 2 1.27 2.29 1.41.28.14.45.12.62-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.64-.15.26.1 1.66.78 1.94.92.29.14.48.21.55.33.07.12.07.72-.17 1.4z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'instagram',
-    label: 'Instagram',
-    display: '@araneaden_',
-    actionText: 'Follow Us',
-    href: 'https://www.instagram.com/araneaden_',
-    isExternal: true,
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-      </svg>
-    ),
-  },
-  {
-    id: 'youtube',
-    label: 'YouTube',
-    display: '@araneaden_',
-    actionText: 'Watch Work',
-    href: 'https://www.youtube.com/@araneaden_',
-    isExternal: true,
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'linkedin',
-    label: 'LinkedIn',
-    display: 'Aranea Den',
-    actionText: 'Connect',
-    href: 'https://www.linkedin.com/company/araneaden',
-    isExternal: true,
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28Z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'location',
-    label: 'Location',
-    display: 'Hyderabad, India',
-    actionText: 'View on Maps',
-    href: 'https://maps.google.com/?q=Hyderabad,+India',
-    isExternal: true,
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-        <circle cx="12" cy="10" r="3" />
-      </svg>
-    ),
-  },
-];
-
 export const ContactPage: React.FC = () => {
+  const { activeContent } = useCms();
+  const contactContent = activeContent.contact;
   const location = useLocation();
 
   const [selectedServices, setSelectedServices] = useState<string[]>(() => {
@@ -407,7 +305,7 @@ export const ContactPage: React.FC = () => {
       `Selected Services: ${servicesText}\n` +
       `Project Note: ${note.trim()}`;
 
-    const targetNumber = '918106574159';
+    const targetNumber = contactContent?.whatsappNumber?.replace(/\D/g, '') || '918106574159';
     const waUrl = `https://wa.me/${targetNumber}?text=${encodeURIComponent(waMessage)}`;
 
     // Open WhatsApp in a new tab/application
@@ -434,12 +332,24 @@ export const ContactPage: React.FC = () => {
               <span className={styles.breadcrumbActive}>Contact</span>
             </nav>
 
-            <h1 className={styles.heroTitle}>LET&apos;S TALK.</h1>
+            <EditableField
+              fieldPath="contact.hero.heading"
+              fieldLabel="Contact Heading"
+              value={contactContent?.hero?.heading || "LET'S TALK."}
+            >
+              <h1 className={styles.heroTitle}>{contactContent?.hero?.heading || "LET'S TALK."}</h1>
+            </EditableField>
 
-            <p className={styles.heroSubtitle}>
-              Have a project in mind? Tell us what you need, and let&apos;s create
-              something meaningful together.
-            </p>
+            <EditableField
+              fieldPath="contact.hero.lead"
+              fieldLabel="Contact Subtitle"
+              value={contactContent?.hero?.lead || "Have a project in mind? Tell us what you need, and let's create something meaningful together."}
+              isTextarea
+            >
+              <p className={styles.heroSubtitle}>
+                {contactContent?.hero?.lead || "Have a project in mind? Tell us what you need, and let's create something meaningful together."}
+              </p>
+            </EditableField>
           </div>
         </div>
       </section>
@@ -459,7 +369,7 @@ export const ContactPage: React.FC = () => {
                   <p className={styles.promptInstruction}>
                     We have formatted your project brief. Click below to continue in
                     WhatsApp and chat directly with our team at{' '}
-                    <strong>+91 8106574159</strong>.
+                    <strong>{contactContent?.phone || '+91 8106574159'}</strong>.
                   </p>
 
                   <div className={styles.inquiryPreviewCard}>
@@ -693,37 +603,159 @@ export const ContactPage: React.FC = () => {
             <aside ref={panelRef} className={styles.contactPanel} aria-label="Direct Contact">
               <div className={styles.contactPanelHeader}>
                 <h2 className={styles.panelHeading}>Get in Touch</h2>
-                <p className={styles.panelSubtext}>
-                  Choose the way that works best for you.
-                </p>
+                <EditableField
+                  fieldPath="contact.address"
+                  fieldLabel="Studio Location"
+                  value={contactContent?.address || 'Hyderabad Studio · Est. 2025'}
+                >
+                  <p className={styles.panelSubtext}>
+                    {contactContent?.address || 'Hyderabad Studio · Est. 2025'}
+                  </p>
+                </EditableField>
               </div>
 
               <div className={styles.contactList}>
-                {CONTACT_METHODS.map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.href}
-                    target={item.isExternal ? '_blank' : undefined}
-                    rel={item.isExternal ? 'noopener noreferrer' : undefined}
-                    className={styles.contactItem}
-                    aria-label={`${item.label}: ${item.display}`}
-                  >
-                    <div className={styles.contactItemLeft}>
-                      <div className={styles.iconCircle}>
-                        {item.icon}
-                      </div>
-                      <div className={styles.contactItemMeta}>
-                        <span className={styles.itemLabel}>{item.label}</span>
-                        <span className={styles.itemDisplay}>{item.display}</span>
-                      </div>
+                {/* 1. Phone */}
+                <a
+                  href={`tel:${(contactContent?.phone || '+918106574159').replace(/\s+/g, '')}`}
+                  className={styles.contactItem}
+                  aria-label={`Call Us: ${contactContent?.phone || '+91 8106574159'}`}
+                >
+                  <div className={styles.contactItemLeft}>
+                    <div className={styles.iconCircle}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                      </svg>
                     </div>
+                    <div className={styles.contactItemMeta}>
+                      <span className={styles.itemLabel}>Call Us</span>
+                      <EditableField
+                        fieldPath="contact.phone"
+                        fieldLabel="Phone Number"
+                        value={contactContent?.phone || '+91 8106574159'}
+                      >
+                        <span className={styles.itemDisplay}>{contactContent?.phone || '+91 8106574159'}</span>
+                      </EditableField>
+                    </div>
+                  </div>
+                  <div className={styles.itemAction}>
+                    <span>Call Now</span>
+                    <span aria-hidden="true">→</span>
+                  </div>
+                </a>
 
-                    <div className={styles.itemAction}>
-                      <span>{item.actionText}</span>
-                      <span aria-hidden="true">→</span>
+                {/* 2. Email */}
+                <a
+                  href={`mailto:${contactContent?.email || 'contact@araneaden.com'}`}
+                  className={styles.contactItem}
+                  aria-label={`Email Us: ${contactContent?.email || 'contact@araneaden.com'}`}
+                >
+                  <div className={styles.contactItemLeft}>
+                    <div className={styles.iconCircle}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                      </svg>
                     </div>
-                  </a>
-                ))}
+                    <div className={styles.contactItemMeta}>
+                      <span className={styles.itemLabel}>Email Us</span>
+                      <EditableField
+                        fieldPath="contact.email"
+                        fieldLabel="Email Address"
+                        value={contactContent?.email || 'contact@araneaden.com'}
+                      >
+                        <span className={styles.itemDisplay}>{contactContent?.email || 'contact@araneaden.com'}</span>
+                      </EditableField>
+                    </div>
+                  </div>
+                  <div className={styles.itemAction}>
+                    <span>Send Email</span>
+                    <span aria-hidden="true">→</span>
+                  </div>
+                </a>
+
+                {/* 3. WhatsApp */}
+                <a
+                  href={`https://wa.me/${contactContent?.whatsappNumber?.replace(/\D/g, '') || '918106574159'}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.contactItem}
+                  aria-label="Chat on WhatsApp"
+                >
+                  <div className={styles.contactItemLeft}>
+                    <div className={styles.iconCircle}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.79 14.12c-.24.68-1.39 1.3-1.92 1.38-.49.07-1.12.1-3.23-.77-2.69-1.12-4.41-3.87-4.54-4.05-.14-.17-1.09-1.46-1.09-2.78 0-1.32.69-1.96.93-2.22.25-.26.54-.33.72-.33.18 0 .36 0 .52.01.17.01.39-.06.61.47.23.54.78 1.92.85 2.06.07.14.11.3.02.48-.09.18-.14.29-.28.46-.14.17-.3.37-.43.5-.14.14-.29.3-.13.58.17.28.74 1.22 1.58 1.98 1.09.97 2 1.27 2.29 1.41.28.14.45.12.62-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.64-.15.26.1 1.66.78 1.94.92.29.14.48.21.55.33.07.12.07.72-.17 1.4z" />
+                      </svg>
+                    </div>
+                    <div className={styles.contactItemMeta}>
+                      <span className={styles.itemLabel}>WhatsApp</span>
+                      <EditableField
+                        fieldPath="contact.whatsappNumber"
+                        fieldLabel="WhatsApp Number"
+                        value={contactContent?.whatsappNumber || '918106574159'}
+                      >
+                        <span className={styles.itemDisplay}>+{contactContent?.whatsappNumber || '918106574159'}</span>
+                      </EditableField>
+                    </div>
+                  </div>
+                  <div className={styles.itemAction}>
+                    <span>Start Chat</span>
+                    <span aria-hidden="true">→</span>
+                  </div>
+                </a>
+
+                {/* 4. Instagram */}
+                <a
+                  href="https://www.instagram.com/araneaden_"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.contactItem}
+                  aria-label="Instagram: @araneaden_"
+                >
+                  <div className={styles.contactItemLeft}>
+                    <div className={styles.iconCircle}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                      </svg>
+                    </div>
+                    <div className={styles.contactItemMeta}>
+                      <span className={styles.itemLabel}>Instagram</span>
+                      <span className={styles.itemDisplay}>@araneaden_</span>
+                    </div>
+                  </div>
+                  <div className={styles.itemAction}>
+                    <span>Follow Us</span>
+                    <span aria-hidden="true">→</span>
+                  </div>
+                </a>
+
+                {/* 5. LinkedIn */}
+                <a
+                  href="https://www.linkedin.com/company/araneaden"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.contactItem}
+                  aria-label="LinkedIn: Aranea Den"
+                >
+                  <div className={styles.contactItemLeft}>
+                    <div className={styles.iconCircle}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28Z" />
+                      </svg>
+                    </div>
+                    <div className={styles.contactItemMeta}>
+                      <span className={styles.itemLabel}>LinkedIn</span>
+                      <span className={styles.itemDisplay}>Aranea Den</span>
+                    </div>
+                  </div>
+                  <div className={styles.itemAction}>
+                    <span>Connect</span>
+                    <span aria-hidden="true">→</span>
+                  </div>
+                </a>
               </div>
             </aside>
           </div>

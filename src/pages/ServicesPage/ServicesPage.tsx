@@ -519,6 +519,55 @@ export const ServicesPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Admin Add Service Button */}
+          {canEdit && (
+            <div style={{ textAlign: 'center', margin: '2.5rem 0' }}>
+              <button
+                type="button"
+                className="cms-add-service-btn"
+                onClick={() => {
+                  const newId = `service-${Date.now()}`;
+                  addCollectionItem('services.items', {
+                    id: newId,
+                    number: String(servicesList.length + 1).padStart(2, '0'),
+                    title: 'NEW BESPOKE SERVICE',
+                    category: 'Digital Products',
+                    categorySlug: 'digital-products',
+                    badge: 'NEW CAPABILITY',
+                    description: 'High-impact solutions crafted for scale and speed.',
+                    detailedCopy: 'Tailored architectural engineering, modern UI/UX design, and dedicated deployment support.',
+                    deliverables: ['Custom Strategy', 'Full Production', 'Ongoing Support'],
+                    media: {
+                      type: 'image',
+                      url: '/services/ad-web-development.jpg',
+                      alt: 'New Service',
+                    },
+                    featured: false,
+                    actionLabel: 'BOOK SERVICE →',
+                    actionUrl: `/contact?service=${newId}`,
+                  });
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '1rem 2rem',
+                  background: '#df2531',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem',
+                  boxShadow: '0 4px 20px rgba(223, 37, 49, 0.4)',
+                }}
+              >
+                + ADD NEW SERVICE
+              </button>
+            </div>
+          )}
+
           {/* ── OPTION A: DEFAULT SPLIT VIEW (PACK-OF-CARDS STACKING) ── */}
           {viewMode === 'split' && (
             <div className={styles.splitDeckContainer}>
@@ -694,14 +743,27 @@ export const ServicesPage: React.FC = () => {
               <span className={styles.eyebrowText}>LET'S BUILD SOMETHING MEANINGFUL</span>
             </div>
 
-            <h2 id="cta-heading" className={styles.ctaHeading}>
-              HAVE A PROJECT?
-            </h2>
+            <EditableField
+              fieldPath="cta.line1"
+              fieldLabel="Services CTA Heading"
+              value={activeContent.home?.cta?.line1 || 'HAVE A PROJECT?'}
+            >
+              <h2 id="cta-heading" className={styles.ctaHeading}>
+                {activeContent.home?.cta?.line1 || 'HAVE A PROJECT?'}
+              </h2>
+            </EditableField>
 
-            <p className={styles.ctaSub}>
-              Tell us what you're building. We'll bring the strategy, creativity, and technology to
-              make it real.
-            </p>
+            <EditableField
+              fieldPath="cta.subtext"
+              fieldLabel="Services CTA Subtext"
+              value={activeContent.home?.cta?.subtext || "Tell us what you're building. We'll bring the strategy, creativity, and technology to make it real."}
+              isTextarea
+              isBlock
+            >
+              <p className={styles.ctaSub}>
+                {activeContent.home?.cta?.subtext || "Tell us what you're building. We'll bring the strategy, creativity, and technology to make it real."}
+              </p>
+            </EditableField>
 
             <div className={styles.ctaActions}>
               <Link to="/contact" className={styles.ctaPrimary}>

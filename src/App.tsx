@@ -21,8 +21,10 @@ import { TermsPage } from './pages/TermsPage';
 import { AdminApp } from './admin/AdminApp';
 import { CmsProvider } from './cms/CmsContext';
 import { AdminToolbar } from './cms/components/AdminToolbar/AdminToolbar';
+import { CmsFloatingTrigger } from './cms/components/AdminToolbar/CmsFloatingTrigger';
 import { PublishConfirmModal } from './cms/components/Modals/PublishConfirmModal';
 import { HistoryModal } from './cms/components/Modals/HistoryModal';
+import { CmsLoginModal } from './cms/components/Modals/CmsLoginModal';
 
 import './styles/globals.css';
 
@@ -163,8 +165,10 @@ const AppContent: React.FC = () => {
         />
       )}
 
-      {/* ── LIVE VISUAL CMS: TOP ADMIN TOOLBAR & MODALS ── */}
+      {/* ── LIVE VISUAL CMS: TOP ADMIN TOOLBAR, FLOATING TRIGGER & MODALS ── */}
       <AdminToolbar />
+      <CmsFloatingTrigger />
+      <CmsLoginModal />
       <PublishConfirmModal />
       <HistoryModal />
 

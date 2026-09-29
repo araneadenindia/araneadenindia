@@ -32,6 +32,8 @@ export const AdminApp: React.FC = () => {
 
   const handleLogin = (userData: AdminUser) => {
     setUser(userData);
+    localStorage.setItem('ad_admin_authenticated', 'true');
+    localStorage.setItem('ad_admin_edit_mode', 'true');
     sessionStorage.setItem('ad_admin_authenticated', 'true');
     if (userData.mustChangePassword) {
       navigate('/admin/change-password');
@@ -42,7 +44,10 @@ export const AdminApp: React.FC = () => {
   };
 
   const handlePasswordChanged = () => {
-    setUser((prev) => prev ? { ...prev, mustChangePassword: false } : null);
+    setUser((prev) => (prev ? { ...prev, mustChangePassword: false } : null));
+    localStorage.setItem('ad_admin_authenticated', 'true');
+    localStorage.setItem('ad_admin_edit_mode', 'true');
+    sessionStorage.setItem('ad_admin_authenticated', 'true');
     window.location.href = '/';
   };
 

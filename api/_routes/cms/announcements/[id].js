@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     const admin = await requireAuth(req);
     if (!admin) return sendJson(res, 401, { error: 'Not authenticated.' });
 
-    const { title, image_url, image_public_id, event_date, display_order, published } = req.body || {};
+    const { title, image_url, image_public_id, event_date, button_title, button_link, display_order, published } = req.body || {};
 
     await db.execute({
       sql: `UPDATE announcements
@@ -27,6 +27,8 @@ export default async function handler(req, res) {
                 image_url = ?,
                 image_public_id = ?,
                 event_date = ?,
+                button_title = ?,
+                button_link = ?,
                 display_order = COALESCE(?, display_order),
                 published = COALESCE(?, published),
                 updated_at = datetime('now')
@@ -36,6 +38,8 @@ export default async function handler(req, res) {
         image_url !== undefined ? image_url : null,
         image_public_id !== undefined ? image_public_id : null,
         event_date !== undefined ? event_date : null,
+        button_title !== undefined ? (button_title || null) : null,
+        button_link !== undefined ? (button_link || null) : null,
         display_order !== undefined ? Number(display_order) : null,
         published !== undefined ? (published ? 1 : 0) : null,
         id,

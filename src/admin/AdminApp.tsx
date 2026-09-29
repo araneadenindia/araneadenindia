@@ -2,7 +2,7 @@
 // The complete admin CMS app — rendered at /admin/* routes
 import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route, Navigate, NavLink, useNavigate } from 'react-router-dom';
-import { authApi, seedApi } from './api';
+import { authApi } from './api';
 import { AdminLogin } from './pages/AdminLogin';
 import { AdminChangePassword } from './pages/AdminChangePassword';
 import { WebsitesCMS } from './pages/WebsitesCMS';
@@ -23,34 +23,21 @@ export const AdminApp: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Auto-seed all existing data into the database in the background whenever admin is authenticated
-  const ensureDataSeeded = useCallback(async () => {
-    try {
-      await seedApi.seed();
-    } catch {
-      // Non-blocking: if seeding fails (e.g. already seeded or offline), silently continue
-    }
-  }, []);
-
   const checkSession = useCallback(async () => {
     try {
       const data = await authApi.me();
       setUser({ username: data.username, mustChangePassword: data.mustChangePassword });
-      // Automatically populate DB with all existing data on load
-      ensureDataSeeded();
     } catch {
       setUser(null);
     } finally {
       setLoading(false);
     }
-  }, [ensureDataSeeded]);
+  }, []);
 
   useEffect(() => { checkSession(); }, [checkSession]);
 
   const handleLogin = (userData: AdminUser) => {
     setUser(userData);
-    // Auto-seed immediately on login
-    ensureDataSeeded();
     if (userData.mustChangePassword) {
       navigate('/admin/change-password');
     } else {

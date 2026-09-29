@@ -19,17 +19,19 @@ export default async function handler(req, res) {
     const admin = await requireAuth(req);
     if (!admin) return sendJson(res, 401, { error: 'Not authenticated.' });
 
-    const { title, image_url, image_public_id, event_date, display_order, published } = req.body || {};
+    const { title, image_url, image_public_id, event_date, button_title, button_link, display_order, published } = req.body || {};
     if (!title) return sendJson(res, 400, { error: 'Title is required.' });
 
     const result = await db.execute({
-      sql: `INSERT INTO announcements (title, image_url, image_public_id, event_date, display_order, published)
-            VALUES (?, ?, ?, ?, ?, ?) RETURNING *`,
+      sql: `INSERT INTO announcements (title, image_url, image_public_id, event_date, button_title, button_link, display_order, published)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING *`,
       args: [
         title,
         image_url || null,
         image_public_id || null,
         event_date || null,
+        button_title || null,
+        button_link || null,
         Number(display_order) || 0,
         published ? 1 : 0,
       ],

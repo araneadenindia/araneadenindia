@@ -15,6 +15,8 @@ export const AnnouncementsCMS: React.FC = () => {
 
   const [title, setTitle] = useState('');
   const [eventDate, setEventDate] = useState('');
+  const [buttonTitle, setButtonTitle] = useState('');
+  const [buttonLink, setButtonLink] = useState('');
   const [displayOrder, setDisplayOrder] = useState(0);
   const [published, setPublished] = useState(true);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -56,6 +58,8 @@ export const AnnouncementsCMS: React.FC = () => {
     setEditing(null);
     setTitle('');
     setEventDate('');
+    setButtonTitle('Register Now');
+    setButtonLink('');
     setDisplayOrder(items.length + 1);
     setPublished(true);
     setImageFile(null);
@@ -68,6 +72,8 @@ export const AnnouncementsCMS: React.FC = () => {
     setEditing(item);
     setTitle(item.title);
     setEventDate(item.event_date || '');
+    setButtonTitle(item.button_title || '');
+    setButtonLink(item.button_link || '');
     setDisplayOrder(item.display_order);
     setPublished(Boolean(item.published));
     setImageFile(null);
@@ -113,6 +119,8 @@ export const AnnouncementsCMS: React.FC = () => {
       const payload = {
         title: title.trim(),
         event_date: eventDate.trim() || null,
+        button_title: buttonTitle.trim() || null,
+        button_link: buttonLink.trim() || null,
         display_order: displayOrder,
         published,
         image_url,
@@ -231,7 +239,13 @@ export const AnnouncementsCMS: React.FC = () => {
                     )}
                   </td>
                   <td>
-                    <strong>{item.title}</strong>
+                    <div style={{ fontWeight: 600 }}>{item.title}</div>
+                    {item.button_link && (
+                      <div style={{ marginTop: 4, display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#DF2531', background: 'rgba(223, 37, 49, 0.08)', padding: '2px 8px', borderRadius: 4 }}>
+                        <span style={{ fontWeight: 600 }}>🔗 {item.button_title || 'Register'}</span>
+                        <a href={item.button_link} target="_blank" rel="noopener noreferrer" style={{ color: '#888', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textDecoration: 'underline' }}>{item.button_link}</a>
+                      </div>
+                    )}
                   </td>
                   <td>
                     <span style={{ fontSize: 12.5, color: '#4B4C53' }}>{item.event_date || '—'}</span>
@@ -343,6 +357,32 @@ export const AnnouncementsCMS: React.FC = () => {
                       value={displayOrder}
                       onChange={(e) => setDisplayOrder(Number(e.target.value))}
                       min={0}
+                    />
+                  </div>
+                </div>
+
+                <div className={s.gridTwo}>
+                  <div className={s.fieldGroup}>
+                    <label className={s.label}>
+                      Action Button Label <span className={s.labelOptional}>(e.g. Register Now, Apply)</span>
+                    </label>
+                    <input
+                      className={s.input}
+                      value={buttonTitle}
+                      onChange={(e) => setButtonTitle(e.target.value)}
+                      placeholder="e.g. Register Now"
+                    />
+                  </div>
+
+                  <div className={s.fieldGroup}>
+                    <label className={s.label}>
+                      Action Button Link / URL <span className={s.labelOptional}>(e.g. Google Form, portal)</span>
+                    </label>
+                    <input
+                      className={s.input}
+                      value={buttonLink}
+                      onChange={(e) => setButtonLink(e.target.value)}
+                      placeholder="e.g. https://forms.gle/JSXfFGGESx6U2Mhr8"
                     />
                   </div>
                 </div>

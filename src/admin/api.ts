@@ -120,7 +120,8 @@ export const clientsApi = {
 
 export type CmsAnnouncement = {
   id: number; title: string; image_url: string | null; image_public_id: string | null;
-  event_date: string | null; display_order: number; published: number | boolean;
+  event_date: string | null; button_title: string | null; button_link: string | null;
+  display_order: number; published: number | boolean;
   created_at: string; updated_at: string;
 };
 

@@ -46,16 +46,17 @@ const CLIENTS = [
 ];
 
 const ANNOUNCEMENTS = [
-  { title: 'Sriyasjaan Creative Collaboration', image_url: '/portfolio-thumbs/sriyasjaan.jpg', event_date: '24 SEPTEMBER 2026', display_order: 1 },
-  { title: 'Aranea Code Nexus Hackathon', image_url: '/portfolio-thumbs/thor.jpg', event_date: '08 OCTOBER 2026', display_order: 2 },
-  { title: 'Systems Architecture & AI Masterclass', image_url: '/portfolio-thumbs/cornercraft.jpg', event_date: '16 OCTOBER 2026', display_order: 3 },
-  { title: 'AD Imperial Visuals Creative Suite', image_url: '/portfolio-thumbs/creators.jpg', event_date: '25 OCTOBER 2026', display_order: 4 },
-  { title: 'Hardware & Embedded Solutions Lab', image_url: '/portfolio-thumbs/viraj.jpg', event_date: '03 NOVEMBER 2026', display_order: 5 },
-  { title: 'Brand Identity Sprint — Q4', image_url: '/portfolio-thumbs/meghana.jpg', event_date: '12 NOVEMBER 2026', display_order: 6 },
-  { title: 'Premium Web Platform Intake', image_url: '/portfolio-thumbs/makaan.jpg', event_date: '21 NOVEMBER 2026', display_order: 7 },
-  { title: 'Growth Strategy Summit', image_url: '/portfolio-thumbs/nri360.jpg', event_date: '02 DECEMBER 2026', display_order: 8 },
-  { title: 'Mobile App Development Bootcamp', image_url: '/portfolio-thumbs/pooja.jpg', event_date: '11 DECEMBER 2026', display_order: 9 },
-  { title: 'Open UI/UX Design Critique', image_url: '/portfolio-thumbs/pandp.jpg', event_date: '19 DECEMBER 2026', display_order: 10 },
+  { title: 'District Youth Festival – 2026', image_url: '/announcements/district-youth-festival-2026.jpg', event_date: '29 SEPTEMBER 2026', button_title: 'Register Now', button_link: 'https://forms.gle/JSXfFGGESx6U2Mhr8', display_order: 1 },
+  { title: 'Sriyasjaan Creative Collaboration', image_url: '/portfolio-thumbs/sriyasjaan.jpg', event_date: '24 SEPTEMBER 2026', button_title: null, button_link: null, display_order: 2 },
+  { title: 'Aranea Code Nexus Hackathon', image_url: '/portfolio-thumbs/thor.jpg', event_date: '08 OCTOBER 2026', button_title: null, button_link: null, display_order: 3 },
+  { title: 'Systems Architecture & AI Masterclass', image_url: '/portfolio-thumbs/cornercraft.jpg', event_date: '16 OCTOBER 2026', button_title: null, button_link: null, display_order: 4 },
+  { title: 'AD Imperial Visuals Creative Suite', image_url: '/portfolio-thumbs/creators.jpg', event_date: '25 OCTOBER 2026', button_title: null, button_link: null, display_order: 5 },
+  { title: 'Hardware & Embedded Solutions Lab', image_url: '/portfolio-thumbs/viraj.jpg', event_date: '03 NOVEMBER 2026', button_title: null, button_link: null, display_order: 6 },
+  { title: 'Brand Identity Sprint — Q4', image_url: '/portfolio-thumbs/meghana.jpg', event_date: '12 NOVEMBER 2026', button_title: null, button_link: null, display_order: 7 },
+  { title: 'Premium Web Platform Intake', image_url: '/portfolio-thumbs/makaan.jpg', event_date: '21 NOVEMBER 2026', button_title: null, button_link: null, display_order: 8 },
+  { title: 'Growth Strategy Summit', image_url: '/portfolio-thumbs/nri360.jpg', event_date: '02 DECEMBER 2026', button_title: null, button_link: null, display_order: 9 },
+  { title: 'Mobile App Development Bootcamp', image_url: '/portfolio-thumbs/pooja.jpg', event_date: '11 DECEMBER 2026', button_title: null, button_link: null, display_order: 10 },
+  { title: 'Open UI/UX Design Critique', image_url: '/portfolio-thumbs/pandp.jpg', event_date: '19 DECEMBER 2026', button_title: null, button_link: null, display_order: 11 },
 ];
 
 export default async function handler(req, res) {
@@ -69,63 +70,78 @@ export default async function handler(req, res) {
 
   let inserted = { websites: 0, apps: 0, reels: 0, clients: 0, announcements: 0 };
 
-  // Seed Websites
+  // Seed Websites (only if not already existing)
   for (const w of WEBSITES) {
     try {
-      await db.execute({
-        sql: `INSERT INTO websites (title, live_url, thumbnail_url, description, display_order, published)
-              VALUES (?, ?, ?, ?, ?, 1)`,
-        args: [w.title, w.live_url, w.thumbnail_url, w.description, w.display_order],
-      });
-      inserted.websites++;
+      const exists = await db.execute({ sql: `SELECT id FROM websites WHERE title = ? LIMIT 1`, args: [w.title] });
+      if (!exists.rows.length) {
+        await db.execute({
+          sql: `INSERT INTO websites (title, live_url, thumbnail_url, description, display_order, published)
+                VALUES (?, ?, ?, ?, ?, 1)`,
+          args: [w.title, w.live_url, w.thumbnail_url, w.description, w.display_order],
+        });
+        inserted.websites++;
+      }
     } catch { /* skip duplicates */ }
   }
 
-  // Seed Apps
+  // Seed Apps (only if not already existing)
   for (const a of APPS) {
     try {
-      await db.execute({
-        sql: `INSERT INTO apps (name, client, platform, category, description, tags, thumbnail_url, url, year, status, display_order, published)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
-        args: [a.name, a.client, a.platform, a.category, a.description, a.tags, a.thumbnail_url, a.url || null, a.year, a.status, a.display_order],
-      });
-      inserted.apps++;
+      const exists = await db.execute({ sql: `SELECT id FROM apps WHERE name = ? LIMIT 1`, args: [a.name] });
+      if (!exists.rows.length) {
+        await db.execute({
+          sql: `INSERT INTO apps (name, client, platform, category, description, tags, thumbnail_url, url, year, status, display_order, published)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+          args: [a.name, a.client, a.platform, a.category, a.description, a.tags, a.thumbnail_url, a.url || null, a.year, a.status, a.display_order],
+        });
+        inserted.apps++;
+      }
     } catch { /* skip duplicates */ }
   }
 
-  // Seed Reels
+  // Seed Reels (only if not already existing)
   for (const r of REELS) {
     try {
-      await db.execute({
-        sql: `INSERT INTO reels (title, video_url, thumbnail_url, description, display_order, published)
-              VALUES (?, ?, ?, ?, ?, 1)`,
-        args: [r.title, r.video_url, r.thumbnail_url, r.description, r.display_order],
-      });
-      inserted.reels++;
+      const exists = await db.execute({ sql: `SELECT id FROM reels WHERE title = ? LIMIT 1`, args: [r.title] });
+      if (!exists.rows.length) {
+        await db.execute({
+          sql: `INSERT INTO reels (title, video_url, thumbnail_url, description, display_order, published)
+                VALUES (?, ?, ?, ?, ?, 1)`,
+          args: [r.title, r.video_url, r.thumbnail_url, r.description, r.display_order],
+        });
+        inserted.reels++;
+      }
     } catch { /* skip duplicates */ }
   }
 
-  // Seed Clients
+  // Seed Clients (only if not already existing)
   for (const c of CLIENTS) {
     try {
-      await db.execute({
-        sql: `INSERT INTO clients (name, logo_url, display_order, published)
-              VALUES (?, ?, ?, 1)`,
-        args: [c.name, c.logo_url, c.display_order],
-      });
-      inserted.clients++;
+      const exists = await db.execute({ sql: `SELECT id FROM clients WHERE name = ? LIMIT 1`, args: [c.name] });
+      if (!exists.rows.length) {
+        await db.execute({
+          sql: `INSERT INTO clients (name, logo_url, display_order, published)
+                VALUES (?, ?, ?, 1)`,
+          args: [c.name, c.logo_url, c.display_order],
+        });
+        inserted.clients++;
+      }
     } catch { /* skip duplicates */ }
   }
 
-  // Seed Announcements
+  // Seed Announcements (only if not already existing)
   for (const ann of ANNOUNCEMENTS) {
     try {
-      await db.execute({
-        sql: `INSERT INTO announcements (title, image_url, event_date, display_order, published)
-              VALUES (?, ?, ?, ?, 1)`,
-        args: [ann.title, ann.image_url, ann.event_date, ann.display_order],
-      });
-      inserted.announcements++;
+      const exists = await db.execute({ sql: `SELECT id FROM announcements WHERE title = ? LIMIT 1`, args: [ann.title] });
+      if (!exists.rows.length) {
+        await db.execute({
+          sql: `INSERT INTO announcements (title, image_url, event_date, button_title, button_link, display_order, published)
+                VALUES (?, ?, ?, ?, ?, ?, 1)`,
+          args: [ann.title, ann.image_url, ann.event_date, ann.button_title || null, ann.button_link || null, ann.display_order],
+        });
+        inserted.announcements++;
+      }
     } catch { /* skip duplicates */ }
   }
 

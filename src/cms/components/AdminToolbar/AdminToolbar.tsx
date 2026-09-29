@@ -1,5 +1,5 @@
 // src/cms/components/AdminToolbar/AdminToolbar.tsx
-// Fixed top red toolbar for Aranea Den Admin Edit Mode
+// Rigid top red section for Aranea Den Admin Edit Mode
 import React, { useEffect } from 'react';
 import { useCms } from '../../CmsContext';
 import styles from './AdminToolbar.module.css';
@@ -19,20 +19,26 @@ export const AdminToolbar: React.FC = () => {
     logout,
   } = useCms();
 
-  // Offset page body down by 42px while toolbar is visible so existing navbar sits seamlessly below
+  // Set --cms-admin-offset CSS variable on document root so fixed elements (like navbar) sit cleanly below
   useEffect(() => {
     if (isAdmin) {
-      document.body.style.paddingTop = '42px';
-      return () => {
-        document.body.style.paddingTop = '0px';
-      };
+      document.documentElement.style.setProperty('--cms-admin-offset', '44px');
+      document.body.classList.add('has-cms-admin-toolbar');
+    } else {
+      document.documentElement.style.setProperty('--cms-admin-offset', '0px');
+      document.body.classList.remove('has-cms-admin-toolbar');
     }
+
+    return () => {
+      document.documentElement.style.setProperty('--cms-admin-offset', '0px');
+      document.body.classList.remove('has-cms-admin-toolbar');
+    };
   }, [isAdmin]);
 
   if (!isAdmin) return null;
 
   return (
-    <aside className={styles.toolbar} aria-label="Admin Edit Mode Toolbar">
+    <section className={styles.toolbarSection} aria-label="CMS Admin Toolbar">
       <div className={styles.leftSection}>
         <div className={styles.brandBadge}>
           <span className={styles.brandDot} aria-hidden="true" />
@@ -115,6 +121,6 @@ export const AdminToolbar: React.FC = () => {
           <span>LOGOUT →</span>
         </button>
       </div>
-    </aside>
+    </section>
   );
 };

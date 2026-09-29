@@ -18,7 +18,7 @@
   border-top: 1px solid rgba(11, 11, 12, 0.08);
   position: relative;
   overflow: hidden;
-  padding: clamp(36px, 4.5vh, 52px) 0 24px 0;
+  padding: clamp(32px, 4vh, 48px) 0 28px 0;
   box-sizing: border-box;
 }
 
@@ -34,8 +34,8 @@
 .headerBlock {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: clamp(18px, 2.5vh, 28px);
+  gap: 14px;
+  margin-bottom: clamp(18px, 2.5vh, 30px);
 }
 
 .eyebrow {

@@ -164,7 +164,7 @@ const FEATURED_HACKATHONS: SelectedProject[] = [
     url: '/announcements',
     category: 'HACKATHON SPRINT & INCUBATION LAB',
     metaDescription:
-      'Flagship 36-hour national technology hackathon challenging 500+ elite engineers in algorithmic optimization, generative AI architectures, and decentralized protocol sprints.',
+      'Flagship 36-hour national technology hackathon challenging 500+ elite engineers in algorithmic optimization, robust system architectures, and decentralized protocol sprints.',
     tags: ['36hr Hackathon', '500+ Developers', 'Algorithmic Challenges', 'Incubation Lab'],
     thumbnail: '/services/13-hackathons-updates.jpg',
     actionLabel: 'VIEW HACKATHON BRIEF',
@@ -172,13 +172,13 @@ const FEATURED_HACKATHONS: SelectedProject[] = [
   {
     id: 'systems-architecture-masterclass',
     number: '02',
-    title: 'Systems Architecture & AI Masterclass Workshop',
+    title: 'Systems Architecture & Cloud Masterclass Workshop',
     domain: 'masterclass.araneaden.com',
     url: '/services/software-hardware-solutions',
     category: 'HANDS-ON TECHNICAL BOOTCAMP',
     metaDescription:
-      'Intensive hands-on technical workshop diving into production distributed systems, LLM agent orchestrations, high-frequency state management, and real-time edge deployments.',
-    tags: ['Hands-on Lab', 'LLM Pipeline', 'Distributed State', 'Edge Compute'],
+      'Intensive hands-on technical workshop diving into production distributed systems, microservice architectures, high-frequency state management, and real-time edge deployments.',
+    tags: ['Hands-on Lab', 'Cloud Systems', 'Distributed State', 'Edge Compute'],
     thumbnail: '/services/14-workshops-training.jpg',
     actionLabel: 'EXPLORE WORKSHOP CURRICULUM',
   },
@@ -544,15 +544,10 @@ export const SelectedWork: React.FC = () => {
                           />
                           <div className={styles.imageOverlay}>
                             <span className={styles.overlayPill}>
-                              <span>{project.actionLabel || 'VISIT LIVE PLATFORM'}</span>
-                              <span aria-hidden="true">↗</span>
+                              <span>{project.domain}</span>
+                              <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
                             </span>
                           </div>
-                        </div>
-                        <div className={styles.floatingDomainBadge}>
-                          <span className={styles.domainDot} aria-hidden="true" />
-                          <span className={styles.domainText}>{project.domain}</span>
-                          <span className={styles.domainArrow} aria-hidden="true">↗</span>
                         </div>
                       </a>
                     ) : (
@@ -570,22 +565,16 @@ export const SelectedWork: React.FC = () => {
                           />
                           <div className={styles.imageOverlay}>
                             <span className={styles.overlayPill}>
-                              <span>{project.actionLabel || 'EXPLORE ARCHITECTURE'}</span>
-                              <span aria-hidden="true">→</span>
+                              <span>{project.domain}</span>
+                              <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
                             </span>
                           </div>
-                        </div>
-                        <div className={styles.floatingDomainBadge}>
-                          <span className={styles.domainDot} aria-hidden="true" />
-                          <span className={styles.domainText}>{project.domain}</span>
-                          <span className={styles.domainArrow} aria-hidden="true">→</span>
                         </div>
                       </Link>
                     )}
 
                     <div className={styles.metaCol}>
                       <div className={styles.metaTop}>
-                        <span className={styles.projectIndex}>0{index + 1} // 0{currentProjects.length}</span>
                         <span className={styles.projectCategory}>{project.category}</span>
                       </div>
                       <h3 className={styles.projectTitle}>
@@ -600,21 +589,27 @@ export const SelectedWork: React.FC = () => {
                         )}
                       </h3>
                       <p className={styles.projectDescription}>{project.metaDescription}</p>
-                      <div className={styles.tagsRow}>
-                        {project.tags.map((tag) => (
-                          <span key={tag} className={styles.tagPill}>{tag}</span>
-                        ))}
-                      </div>
+
                       <div className={styles.actionRow}>
                         {isExternal ? (
-                          <a href={project.url} target="_blank" rel="noopener noreferrer" className={styles.visitLink}>
-                            <span>{project.actionLabel || 'VISIT LIVE PLATFORM'}</span>
-                            <span className={styles.arrowIcon} aria-hidden="true">↗</span>
+                          <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.visitRedBtn}
+                            aria-label={`Visit ${project.title}`}
+                          >
+                            <span>VISIT</span>
+                            <span className={styles.visitRedBtnArrow} aria-hidden="true">↗</span>
                           </a>
                         ) : (
-                          <Link to={project.url} className={styles.visitLink}>
-                            <span>{project.actionLabel || 'EXPLORE ARCHITECTURE'}</span>
-                            <span className={styles.arrowIcon} aria-hidden="true">→</span>
+                          <Link
+                            to={project.url}
+                            className={styles.visitRedBtn}
+                            aria-label={`Visit ${project.title}`}
+                          >
+                            <span>VISIT</span>
+                            <span className={styles.visitRedBtnArrow} aria-hidden="true">↗</span>
                           </Link>
                         )}
                       </div>

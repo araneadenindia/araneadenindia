@@ -190,16 +190,18 @@
   transform: scale(1.03);
 }
 
-/* Clean Hover Overlay */
+/* Clean Hover Overlay with Domain Name Capsule */
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(11, 11, 12, 0.45);
+  background: rgba(11, 11, 12, 0.52);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .visualFrame:hover .imageOverlay {
@@ -210,59 +212,32 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 24px;
-  background: #ffffff;
-  color: #0b0b0c;
+  padding: 10px 22px;
+  background: #FFFFFF;
+  color: #0B0B0C;
   font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
   border-radius: 999px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  transform: translateY(8px);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  transform: translateY(6px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .visualFrame:hover .overlayPill {
   transform: translateY(0);
 }
 
-/* Minimalist Floating Domain Capsule */
-.floatingDomainBadge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: rgba(11, 11, 12, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 3;
-  pointer-events: none;
+.overlayPillArrow {
+  font-size: 13px;
+  color: var(--color-crimson, #DF2531);
+  transition: transform 0.2s ease;
 }
 
-.domainDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-crimson, #df2531);
-}
-
-.domainText {
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  color: #ffffff;
-}
-
-.domainArrow {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
+.visualFrame:hover .overlayPillArrow {
+  transform: translate(2px, -2px);
 }
 
 /* Metadata Column */
@@ -274,28 +249,20 @@
 .metaTop {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 14px;
-}
-
-.projectIndex {
-  font-family: var(--font-mono, monospace);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  color: var(--color-crimson, #df2531);
+  margin-bottom: 12px;
 }
 
 .projectCategory {
   font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  letter-spacing: 1.5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-text-secondary, #424348);
+  color: var(--color-crimson, #DF2531);
 }
 
 .projectTitle {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   font-family: var(--font-sans, 'Exo', sans-serif);
   font-size: clamp(24px, 2.5vw, 36px);
   font-weight: 700;
@@ -310,7 +277,7 @@
 }
 
 .titleLink:hover {
-  color: var(--color-crimson, #df2531);
+  color: var(--color-crimson, #DF2531);
 }
 
 .projectDescription {
@@ -322,76 +289,50 @@
   max-width: 560px;
 }
 
-/* Tags Row */
-.tagsRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 28px;
-}
-
-.tagPill {
-  display: inline-block;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background-color: rgba(11, 11, 12, 0.05);
-  border: 1px solid rgba(11, 11, 12, 0.08);
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--color-text-secondary, #424348);
-}
-
-/* Action Row */
+/* Action Row with Solid Red Button */
 .actionRow {
   display: flex;
   align-items: center;
+  margin-top: 4px;
 }
 
-.visitLink {
+.visitRedBtn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  background-color: var(--color-crimson, #DF2531);
+  color: #FFFFFF !important;
   font-family: var(--font-mono, monospace);
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-black, #0B0B0C);
+  padding: 10px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--color-crimson, #DF2531);
+  box-shadow: 0 4px 14px rgba(223, 37, 49, 0.28);
   text-decoration: none;
-  position: relative;
-  padding-bottom: 4px;
-  transition: color 0.25s ease;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: fit-content;
 }
 
-.visitLink::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: var(--color-black, #0B0B0C);
-  transition: background-color 0.25s ease, transform 0.25s ease;
-  transform-origin: left;
+.visitRedBtn:hover {
+  background-color: #B51B25;
+  border-color: #B51B25;
+  box-shadow: 0 6px 20px rgba(223, 37, 49, 0.45);
+  transform: translateY(-2px);
+  color: #FFFFFF !important;
 }
 
-.visitLink:hover {
-  color: var(--color-crimson, #df2531);
-}
-
-.visitLink:hover::after {
-  background-color: var(--color-crimson, #df2531);
-}
-
-.arrowIcon {
-  font-size: 14px;
+.visitRedBtnArrow {
+  font-size: 13px;
   transition: transform 0.25s ease;
 }
 
-.visitLink:hover .arrowIcon {
-  transform: translate(3px, -3px);
+.visitRedBtn:hover .visitRedBtnArrow {
+  transform: translate(2px, -2px);
 }
 
 /* Archive CTA Wrap */

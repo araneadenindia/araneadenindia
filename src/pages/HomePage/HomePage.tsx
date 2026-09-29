@@ -5,7 +5,6 @@ import { AnnouncementsSection } from '../../components/AnnouncementsSection';
 import { AraneaSystem } from '../../components/AraneaSystem';
 import { StatementMarquee } from '../../components/StatementMarquee';
 import { SelectedWork } from '../../components/SelectedWork';
-import { TestimonialsSection } from '../../components/TestimonialsSection';
 import { TeamPreview } from '../../components/TeamPreview';
 import { ClienteleSection } from '../../components/ClienteleSection';
 import { FinalCTA } from '../../components/FinalCTA';
@@ -35,10 +34,7 @@ export const HomePage: React.FC<HomePageProps> = ({ isVisible }) => {
       {/* Scene 07: Editorial Case Study Previews (What We've Built) */}
       <SelectedWork />
 
-      {/* Scene 08.5: Editorial Auto-Scrolling Testimonials */}
-      <TestimonialsSection />
-
-      {/* Scene 08: Compact Editorial Team Preview */}
+      {/* Scene 08: Compact Editorial Team Preview (The Powerhouse) */}
       <TeamPreview />
 
       {/* Universal Clientele Section (Immediately before ENGAGEMENTS) */}

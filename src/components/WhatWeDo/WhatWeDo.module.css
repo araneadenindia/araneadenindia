@@ -85,12 +85,12 @@
   margin: 0;
 }
 
-/* ── Desktop Stage Grid: Left Nav (340px) | Right Card (1fr) ── */
+/* ── Desktop Stage Grid: Left Nav (370px) | Right Card (1fr) ── */
 .stageGrid {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: clamp(340px, 25vw, 380px) 1fr;
   align-items: center;
-  gap: clamp(36px, 4vw, 64px);
+  gap: clamp(32px, 3.5vw, 56px);
   flex: 1;
   position: relative;
   width: 100%;
@@ -100,14 +100,15 @@
 .navCol {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: center;
+  gap: clamp(2px, 0.4vh, 5px);
 }
 
 .navItem {
   position: relative;
   display: flex;
   align-items: center;
-  padding: 8px 0;
+  padding: clamp(6px, 0.8vh, 8px) 0;
   cursor: pointer;
   background: transparent;
   border: none;
@@ -147,11 +148,12 @@
 .navLinkContent {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex: 1;
   padding-left: 8px;
   transform: translateX(0);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 0;
 }
 
 .navItem.active .navLinkContent {
@@ -166,6 +168,7 @@
   letter-spacing: 0.08em;
   line-height: 1;
   opacity: 0.85;
+  flex-shrink: 0;
 }
 
 .navItem.active .navNumber {
@@ -174,12 +177,13 @@
 
 .navTitle {
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(14px, 1.15vw, 16.5px);
+  font-size: clamp(13px, 1.05vw, 15px);
   font-weight: 600;
   color: var(--color-black, #0B0B0C);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 /* ── Right Content Column ── */

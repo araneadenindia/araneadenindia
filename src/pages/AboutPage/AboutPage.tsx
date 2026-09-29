@@ -202,11 +202,19 @@ export const AboutPage: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.heroGrid}>
             <div className={styles.heroContent}>
+              {/* Breadcrumb Navigation matching Services, Portfolio, Contact */}
+              <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+                <Link to="/" className={styles.breadcrumbLink}>
+                  HOME
+                </Link>
+                <span className={styles.breadcrumbSep}>/</span>
+                <span className={styles.breadcrumbActive}>ABOUT</span>
+              </nav>
 
-
-              <div className={styles.eyebrow}>
-                <span className={styles.eyebrowMarker} />
-                <span className={styles.eyebrowText}>About US</span>
+              {/* Eyebrow with crimson square indicator */}
+              <div className={styles.heroEyebrow}>
+                <span className={styles.eyebrowDot} />
+                <span className={styles.eyebrowText}>WHO WE ARE</span>
               </div>
 
               <h1 id="hero-title" className={styles.heroHeading}>
@@ -220,6 +228,24 @@ export const AboutPage: React.FC = () => {
               <p className={styles.heroDescription}>
                 Born on 20th July 2025, Aranea Den unites strategy, aesthetics, and code into cohesive ecosystems. Every interaction is designed with intention; every platform engineered for performance.
               </p>
+
+              {/* Stats Counter Row matching Services page */}
+              <div className={styles.heroStats}>
+                <div className={styles.heroStat}>
+                  <span className={styles.statNum}>2025</span>
+                  <span className={styles.statLabel}>Founded</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <span className={styles.statNum}>15+</span>
+                  <span className={styles.statLabel}>Services</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <span className={styles.statNum}>1</span>
+                  <span className={styles.statLabel}>Ecosystem</span>
+                </div>
+              </div>
 
               <div className={styles.heroActionRow}>
                 <Link to="/contact" className={styles.primaryBtn}>

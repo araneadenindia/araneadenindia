@@ -28,10 +28,10 @@ export interface ServiceItem {
 }
 
 export const SERVICE_CATEGORIES: ServiceCategoryTab[] = [
-  { id: 'all', label: 'ALL SERVICES', count: 15 },
+  { id: 'all', label: 'ALL SERVICES', count: 16 },
   { id: 'digital-products', label: 'DIGITAL PRODUCTS', count: 3 },
   { id: 'digital-marketing', label: 'DIGITAL MARKETING', count: 4 },
-  { id: 'ad-imperial-visuals', label: 'AD IMPERIAL VISUALS', count: 5 },
+  { id: 'ad-imperial-visuals', label: 'AD IMPERIAL VISUALS', count: 6 },
   { id: 'technology-community', label: 'TECHNOLOGY & COMMUNITY', count: 3 },
 ];
 
@@ -370,5 +370,29 @@ export const ALL_SERVICES: ServiceItem[] = [
     image: '/services/14-workshops-training.jpg',
     actionLabel: 'EXPLORE SERVICE →',
     actionUrl: '/contact?service=workshops',
+  },
+
+  // ── 16: LIVE STREAMING & BROADCASTING ──
+  {
+    id: 'live-streaming-broadcasting',
+    number: '16',
+    title: 'LIVE STREAMING & BROADCASTING',
+    category: 'AD IMPERIAL VISUALS',
+    categorySlug: 'ad-imperial-visuals',
+    badge: 'STUDIO BROADCAST',
+    description: 'Studio-grade multi-camera live telecasts, hybrid summit streaming, ultra-low latency broadcasting, and real-time on-air telemetry engineered for global audiences.',
+    detailedCopy:
+      'We engineer and operate end-to-end multi-camera 4K broadcast infrastructures, satellite uplinks, and ultra-low latency RTMP/WebRTC streams for national business summits, sports tournaments, corporate keynotes, and musical concerts. Featuring custom on-screen telemetry, live lower-thirds graphics, real-time ISO recording, and multi-channel simulcasting across YouTube, LinkedIn, and private secure portals.',
+    deliverables: [
+      'Multi-Camera 4K Live Production & Switching',
+      'Ultra-Low Latency RTMP / WebRTC Simulcasts',
+      'Custom Real-Time On-Air Graphics & Lower-Thirds',
+      'Synchronized Multi-Track ISO Audio & Video Recording',
+      'Hybrid Summit Telepresence & Remote Keynote Uplinks',
+    ],
+    image: '/services/ad-live-streaming.jpg',
+    featured: true,
+    actionLabel: 'EXPLORE SERVICE →',
+    actionUrl: '/contact?service=live-streaming-broadcasting',
   },
 ];

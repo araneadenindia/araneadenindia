@@ -97,6 +97,15 @@ const SERVICES_DATA: ServiceChapter[] = [
       'Industrial IoT systems, smart connected hardware, embedded sensor telemetry, and ultra-low latency edge computing built for high reliability and scalable real-world deployment.',
     imageSrc: '/services/ad-iot-hardware.jpg',
   },
+  {
+    id: 'live-streaming',
+    number: '09',
+    slug: 'live-streaming-broadcasting',
+    name: 'LIVE STREAMING & BROADCASTING',
+    description:
+      'Studio-grade multi-camera live telecasts, hybrid summit streaming, ultra-low latency broadcasting, and real-time on-air telemetry engineered for global audiences.',
+    imageSrc: '/services/ad-live-streaming.jpg',
+  },
 ];
 
 /* ─────────────────────────────────────────
@@ -290,7 +299,7 @@ export const WhatWeDo: React.FC = () => {
         id: 'services-pin',
         trigger: wrapper,
         start: 'top top',
-        end: '+=120%',
+        end: '+=135%',
         pin: section,
         pinSpacing: true,
         anticipatePin: 1,
@@ -550,7 +559,7 @@ export const WhatWeDo: React.FC = () => {
                   >
                     <div className={styles.mobileCardHeader}>
                       <span className={styles.mobileCardNumber}>
-                        SERVICE {srv.number} / 08
+                        SERVICE {srv.number} / {SERVICES_DATA.length.toString().padStart(2, '0')}
                       </span>
                       <h3 className={styles.mobileCardTitle}>
                         {isVideoProd ? (

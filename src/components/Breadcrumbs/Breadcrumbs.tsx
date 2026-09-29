@@ -27,6 +27,9 @@ const ROUTE_LABELS: Record<string, string> = {
   'digital-marketing': 'DIGITAL MARKETING',
   'video-production': 'VIDEO PRODUCTION',
   'graphic-design': 'GRAPHIC DESIGN',
+  'live-streaming-broadcasting': 'LIVE STREAMING & BROADCASTING',
+  'software-hardware-solutions': 'SOFTWARE / HARDWARE SOLUTIONS',
+  'iot-hardware-solutions': 'IOT / HARDWARE SOLUTIONS',
   seo: 'SEO ARCHITECTURE',
   'cloud-solutions': 'CLOUD SOLUTIONS',
 };

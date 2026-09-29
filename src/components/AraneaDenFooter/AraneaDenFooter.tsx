@@ -133,6 +133,7 @@ export const AraneaDenFooter: React.FC = () => {
                 <li><Link to="/services/ui-ux-design" className={styles.navLink}>UI / UX Design</Link></li>
                 <li><Link to="/services/mobile-development" className={styles.navLink}>Mobile Applications</Link></li>
                 <li><Link to="/services/video-production" className={styles.navLink}>Video Production</Link></li>
+                <li><Link to="/services/live-streaming-broadcasting" className={styles.navLink}>Live Streaming & Broadcasting</Link></li>
                 <li><Link to="/services/cloud-solutions" className={styles.navLink}>Cloud Solutions</Link></li>
               </ul>
             </div>

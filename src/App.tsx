@@ -123,6 +123,9 @@ const AppContent: React.FC = () => {
           <Route path="/services/digital-marketing" element={<ServicesPage />} />
           <Route path="/services/video-production" element={<ServicesPage />} />
           <Route path="/services/graphic-design" element={<ServicesPage />} />
+          <Route path="/services/live-streaming-broadcasting" element={<ServicesPage />} />
+          <Route path="/services/software-hardware-solutions" element={<ServicesPage />} />
+          <Route path="/services/iot-hardware-solutions" element={<ServicesPage />} />
           <Route path="/services/seo" element={<ServicesPage />} />
           <Route path="/services/cloud-solutions" element={<ServicesPage />} />
           <Route path="/team" element={<TeamPage />} />

@@ -51,44 +51,81 @@
 
 /* ─────────────────────────────────────────
    01 — HERO SECTION
-   (Breadcrumbs removed; padding top calibrated for fixed navbar)
+   Consistent with Services, Portfolio, and Contact pages:
+     - Standardized Breadcrumbs (HOME / ABOUT)
+     - Eyebrow with crimson dot (WHO WE ARE)
+     - Mokoto / Exo typographic scale
+     - Studio Stats counter row (2025, 15+, 1)
+     - Native border-bottom & ambient glow
 ───────────────────────────────────────── */
 .heroSection {
   width: 100%;
-  padding-top: clamp(100px, 13vh, 136px);
-  padding-bottom: clamp(64px, 8vh, 104px);
+  padding-top: clamp(120px, 12vw, 150px);
+  padding-bottom: clamp(60px, 7vw, 96px);
   position: relative;
   background-color: var(--color-bg-primary, #F8F8F5);
+  border-bottom: 1px solid rgba(11, 11, 12, 0.08);
+  background:
+    radial-gradient(ellipse 60% 65% at 80% 50%, rgba(223, 37, 49, 0.045) 0%, transparent 100%),
+    linear-gradient(180deg, #F8F8F5 0%, #F1F1ED 100%);
   overflow: hidden;
 }
 
-.foundingBadge {
-  display: inline-flex;
+/* Breadcrumb Navigation */
+.breadcrumb {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
-  background: rgba(223, 37, 49, 0.08);
-  border: 1px solid rgba(223, 37, 49, 0.25);
-  border-radius: 999px;
-  margin-bottom: clamp(14px, 2vh, 20px);
-  width: fit-content;
-}
-
-.foundingBadgeDot {
-  width: 6px;
-  height: 6px;
-  background-color: var(--color-crimson, #df2531);
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(223, 37, 49, 0.8);
-}
-
-.foundingBadgeText {
+  margin-bottom: 20px;
   font-family: var(--font-mono, monospace);
   font-size: 11px;
-  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-crimson, #df2531);
+}
+
+.breadcrumbLink {
+  color: var(--color-text-secondary, #73747A);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #DF2531;
+}
+
+.breadcrumbSep {
+  color: rgba(11, 11, 12, 0.25);
+  user-select: none;
+}
+
+.breadcrumbActive {
+  color: #DF2531;
+  font-weight: 600;
+}
+
+/* Hero Eyebrow */
+.heroEyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 16px;
+}
+
+.eyebrowDot {
+  width: 7px;
+  height: 7px;
+  background: #DF2531;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary, #424348);
 }
 
 .heroGrid {
@@ -104,33 +141,69 @@
 }
 
 .heroHeading {
-  margin: 0 0 clamp(20px, 2.5vh, 28px);
+  margin: 0 0 clamp(18px, 2.2vh, 24px);
   font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(34px, 4.4vw, 64px);
+  font-size: clamp(34px, 4.2vw, 58px);
   font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  line-height: 1.06;
+  letter-spacing: -0.018em;
   text-transform: uppercase;
   color: var(--color-black, #0B0B0C);
 }
 
 .heroLead {
-  margin: 0 0 clamp(16px, 2vh, 22px);
+  margin: 0 0 clamp(14px, 1.8vh, 18px);
   font-family: 'Figtree', sans-serif;
-  font-size: clamp(17px, 1.4vw, 22px);
-  line-height: 1.5;
+  font-size: clamp(16.5px, 1.3vw, 20px);
+  line-height: 1.55;
   font-weight: 600;
   color: var(--color-black, #0B0B0C);
   max-width: 620px;
 }
 
 .heroDescription {
-  margin: 0 0 clamp(28px, 3.5vh, 40px);
+  margin: 0;
   font-family: 'Figtree', sans-serif;
-  font-size: clamp(14.5px, 1.1vw, 17px);
+  font-size: clamp(14.5px, 1.05vw, 16.5px);
   line-height: 1.68;
   color: var(--color-text-secondary, #424348);
   max-width: 580px;
+}
+
+/* Hero Stats Counter Row */
+.heroStats {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin: clamp(24px, 3vh, 32px) 0 clamp(28px, 3.5vh, 36px);
+}
+
+.heroStat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statNum {
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: clamp(24px, 2.2vw, 30px);
+  font-weight: 800;
+  color: #DF2531;
+  line-height: 1;
+}
+
+.statLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary, #73747A);
+}
+
+.heroStatDivider {
+  width: 1px;
+  height: 28px;
+  background-color: rgba(11, 11, 12, 0.12);
 }
 
 .heroActionRow {

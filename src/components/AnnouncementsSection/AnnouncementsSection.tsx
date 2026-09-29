@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { CmsAnnouncementItem } from '../../cms/types';
 import styles from './AnnouncementsSection.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -32,35 +35,42 @@ const FALLBACK_ANNOUNCEMENTS: AnnouncementItem[] = [
 ];
 
 export const AnnouncementsSection: React.FC = () => {
-  const [announcements, setAnnouncements] = useState<AnnouncementItem[]>(FALLBACK_ANNOUNCEMENTS);
+  const {
+    activeContent,
+    isAdmin,
+    isEditMode,
+    isPreviewMode,
+    addCollectionItem,
+    duplicateCollectionItem,
+    removeCollectionItem,
+  } = useCms();
+  const canEdit = isAdmin && isEditMode && !isPreviewMode;
 
-  // Fetch live announcements from CMS
-  useEffect(() => {
-    fetch('/api/cms/announcements')
-      .then((r) => r.json())
-      .then((data) => {
-        if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
-          const mapped: AnnouncementItem[] = data.data.map((item: {
-            id: number;
-            title: string;
-            image_url: string | null;
-            event_date: string | null;
-            button_title?: string | null;
-            button_link?: string | null;
-          }) => ({
-            id: String(item.id),
-            title: item.title,
-            image: item.image_url || '/portfolio-thumbs/sriyasjaan.jpg',
-            date: item.event_date || '',
-            button_title: item.button_title || 'Register Now',
-            button_link: item.button_link || SAMPLE_REG_LINK,
-          }));
-          setAnnouncements(mapped);
-        }
-        // If CMS has no published entries, keep fallback data
-      })
-      .catch(() => { /* silently keep fallback */ });
-  }, []);
+  const announcementsData = activeContent.home?.announcements || {
+    eyebrow: 'LATEST UPDATES',
+    title: 'ANNOUNCEMENTS',
+    items: [],
+  };
+
+  const rawItems = announcementsData.items && announcementsData.items.length > 0
+    ? announcementsData.items
+    : FALLBACK_ANNOUNCEMENTS.map((f) => ({
+        id: f.id,
+        title: f.title,
+        media: { type: 'image' as const, url: f.image, alt: f.title },
+        eventDate: f.date,
+        buttonTitle: f.button_title || 'Register Now',
+        buttonLink: f.button_link || SAMPLE_REG_LINK,
+      }));
+
+  const announcements: AnnouncementItem[] = rawItems.map((item) => ({
+    id: item.id,
+    title: item.title,
+    image: item.media?.url || '/announcements/district-youth-festival-2026.jpg',
+    date: item.eventDate,
+    button_title: item.buttonTitle || 'Register Now',
+    button_link: item.buttonLink || SAMPLE_REG_LINK,
+  }));
 
   const extendedSlides = useMemo(() => {
     if (announcements.length === 0) return [];
@@ -259,11 +269,23 @@ export const AnnouncementsSection: React.FC = () => {
             <div className={styles.headerLeft}>
               <div className={styles.eyebrow}>
                 <span className={styles.crimsonDot} aria-hidden="true" />
-                <span className={styles.eyebrowText}>LATEST UPDATES</span>
+                <EditableField
+                  fieldPath="home.announcements.eyebrow"
+                  fieldLabel="Announcements Eyebrow"
+                  value={announcementsData.eyebrow}
+                >
+                  <span className={styles.eyebrowText}>{announcementsData.eyebrow}</span>
+                </EditableField>
               </div>
-              <h2 className={styles.sectionTitle}>
-                ANNOUNCEMENTS
-              </h2>
+              <EditableField
+                fieldPath="home.announcements.title"
+                fieldLabel="Announcements Title"
+                value={announcementsData.title}
+              >
+                <h2 className={styles.sectionTitle}>
+                  {announcementsData.title}
+                </h2>
+              </EditableField>
             </div>
 
             <div className={styles.slideCounter} aria-live="polite">
@@ -370,6 +392,83 @@ export const AnnouncementsSection: React.FC = () => {
             </div>
             <span className={styles.slideDate}>{activeCurrentItem.date}</span>
           </div>
+
+          {canEdit && (
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '24px', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const count = rawItems.length + 1;
+                  const newAnn: CmsAnnouncementItem = {
+                    id: `ann-${Date.now()}`,
+                    title: `NEW ANNOUNCEMENT 0${count}`,
+                    eventDate: 'COMING SOON',
+                    buttonTitle: 'Register Now',
+                    buttonLink: 'https://forms.gle/JSXfFGGESx6U2Mhr8',
+                    media: {
+                      type: 'image',
+                      url: '/announcements/district-youth-festival-2026.jpg',
+                      alt: 'New Announcement Flyer',
+                    },
+                  };
+                  addCollectionItem('home.announcements.items', newAnn);
+                }}
+                style={{
+                  background: 'rgba(223, 37, 49, 0.1)',
+                  border: '1.5px dashed #DF2531',
+                  color: '#DF2531',
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  fontFamily: 'monospace',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                + ADD ANNOUNCEMENT
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  duplicateCollectionItem('home.announcements.items', activeRealIndex);
+                }}
+                style={{
+                  background: 'rgba(14, 14, 18, 0.9)',
+                  border: '1px solid rgba(223, 37, 49, 0.6)',
+                  color: '#FFFFFF',
+                  padding: '10px 18px',
+                  borderRadius: '8px',
+                  fontFamily: 'monospace',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                ⧉ DUPLICATE
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (window.confirm(`Delete announcement "${announcements[activeRealIndex]?.title}"?`)) {
+                    removeCollectionItem('home.announcements.items', activeRealIndex);
+                  }
+                }}
+                style={{
+                  background: 'rgba(14, 14, 18, 0.9)',
+                  border: '1px solid rgba(255, 68, 68, 0.6)',
+                  color: '#FF8888',
+                  padding: '10px 18px',
+                  borderRadius: '8px',
+                  fontFamily: 'monospace',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                🗑 REMOVE
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Right Red Arrow (Pure red chevron, no circle) */}

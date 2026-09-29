@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ClienteleSection } from '../../components/ClienteleSection';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
 import styles from './AboutPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -32,6 +35,9 @@ const ADVANTAGE_PILLARS: DifferencePillar[] = [
 ];
 
 export const AboutPage: React.FC = () => {
+  const { activeContent } = useCms();
+  const about = activeContent.about;
+
   const pageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const visionRef = useRef<HTMLElement>(null);
@@ -200,78 +206,97 @@ export const AboutPage: React.FC = () => {
     <div ref={pageRef} className={styles.aboutPage}>
       <section ref={heroRef} className={styles.heroSection} aria-labelledby="hero-title">
         <div className={styles.container}>
-          <div className={styles.heroGrid}>
-            <div className={styles.heroContent}>
-              {/* Breadcrumb Navigation matching Services, Portfolio, Contact */}
-              <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-                <Link to="/" className={styles.breadcrumbLink}>
-                  HOME
-                </Link>
-                <span className={styles.breadcrumbSep}>/</span>
-                <span className={styles.breadcrumbActive}>ABOUT</span>
-              </nav>
+          <div className={styles.heroContent}>
+            {/* Breadcrumb Navigation matching Services, Portfolio, Contact */}
+            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+              <Link to="/" className={styles.breadcrumbLink}>
+                HOME
+              </Link>
+              <span className={styles.breadcrumbSep}>/</span>
+              <span className={styles.breadcrumbActive}>ABOUT</span>
+            </nav>
 
-              {/* Eyebrow with crimson square indicator */}
-              <div className={styles.heroEyebrow}>
-                <span className={styles.eyebrowDot} />
-                <span className={styles.eyebrowText}>WHO WE ARE</span>
-              </div>
+            {/* Eyebrow with crimson square indicator */}
+            <div className={styles.heroEyebrow}>
+              <span className={styles.eyebrowDot} />
+              <EditableField
+                fieldPath="about.hero.eyebrow"
+                fieldLabel="Hero Eyebrow"
+                value={about.hero.eyebrow}
+              >
+                <span className={styles.eyebrowText}>{about.hero.eyebrow}</span>
+              </EditableField>
+            </div>
 
+            <EditableField
+              fieldPath="about.hero.heading"
+              fieldLabel="Hero Heading"
+              value={about.hero.heading}
+            >
               <h1 id="hero-title" className={styles.heroHeading}>
-                WE WEAVE DIGITAL EXPERIENCES.
+                {about.hero.heading}
               </h1>
+            </EditableField>
 
+            <EditableField
+              fieldPath="about.hero.lead"
+              fieldLabel="Hero Lead Description"
+              value={about.hero.lead}
+              isTextarea
+              isBlock
+            >
               <p className={styles.heroLead}>
-                We are an innovative creative and technology studio dedicated to crafting impactful digital solutions. We combine strategic thinking, refined design, and robust engineering to help businesses create enduring digital presence.
+                {about.hero.lead}
               </p>
+            </EditableField>
 
-              <p className={styles.heroDescription}>
-                Born on 20th July 2025, Aranea Den unites strategy, aesthetics, and code into cohesive ecosystems. Every interaction is designed with intention; every platform engineered for performance.
-              </p>
-
-              {/* Stats Counter Row matching Services page */}
-              <div className={styles.heroStats}>
-                <div className={styles.heroStat}>
-                  <span className={styles.statNum}>2025</span>
-                  <span className={styles.statLabel}>Founded</span>
-                </div>
-                <div className={styles.heroStatDivider} />
-                <div className={styles.heroStat}>
-                  <span className={styles.statNum}>15+</span>
-                  <span className={styles.statLabel}>Services</span>
-                </div>
-                <div className={styles.heroStatDivider} />
-                <div className={styles.heroStat}>
-                  <span className={styles.statNum}>1</span>
-                  <span className={styles.statLabel}>Ecosystem</span>
-                </div>
+            {/* Stats Counter Row */}
+            <div className={styles.heroStats}>
+              <div className={styles.heroStat}>
+                <EditableField
+                  fieldPath="about.hero.stats.founded"
+                  fieldLabel="Founded Year"
+                  value={about.hero.stats.founded}
+                >
+                  <span className={styles.statNum}>{about.hero.stats.founded}</span>
+                </EditableField>
+                <span className={styles.statLabel}>FOUNDED</span>
               </div>
-
-              <div className={styles.heroActionRow}>
-                <Link to="/contact" className={styles.primaryBtn}>
-                  START A PROJECT
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </Link>
-                <Link to="/portfolio" className={styles.secondaryBtn}>
-                  EXPLORE WORK
-                </Link>
+              <div className={styles.heroStatDivider} />
+              <div className={styles.heroStat}>
+                <EditableField
+                  fieldPath="about.hero.stats.services"
+                  fieldLabel="Services Count"
+                  value={about.hero.stats.services}
+                >
+                  <span className={styles.statNum}>{about.hero.stats.services}</span>
+                </EditableField>
+                <span className={styles.statLabel}>SERVICES</span>
+              </div>
+              <div className={styles.heroStatDivider} />
+              <div className={styles.heroStat}>
+                <EditableField
+                  fieldPath="about.hero.stats.ecosystem"
+                  fieldLabel="Ecosystem Count"
+                  value={about.hero.stats.ecosystem}
+                >
+                  <span className={styles.statNum}>{about.hero.stats.ecosystem}</span>
+                </EditableField>
+                <span className={styles.statLabel}>ECOSYSTEM</span>
               </div>
             </div>
 
-            <div className={styles.heroVisualStage}>
-              <div className={styles.heroVisualCard}>
-                <div className={styles.heroVisualCardGlow} />
-                <img
-                  src="/about/ad-spider-services.jpg"
-                  alt="Aranea Den — Creative Technology Studio Ecosystem"
-                  className={styles.heroEcosystemImg}
-                  loading="eager"
-                />
-                <div className={styles.heroVisualFrameBorder} aria-hidden="true" />
-              </div>
+            <div className={styles.heroActionRow}>
+              <Link to="/contact" className={styles.primaryBtn}>
+                START A PROJECT
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
+              <Link to="/portfolio" className={styles.secondaryBtn}>
+                EXPLORE WORK
+              </Link>
             </div>
           </div>
         </div>
@@ -307,11 +332,25 @@ export const AboutPage: React.FC = () => {
                   <span className={styles.storyTag}>OUR VISION</span>
                 </div>
 
-                <h3 className={styles.storyHeading}>THE WORLD WE ARE BUILDING</h3>
+                <EditableField
+                  fieldPath="about.vision.heading"
+                  fieldLabel="Vision Heading"
+                  value={about.vision.heading}
+                >
+                  <h3 className={styles.storyHeading}>{about.vision.heading}</h3>
+                </EditableField>
 
-                <p className={styles.storyParagraph}>
-                  To be recognized globally as a benchmark creative technology studio where imagination meets engineering rigor. We envision a digital landscape where brands do not simply broadcast messages, but build meaningful, enduring ecosystems that enrich user lives and accelerate business growth.
-                </p>
+                <EditableField
+                  fieldPath="about.vision.body"
+                  fieldLabel="Vision Description"
+                  value={about.vision.body}
+                  isTextarea
+                  isBlock
+                >
+                  <p className={styles.storyParagraph}>
+                    {about.vision.body}
+                  </p>
+                </EditableField>
 
                 <div className={styles.storyPointsList}>
                   <div className={styles.storyPointItem}>
@@ -333,11 +372,11 @@ export const AboutPage: React.FC = () => {
 
               <div className={styles.storyVisualCol}>
                 <div className={styles.cinematicStudioFrame}>
-                  <img
-                    src="/about/vision.jpg"
-                    alt="Aranea Den Vision — Ideas, Design, Technology, Content, Growth"
+                  <EditableMedia
+                    mediaPath="about.vision.media"
+                    media={about.vision.media || { type: 'image', url: '/about/vision.jpg' }}
+                    alt={about.vision.media?.alt || 'Aranea Den Vision — Ideas, Design, Technology, Content, Growth'}
                     className={styles.cinematicFrameImg}
-                    loading="lazy"
                   />
                   <div className={styles.frameBorderOverlay} aria-hidden="true" />
                 </div>
@@ -348,11 +387,11 @@ export const AboutPage: React.FC = () => {
             <div className={styles.visionStoryRow}>
               <div className={`${styles.storyVisualCol} ${styles.invertOnMobile}`}>
                 <div className={styles.cinematicStudioFrame}>
-                  <img
-                    src="/about/mission.jpg"
-                    alt="Aranea Den Mission — Idea, Design, Develop, Produce, Deliver"
+                  <EditableMedia
+                    mediaPath="about.mission.media"
+                    media={about.mission.media || { type: 'image', url: '/about/mission.jpg' }}
+                    alt={about.mission.media?.alt || 'Aranea Den Mission — Idea, Design, Develop, Produce, Deliver'}
                     className={styles.cinematicFrameImg}
-                    loading="lazy"
                   />
                   <div className={styles.frameBorderOverlay} aria-hidden="true" />
                 </div>
@@ -365,11 +404,25 @@ export const AboutPage: React.FC = () => {
                   <span className={styles.storyTag}>OUR MISSION</span>
                 </div>
 
-                <h3 className={styles.storyHeading}>WHAT WE DO EVERY DAY</h3>
+                <EditableField
+                  fieldPath="about.mission.heading"
+                  fieldLabel="Mission Heading"
+                  value={about.mission.heading}
+                >
+                  <h3 className={styles.storyHeading}>{about.mission.heading}</h3>
+                </EditableField>
 
-                <p className={styles.storyParagraph}>
-                  To empower visionary entrepreneurs, forward-thinking institutions, and emerging brands by designing and engineering superior digital products. We bridge the gap between aesthetic beauty and technical precision, delivering measurable competitive advantage with relentless craft.
-                </p>
+                <EditableField
+                  fieldPath="about.mission.body"
+                  fieldLabel="Mission Description"
+                  value={about.mission.body}
+                  isTextarea
+                  isBlock
+                >
+                  <p className={styles.storyParagraph}>
+                    {about.mission.body}
+                  </p>
+                </EditableField>
 
                 <div className={styles.storyPointsList}>
                   <div className={styles.storyPointItem}>

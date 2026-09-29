@@ -1,0 +1,124 @@
+/* src/cms/components/Modals/PublishConfirmModal.module.css */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(11, 11, 12, 0.82);
+  backdrop-filter: blur(10px);
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background-color: #121214;
+  border: 1px solid rgba(223, 37, 49, 0.35);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 24px rgba(223, 37, 49, 0.15);
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+.header {
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.closeBtn:hover {
+  color: #FFFFFF;
+}
+
+.body {
+  padding: 24px;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.warningBox {
+  background: rgba(223, 37, 49, 0.08);
+  border: 1px solid rgba(223, 37, 49, 0.25);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #FFC0C5;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer {
+  padding: 16px 24px 22px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.confirmBtn {
+  background: linear-gradient(180deg, #DF2531 0%, #B81622 100%);
+  border: 1px solid #DF2531;
+  color: #FFFFFF;
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(223, 37, 49, 0.35);
+  transition: all 0.2s ease;
+}
+
+.confirmBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(223, 37, 49, 0.5);
+}

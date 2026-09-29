@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
 import styles from './TestimonialsSection.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -9,7 +11,8 @@ interface TestimonialItem {
   id: string;
   quote: string;
   author: string;
-  company: string;
+  company?: string;
+  role?: string;
 }
 
 const TESTIMONIALS: TestimonialItem[] = [
@@ -64,11 +67,22 @@ const TESTIMONIALS: TestimonialItem[] = [
 ];
 
 export const TestimonialsSection: React.FC = () => {
+  const { activeContent } = useCms();
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
+  const testimonialsData = activeContent.home?.testimonials || {
+    eyebrow: 'TESTIMONIALS',
+    title: 'WHAT PARTNERS SAY ABOUT ARANEA DEN',
+    items: TESTIMONIALS,
+  };
+
+  const list = testimonialsData.items && testimonialsData.items.length > 0
+    ? testimonialsData.items
+    : TESTIMONIALS;
+
   // Duplicate list to achieve continuous, seamless -50% CSS looping
-  const duplicatedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
+  const duplicatedTestimonials = [...list, ...list];
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -116,7 +130,13 @@ export const TestimonialsSection: React.FC = () => {
         <div ref={headerRef} className={styles.header}>
           <div className={styles.eyebrow}>
             <span className={styles.marker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>TESTIMONIALS</span>
+            <EditableField
+              fieldPath="home.testimonials.eyebrow"
+              fieldLabel="Testimonials Eyebrow"
+              value={testimonialsData.eyebrow}
+            >
+              <span className={styles.eyebrowText}>{testimonialsData.eyebrow}</span>
+            </EditableField>
           </div>
         </div>
       </div>
@@ -130,7 +150,7 @@ export const TestimonialsSection: React.FC = () => {
               <footer className={styles.authorRow}>
                 <span className={styles.authorName}>{item.author}</span>
                 <span className={styles.authorDivider}>—</span>
-                <span className={styles.authorCompany}>{item.company}</span>
+                <span className={styles.authorCompany}>{item.company || item.role}</span>
               </footer>
             </article>
           ))}

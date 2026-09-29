@@ -3,12 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
-  ALL_SERVICES,
   SERVICE_CATEGORIES,
   ServiceCategory,
   ServiceItem,
 } from '../../data/servicesData';
 import { ClienteleSection } from '../../components/ClienteleSection';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
+import { CmsServiceItem } from '../../cms/types';
 import styles from './ServicesPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,12 +20,16 @@ type ViewMode = 'split' | 'grid';
 
 /* ─── Stacked Split Card (Deck-of-Cards Scroll Experience) ─── */
 interface SplitCardProps {
-  service: ServiceItem;
+  service: CmsServiceItem | ServiceItem;
   index: number;
+  originalIndex: number;
   total?: number;
 }
 
-const SplitCard: React.FC<SplitCardProps> = ({ service, index }) => {
+const SplitCard: React.FC<SplitCardProps> = ({ service, index, originalIndex }) => {
+  const { isAdmin, isEditMode, isPreviewMode, duplicateCollectionItem, removeCollectionItem } = useCms();
+  const canEdit = isAdmin && isEditMode && !isPreviewMode;
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -83,6 +90,8 @@ const SplitCard: React.FC<SplitCardProps> = ({ service, index }) => {
     };
   }, [service.id]);
 
+  const serviceMedia = (service as any).media || { type: 'image', url: (service as any).image };
+
   return (
     <div
       ref={wrapperRef}
@@ -94,25 +103,69 @@ const SplitCard: React.FC<SplitCardProps> = ({ service, index }) => {
         id={service.id}
         className={styles.splitCard}
         aria-labelledby={`sc-title-${service.id}`}
+        style={{ position: 'relative' }}
       >
+        {canEdit && originalIndex >= 0 && (
+          <div className={styles.cardAdminBar}>
+            <button
+              type="button"
+              className={styles.adminBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                duplicateCollectionItem('services.items', originalIndex);
+              }}
+              title="Duplicate this service card"
+            >
+              ⧉ DUPLICATE
+            </button>
+            <button
+              type="button"
+              className={`${styles.adminBtn} ${styles.adminDeleteBtn}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (window.confirm(`Delete service "${service.title}"?`)) {
+                  removeCollectionItem('services.items', originalIndex);
+                }
+              }}
+              title="Remove this service card"
+            >
+              🗑 REMOVE
+            </button>
+          </div>
+        )}
+
         {/* LEFT PANEL — CONTENT */}
         <div className={styles.splitContent}>
           {/* Service Title */}
-          <h3 id={`sc-title-${service.id}`} className={styles.scTitle}>
-            {service.title}
-          </h3>
+          <EditableField
+            fieldPath={`services.items.${originalIndex}.title`}
+            fieldLabel="Service Title"
+            value={service.title}
+          >
+            <h3 id={`sc-title-${service.id}`} className={styles.scTitle}>
+              {service.title}
+            </h3>
+          </EditableField>
 
           {/* Description */}
-          <p className={styles.scDescription}>{service.detailedCopy || service.description}</p>
+          <EditableField
+            fieldPath={`services.items.${originalIndex}.detailedCopy`}
+            fieldLabel="Service Description"
+            value={service.detailedCopy || service.description}
+            isTextarea
+            isBlock
+          >
+            <p className={styles.scDescription}>{service.detailedCopy || service.description}</p>
+          </EditableField>
 
           {/* Action Row: Red BOOK SERVICE button */}
           <div className={styles.scActionRow}>
             <Link
-              to={`/contact?service=${service.id}`}
+              to={service.actionUrl || `/contact?service=${service.id}`}
               className={styles.bookServiceRedBtn}
               aria-label={`Book service ${service.title}`}
             >
-              <span>BOOK SERVICE</span>
+              <span>{service.actionLabel || 'BOOK SERVICE'}</span>
               <span className={styles.bookServiceArrow} aria-hidden="true">→</span>
             </Link>
           </div>
@@ -120,12 +173,11 @@ const SplitCard: React.FC<SplitCardProps> = ({ service, index }) => {
 
         {/* RIGHT PANEL — VISUAL */}
         <div className={styles.splitMedia}>
-          <img
-            ref={imageRef}
-            src={service.image}
+          <EditableMedia
+            mediaPath={`services.items.${originalIndex}.media`}
+            media={serviceMedia}
             alt={`${service.title} — Aranea Den`}
             className={styles.splitImage}
-            loading={index < 2 ? 'eager' : 'lazy'}
           />
           <div className={styles.splitMediaOverlay} />
 
@@ -154,6 +206,9 @@ export const ServicesPage: React.FC = () => {
   const ctaRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
+  const { activeContent, isAdmin, isEditMode, isPreviewMode, addCollectionItem, duplicateCollectionItem, removeCollectionItem } = useCms();
+  const canEdit = isAdmin && isEditMode && !isPreviewMode;
+
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>('all');
   const [viewMode, setViewMode] = useState<ViewMode>('split');
 
@@ -171,41 +226,13 @@ export const ServicesPage: React.FC = () => {
     }
   }, [location.pathname]);
 
-  const [servicesList, setServicesList] = useState<ServiceItem[]>(ALL_SERVICES);
-
-  useEffect(() => {
-    fetch('/api/cms/services')
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
-          const mapped: ServiceItem[] = res.data.map((s: any, idx: number) => ({
-            id: s.slug || s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-            number: String(ALL_SERVICES.length + idx + 1).padStart(2, '0'),
-            title: s.name.toUpperCase(),
-            category: s.category || 'DIGITAL PRODUCTS',
-            categorySlug: (s.categorySlug || 'digital-products') as any,
-            description: s.description || '',
-            detailedCopy: s.description || '',
-            deliverables: [],
-            image: s.thumbnail_url || '/services/01-web-development.jpg',
-            featured: true,
-            actionLabel: 'BOOK SERVICE →',
-            actionUrl: `/contact?service=${s.slug || s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-          }));
-          setServicesList((prev) => {
-            const existingIds = new Set(prev.map((item) => item.id));
-            const newOnes = mapped.filter((item) => !existingIds.has(item.id));
-            return [...prev, ...newOnes];
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const servicesList: CmsServiceItem[] = activeContent.services?.items || [];
 
   const displayedServices = useMemo(() => {
     if (activeCategory === 'all') return servicesList;
     return servicesList.filter((s) => s.categorySlug === activeCategory);
   }, [activeCategory, servicesList]);
+
 
   // Page title & scroll restoration
   useEffect(() => {
@@ -313,21 +340,31 @@ export const ServicesPage: React.FC = () => {
     <div ref={pageRef} className={styles.page}>
       {/* ── 01: HERO SECTION ── */}
       <section ref={heroRef} className={styles.hero} aria-labelledby="services-page-heading">
-        {/* Geometric Spider Web Architectural Svg */}
-        <svg className={styles.heroWeb} viewBox="0 0 700 700" fill="none" aria-hidden="true">
-          <circle cx="350" cy="350" r="310" stroke="#DF2531" strokeWidth="1.1" strokeDasharray="8 6" opacity="0.45" />
-          <circle cx="350" cy="350" r="235" stroke="#0B0B0C" strokeWidth="0.8" opacity="0.3" />
-          <circle cx="350" cy="350" r="160" stroke="#DF2531" strokeWidth="0.8" opacity="0.35" />
-          <circle cx="350" cy="350" r="88" stroke="#0B0B0C" strokeWidth="0.9" opacity="0.22" />
-          <circle cx="350" cy="350" r="32" stroke="#DF2531" strokeWidth="1.4" opacity="0.55" />
-          <line x1="40" y1="350" x2="660" y2="350" stroke="#0B0B0C" strokeWidth="0.6" opacity="0.25" />
-          <line x1="350" y1="40" x2="350" y2="660" stroke="#0B0B0C" strokeWidth="0.6" opacity="0.25" />
-          <line x1="130" y1="130" x2="570" y2="570" stroke="#DF2531" strokeWidth="0.6" opacity="0.3" />
-          <line x1="130" y1="570" x2="570" y2="130" stroke="#DF2531" strokeWidth="0.6" opacity="0.3" />
-          <line x1="350" y1="40" x2="660" y2="570" stroke="#0B0B0C" strokeWidth="0.4" opacity="0.15" />
-          <line x1="350" y1="40" x2="40" y2="570" stroke="#0B0B0C" strokeWidth="0.4" opacity="0.15" />
-          <circle cx="350" cy="350" r="5" fill="#DF2531" opacity="0.85" />
-        </svg>
+        {/* Subtle geometric radar web graphic matching reference */}
+        <div className={styles.heroRadarGraphic} aria-hidden="true">
+          <svg viewBox="0 0 500 500" className={styles.radarSvg} fill="none">
+            <circle cx="250" cy="250" r="45" stroke="rgba(223, 37, 49, 0.45)" strokeWidth="1" />
+            <circle cx="250" cy="250" r="105" stroke="rgba(11, 11, 12, 0.12)" strokeWidth="1" />
+            <circle cx="250" cy="250" r="175" stroke="#DF2531" strokeWidth="1" strokeDasharray="4 6" opacity="0.5" />
+            <circle cx="250" cy="250" r="235" stroke="rgba(11, 11, 12, 0.08)" strokeWidth="1" />
+            
+            <line x1="250" y1="15" x2="250" y2="485" stroke="rgba(11, 11, 12, 0.12)" strokeWidth="1" />
+            <line x1="15" y1="250" x2="485" y2="250" stroke="rgba(11, 11, 12, 0.12)" strokeWidth="1" />
+            <line x1="84" y1="84" x2="416" y2="416" stroke="rgba(223, 37, 49, 0.2)" strokeWidth="1" strokeDasharray="3 3" />
+            <line x1="416" y1="84" x2="84" y2="416" stroke="rgba(11, 11, 12, 0.1)" strokeWidth="1" />
+
+            <circle cx="250" cy="250" r="12" stroke="#DF2531" strokeWidth="1" opacity="0.4" />
+            <circle cx="250" cy="250" r="4.5" fill="#DF2531" />
+
+            {/* Subtle spider marker at top */}
+            <g transform="translate(242, 58) scale(0.65)">
+              <path
+                d="M12 2C10.9 2 10 2.9 10 4c0 .4.1.8.3 1.1L8.5 6.9C7.8 6.4 7 6 6 6c-2.2 0-4 1.8-4 4 0 1.2.5 2.3 1.4 3l-1.3 2.7C1.5 16.9 2.2 18 3.3 18c.8 0 1.5-.5 1.8-1.2l1.2-2.5c.5.4 1.1.7 1.7.7.3 0 .7 0 1-.1v2.1c-.6.3-1 .9-1 1.6 0 1.1.9 2 2 2s2-.9 2-2c0-.7-.4-1.3-1-1.6v-2.1c.3.1.7.1 1 .1.6 0 1.2-.3 1.7-.7l1.2 2.5c.3.7 1 1.2 1.8 1.2 1.1 0 1.8-1.1 1.2-2.3l-1.3-2.7c.9-.7 1.4-1.8 1.4-3 0-2.2-1.8-4-4-4-1 0-1.8.4-2.5.9L13.7 5.1C13.9 4.8 14 4.4 14 4c0-1.1-.9-2-2-2z"
+                fill="#DF2531"
+              />
+            </g>
+          </svg>
+        </div>
 
         <div className={styles.container}>
           <div className={styles.heroContainer}>
@@ -343,35 +380,84 @@ export const ServicesPage: React.FC = () => {
             {/* Eyebrow */}
             <div data-hero-el className={styles.heroEyebrow}>
               <span className={styles.eyebrowDot} />
-              <span className={styles.eyebrowText}>COMPREHENSIVE CAPABILITIES</span>
+              <EditableField
+                fieldPath="services.hero.eyebrow"
+                fieldLabel="Hero Eyebrow"
+                value={activeContent.services?.hero?.eyebrow || 'COMPREHENSIVE CAPABILITIES'}
+              >
+                <span className={styles.eyebrowText}>
+                  {activeContent.services?.hero?.eyebrow || 'COMPREHENSIVE CAPABILITIES'}
+                </span>
+              </EditableField>
             </div>
 
             {/* Heading */}
-            <h1 data-hero-el id="services-page-heading" className={styles.heroHeading}>
-              WHAT WE DO
-            </h1>
+            <EditableField
+              fieldPath="services.hero.heading"
+              fieldLabel="Hero Heading"
+              value={activeContent.services?.hero?.heading || 'WHAT WE DO'}
+            >
+              <h1 data-hero-el id="services-page-heading" className={styles.heroHeading}>
+                {activeContent.services?.hero?.heading || 'WHAT WE DO'}
+              </h1>
+            </EditableField>
 
             {/* Subtitle */}
-            <p data-hero-el className={styles.heroSub}>
-              From digital products and brand experiences to content, campaigns, and emerging
-              technology — we connect every discipline to help businesses move forward.
-            </p>
+            <EditableField
+              fieldPath="services.hero.lead"
+              fieldLabel="Hero Lead Description"
+              value={
+                activeContent.services?.hero?.lead ||
+                'From digital products and brand experiences to content, campaigns, and emerging technology — we connect every discipline to help businesses move forward.'
+              }
+              isTextarea
+              isBlock
+            >
+              <p data-hero-el className={styles.heroSub}>
+                {activeContent.services?.hero?.lead ||
+                  'From digital products and brand experiences to content, campaigns, and emerging technology — we connect every discipline to help businesses move forward.'}
+              </p>
+            </EditableField>
 
             {/* Stats Counter */}
             <div data-hero-el className={styles.heroStats}>
               <div className={styles.heroStat}>
-                <span className={styles.statNum}>15</span>
-                <span className={styles.statLabel}>Services</span>
+                <EditableField
+                  fieldPath="services.hero.stats.servicesCount"
+                  fieldLabel="Services Count"
+                  value={activeContent.services?.hero?.stats?.servicesCount || '15'}
+                >
+                  <span className={styles.statNum}>
+                    {activeContent.services?.hero?.stats?.servicesCount || '15'}
+                  </span>
+                </EditableField>
+                <span className={styles.statLabel}>SERVICES</span>
               </div>
               <div className={styles.heroStatDivider} />
               <div className={styles.heroStat}>
-                <span className={styles.statNum}>4</span>
-                <span className={styles.statLabel}>Disciplines</span>
+                <EditableField
+                  fieldPath="services.hero.stats.disciplinesCount"
+                  fieldLabel="Disciplines Count"
+                  value={activeContent.services?.hero?.stats?.disciplinesCount || '4'}
+                >
+                  <span className={styles.statNum}>
+                    {activeContent.services?.hero?.stats?.disciplinesCount || '4'}
+                  </span>
+                </EditableField>
+                <span className={styles.statLabel}>DISCIPLINES</span>
               </div>
               <div className={styles.heroStatDivider} />
               <div className={styles.heroStat}>
-                <span className={styles.statNum}>1</span>
-                <span className={styles.statLabel}>Studio</span>
+                <EditableField
+                  fieldPath="services.hero.stats.studioCount"
+                  fieldLabel="Studio Count"
+                  value={activeContent.services?.hero?.stats?.studioCount || '1'}
+                >
+                  <span className={styles.statNum}>
+                    {activeContent.services?.hero?.stats?.studioCount || '1'}
+                  </span>
+                </EditableField>
+                <span className={styles.statLabel}>STUDIO</span>
               </div>
             </div>
           </div>
@@ -436,71 +522,160 @@ export const ServicesPage: React.FC = () => {
           {/* ── OPTION A: DEFAULT SPLIT VIEW (PACK-OF-CARDS STACKING) ── */}
           {viewMode === 'split' && (
             <div className={styles.splitDeckContainer}>
-              {displayedServices.map((service, idx) => (
-                <SplitCard
-                  key={`${service.id}-${activeCategory}`}
-                  service={service}
-                  index={idx}
-                  total={displayedServices.length}
-                />
-              ))}
+              {displayedServices.map((service, idx) => {
+                const originalIndex = servicesList.findIndex((s) => s.id === service.id);
+                return (
+                  <SplitCard
+                    key={`${service.id}-${activeCategory}`}
+                    service={service}
+                    index={idx}
+                    originalIndex={originalIndex}
+                    total={displayedServices.length}
+                  />
+                );
+              })}
             </div>
           )}
 
           {/* ── OPTION B: GRID VIEW (ALTERNATIVE VIEW) ── */}
           {viewMode === 'grid' && (
             <div ref={gridRef} className={styles.gridList}>
-              {displayedServices.map((service) => (
-                <article
-                  key={service.id}
-                  id={`g-${service.id}`}
-                  className={styles.gridCard}
-                  aria-labelledby={`gc-title-${service.id}`}
-                >
-                  <div className={styles.gcMedia}>
-                    <img
-                      src={service.image}
-                      alt={`${service.title} — Aranea Den`}
-                      className={styles.gcImage}
-                      loading="lazy"
-                    />
-                    <div className={styles.gcOverlay} />
-                    {service.badge && (
-                      <span
-                        className={`${styles.gcBadge} ${
-                          service.id === 'ad-imperial-visuals' || service.badge === 'FLAGSHIP DISCIPLINE'
-                            ? styles.badgeCrimson
-                            : ''
-                        }`}
-                      >
-                        {service.badge}
-                      </span>
-                    )}
-                  </div>
+              {displayedServices.map((service) => {
+                const originalIndex = servicesList.findIndex((s) => s.id === service.id);
+                const serviceMedia = (service as any).media || { type: 'image', url: (service as any).image };
 
-                  <div className={styles.gcBody}>
-                    <div className={styles.gcMeta}>
-                      <span className={styles.gcIndex}>{service.number}</span>
-                      <span className={styles.gcCat}>{service.category}</span>
+                return (
+                  <article
+                    key={service.id}
+                    id={`g-${service.id}`}
+                    className={styles.gridCard}
+                    aria-labelledby={`gc-title-${service.id}`}
+                    style={{ position: 'relative' }}
+                  >
+                    {canEdit && originalIndex >= 0 && (
+                      <div className={styles.cardAdminBar}>
+                        <button
+                          type="button"
+                          className={styles.adminBtn}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            duplicateCollectionItem('services.items', originalIndex);
+                          }}
+                          title="Duplicate this service"
+                        >
+                          ⧉
+                        </button>
+                        <button
+                          type="button"
+                          className={`${styles.adminBtn} ${styles.adminDeleteBtn}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (window.confirm(`Delete service "${service.title}"?`)) {
+                              removeCollectionItem('services.items', originalIndex);
+                            }
+                          }}
+                          title="Remove this service"
+                        >
+                          🗑
+                        </button>
+                      </div>
+                    )}
+
+                    <div className={styles.gcMedia}>
+                      <EditableMedia
+                        mediaPath={`services.items.${originalIndex}.media`}
+                        media={serviceMedia}
+                        alt={`${service.title} — Aranea Den`}
+                        className={styles.gcImage}
+                      />
+                      <div className={styles.gcOverlay} />
+                      {service.badge && (
+                        <span
+                          className={`${styles.gcBadge} ${
+                            service.id === 'ad-imperial-visuals' || service.badge === 'FLAGSHIP DISCIPLINE'
+                              ? styles.badgeCrimson
+                              : ''
+                          }`}
+                        >
+                          {service.badge}
+                        </span>
+                      )}
                     </div>
 
-                    <h3 id={`gc-title-${service.id}`} className={styles.gcTitle}>
-                      {service.title}
-                    </h3>
+                    <div className={styles.gcBody}>
+                      <div className={styles.gcMeta}>
+                        <span className={styles.gcIndex}>{service.number}</span>
+                        <span className={styles.gcCat}>{service.category}</span>
+                      </div>
 
-                    <p className={styles.gcDesc}>{service.description}</p>
+                      <EditableField
+                        fieldPath={`services.items.${originalIndex}.title`}
+                        fieldLabel="Service Title"
+                        value={service.title}
+                      >
+                        <h3 id={`gc-title-${service.id}`} className={styles.gcTitle}>
+                          {service.title}
+                        </h3>
+                      </EditableField>
 
-                    <Link
-                      to={service.actionUrl || `/contact?service=${service.id}`}
-                      className={styles.gcCta}
-                      aria-label={`Book service ${service.title}`}
-                    >
-                      <span>BOOK SERVICE</span>
-                      <span className={styles.gcArrow} aria-hidden="true">→</span>
-                    </Link>
-                  </div>
-                </article>
-              ))}
+                      <EditableField
+                        fieldPath={`services.items.${originalIndex}.description`}
+                        fieldLabel="Service Description"
+                        value={service.description}
+                        isTextarea
+                        isBlock
+                      >
+                        <p className={styles.gcDesc}>{service.description}</p>
+                      </EditableField>
+
+                      <Link
+                        to={service.actionUrl || `/contact?service=${service.id}`}
+                        className={styles.gcCta}
+                        aria-label={`Book service ${service.title}`}
+                      >
+                        <span>{service.actionLabel || 'BOOK SERVICE'}</span>
+                        <span className={styles.gcArrow} aria-hidden="true">→</span>
+                      </Link>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Admin Add Service Button */}
+          {canEdit && (
+            <div className={styles.addServiceBar}>
+              <button
+                type="button"
+                className={styles.addServiceBtn}
+                onClick={() => {
+                  const count = servicesList.length + 1;
+                  const newService: CmsServiceItem = {
+                    id: `service-${Date.now()}`,
+                    number: String(count).padStart(2, '0'),
+                    title: 'NEW DISCIPLINE / SERVICE',
+                    category: 'DIGITAL PRODUCTS',
+                    categorySlug: 'digital-products',
+                    badge: 'NEW',
+                    description: 'Enter service description here.',
+                    detailedCopy: 'Provide thorough details on this discipline, engineering standards, and business outcomes.',
+                    deliverables: ['Custom Strategy', 'Full Implementation', 'Ongoing Optimization'],
+                    media: {
+                      type: 'image',
+                      url: '/services/01-web-development.jpg',
+                      alt: 'New Service Visual',
+                    },
+                    featured: true,
+                    actionLabel: 'BOOK SERVICE →',
+                    actionUrl: '/contact',
+                  };
+                  addCollectionItem('services.items', newService);
+                }}
+              >
+                <span>+</span>
+                <span>ADD NEW SERVICE DISCIPLINE</span>
+              </button>
             </div>
           )}
         </div>

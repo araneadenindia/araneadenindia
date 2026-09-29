@@ -1,0 +1,178 @@
+/* src/cms/components/EditableField/EditableField.module.css */
+
+.editableWrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  transition: outline 0.15s ease;
+}
+
+.blockWrapper {
+  display: block;
+  width: 100%;
+}
+
+.editMode {
+  cursor: pointer;
+}
+
+.editMode:hover {
+  outline: 1.5px dashed rgba(223, 37, 49, 0.75);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+.editBadge {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  background-color: #DF2531;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.editMode:hover .editBadge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modal styles for editing field */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(11, 11, 12, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 210000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modalCard {
+  background-color: #121214;
+  border: 1px solid rgba(223, 37, 49, 0.35);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+.modalHeader {
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modalTitle {
+  margin: 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  color: #FFFFFF;
+}
+
+.modalBody {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #FFFFFF;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  border-color: #DF2531;
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.modalFooter {
+  padding: 14px 22px 18px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.saveBtn {
+  background-color: #DF2531;
+  border: 1px solid #DF2531;
+  color: #FFFFFF;
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}

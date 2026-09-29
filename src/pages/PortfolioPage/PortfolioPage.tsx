@@ -10,6 +10,10 @@ import {
 } from '../../data/portfolioData';
 import { ARANEA_REELS, AraneaReel } from '../../data/reelsData';
 import { ClienteleSection } from '../../components/ClienteleSection';
+import { useCms } from '../../cms/CmsContext';
+import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
+import { CmsPortfolioWebsite, CmsAppItem, CmsReelItem } from '../../cms/types';
 import styles from './PortfolioPage.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -280,93 +284,36 @@ export const PortfolioPage: React.FC = () => {
   const pageRef = useRef<HTMLDivElement>(null);
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
 
-  const [websites, setWebsites] = useState<WebsiteProject[]>(WEBSITE_PROJECTS);
-  const [apps, setApps] = useState<AppProject[]>(APP_PROJECTS);
-  const [reels, setReels] = useState<AraneaReel[]>(ARANEA_REELS);
+  const {
+    activeContent,
+    isAdmin,
+    isEditMode,
+    isPreviewMode,
+    addCollectionItem,
+    duplicateCollectionItem,
+    removeCollectionItem,
+  } = useCms();
+  const canEdit = isAdmin && isEditMode && !isPreviewMode;
+
+  const portfolioHero = activeContent.portfolio?.hero || {
+    breadcrumb: 'PORTFOLIO',
+    eyebrow: 'OUR WORK',
+    heading: 'A COLLECTION OF DIGITAL EXPERIENCES.',
+    lead: 'Websites, applications, and visual stories crafted by Aranea Den.',
+  };
+
+  const websites: (CmsPortfolioWebsite | WebsiteProject)[] =
+    activeContent.portfolio?.websites || WEBSITE_PROJECTS;
+  const apps: (CmsAppItem | AppProject)[] =
+    activeContent.portfolio?.apps || APP_PROJECTS;
+  const reels: (CmsReelItem | AraneaReel)[] =
+    activeContent.portfolio?.reels || ARANEA_REELS;
 
   useEffect(() => {
     document.title = 'PORTFOLIO — ARANEA DEN | Selected Work & Client Archive';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
   }, []);
 
-  useEffect(() => {
-    fetch('/api/cms/websites')
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
-          const mapped: WebsiteProject[] = res.data.map((w: any, index: number) => ({
-            id: String(w.id),
-            number: String(WEBSITE_PROJECTS.length + index + 1).padStart(2, '0'),
-            title: w.title,
-            client: w.title,
-            category: 'DIGITAL EXPERIENCE',
-            description: w.description || '',
-            tags: ['Website', 'Live Production'],
-            thumbnail: w.thumbnail_url || '/portfolio-thumbs/meghana.jpg',
-            url: w.live_url || '#',
-            year: '2026',
-          }));
-          setWebsites((prev) => {
-            const existingIds = new Set(prev.map((p) => p.id));
-            const newOnes = mapped.filter((p) => !existingIds.has(p.id));
-            return [...prev, ...newOnes];
-          });
-        }
-      })
-      .catch(() => {});
-
-    fetch('/api/cms/apps')
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
-          const mapped: AppProject[] = res.data.map((a: any, index: number) => ({
-            id: String(a.id),
-            number: String(APP_PROJECTS.length + index + 1).padStart(2, '0'),
-            name: a.name,
-            client: a.client || 'Aranea Den',
-            platform: a.platform || 'iOS / Android',
-            category: a.category || 'Mobile Application',
-            description: a.description || '',
-            tags: a.tags ? a.tags.split(',').map((t: string) => t.trim()) : ['React Native', 'Mobile App'],
-            thumbnail: a.thumbnail_url || '/services/ad-mobile-development.jpg',
-            url: a.url || '/services/mobile-development',
-            year: a.year || '2026',
-            status: a.status || 'Production',
-          }));
-          setApps((prev) => {
-            const existingIds = new Set(prev.map((p) => p.id));
-            const newOnes = mapped.filter((p) => !existingIds.has(p.id));
-            return [...prev, ...newOnes];
-          });
-        }
-      })
-      .catch(() => {});
-
-    fetch('/api/cms/reels')
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
-          const mapped: AraneaReel[] = res.data.map((r: any) => ({
-            id: String(r.id),
-            title: r.title,
-            client: r.title,
-            caption: r.description || '',
-            thumbnail: r.thumbnail_url || '/reels/reel_05.jpg',
-            videoSrc: r.video_url || '/reels-videos/startup-potluck.mp4',
-            instagramUrl: 'https://www.instagram.com/araneaden_/',
-            aspectRatio: '9:16',
-            likes: 'HD Reel',
-            tag: 'AD IMPERIAL VISUALS',
-          }));
-          setReels((prev) => {
-            const existingIds = new Set(prev.map((p) => p.id));
-            const newOnes = mapped.filter((p) => !existingIds.has(p.id));
-            return [...prev, ...newOnes];
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   // Close modal with Escape key
   useEffect(() => {
@@ -452,67 +399,100 @@ export const PortfolioPage: React.FC = () => {
     <div ref={pageRef} className={styles.portfolioPage}>
       {/* ─────────────────────────────────────────────────────────────
           01 — EDITORIAL HERO SECTION
-          Left (Typography) + Right (Clean Horizontal Filter Options)
+          Standardized with /about and /services:
+          Breadcrumb + Eyebrow + Heading Accent + Filter Pills + 3D Visual Art
           ───────────────────────────────────────────────────────────── */}
       <section className={styles.heroSection}>
         <div className={styles.container}>
-          <div className={styles.heroGrid}>
-            {/* Left Column: Typography */}
-            <div className={styles.heroLeftCol}>
-              <span className={styles.eyebrow}>OUR WORK</span>
-              <h1 className={styles.heroTitle}>
-                A COLLECTION OF DIGITAL EXPERIENCES.
-              </h1>
-              <p className={styles.heroSupportingText}>
-                Websites, applications, and visual stories crafted by Aranea Den.
-              </p>
+          <div className={styles.heroContent}>
+            {/* Breadcrumb Navigation matching Services and About */}
+            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+              <Link to="/" className={styles.breadcrumbLink}>
+                HOME
+              </Link>
+              <span className={styles.breadcrumbSep}>/</span>
+              <span className={styles.breadcrumbActive}>PORTFOLIO</span>
+            </nav>
+
+            {/* Eyebrow */}
+            <div className={styles.heroEyebrow}>
+              <span className={styles.eyebrowDot} />
+              <EditableField
+                fieldPath="portfolio.hero.eyebrow"
+                fieldLabel="Portfolio Eyebrow"
+                value={portfolioHero.eyebrow}
+              >
+                <span className={styles.eyebrowText}>{portfolioHero.eyebrow}</span>
+              </EditableField>
             </div>
 
-            {/* Right Column: Clean Text-Based Category Filters */}
-            <div className={styles.heroRightCol}>
-              <nav className={styles.filterNav} role="tablist" aria-label="Project categories">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeCategory === 'websites'}
-                  className={`${styles.filterBtn} ${
-                    activeCategory === 'websites' ? styles.filterBtnActive : ''
-                  }`}
-                  onClick={() =>
-                    setActiveCategory((prev) => (prev === 'websites' ? 'all' : 'websites'))
-                  }
-                >
-                  Websites
-                </button>
+            <EditableField
+              fieldPath="portfolio.hero.heading"
+              fieldLabel="Portfolio Heading"
+              value={portfolioHero.heading}
+            >
+              <h1 className={styles.heroTitle}>
+                {portfolioHero.heading}
+              </h1>
+            </EditableField>
 
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeCategory === 'apps'}
-                  className={`${styles.filterBtn} ${
-                    activeCategory === 'apps' ? styles.filterBtnActive : ''
-                  }`}
-                  onClick={() =>
-                    setActiveCategory((prev) => (prev === 'apps' ? 'all' : 'apps'))
-                  }
-                >
-                  Apps
-                </button>
+            <EditableField
+              fieldPath="portfolio.hero.lead"
+              fieldLabel="Portfolio Description"
+              value={portfolioHero.lead}
+              isTextarea
+              isBlock
+            >
+              <p className={styles.heroSupportingText}>
+                {portfolioHero.lead}
+              </p>
+            </EditableField>
 
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeCategory === 'reels'}
-                  className={`${styles.filterBtn} ${
-                    activeCategory === 'reels' ? styles.filterBtnActive : ''
-                  }`}
-                  onClick={() =>
-                    setActiveCategory((prev) => (prev === 'reels' ? 'all' : 'reels'))
-                  }
-                >
-                  Ad Imperial Visuals
-                </button>
-              </nav>
+            {/* Clean Pill Filter Tabs matching mockup */}
+            <div className={styles.heroFilterRow} role="tablist" aria-label="Project categories">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === 'all'}
+                className={`${styles.filterPill} ${activeCategory === 'all' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('all')}
+              >
+                <span>ALL WORK</span>
+                <span className={styles.filterPillBadge}>{websites.length + apps.length + reels.length}</span>
+              </button>
+
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === 'websites'}
+                className={`${styles.filterPill} ${activeCategory === 'websites' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('websites')}
+              >
+                <span>WEBSITES</span>
+                <span className={styles.filterPillBadge}>{websites.length}</span>
+              </button>
+
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === 'apps'}
+                className={`${styles.filterPill} ${activeCategory === 'apps' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('apps')}
+              >
+                <span>APPS</span>
+                <span className={styles.filterPillBadge}>{apps.length}</span>
+              </button>
+
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === 'reels'}
+                className={`${styles.filterPill} ${activeCategory === 'reels' ? styles.filterPillActive : ''}`}
+                onClick={() => setActiveCategory('reels')}
+              >
+                <span>AD IMPERIAL VISUALS</span>
+                <span className={styles.filterPillBadge}>{reels.length}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -542,85 +522,216 @@ export const PortfolioPage: React.FC = () => {
               {viewMode === 'grid' ? (
                 /* ── GRID VIEW (Landscape 16:9) ── */
                 <div className={styles.websitesGrid}>
-                  {websites.map((project: WebsiteProject) => (
-                    <a
-                      key={project.id}
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.websiteCard}
-                      aria-label={`Visit live site: ${project.title}`}
-                    >
-                      <div className={styles.websiteThumbnailFrame}>
-                        <img
-                          src={project.thumbnail}
-                          alt={`${project.title} live interface preview`}
-                          className={styles.websiteImg}
-                          loading="lazy"
-                        />
-                        <div className={styles.websiteOverlayGlow} aria-hidden="true" />
-                      </div>
+                  {websites.map((project: any, idx: number) => {
+                    const originalIndex = activeContent.portfolio?.websites?.findIndex((w) => w.id === project.id) ?? idx;
+                    const projectMedia = project.media || { type: 'image', url: project.thumbnail };
 
-                      <div className={styles.websiteMeta}>
-                        <span className={styles.websiteCategoryTag}>{project.category}</span>
-                        <h3 className={styles.websiteTitle}>{project.title}</h3>
-                        <span className={styles.websiteActionLink}>
-                          <span>VIEW PROJECT</span>
-                          <span className={styles.websiteActionArrow} aria-hidden="true">
-                            →
-                          </span>
-                        </span>
+                    return (
+                      <div
+                        key={project.id || idx}
+                        className={styles.websiteCard}
+                        style={{ position: 'relative' }}
+                      >
+                        {canEdit && originalIndex >= 0 && (
+                          <div className={styles.cardAdminBar}>
+                            <button
+                              type="button"
+                              className={styles.adminBtn}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                duplicateCollectionItem('portfolio.websites', originalIndex);
+                              }}
+                              title="Duplicate website project"
+                            >
+                              ⧉ DUPLICATE
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.adminBtn} ${styles.adminDeleteBtn}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                if (window.confirm(`Delete website "${project.title}"?`)) {
+                                  removeCollectionItem('portfolio.websites', originalIndex);
+                                }
+                              }}
+                              title="Remove website project"
+                            >
+                              🗑 REMOVE
+                            </button>
+                          </div>
+                        )}
+
+                        <div className={styles.websiteThumbnailFrame}>
+                          <EditableMedia
+                            mediaPath={`portfolio.websites.${originalIndex}.media`}
+                            media={projectMedia}
+                            alt={`${project.title} live interface preview`}
+                            className={styles.websiteImg}
+                          />
+                          <div className={styles.websiteOverlayGlow} aria-hidden="true" />
+                        </div>
+
+                        <div className={styles.websiteMeta}>
+                          <span className={styles.websiteCategoryTag}>{project.category}</span>
+                          <EditableField
+                            fieldPath={`portfolio.websites.${originalIndex}.title`}
+                            fieldLabel="Project Title"
+                            value={project.title}
+                          >
+                            <h3 className={styles.websiteTitle}>{project.title}</h3>
+                          </EditableField>
+                          <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.websiteActionLink}
+                            aria-label={`Visit live site: ${project.title}`}
+                          >
+                            <span>VIEW PROJECT</span>
+                            <span className={styles.websiteActionArrow} aria-hidden="true">
+                              →
+                            </span>
+                          </a>
+                        </div>
                       </div>
-                    </a>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 /* ── EDITORIAL VIEW (Horizontal Card Layout) ── */
                 <div className={styles.websitesEditorialList}>
-                  {websites.map((project: WebsiteProject) => (
-                    <a
-                      key={project.id}
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.websiteEditorialCard}
-                      aria-label={`Visit live site: ${project.title}`}
-                    >
-                      <div className={styles.websiteEditorialMedia}>
-                        <img
-                          src={project.thumbnail}
-                          alt={`${project.title} screenshot`}
-                          className={styles.websiteImg}
-                          loading="lazy"
-                        />
-                      </div>
+                  {websites.map((project: any, idx: number) => {
+                    const originalIndex = activeContent.portfolio?.websites?.findIndex((w) => w.id === project.id) ?? idx;
+                    const projectMedia = project.media || { type: 'image', url: project.thumbnail };
 
-                      <div className={styles.websiteEditorialContent}>
-                        <div className={styles.websiteEditorialTop}>
-                          <span className={styles.editorialIndex}>{project.number} // {project.year}</span>
-                          <span className={styles.websiteCategoryTag}>{project.category}</span>
+                    return (
+                      <div
+                        key={project.id || idx}
+                        className={styles.websiteEditorialCard}
+                        style={{ position: 'relative' }}
+                      >
+                        {canEdit && originalIndex >= 0 && (
+                          <div className={styles.cardAdminBar}>
+                            <button
+                              type="button"
+                              className={styles.adminBtn}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                duplicateCollectionItem('portfolio.websites', originalIndex);
+                              }}
+                            >
+                              ⧉ DUPLICATE
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.adminBtn} ${styles.adminDeleteBtn}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                if (window.confirm(`Delete website "${project.title}"?`)) {
+                                  removeCollectionItem('portfolio.websites', originalIndex);
+                                }
+                              }}
+                            >
+                              🗑 REMOVE
+                            </button>
+                          </div>
+                        )}
+
+                        <div className={styles.websiteEditorialMedia}>
+                          <EditableMedia
+                            mediaPath={`portfolio.websites.${originalIndex}.media`}
+                            media={projectMedia}
+                            alt={`${project.title} screenshot`}
+                            className={styles.websiteImg}
+                          />
                         </div>
 
-                        <h3 className={styles.websiteTitle}>{project.title}</h3>
-                        <p className={styles.editorialDescription}>{project.description}</p>
+                        <div className={styles.websiteEditorialContent}>
+                          <div className={styles.websiteEditorialTop}>
+                            <span className={styles.editorialIndex}>{project.number} // {project.year}</span>
+                            <span className={styles.websiteCategoryTag}>{project.category}</span>
+                          </div>
 
-                        <div className={styles.tagsRow}>
-                          {project.tags.map((tag) => (
-                            <span key={tag} className={styles.tagPill}>
-                              {tag}
+                          <EditableField
+                            fieldPath={`portfolio.websites.${originalIndex}.title`}
+                            fieldLabel="Project Title"
+                            value={project.title}
+                          >
+                            <h3 className={styles.websiteTitle}>{project.title}</h3>
+                          </EditableField>
+
+                          <EditableField
+                            fieldPath={`portfolio.websites.${originalIndex}.metaDescription`}
+                            fieldLabel="Description"
+                            value={project.metaDescription || project.description || ''}
+                            isTextarea
+                            isBlock
+                          >
+                            <p className={styles.editorialDescription}>{project.metaDescription || project.description}</p>
+                          </EditableField>
+
+                          <div className={styles.tagsRow}>
+                            {project.tags?.map((tag: string) => (
+                              <span key={tag} className={styles.tagPill}>
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+
+                          <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.websiteActionLink}
+                            aria-label={`Visit live site: ${project.title}`}
+                          >
+                            <span>VIEW PROJECT</span>
+                            <span className={styles.websiteActionArrow} aria-hidden="true">
+                              →
                             </span>
-                          ))}
+                          </a>
                         </div>
-
-                        <span className={styles.websiteActionLink}>
-                          <span>VIEW PROJECT</span>
-                          <span className={styles.websiteActionArrow} aria-hidden="true">
-                            →
-                          </span>
-                        </span>
                       </div>
-                    </a>
-                  ))}
+                    );
+                  })}
+                </div>
+              )}
+
+              {canEdit && (
+                <div className={styles.addProjectBar}>
+                  <button
+                    type="button"
+                    className={styles.addProjectBtn}
+                    onClick={() => {
+                      const count = websites.length + 1;
+                      const newWebsite: CmsPortfolioWebsite = {
+                        id: `web-${Date.now()}`,
+                        number: String(count).padStart(2, '0'),
+                        title: 'NEW DIGITAL PLATFORM',
+                        domain: 'platform.araneaden.com',
+                        url: 'https://araneaden.com',
+                        category: 'DIGITAL EXPERIENCE',
+                        filterCategory: 'creative',
+                        metaDescription: 'Engineered high-performance web architecture.',
+                        tags: ['React', 'Full-Stack', 'Interactive'],
+                        media: {
+                          type: 'image',
+                          url: '/portfolio-thumbs/meghana.jpg',
+                          alt: 'New Platform Preview',
+                        },
+                        year: '2026',
+                        featuredOnHome: true,
+                      };
+                      addCollectionItem('portfolio.websites', newWebsite);
+                    }}
+                  >
+                    <span>+</span>
+                    <span>ADD NEW WEBSITE PROJECT</span>
+                  </button>
                 </div>
               )}
             </div>
@@ -652,34 +763,67 @@ export const PortfolioPage: React.FC = () => {
               {viewMode === 'grid' ? (
                 /* ── GRID VIEW (Portrait 9:16 Subtle Mobile Mockup) ── */
                 <div className={styles.appsGrid}>
-                  {apps.map((app: AppProject) => {
-                    const isExternal = app.url?.startsWith('http');
-                    const CardElement = isExternal ? 'a' : Link;
-                    const linkProps = isExternal
-                      ? { href: app.url, target: '_blank', rel: 'noopener noreferrer' }
-                      : { to: app.url || '/services/mobile-development' };
+                  {apps.map((app: any, idx: number) => {
+                    const originalIndex = activeContent.portfolio?.apps?.findIndex((a) => a.id === app.id) ?? idx;
+                    const appMedia = app.media || { type: 'image', url: app.thumbnail };
 
                     return (
-                      <CardElement
-                        key={app.id}
-                        {...(linkProps as any)}
+                      <div
+                        key={app.id || idx}
                         className={styles.appCard}
-                        aria-label={`View app project: ${app.name}`}
+                        style={{ position: 'relative' }}
                       >
+                        {canEdit && originalIndex >= 0 && (
+                          <div className={styles.cardAdminBar}>
+                            <button
+                              type="button"
+                              className={styles.adminBtn}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                duplicateCollectionItem('portfolio.apps', originalIndex);
+                              }}
+                              title="Duplicate app"
+                            >
+                              ⧉ DUPLICATE
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.adminBtn} ${styles.adminDeleteBtn}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                if (window.confirm(`Delete app "${app.name}"?`)) {
+                                  removeCollectionItem('portfolio.apps', originalIndex);
+                                }
+                              }}
+                              title="Remove app"
+                            >
+                              🗑 REMOVE
+                            </button>
+                          </div>
+                        )}
+
                         {/* Subtle Mobile Device Mockup Frame */}
                         <div className={styles.appDeviceFrame}>
                           <div className={styles.deviceIslandPill} aria-hidden="true" />
-                          <img
-                            src={app.thumbnail}
+                          <EditableMedia
+                            mediaPath={`portfolio.apps.${originalIndex}.media`}
+                            media={appMedia}
                             alt={`${app.name} interface preview`}
                             className={styles.appScreenImg}
-                            loading="lazy"
                           />
                         </div>
 
                         <div className={styles.appMeta}>
                           <span className={styles.appPlatformTag}>{app.platform}</span>
-                          <h3 className={styles.appTitle}>{app.name}</h3>
+                          <EditableField
+                            fieldPath={`portfolio.apps.${originalIndex}.name`}
+                            fieldLabel="App Name"
+                            value={app.name}
+                          >
+                            <h3 className={styles.appTitle}>{app.name}</h3>
+                          </EditableField>
                           <span className={styles.appActionLink}>
                             <span>VIEW PROJECT</span>
                             <span className={styles.websiteActionArrow} aria-hidden="true">
@@ -687,35 +831,60 @@ export const PortfolioPage: React.FC = () => {
                             </span>
                           </span>
                         </div>
-                      </CardElement>
+                      </div>
                     );
                   })}
                 </div>
               ) : (
                 /* ── EDITORIAL VIEW (Horizontal Card with Phone on Left) ── */
                 <div className={styles.appsEditorialList}>
-                  {apps.map((app: AppProject) => {
-                    const isExternal = app.url?.startsWith('http');
-                    const CardElement = isExternal ? 'a' : Link;
-                    const linkProps = isExternal
-                      ? { href: app.url, target: '_blank', rel: 'noopener noreferrer' }
-                      : { to: app.url || '/services/mobile-development' };
+                  {apps.map((app: any, idx: number) => {
+                    const originalIndex = activeContent.portfolio?.apps?.findIndex((a) => a.id === app.id) ?? idx;
+                    const appMedia = app.media || { type: 'image', url: app.thumbnail };
 
                     return (
-                      <CardElement
-                        key={app.id}
-                        {...(linkProps as any)}
+                      <div
+                        key={app.id || idx}
                         className={styles.appEditorialCard}
-                        aria-label={`View app project: ${app.name}`}
+                        style={{ position: 'relative' }}
                       >
+                        {canEdit && originalIndex >= 0 && (
+                          <div className={styles.cardAdminBar}>
+                            <button
+                              type="button"
+                              className={styles.adminBtn}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                duplicateCollectionItem('portfolio.apps', originalIndex);
+                              }}
+                            >
+                              ⧉ DUPLICATE
+                            </button>
+                            <button
+                              type="button"
+                              className={`${styles.adminBtn} ${styles.adminDeleteBtn}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                if (window.confirm(`Delete app "${app.name}"?`)) {
+                                  removeCollectionItem('portfolio.apps', originalIndex);
+                                }
+                              }}
+                            >
+                              🗑 REMOVE
+                            </button>
+                          </div>
+                        )}
+
                         {/* Device Mockup */}
                         <div className={styles.appDeviceFrame}>
                           <div className={styles.deviceIslandPill} aria-hidden="true" />
-                          <img
-                            src={app.thumbnail}
+                          <EditableMedia
+                            mediaPath={`portfolio.apps.${originalIndex}.media`}
+                            media={appMedia}
                             alt={`${app.name} interface`}
                             className={styles.appScreenImg}
-                            loading="lazy"
                           />
                         </div>
 
@@ -725,11 +894,26 @@ export const PortfolioPage: React.FC = () => {
                             <span className={styles.appPlatformTag}>{app.platform}</span>
                           </div>
 
-                          <h3 className={styles.appTitle}>{app.name}</h3>
-                          <p className={styles.editorialDescription}>{app.description}</p>
+                          <EditableField
+                            fieldPath={`portfolio.apps.${originalIndex}.name`}
+                            fieldLabel="App Name"
+                            value={app.name}
+                          >
+                            <h3 className={styles.appTitle}>{app.name}</h3>
+                          </EditableField>
+
+                          <EditableField
+                            fieldPath={`portfolio.apps.${originalIndex}.description`}
+                            fieldLabel="App Description"
+                            value={app.description || ''}
+                            isTextarea
+                            isBlock
+                          >
+                            <p className={styles.editorialDescription}>{app.description}</p>
+                          </EditableField>
 
                           <div className={styles.tagsRow}>
-                            {app.tags.map((tag) => (
+                            {app.tags?.map((tag: string) => (
                               <span key={tag} className={styles.tagPill}>
                                 {tag}
                               </span>
@@ -743,9 +927,42 @@ export const PortfolioPage: React.FC = () => {
                             </span>
                           </span>
                         </div>
-                      </CardElement>
+                      </div>
                     );
                   })}
+                </div>
+              )}
+
+              {canEdit && (
+                <div className={styles.addProjectBar}>
+                  <button
+                    type="button"
+                    className={styles.addProjectBtn}
+                    onClick={() => {
+                      const count = apps.length + 1;
+                      const newApp: CmsAppItem = {
+                        id: `app-${Date.now()}`,
+                        name: `NEW APPLICATION ECOSYSTEM 0${count}`,
+                        client: 'Aranea Den Enterprise',
+                        platform: 'iOS / Android & Web',
+                        category: 'MOBILE APPLICATION',
+                        description: 'Next-generation application engineered for speed and fluid physics.',
+                        tags: ['React Native', 'TypeScript', 'Offline-First'],
+                        media: {
+                          type: 'image',
+                          url: '/services/ad-mobile-development.jpg',
+                          alt: 'New App Preview',
+                        },
+                        url: '/services/mobile-development',
+                        year: '2026',
+                        status: 'Production',
+                      };
+                      addCollectionItem('portfolio.apps', newApp);
+                    }}
+                  >
+                    <span>+</span>
+                    <span>ADD NEW APP PROJECT</span>
+                  </button>
                 </div>
               )}
             </div>
@@ -777,7 +994,18 @@ export const PortfolioPage: React.FC = () => {
               {viewMode === 'grid' ? (
                 /* ── SIDE-BY-SIDE CONTINUOUS AUTO-SCROLL AUTOPLAY REELS ── */
                 <AutoplayReelMarquee
-                  reels={reels}
+                  reels={reels.map((r: any) => ({
+                    id: r.id,
+                    title: r.title,
+                    client: r.client,
+                    caption: r.caption || '',
+                    thumbnail: r.media?.posterUrl || r.thumbnail || '/reels/reel_05.jpg',
+                    videoSrc: r.media?.url || r.videoSrc || '/reels-videos/startup-potluck.mp4',
+                    instagramUrl: r.instagramUrl || 'https://www.instagram.com/araneaden_/',
+                    aspectRatio: r.aspectRatio || '9:16',
+                    likes: r.likes || 'HD Reel',
+                    tag: r.tag || 'AD IMPERIAL VISUALS',
+                  }))}
                   onSelectReel={(reel) =>
                     setActiveModalVideo({
                       src: reel.videoSrc,
@@ -790,21 +1018,67 @@ export const PortfolioPage: React.FC = () => {
               ) : (
                 /* ── EDITORIAL VIEW FOR REELS (Horizontal Cards with Autoplay Video) ── */
                 <div className={styles.reelsEditorialList}>
-                  {reels.map((reel: AraneaReel, index: number) => (
-                    <EditorialAutoplayReelCard
-                      key={reel.id}
-                      reel={reel}
-                      index={index}
-                      onClick={() =>
-                        setActiveModalVideo({
-                          src: reel.videoSrc,
-                          title: reel.title,
-                          client: reel.client,
-                          caption: reel.caption,
-                        })
-                      }
-                    />
-                  ))}
+                  {reels.map((r: any, index: number) => {
+                    const reel: AraneaReel = {
+                      id: r.id,
+                      title: r.title,
+                      client: r.client,
+                      caption: r.caption || '',
+                      thumbnail: r.media?.posterUrl || r.thumbnail || '/reels/reel_05.jpg',
+                      videoSrc: r.media?.url || r.videoSrc || '/reels-videos/startup-potluck.mp4',
+                      instagramUrl: r.instagramUrl || 'https://www.instagram.com/araneaden_/',
+                      aspectRatio: r.aspectRatio || '9:16',
+                      likes: r.likes || 'HD Reel',
+                      tag: r.tag || 'AD IMPERIAL VISUALS',
+                    };
+                    return (
+                      <EditorialAutoplayReelCard
+                        key={reel.id}
+                        reel={reel}
+                        index={index}
+                        onClick={() =>
+                          setActiveModalVideo({
+                            src: reel.videoSrc,
+                            title: reel.title,
+                            client: reel.client,
+                            caption: reel.caption,
+                          })
+                        }
+                      />
+                    );
+                  })}
+                </div>
+              )}
+
+              {canEdit && (
+                <div className={styles.addProjectBar}>
+                  <button
+                    type="button"
+                    className={styles.addProjectBtn}
+                    onClick={() => {
+                      const count = reels.length + 1;
+                      const newReel: CmsReelItem = {
+                        id: `reel-${Date.now()}`,
+                        title: `CINEMATIC REEL 0${count}`,
+                        client: 'Aranea Den Visuals',
+                        caption: 'Vertical cinematic brand story produced in 60FPS.',
+                        media: {
+                          type: 'video',
+                          url: '/reels-videos/startup-potluck.mp4',
+                          posterUrl: '/reels/reel_05.jpg',
+                          alt: 'New Reel Video',
+                        },
+                        instagramUrl: 'https://www.instagram.com/araneaden_/',
+                        aspectRatio: '9:16',
+                        likes: 'HD Reel',
+                        tag: 'AD IMPERIAL VISUALS',
+                      };
+                      addCollectionItem('portfolio.reels', newReel);
+                    }}
+                  >
+                    <span>+</span>
+                    <span>ADD NEW CINEMATIC REEL</span>
+                  </button>
                 </div>
               )}
             </div>

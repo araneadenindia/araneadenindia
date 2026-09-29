@@ -1,0 +1,132 @@
+/* src/cms/components/Modals/HistoryModal.module.css */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(11, 11, 12, 0.82);
+  backdrop-filter: blur(10px);
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background-color: #121214;
+  border: 1px solid rgba(223, 37, 49, 0.3);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 80vh;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+.header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  color: #FFFFFF;
+}
+
+.list {
+  padding: 16px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.emptyState {
+  padding: 40px 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+}
+
+.itemCard {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: all 0.2s ease;
+}
+
+.itemCard:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  border-color: rgba(223, 37, 49, 0.3);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.versionBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  color: #DF2531;
+}
+
+.dateText {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.authorText {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.rollbackBtn {
+  background: transparent;
+  border: 1px solid rgba(223, 37, 49, 0.4);
+  color: #DF2531;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.rollbackBtn:hover {
+  background: #DF2531;
+  color: #FFFFFF;
+}

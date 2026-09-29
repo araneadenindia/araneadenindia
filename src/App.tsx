@@ -19,6 +19,10 @@ import { ContactPage } from './pages/ContactPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
 import { AdminApp } from './admin/AdminApp';
+import { CmsProvider } from './cms/CmsContext';
+import { AdminToolbar } from './cms/components/AdminToolbar/AdminToolbar';
+import { PublishConfirmModal } from './cms/components/Modals/PublishConfirmModal';
+import { HistoryModal } from './cms/components/Modals/HistoryModal';
 
 import './styles/globals.css';
 
@@ -159,6 +163,11 @@ const AppContent: React.FC = () => {
         />
       )}
 
+      {/* ── LIVE VISUAL CMS: TOP ADMIN TOOLBAR & MODALS ── */}
+      <AdminToolbar />
+      <PublishConfirmModal />
+      <HistoryModal />
+
       {/* Global Editorial Navigation (Hidden on standalone /launch portal) */}
       {!isLaunchPage && <AraneaDenNavbar isVisible={isInitialIntroComplete || isFromCurtainLaunch} />}
 
@@ -216,11 +225,13 @@ const AppContent: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <PreloaderProvider>
-        <SmoothScrollProvider>
-          <AppContent />
-        </SmoothScrollProvider>
-      </PreloaderProvider>
+      <CmsProvider>
+        <PreloaderProvider>
+          <SmoothScrollProvider>
+            <AppContent />
+          </SmoothScrollProvider>
+        </PreloaderProvider>
+      </CmsProvider>
     </BrowserRouter>
   );
 };

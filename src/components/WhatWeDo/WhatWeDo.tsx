@@ -254,50 +254,80 @@ export const WhatWeDo: React.FC = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
   const mobileCardsRef = useRef<(HTMLElement | null)[]>([]);
   const mobileNavTrackRef = useRef<HTMLDivElement>(null);
 
-  // Direct click or hover on service in directory (Desktop)
+  // Direct click on service in directory (Desktop)
   const handleServiceClick = useCallback((index: number) => {
     setActiveIndex(index);
+
+    const st = ScrollTrigger.getById('services-pin');
+    if (st) {
+      const targetProgress = (index + 0.5) / SERVICES_DATA.length;
+      const targetScroll = st.start + (st.end - st.start) * targetProgress;
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(targetScroll, { duration: 0.8 });
+      } else {
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+      }
+    }
   }, []);
 
-  // Update progress bar smoothly when activeIndex changes
+  // Desktop GSAP Pinning & Sync
   useEffect(() => {
-    if (progressBarRef.current) {
-      const scale = Math.max(0.125, (activeIndex + 1) / SERVICES_DATA.length);
-      progressBarRef.current.style.transform = `scaleX(${scale})`;
-    }
-  }, [activeIndex]);
-
-  // Gentle auto-advance every 3.8s when not hovered or interacting
-  useEffect(() => {
-    if (isHovered) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % SERVICES_DATA.length);
-    }, 3800);
-    return () => clearInterval(interval);
-  }, [isHovered]);
-
-  // Pause continuous marquee when WhatWeDo section leaves viewport to save GPU/CPU cycles
-  useEffect(() => {
+    const wrapper = wrapperRef.current;
     const section = sectionRef.current;
-    if (!section) return;
+    if (!wrapper || !section) return;
 
-    const pauseTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top bottom',
-      end: 'bottom top',
-      onEnter: () => section.classList.remove(styles.isPaused),
-      onLeave: () => section.classList.add(styles.isPaused),
-      onEnterBack: () => section.classList.remove(styles.isPaused),
-      onLeaveBack: () => section.classList.add(styles.isPaused),
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 769px)', () => {
+      const trigger = ScrollTrigger.create({
+        id: 'services-pin',
+        trigger: wrapper,
+        start: 'top top',
+        end: '+=120%',
+        pin: section,
+        pinSpacing: true,
+        anticipatePin: 1,
+        scrub: 0.4,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const idx = Math.min(Math.floor(progress * SERVICES_DATA.length), SERVICES_DATA.length - 1);
+          setActiveIndex(idx);
+
+          // GPU-accelerated Progress Bar (Zero Reflow)
+          if (progressBarRef.current) {
+            const scale = Math.max(0.125, progress);
+            progressBarRef.current.style.transform = `scaleX(${scale})`;
+          }
+        },
+      });
+
+      // Pause continuous marquee when WhatWeDo section leaves viewport to save GPU/CPU cycles
+      const pauseTrigger = ScrollTrigger.create({
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: () => section.classList.remove(styles.isPaused),
+        onLeave: () => section.classList.add(styles.isPaused),
+        onEnterBack: () => section.classList.remove(styles.isPaused),
+        onLeaveBack: () => section.classList.add(styles.isPaused),
+      });
+
+      return () => {
+        trigger.kill();
+        pauseTrigger.kill();
+      };
     });
 
     return () => {
-      pauseTrigger.kill();
+      mm.revert();
     };
   }, []);
 
@@ -389,11 +419,7 @@ export const WhatWeDo: React.FC = () => {
           </div>
 
           {/* ── DESKTOP STAGE: Left Navigation | Right Split Card with Visual ── */}
-          <div
-            className={styles.stageGrid}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
+          <div className={styles.stageGrid}>
             {/* Left Column: Interactive Service Directory */}
             <nav className={styles.navCol} aria-label="Services List">
               {SERVICES_DATA.map((srv, idx) => (

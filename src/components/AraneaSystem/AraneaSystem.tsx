@@ -262,27 +262,38 @@ export const AraneaSystem: React.FC = () => {
   const handleStageClick = useCallback((index: number) => {
     setActiveStage(index);
     setReachedStageIndex(index);
-    const targetPercent = (index / (PHILOSOPHY_STAGES.length - 1)) * 100;
-    if (desktopProgressRef.current) {
-      gsap.to(desktopProgressRef.current, {
-        width: `${targetPercent}%`,
-        duration: 0.35,
-        ease: 'power2.out',
-      });
-    }
-    if (spiderDesktopRef.current) {
-      spiderDesktopRef.current.classList.add(styles.isWalking);
-      const spiderScale = 0.85 + (index / (PHILOSOPHY_STAGES.length - 1)) * 1.80;
-      gsap.to(spiderDesktopRef.current, {
-        left: `${targetPercent}%`,
-        scale: spiderScale,
-        opacity: 1,
-        duration: 0.35,
-        ease: 'power2.out',
-        onComplete: () => {
-          spiderDesktopRef.current?.classList.remove(styles.isWalking);
-        },
-      });
+    const st = ScrollTrigger.getById('philosophy-pin');
+    if (st) {
+      const targetProgress = index / (PHILOSOPHY_STAGES.length - 1);
+      const targetScroll = st.start + (st.end - st.start) * targetProgress;
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(targetScroll, { duration: 0.8 });
+      } else {
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+      }
+    } else {
+      const targetPercent = (index / (PHILOSOPHY_STAGES.length - 1)) * 100;
+      if (desktopProgressRef.current) {
+        gsap.to(desktopProgressRef.current, {
+          width: `${targetPercent}%`,
+          duration: 0.35,
+          ease: 'power2.out',
+        });
+      }
+      if (spiderDesktopRef.current) {
+        spiderDesktopRef.current.classList.add(styles.isWalking);
+        const spiderScale = 0.85 + (index / (PHILOSOPHY_STAGES.length - 1)) * 1.80;
+        gsap.to(spiderDesktopRef.current, {
+          left: `${targetPercent}%`,
+          scale: spiderScale,
+          opacity: 1,
+          duration: 0.35,
+          ease: 'power2.out',
+          onComplete: () => {
+            spiderDesktopRef.current?.classList.remove(styles.isWalking);
+          },
+        });
+      }
     }
   }, []);
 
@@ -343,12 +354,15 @@ export const AraneaSystem: React.FC = () => {
             }))
           : [];
 
-        const scrollTrigger = ScrollTrigger.create({
-          id: 'philosophy-scroll',
+        const pinTrigger = ScrollTrigger.create({
+          id: 'philosophy-pin',
           trigger: wrapper,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          scrub: 0.35,
+          start: 'top top',
+          end: '+=110%',
+          pin: section,
+          pinSpacing: true,
+          anticipatePin: 1,
+          scrub: 0.45,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress; // 0.0 to 1.0
@@ -465,7 +479,7 @@ export const AraneaSystem: React.FC = () => {
         }
 
         return () => {
-          scrollTrigger.kill();
+          pinTrigger.kill();
         };
       });
 

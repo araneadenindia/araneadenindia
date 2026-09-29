@@ -5,76 +5,61 @@ import styles from './TestimonialsSection.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Testimonial {
+interface TestimonialItem {
   id: string;
   quote: string;
   author: string;
-  role: string;
   company: string;
-  tag: string;
-  initials: string;
 }
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS: TestimonialItem[] = [
   {
     id: 'test-1',
-    quote:
-      'Aranea Den completely redefined our brand and digital presence. Their ability to fuse bold cinematic visuals with rock-solid engineering elevated our entire ecosystem across investor circles.',
+    quote: 'Aranea Den completely redefined our brand and digital presence.',
     author: 'Karthik Varma',
-    role: 'Co-Founder',
     company: 'Startup Potluck',
-    tag: 'BRAND & PLATFORM',
-    initials: 'KV',
   },
   {
     id: 'test-2',
-    quote:
-      'From creative strategy to full-stack execution, the discipline and technical craftsmanship of the Aranea Den team was extraordinary. Our flagship digital platform exceeded every benchmark.',
+    quote: 'Disciplined technical craftsmanship paired with fluid, high-performance execution.',
     author: 'Rajeshwari Rao',
-    role: 'Creative Director',
     company: 'Corner Craft',
-    tag: 'FLAGSHIP E-COMMERCE',
-    initials: 'RR',
   },
   {
     id: 'test-3',
-    quote:
-      'Architectural storytelling, flawless media production, and a high-performance web experience that commanded executive attention. They operate with relentless precision.',
+    quote: 'Architectural storytelling and a web experience that commanded executive attention.',
     author: 'Vikramaditya S.',
-    role: 'Managing Director',
     company: 'CEO Expos',
-    tag: 'EXECUTIVE MEDIA & WEB',
-    initials: 'VS',
   },
   {
     id: 'test-4',
-    quote:
-      'They didn’t just build a portfolio site; they captured the architectural soul of our studio. Clean, uncompromising aesthetics paired with fluid interactive performance.',
+    quote: 'Clean, uncompromising aesthetics paired with fluid interactive performance.',
     author: 'Ananya Sen',
-    role: 'Principal Architect',
     company: 'Maakan Designs',
-    tag: 'DIGITAL FLAGSHIP',
-    initials: 'AS',
   },
   {
     id: 'test-5',
-    quote:
-      'Building a complex education platform requires deep engineering rigor. Aranea Den delivered seamless architecture connecting mentors and students nationwide with zero friction.',
+    quote: 'Seamless cloud architecture and engineering rigor delivered with zero friction.',
     author: 'Dr. Praveen Kumar',
-    role: 'Director',
     company: 'O2Med Academy',
-    tag: 'FULL-STACK CLOUD SYSTEM',
-    initials: 'PK',
   },
   {
     id: 'test-6',
-    quote:
-      'The high-retention cinematic video production and cohesive digital brand identity transformed our advisory reach. Audience engagement grew tenfold within weeks of launch.',
+    quote: 'Cinematic video production and digital brand identity that transformed our reach.',
     author: 'Veerabhadra Rao',
-    role: 'Founder',
     company: 'Finance with Veeru',
-    tag: 'CINEMATOGRAPHY & BRAND',
-    initials: 'VR',
+  },
+  {
+    id: 'test-7',
+    quote: 'Exceptional clarity in brand design and relentless precision in development.',
+    author: 'Sriya Reddy',
+    company: 'Sriya & Janak',
+  },
+  {
+    id: 'test-8',
+    quote: 'Elevated our luxury real estate positioning with extraordinary finesse.',
+    author: 'Rohit Mehta',
+    company: 'Meghana Builders',
   },
 ];
 
@@ -82,7 +67,7 @@ export const TestimonialsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
-  // Duplicate array once for seamless infinite -50% CSS looping
+  // Duplicate list to achieve continuous, seamless -50% CSS looping
   const duplicatedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
 
   useEffect(() => {
@@ -96,21 +81,21 @@ export const TestimonialsSection: React.FC = () => {
       if (headerRef.current) {
         gsap.fromTo(
           headerRef.current,
-          { opacity: 0, y: 24 },
+          { opacity: 0, y: 18 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
+            duration: 0.7,
             ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
             scrollTrigger: {
-              trigger: headerRef.current,
+              trigger: section,
               start: 'top 85%',
             },
           }
         );
       }
 
-      // Pause ticker when section is offscreen to preserve CPU cycles
+      // Pause ticker when offscreen to preserve system resources
       ScrollTrigger.create({
         trigger: section,
         start: 'top bottom',
@@ -131,43 +116,21 @@ export const TestimonialsSection: React.FC = () => {
         <div ref={headerRef} className={styles.header}>
           <div className={styles.eyebrow}>
             <span className={styles.marker} aria-hidden="true" />
-            <span className={styles.eyebrowText}>CLIENT PERSPECTIVES</span>
+            <span className={styles.eyebrowText}>TESTIMONIALS</span>
           </div>
-          <h2 className={styles.title}>VOICES OF PARTNERSHIP</h2>
-          <p className={styles.subtitle}>
-            Trusted by founders, leaders, and emerging enterprises to architect high-performance digital reality.
-          </p>
         </div>
       </div>
 
-      {/* Infinite Auto-Scrolling Testimonial Track (Hover to Pause) */}
+      {/* Infinite Auto-Scrolling Testimonial Track (Hover to pause) */}
       <div className={styles.marqueeWrapper}>
-        <div className={styles.marqueeTrack} role="region" aria-label="Auto-scrolling client testimonials">
+        <div className={styles.marqueeTrack} role="region" aria-label="Client testimonials ticker">
           {duplicatedTestimonials.map((item, idx) => (
             <article key={`${item.id}-${idx}`} className={styles.card}>
-              <div className={styles.cardTopBar} aria-hidden="true" />
-
-              <div className={styles.cardHeader}>
-                <div className={styles.rating} aria-label="5 out of 5 stars">
-                  {'★'.repeat(5)}
-                </div>
-                <span className={styles.tagBadge}>{item.tag}</span>
-              </div>
-
-              <blockquote className={styles.quoteText}>
-                "{item.quote}"
-              </blockquote>
-
+              <p className={styles.quoteText}>“{item.quote}”</p>
               <footer className={styles.authorRow}>
-                <div className={styles.authorAvatar} aria-hidden="true">
-                  {item.initials}
-                </div>
-                <div className={styles.authorMeta}>
-                  <cite className={styles.authorName}>{item.author}</cite>
-                  <span className={styles.authorRole}>
-                    {item.role} · {item.company}
-                  </span>
-                </div>
+                <span className={styles.authorName}>{item.author}</span>
+                <span className={styles.authorDivider}>—</span>
+                <span className={styles.authorCompany}>{item.company}</span>
               </footer>
             </article>
           ))}

@@ -1,0 +1,287 @@
+/* ============================================================
+   AD EXPERIENCES — HOMEPAGE SHOWCASE (LIGHT MODE)
+   Full-width cards scroll layout: Title + Rich Matter (Left),
+   One Image (Right). No category tabs, no numberings, no badges.
+   ============================================================ */
+
+.section {
+  width: 100%;
+  padding: clamp(72px, 9vh, 120px) 0 clamp(64px, 8vh, 96px) 0;
+  background-color: var(--color-bg-primary, #F8F8F5);
+  color: var(--color-black, #0B0B0C);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(11, 11, 12, 0.08);
+  box-sizing: border-box;
+}
+
+.ambientGlow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1100px, 95vw);
+  height: 600px;
+  background: radial-gradient(circle, rgba(223, 37, 49, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 1;
+}
+
+.container {
+  max-width: var(--container-max-width, 1560px);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--gutter-desktop, 48px);
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+/* ── Section Header ── */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 960px;
+  margin-bottom: clamp(48px, 6vh, 64px);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(14px, 2vh, 18px);
+}
+
+.marker {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-crimson, #df2531);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-crimson, #df2531);
+}
+
+.heading {
+  margin: 0 0 14px 0;
+  font-family: var(--font-display, 'Mokoto', sans-serif);
+  font-size: clamp(30px, 3.8vw, 50px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-black, #0B0B0C);
+}
+
+.supportingLine {
+  margin: 0 0 16px 0;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: clamp(18px, 1.4vw, 22px);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-crimson, #df2531);
+  letter-spacing: -0.01em;
+}
+
+.headerDescription {
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.65;
+  color: var(--color-text-secondary, #424348);
+  max-width: 800px;
+}
+
+/* ── Full Cards Vertical Scroll List ── */
+.showcaseList {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 48px);
+  width: 100%;
+}
+
+.showcaseCard {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  align-items: center;
+  gap: clamp(28px, 4vw, 56px);
+  padding: clamp(28px, 3.5vw, 48px);
+  border-radius: 18px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  box-shadow: 0 6px 26px rgba(11, 11, 12, 0.04);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.showcaseCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(223, 37, 49, 0.28);
+  box-shadow: 0 20px 48px rgba(11, 11, 12, 0.08);
+}
+
+/* ── Matter Column (Left) ── */
+.matterCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardEyebrow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cardEyebrowText {
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-crimson, #DF2531);
+}
+
+.cardTitle {
+  margin: 0 0 16px 0;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-black, #0B0B0C);
+}
+
+.cardMatter {
+  margin: 0 0 24px 0;
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(14.5px, 1.05vw, 16.5px);
+  line-height: 1.72;
+  color: var(--color-text-secondary, #424348);
+}
+
+.cardActionRow {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Solid Red Visit Button ── */
+.visitRedBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-crimson, #DF2531);
+  color: #FFFFFF !important;
+  font-family: var(--font-mono, monospace);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 1px solid var(--color-crimson, #DF2531);
+  box-shadow: 0 4px 14px rgba(223, 37, 49, 0.28);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: fit-content;
+}
+
+.visitRedBtn:hover {
+  background-color: #B51B25;
+  border-color: #B51B25;
+  box-shadow: 0 6px 20px rgba(223, 37, 49, 0.45);
+  transform: translateY(-2px);
+  color: #FFFFFF !important;
+}
+
+.visitRedBtnArrow {
+  font-size: 14px;
+  transition: transform 0.25s ease;
+}
+
+.visitRedBtn:hover .visitRedBtnArrow {
+  transform: translate(2px, -2px);
+}
+
+/* ── Image Column (Right): One Single Image ── */
+.imageCol {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #0E0F14;
+  border: 1px solid rgba(11, 11, 12, 0.1);
+  box-shadow: 0 12px 32px rgba(11, 11, 12, 0.08);
+}
+
+.imageLinkWrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.4s ease;
+}
+
+.showcaseCard:hover .cardImage {
+  transform: scale(1.035);
+}
+
+/* ── Responsive Adaptations ── */
+@media (max-width: 960px) {
+  .section {
+    padding: 60px 0 48px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .showcaseCard {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .imageCol {
+    order: -1; /* Place image on top on smaller screens for instant visual impact */
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 640px) {
+  .cardTitle {
+    font-size: 20px;
+  }
+
+  .cardMatter {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .visitRedBtn {
+    padding: 10px 22px;
+    font-size: 11.5px;
+  }
+}

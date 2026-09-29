@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import adLogo from '../../assets/AD Transparent SVG.svg';
 import { ClienteleSection } from '../../components/ClienteleSection';
 import styles from './AboutPage.module.css';
 
@@ -68,36 +67,45 @@ export const AboutPage: React.FC = () => {
         if (visualCard) tl.fromTo(visualCard, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 1 }, '-=0.8');
       }
 
-      // 02 — Vision & Mission
+      // 02 — Vision & Mission (Editorial story rows reveal)
       if (visionRef.current) {
-        const eyebrow = visionRef.current.querySelector(`.${styles.visionEyebrow}`);
-        const heading = visionRef.current.querySelector(`.${styles.visionHeading}`);
-        const intro = visionRef.current.querySelector(`.${styles.visionIntro}`);
-        const visionCol = visionRef.current.querySelector(`.${styles.visionCol}`);
-        const missionCol = visionRef.current.querySelector(`.${styles.missionCol}`);
+        const header = visionRef.current.querySelector(`.${styles.visionHeader}`);
+        const storyRows = visionRef.current.querySelectorAll(`.${styles.visionStoryRow}`);
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: visionRef.current,
-            start: 'top 80%',
-          },
-          defaults: { ease: 'power2.out' },
-        });
+        if (header) {
+          gsap.fromTo(
+            header,
+            { opacity: 0, y: 24 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: visionRef.current,
+                start: 'top 82%',
+              },
+            }
+          );
+        }
 
-        if (eyebrow) {
-          tl.fromTo(eyebrow, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 });
-        }
-        if (heading) {
-          tl.fromTo(heading, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.3');
-        }
-        if (intro) {
-          tl.fromTo(intro, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.35');
-        }
-        if (visionCol) {
-          tl.fromTo(visionCol, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.65 }, '-=0.25');
-        }
-        if (missionCol) {
-          tl.fromTo(missionCol, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.65 }, '-=0.45');
+        if (storyRows.length) {
+          storyRows.forEach((row) => {
+            gsap.fromTo(
+              row,
+              { opacity: 0, y: 30 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.85,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: row,
+                  start: 'top 82%',
+                },
+              }
+            );
+          });
         }
       }
 
@@ -230,36 +238,13 @@ export const AboutPage: React.FC = () => {
             <div className={styles.heroVisualStage}>
               <div className={styles.heroVisualCard}>
                 <div className={styles.heroVisualCardGlow} />
-                
-                {/* Ambient Rotating Spiderweb Background */}
-                <svg
-                  className={styles.heroWebSvgBg}
-                  viewBox="0 0 500 500"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <circle cx="250" cy="250" r="60" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3 3" />
-                  <circle cx="250" cy="250" r="120" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <circle cx="250" cy="250" r="180" stroke="rgba(223,37,49,0.14)" strokeWidth="1" strokeDasharray="4 4" />
-                  <circle cx="250" cy="250" r="235" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-                  <line x1="250" y1="15" x2="250" y2="485" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="15" y1="250" x2="485" y2="250" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="84" y1="84" x2="416" y2="416" stroke="rgba(223,37,49,0.12)" strokeWidth="1" />
-                  <line x1="416" y1="84" x2="84" y2="416" stroke="rgba(223,37,49,0.12)" strokeWidth="1" />
-                  <polygon points="250,70 430,250 250,430 70,250" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <polygon points="250,130 370,250 250,370 130,250" stroke="rgba(223,37,49,0.15)" strokeWidth="1" />
-                </svg>
-
-                {/* Central Studio Brand Seal */}
                 <img
-                  src={adLogo}
-                  alt="Aranea Den Studio Emblem"
-                  className={styles.heroLogoSeal}
+                  src="/about/ad-spider-services.jpg"
+                  alt="Aranea Den — Creative Technology Studio Ecosystem"
+                  className={styles.heroEcosystemImg}
                   loading="eager"
                 />
-
-
+                <div className={styles.heroVisualFrameBorder} aria-hidden="true" />
               </div>
             </div>
           </div>
@@ -267,82 +252,116 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* ─────────────────────────────────────────
-          02 — VISION & MISSION (EDITORIAL MINIMAL LAYOUT)
-          Balanced two-column architecture with refined typography,
-          subtle accents, and generous whitespace
+          02 — VISION & MISSION (EDITORIAL REDESIGN)
+          Sophisticated editorial architecture with authentic project visuals,
+          generous spacing, and storytelling rhythm.
       ───────────────────────────────────────── */}
       <section ref={visionRef} className={styles.visionMissionSection} aria-labelledby="vision-title">
         <div className={styles.container}>
           <div className={styles.visionHeader}>
             <div className={styles.visionEyebrow}>
-              <span className={styles.eyebrowMarker} />
-              <span className={styles.eyebrowText}>VISION & MISSION</span>
+              <span className={styles.eyebrowMarker} aria-hidden="true" />
+              <span className={styles.eyebrowText}>GUIDING PURPOSE</span>
             </div>
             <h2 id="vision-title" className={styles.visionHeading}>
-              GUIDED BY PURPOSE
+              VISION &amp; MISSION
             </h2>
             <p className={styles.visionIntro}>
-              Building purposeful digital architectures with computational rigor and creative ambition.
+              Where computational rigor converges with creative ambition to engineer enduring digital reality.
             </p>
           </div>
 
-          <div className={styles.visionGrid}>
-            {/* 01 — OUR VISION */}
-            <div className={`${styles.visionBlock} ${styles.visionCol}`}>
-              <div className={styles.blockDivider}>
-                <span className={styles.dividerAccent} />
+          <div className={styles.visionStoryContainer}>
+            {/* Story 01 — OUR VISION */}
+            <div className={styles.visionStoryRow}>
+              <div className={styles.storyTextCol}>
+                <div className={styles.storyBadgeRow}>
+                  <span className={styles.storyIndex}>01</span>
+                  <span className={styles.storyDividerLine} aria-hidden="true" />
+                  <span className={styles.storyTag}>OUR VISION</span>
+                </div>
+
+                <h3 className={styles.storyHeading}>THE WORLD WE ARE BUILDING</h3>
+
+                <p className={styles.storyParagraph}>
+                  To be recognized globally as a benchmark creative technology studio where imagination meets engineering rigor. We envision a digital landscape where brands do not simply broadcast messages, but build meaningful, enduring ecosystems that enrich user lives and accelerate business growth.
+                </p>
+
+                <div className={styles.storyPointsList}>
+                  <div className={styles.storyPointItem}>
+                    <span className={styles.storyPointBullet} aria-hidden="true" />
+                    <div className={styles.storyPointContent}>
+                      <span className={styles.storyPointTitle}>BOLD CREATIVE HORIZONS</span>
+                      <span className={styles.storyPointDesc}>Uniting cinematic visual narrative with high-conversion product strategy.</span>
+                    </div>
+                  </div>
+                  <div className={styles.storyPointItem}>
+                    <span className={styles.storyPointBullet} aria-hidden="true" />
+                    <div className={styles.storyPointContent}>
+                      <span className={styles.storyPointTitle}>LIVING DIGITAL ECOSYSTEMS</span>
+                      <span className={styles.storyPointDesc}>Engineering scalable digital architectures that outlast shifting market cycles.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className={styles.blockImageFrame}>
-                <img
-                  src="/about/vision.jpg"
-                  alt="Aranea Den Vision"
-                  className={styles.blockImage}
-                  loading="lazy"
-                />
-                <div className={styles.blockImageOverlay} />
+              <div className={styles.storyVisualCol}>
+                <div className={styles.cinematicStudioFrame}>
+                  <img
+                    src="/about/vision.jpg"
+                    alt="Aranea Den Vision — Ideas, Design, Technology, Content, Growth"
+                    className={styles.cinematicFrameImg}
+                    loading="lazy"
+                  />
+                  <div className={styles.frameBorderOverlay} aria-hidden="true" />
+                </div>
               </div>
-
-              <div className={styles.blockMeta}>
-                <span className={styles.blockIndex}>01</span>
-                <span className={styles.blockSep}>—</span>
-                <span className={styles.blockTag}>OUR VISION</span>
-              </div>
-
-              <h3 className={styles.blockHeading}>THE WORLD WE ARE BUILDING</h3>
-
-              <p className={styles.blockParagraph}>
-                To be recognized globally as a benchmark creative technology studio where imagination meets engineering rigor. We envision a digital landscape where brands do not simply broadcast messages, but build meaningful, enduring ecosystems that enrich user lives and accelerate business growth.
-              </p>
             </div>
 
-            {/* 02 — OUR MISSION */}
-            <div className={`${styles.visionBlock} ${styles.missionCol}`}>
-              <div className={styles.blockDivider}>
-                <span className={styles.dividerAccent} />
+            {/* Story 02 — OUR MISSION */}
+            <div className={styles.visionStoryRow}>
+              <div className={`${styles.storyVisualCol} ${styles.invertOnMobile}`}>
+                <div className={styles.cinematicStudioFrame}>
+                  <img
+                    src="/about/mission.jpg"
+                    alt="Aranea Den Mission — Idea, Design, Develop, Produce, Deliver"
+                    className={styles.cinematicFrameImg}
+                    loading="lazy"
+                  />
+                  <div className={styles.frameBorderOverlay} aria-hidden="true" />
+                </div>
               </div>
 
-              <div className={styles.blockImageFrame}>
-                <img
-                  src="/about/mission.jpg"
-                  alt="Aranea Den Mission"
-                  className={styles.blockImage}
-                  loading="lazy"
-                />
-                <div className={styles.blockImageOverlay} />
+              <div className={styles.storyTextCol}>
+                <div className={styles.storyBadgeRow}>
+                  <span className={styles.storyIndex}>02</span>
+                  <span className={styles.storyDividerLine} aria-hidden="true" />
+                  <span className={styles.storyTag}>OUR MISSION</span>
+                </div>
+
+                <h3 className={styles.storyHeading}>WHAT WE DO EVERY DAY</h3>
+
+                <p className={styles.storyParagraph}>
+                  To empower visionary entrepreneurs, forward-thinking institutions, and emerging brands by designing and engineering superior digital products. We bridge the gap between aesthetic beauty and technical precision, delivering measurable competitive advantage with relentless craft.
+                </p>
+
+                <div className={styles.storyPointsList}>
+                  <div className={styles.storyPointItem}>
+                    <span className={styles.storyPointBullet} aria-hidden="true" />
+                    <div className={styles.storyPointContent}>
+                      <span className={styles.storyPointTitle}>ZERO-COMPROMISE CRAFT</span>
+                      <span className={styles.storyPointDesc}>Pixel-level polish, fluid physics, and intentionality across all viewports.</span>
+                    </div>
+                  </div>
+                  <div className={styles.storyPointItem}>
+                    <span className={styles.storyPointBullet} aria-hidden="true" />
+                    <div className={styles.storyPointContent}>
+                      <span className={styles.storyPointTitle}>MEASURABLE ADVANTAGE</span>
+                      <span className={styles.storyPointDesc}>Turning technical rigor and design excellence into real business performance.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              <div className={styles.blockMeta}>
-                <span className={styles.blockIndex}>02</span>
-                <span className={styles.blockSep}>—</span>
-                <span className={styles.blockTag}>OUR MISSION</span>
-              </div>
-
-              <h3 className={styles.blockHeading}>WHAT WE DO EVERY DAY</h3>
-
-              <p className={styles.blockParagraph}>
-                To empower visionary entrepreneurs, forward-thinking institutions, and emerging brands by designing and engineering superior digital products. We bridge the gap between aesthetic beauty and technical precision, delivering measurable competitive advantage with relentless craft.
-              </p>
             </div>
           </div>
         </div>

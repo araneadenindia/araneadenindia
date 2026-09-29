@@ -1,11 +1,11 @@
 /* ============================================================
-   TestimonialsSection — Editorial Auto-Scrolling Client Reviews
-   Positioned between THE POWERHOUSE and ENGAGEMENTS
+   TestimonialsSection — Simple Auto-Scrolling Testimonials
+   Positioned before ENGAGEMENTS
    ============================================================ */
 
 .section {
   width: 100%;
-  padding: clamp(64px, 8vh, 96px) 0;
+  padding: clamp(48px, 6vh, 68px) 0 clamp(44px, 5.5vh, 64px) 0;
   background-color: var(--color-bg-primary, #F8F8F5);
   border-top: 1px solid rgba(11, 11, 12, 0.08);
   position: relative;
@@ -14,20 +14,18 @@
 }
 
 .container {
-  max-width: 1440px;
+  max-width: var(--container-max-width, 1560px);
   margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 56px);
+  padding: 0 var(--gutter-desktop, 48px);
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: clamp(32px, 4.5vh, 48px);
+  margin-bottom: clamp(20px, 2.8vh, 32px);
 }
 
-/* Header */
+/* Minimal Eyebrow Header */
 .header {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 720px;
+  align-items: center;
 }
 
 .eyebrow {
@@ -41,35 +39,16 @@
   height: 7px;
   background-color: var(--color-crimson, #df2531);
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .eyebrowText {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: clamp(10.5px, 0.9vw, 12px);
+  font-size: clamp(10.5px, 0.85vw, 12px);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-crimson, #df2531);
-}
-
-.title {
-  margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: clamp(28px, 3.2vw, 44px);
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  color: var(--color-black, #0B0B0C);
-  text-transform: uppercase;
-  line-height: 1.08;
-}
-
-.subtitle {
-  margin: 0;
-  font-family: 'Figtree', sans-serif;
-  font-size: clamp(14px, 1.1vw, 16px);
-  line-height: 1.55;
-  color: var(--color-text-secondary, #5A5A60);
-  max-width: 580px;
 }
 
 /* ── Auto-Scroll Marquee Track ── */
@@ -77,16 +56,16 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  padding: 12px 0 20px 0;
-  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  padding: 6px 0;
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
 }
 
 .marqueeTrack {
   display: flex;
-  gap: clamp(20px, 2vw, 28px);
+  gap: clamp(16px, 1.8vw, 24px);
   width: max-content;
-  animation: testimonialsScroll 40s linear infinite;
+  animation: testimonialsScroll 45s linear infinite;
   will-change: transform;
 }
 
@@ -104,153 +83,86 @@
   }
 }
 
-/* ── Testimonial Card ── */
+/* ── Testimonial Item / Card ── */
 .card {
-  width: clamp(340px, 28vw, 420px);
+  width: clamp(340px, 26vw, 440px);
   flex-shrink: 0;
   background-color: #FFFFFF;
   border: 1px solid rgba(11, 11, 12, 0.08);
-  border-radius: 14px;
-  padding: clamp(24px, 2.5vw, 32px);
+  border-radius: 8px;
+  padding: clamp(20px, 2vw, 24px) clamp(22px, 2.2vw, 28px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s ease,
-              border-color 0.35s ease;
+  gap: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.025);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
   position: relative;
   box-sizing: border-box;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
   border-color: rgba(223, 37, 49, 0.35);
-}
-
-/* Crimson Top Accent Line on Card */
-.cardTopBar {
-  position: absolute;
-  top: 0;
-  left: 32px;
-  right: 32px;
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(223, 37, 49, 0.7), transparent);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.card:hover .cardTopBar {
-  opacity: 1;
-}
-
-.cardHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.quoteIcon {
-  color: var(--color-crimson, #df2531);
-  opacity: 0.85;
-}
-
-.rating {
-  display: flex;
-  gap: 3px;
-  color: #E29B12;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-.tagBadge {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-crimson, #df2531);
-  background-color: rgba(223, 37, 49, 0.06);
-  padding: 4px 9px;
-  border-radius: 4px;
 }
 
 .quoteText {
   margin: 0;
   font-family: 'Figtree', sans-serif;
-  font-size: clamp(14px, 1.05vw, 15.5px);
-  line-height: 1.62;
-  color: #242428;
+  font-size: clamp(14px, 1vw, 15.5px);
+  line-height: 1.55;
+  color: #1A1A1E;
   font-style: normal;
-  flex: 1;
+  font-weight: 500;
+  letter-spacing: -0.005em;
 }
 
 .authorRow {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(11, 11, 12, 0.06);
-}
-
-.authorAvatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(223, 37, 49, 0.15) 0%, rgba(11, 11, 12, 0.95) 75%);
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(11, 11, 12, 0.05);
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
-  border: 1.5px solid rgba(223, 37, 49, 0.6);
-}
-
-.authorMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  overflow: hidden;
+  font-size: clamp(11px, 0.85vw, 12px);
 }
 
 .authorName {
-  margin: 0;
-  font-family: var(--font-sans, 'Exo', sans-serif);
-  font-size: 14.5px;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  color: var(--color-black, #0B0B0C);
+  color: #0B0B0C;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.authorRole {
-  margin: 0;
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 11px;
+.authorDivider {
+  color: var(--color-crimson, #df2531);
+  font-weight: 600;
+}
+
+.authorCompany {
   color: var(--color-text-secondary, #66666E);
   letter-spacing: 0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .section {
-    padding: 48px 0;
+    padding: 36px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+    margin-bottom: 18px;
   }
 
   .card {
     width: 290px;
-    padding: 20px;
-    gap: 16px;
+    padding: 16px 18px;
+    gap: 12px;
   }
 
   .marqueeWrapper {
@@ -259,6 +171,6 @@
   }
 
   .marqueeTrack {
-    animation-duration: 28s;
+    animation-duration: 32s;
   }
 }

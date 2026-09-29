@@ -4,9 +4,10 @@ import { WhatWeDo } from '../../components/WhatWeDo';
 import { AnnouncementsSection } from '../../components/AnnouncementsSection';
 import { AraneaSystem } from '../../components/AraneaSystem';
 import { StatementMarquee } from '../../components/StatementMarquee';
-import { SelectedWork } from '../../components/SelectedWork';
+import { AdExperiencesSection } from '../../components/AdExperiencesSection';
 import { TeamPreview } from '../../components/TeamPreview';
 import { ClienteleSection } from '../../components/ClienteleSection';
+import { TestimonialsSection } from '../../components/TestimonialsSection';
 import { FinalCTA } from '../../components/FinalCTA';
 
 interface HomePageProps {
@@ -31,14 +32,17 @@ export const HomePage: React.FC<HomePageProps> = ({ isVisible }) => {
       {/* Scene 06: Kinetic Typographic Ticker */}
       <StatementMarquee />
 
-      {/* Scene 07: Editorial Case Study Previews (What We've Built) */}
-      <SelectedWork />
+      {/* Scene 07: AD Experiences Showcase */}
+      <AdExperiencesSection />
 
       {/* Scene 08: Compact Editorial Team Preview (The Powerhouse) */}
       <TeamPreview />
 
-      {/* Universal Clientele Section (Immediately before ENGAGEMENTS) */}
+      {/* Universal Clientele Section */}
       <ClienteleSection />
+
+      {/* Simple Editorial Testimonials (Immediately before ENGAGEMENTS) */}
+      <TestimonialsSection />
 
       {/* Scene 09: Monumental Closing Call to Action (Engagements) */}
       <FinalCTA />

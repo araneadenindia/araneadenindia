@@ -105,11 +105,11 @@ export interface MarketingCompanyCase {
   client: string;
   category: string;
   title: string;
-  deliverables: string[];
   matter: string;
   websiteThumb: string;
   websiteUrl: string;
   domain: string;
+  sampleThumb: string;
   reelThumb: string;
   reelVideo: string;
   reelUrl: string;
@@ -122,12 +122,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     client: 'CEO Expos',
     category: 'EXECUTIVE CONFERENCES & BUSINESS SUMMITS',
     title: 'CEO Expos — India’s Premier Business & Franchise Summits',
-    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'ATTENDEE CAMPAIGNS'],
     matter:
       'High-impact conference branding, executive summit campaigns, dynamic exhibitor acquisition, and attendee registration funnels driving full capacity across Andhra Pradesh.',
     websiteThumb: '/portfolio-thumbs/creators.jpg',
     websiteUrl: 'https://creatorseventsorganization.vercel.app/',
     domain: 'creatorseventsorganization.vercel.app',
+    sampleThumb: '/services/08-photography.jpg',
     reelThumb: '/reels/reel_02.jpg',
     reelVideo: '/reels-videos/ceo-expos.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/',
@@ -138,12 +138,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     client: 'JK Restaurant',
     category: 'CULINARY BRANDING & SOCIAL GROWTH',
     title: 'JK Restaurant — Sensory Gastronomy Growth Campaign',
-    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'LOCAL ACQUISITION'],
     matter:
       'Sensory gastronomy choreography, culinary visual storytelling, localized digital ordering platform, and geo-targeted social media acquisition for Rajahmundry’s premier dining landmark.',
     websiteThumb: '/portfolio-thumbs/thor.jpg',
     websiteUrl: '/services/digital-marketing',
     domain: 'jkrestaurant.campaign',
+    sampleThumb: '/services/ad-digital-marketing.jpg',
     reelThumb: '/reels/reel_06.jpg',
     reelVideo: '/reels-videos/jk-restaurant.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/',
@@ -154,12 +154,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     client: 'Finance with Veeru',
     category: 'FINANCIAL ADVISORY & REEL FUNNELS',
     title: 'Finance with Veeru — Authoritative Personal Branding',
-    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'VIRAL HOOKS'],
     matter:
       'Authoritative financial education media, personal brand cinematography, viral educational hooks, and high-trust organic audience growth choreography across South India.',
     websiteThumb: '/portfolio-thumbs/viraj.jpg',
     websiteUrl: '/services/digital-marketing',
     domain: 'financewithveeru.brand',
+    sampleThumb: '/services/05-meta-google-instagram-ads.jpg',
     reelThumb: '/reels/reel_04.jpg',
     reelVideo: '/reels-videos/finance-with-veeru.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/',
@@ -170,12 +170,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     client: 'Startup Potluck',
     category: 'STARTUP ECOSYSTEM & BRAND ACCELERATION',
     title: 'Startup Potluck — Founder Ecosystem & Pitch Summits',
-    deliverables: ['WE MADE WEBSITE', 'WE MADE REELS', 'FOUNDER MEDIA'],
     matter:
       'Official video coverage, founder pitch showcases, attendee networking platform, and cinematic launch campaigns accelerating regional startup ecosystems and investor connections.',
     websiteThumb: '/portfolio-thumbs/pandp.jpg',
     websiteUrl: 'https://pandpconnektss.web.app',
     domain: 'pandpconnektss.web.app',
+    sampleThumb: '/services/11-ad-imperial-visuals.jpg',
     reelThumb: '/reels/reel_05.jpg',
     reelVideo: '/reels-videos/startup-potluck.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/reel/DaxbWhTz9hH/',
@@ -525,16 +525,6 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
           )}
         </h3>
 
-        {/* Deliverables Indicators */}
-        <div className={styles.deliverablesRow} aria-label="Deliverables">
-          {company.deliverables.map((item, idx) => (
-            <span key={idx} className={styles.deliverableTag}>
-              <span className={styles.tagCheck} aria-hidden="true">✓</span>
-              <span>{item}</span>
-            </span>
-          ))}
-        </div>
-
         <p className={styles.projectDescription}>{company.matter}</p>
 
         <div className={styles.actionRow}>
@@ -562,81 +552,20 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
         </div>
       </div>
 
-      {/* Collage Tiles Column (Website Platform + Reel Video) */}
+      {/* Collage Column: Hero Reel (9:16) + Stacked Images (Website + Sample Creative) */}
       <div className={styles.marketingCollageCol}>
-        {/* Tile 1: Website */}
-        {isExternalWeb ? (
-          <a
-            href={company.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.collageWebsiteTile}
-            aria-label={`Visit live site ${company.domain}`}
-          >
-            <div className={styles.tileBadgeRow}>
-              <span className={styles.tileBadge}>WEBSITE PLATFORM</span>
-            </div>
-            <div className={styles.tileImageWrapper}>
-              <img
-                src={company.websiteThumb}
-                alt={`${company.client} platform screenshot`}
-                className={styles.tileImg}
-                loading="lazy"
-              />
-              <div className={styles.imageOverlay}>
-                <span className={styles.overlayPill}>
-                  <span>{company.domain}</span>
-                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
-                </span>
-              </div>
-            </div>
-          </a>
-        ) : (
-          <Link
-            to={company.websiteUrl}
-            className={styles.collageWebsiteTile}
-            aria-label={`Visit site ${company.domain}`}
-          >
-            <div className={styles.tileBadgeRow}>
-              <span className={styles.tileBadge}>WEBSITE PLATFORM</span>
-            </div>
-            <div className={styles.tileImageWrapper}>
-              <img
-                src={company.websiteThumb}
-                alt={`${company.client} platform screenshot`}
-                className={styles.tileImg}
-                loading="lazy"
-              />
-              <div className={styles.imageOverlay}>
-                <span className={styles.overlayPill}>
-                  <span>{company.domain}</span>
-                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
-                </span>
-              </div>
-            </div>
-          </Link>
-        )}
-
-        {/* Tile 2: Reel Card */}
+        {/* Main Reel Card - strictly 9:16 vertical reel format */}
         <a
           href={company.reelUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.collageReelTile}
-          aria-label={`Watch reel for ${company.client}`}
+          className={styles.reelHeroCard}
+          aria-label={`Watch ${company.client} official reel on Instagram`}
         >
-          <div className={styles.tileBadgeRow}>
-            <span className={`${styles.tileBadge} ${styles.tileBadgeReel}`}>
-              <svg className={styles.tileInstaIcon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              OFFICIAL REEL
-            </span>
-          </div>
-          <div className={styles.tileReelMedia}>
+          <div className={styles.reelHeroMedia}>
             <img
               src={company.reelThumb}
-              alt={`${company.client} Reel Poster`}
+              alt={`${company.client} Reel`}
               className={`${styles.tilePoster} ${isVideoLoaded ? styles.posterHidden : ''}`}
             />
             <video
@@ -649,10 +578,69 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
               className={styles.tileVideo}
             />
             <div className={styles.cleanReelOverlay}>
+              <svg className={styles.cleanReelInstaIcon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
               <span className={styles.cleanReelLabel}>{company.client}</span>
             </div>
           </div>
         </a>
+
+        {/* Stacked Images Column: Website + Campaign Sample */}
+        <div className={styles.collageStackCol}>
+          {/* Tile 1: Website */}
+          {isExternalWeb ? (
+            <a
+              href={company.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.stackedTile}
+              aria-label={`Visit live site ${company.domain}`}
+            >
+              <img
+                src={company.websiteThumb}
+                alt={`${company.client} platform`}
+                className={styles.stackedTileImg}
+                loading="lazy"
+              />
+              <div className={styles.imageOverlay}>
+                <span className={styles.overlayPill}>
+                  <span>{company.domain}</span>
+                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
+                </span>
+              </div>
+            </a>
+          ) : (
+            <Link
+              to={company.websiteUrl}
+              className={styles.stackedTile}
+              aria-label={`Visit site ${company.domain}`}
+            >
+              <img
+                src={company.websiteThumb}
+                alt={`${company.client} platform`}
+                className={styles.stackedTileImg}
+                loading="lazy"
+              />
+              <div className={styles.imageOverlay}>
+                <span className={styles.overlayPill}>
+                  <span>{company.domain}</span>
+                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
+                </span>
+              </div>
+            </Link>
+          )}
+
+          {/* Tile 2: Campaign Creative Sample */}
+          <div className={`${styles.stackedTile} ${styles.sampleTile}`}>
+            <img
+              src={company.sampleThumb}
+              alt={`${company.client} campaign creative`}
+              className={styles.stackedTileImg}
+              loading="lazy"
+            />
+          </div>
+        </div>
       </div>
     </article>
   );

@@ -401,64 +401,15 @@ export const WhatWeDo: React.FC = () => {
     }
   }, []);
 
-  const activeService = SERVICES_DATA[activeIndex];
-
   return (
     <div ref={wrapperRef} className={styles.servicesWrapper}>
       <section ref={sectionRef} id="services" className={styles.servicesSection} aria-label="What We Do">
-        {/* Delicate Architectural Light Red Web on Right Side */}
-        <div className={styles.rightSideWeb} aria-hidden="true">
-          <svg viewBox="0 0 700 700" fill="none" preserveAspectRatio="xMaxYMid slice" className={styles.webSvg}>
-            <defs>
-              <linearGradient id="serviceWebGrad" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#DF2531" stopOpacity="0.26" />
-                <stop offset="55%" stopColor="#DF2531" stopOpacity="0.12" />
-                <stop offset="100%" stopColor="#DF2531" stopOpacity="0.02" />
-              </linearGradient>
-              <filter id="webNodeGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#DF2531" floodOpacity="0.5" />
-              </filter>
-            </defs>
-
-            {/* Apex anchor at upper right corner */}
-            <circle cx="620" cy="80" r="3.5" fill="#DF2531" filter="url(#webNodeGlow)" />
-            <circle cx="620" cy="80" r="12" stroke="rgba(223, 37, 49, 0.2)" strokeWidth="0.8" />
-            <circle cx="620" cy="80" r="24" stroke="rgba(223, 37, 49, 0.1)" strokeWidth="0.5" strokeDasharray="3 4" />
-
-            {/* Primary Radial Spokes radiating inward & down */}
-            <path d="M 620 80 Q 480 90, 80 140" stroke="url(#serviceWebGrad)" strokeWidth="1" />
-            <path d="M 620 80 Q 420 180, 50 320" stroke="url(#serviceWebGrad)" strokeWidth="1.2" />
-            <path d="M 620 80 Q 380 300, 110 520" stroke="url(#serviceWebGrad)" strokeWidth="1.1" />
-            <path d="M 620 80 Q 420 420, 240 680" stroke="url(#serviceWebGrad)" strokeWidth="1.2" />
-            <path d="M 620 80 Q 520 480, 440 700" stroke="url(#serviceWebGrad)" strokeWidth="0.9" />
-            <path d="M 620 80 Q 640 380, 620 700" stroke="url(#serviceWebGrad)" strokeWidth="0.8" />
-            <path d="M 620 80 Q 670 180, 700 320" stroke="url(#serviceWebGrad)" strokeWidth="0.8" />
-
-            {/* Transverse Catenary Connecting Curves */}
-            <path d="M 620 130 Q 580 120, 540 100 Q 560 85, 600 80" stroke="rgba(223, 37, 49, 0.16)" strokeWidth="0.85" />
-            <path d="M 580 200 Q 520 170, 440 130 Q 480 100, 560 90" stroke="rgba(223, 37, 49, 0.18)" strokeWidth="0.9" />
-            <path d="M 520 310 Q 430 250, 310 180 Q 380 130, 490 110" stroke="rgba(223, 37, 49, 0.16)" strokeWidth="0.95" />
-            <path d="M 440 450 Q 330 360, 190 250 Q 280 180, 420 140" stroke="rgba(223, 37, 49, 0.14)" strokeWidth="1" />
-            <path d="M 340 590 Q 220 470, 90 350 Q 180 260, 340 200" stroke="rgba(223, 37, 49, 0.12)" strokeWidth="0.9" />
-
-            {/* Dew nodes at intersection points */}
-            <circle cx="540" cy="100" r="1.8" fill="#DF2531" opacity="0.65" />
-            <circle cx="440" cy="130" r="2" fill="#DF2531" opacity="0.6" />
-            <circle cx="310" cy="180" r="2.2" fill="#DF2531" opacity="0.55" />
-            <circle cx="190" cy="250" r="2" fill="#DF2531" opacity="0.5" />
-            <circle cx="430" cy="250" r="1.8" fill="#DF2531" opacity="0.5" />
-          </svg>
-        </div>
-
         <div className={styles.container}>
           {/* Top Header Bar */}
           <div className={styles.topBar}>
             <div className={styles.eyebrow}>
               <span className={styles.marker} aria-hidden="true" />
-              <span className={styles.eyebrowText}>SERVICES</span>
-            </div>
-            <div className={styles.chapterTracker}>
-              <span>SERVICE {activeService.number} / 08</span>
+              <h2 className={styles.eyebrowText}>SERVICES</h2>
             </div>
           </div>
 

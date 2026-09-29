@@ -106,10 +106,7 @@ export interface MarketingCompanyCase {
   category: string;
   title: string;
   matter: string;
-  websiteThumb: string;
-  websiteUrl: string;
-  domain: string;
-  sampleThumb: string;
+  crafted: string[];
   reelThumb: string;
   reelVideo: string;
   reelUrl: string;
@@ -124,10 +121,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     title: 'CEO Expos — India’s Premier Business & Franchise Summits',
     matter:
       'High-impact conference branding, executive summit campaigns, dynamic exhibitor acquisition, and attendee registration funnels driving full capacity across Andhra Pradesh.',
-    websiteThumb: '/portfolio-thumbs/creators.jpg',
-    websiteUrl: 'https://creatorseventsorganization.vercel.app/',
-    domain: 'creatorseventsorganization.vercel.app',
-    sampleThumb: '/services/08-photography.jpg',
+    crafted: [
+      'Brand Identity & Positioning',
+      'High-Performance Web Platform',
+      'Executive Cinematic Reels',
+      'Attendee & Exhibitor Funnels',
+    ],
     reelThumb: '/reels/reel_02.jpg',
     reelVideo: '/reels-videos/ceo-expos.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/',
@@ -140,10 +139,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     title: 'JK Restaurant — Sensory Gastronomy Growth Campaign',
     matter:
       'Sensory gastronomy choreography, culinary visual storytelling, localized digital ordering platform, and geo-targeted social media acquisition for Rajahmundry’s premier dining landmark.',
-    websiteThumb: '/portfolio-thumbs/thor.jpg',
-    websiteUrl: '/services/digital-marketing',
-    domain: 'jkrestaurant.campaign',
-    sampleThumb: '/services/ad-digital-marketing.jpg',
+    crafted: [
+      'Culinary Brand Identity',
+      'Digital Ordering Web Platform',
+      'Sensory Gastronomy Reels',
+      'Local Social Growth Campaigns',
+    ],
     reelThumb: '/reels/reel_06.jpg',
     reelVideo: '/reels-videos/jk-restaurant.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/',
@@ -156,10 +157,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     title: 'Finance with Veeru — Authoritative Personal Branding',
     matter:
       'Authoritative financial education media, personal brand cinematography, viral educational hooks, and high-trust organic audience growth choreography across South India.',
-    websiteThumb: '/portfolio-thumbs/viraj.jpg',
-    websiteUrl: '/services/digital-marketing',
-    domain: 'financewithveeru.brand',
-    sampleThumb: '/services/05-meta-google-instagram-ads.jpg',
+    crafted: [
+      'Authoritative Personal Branding',
+      'Wealth Advisory Platform',
+      'High-Trust Educational Reels',
+      'Audience Acquisition Funnels',
+    ],
     reelThumb: '/reels/reel_04.jpg',
     reelVideo: '/reels-videos/finance-with-veeru.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/',
@@ -172,10 +175,12 @@ const MARKETING_COMPANIES: MarketingCompanyCase[] = [
     title: 'Startup Potluck — Founder Ecosystem & Pitch Summits',
     matter:
       'Official video coverage, founder pitch showcases, attendee networking platform, and cinematic launch campaigns accelerating regional startup ecosystems and investor connections.',
-    websiteThumb: '/portfolio-thumbs/pandp.jpg',
-    websiteUrl: 'https://pandpconnektss.web.app',
-    domain: 'pandpconnektss.web.app',
-    sampleThumb: '/services/11-ad-imperial-visuals.jpg',
+    crafted: [
+      'Ecosystem Brand Strategy',
+      'Event & Networking Platform',
+      'Founder Pitch Reels & Media',
+      'Community Launch Campaigns',
+    ],
     reelThumb: '/reels/reel_05.jpg',
     reelVideo: '/reels-videos/startup-potluck.mp4',
     reelUrl: 'https://www.instagram.com/araneaden_/reel/DaxbWhTz9hH/',
@@ -441,14 +446,13 @@ const ReelMarquee: React.FC = () => {
 };
 
 /* ─────────────────────────────────────────
-   DIGITAL MARKETING COMPANY CARD (Collage: Website + Reel)
+   DIGITAL MARKETING COMPANY CARD (REEL ONLY)
 ───────────────────────────────────────── */
 const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: number }> = ({
   company,
   index,
 }) => {
   const isReverse = index % 2 === 1;
-  const isExternalWeb = company.websiteUrl.startsWith('http');
   const isExternalAction = company.actionUrl.startsWith('http');
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLElement>(null);
@@ -509,9 +513,9 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
         </div>
 
         <h3 className={styles.projectTitle}>
-          {isExternalWeb ? (
+          {isExternalAction ? (
             <a
-              href={company.websiteUrl}
+              href={company.actionUrl}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.titleLink}
@@ -519,13 +523,26 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
               {company.title}
             </a>
           ) : (
-            <Link to={company.websiteUrl} className={styles.titleLink}>
+            <Link to={company.actionUrl} className={styles.titleLink}>
               {company.title}
             </Link>
           )}
         </h3>
 
         <p className={styles.projectDescription}>{company.matter}</p>
+
+        {/* WE CRAFTED — list */}
+        <div className={styles.craftedWrap}>
+          <span className={styles.craftedHeading}>WE CRAFTED —</span>
+          <ul className={styles.craftedList}>
+            {company.crafted.map((item, idx) => (
+              <li key={idx} className={styles.craftedItem}>
+                <span className={styles.craftedDash} aria-hidden="true">—</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className={styles.actionRow}>
           {isExternalAction ? (
@@ -552,17 +569,16 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
         </div>
       </div>
 
-      {/* Collage Column: Hero Reel (9:16) + Stacked Images (Website + Sample Creative) */}
-      <div className={styles.marketingCollageCol}>
-        {/* Main Reel Card - strictly 9:16 vertical reel format */}
+      {/* Visual Reel Column: ONLY Reel format, no website */}
+      <div className={styles.marketingReelCol}>
         <a
           href={company.reelUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.reelHeroCard}
+          className={styles.reelCardOnly}
           aria-label={`Watch ${company.client} official reel on Instagram`}
         >
-          <div className={styles.reelHeroMedia}>
+          <div className={styles.reelMediaOnly}>
             <img
               src={company.reelThumb}
               alt={`${company.client} Reel`}
@@ -585,62 +601,6 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
             </div>
           </div>
         </a>
-
-        {/* Stacked Images Column: Website + Campaign Sample */}
-        <div className={styles.collageStackCol}>
-          {/* Tile 1: Website */}
-          {isExternalWeb ? (
-            <a
-              href={company.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.stackedTile}
-              aria-label={`Visit live site ${company.domain}`}
-            >
-              <img
-                src={company.websiteThumb}
-                alt={`${company.client} platform`}
-                className={styles.stackedTileImg}
-                loading="lazy"
-              />
-              <div className={styles.imageOverlay}>
-                <span className={styles.overlayPill}>
-                  <span>{company.domain}</span>
-                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
-                </span>
-              </div>
-            </a>
-          ) : (
-            <Link
-              to={company.websiteUrl}
-              className={styles.stackedTile}
-              aria-label={`Visit site ${company.domain}`}
-            >
-              <img
-                src={company.websiteThumb}
-                alt={`${company.client} platform`}
-                className={styles.stackedTileImg}
-                loading="lazy"
-              />
-              <div className={styles.imageOverlay}>
-                <span className={styles.overlayPill}>
-                  <span>{company.domain}</span>
-                  <span className={styles.overlayPillArrow} aria-hidden="true">↗</span>
-                </span>
-              </div>
-            </Link>
-          )}
-
-          {/* Tile 2: Campaign Creative Sample */}
-          <div className={`${styles.stackedTile} ${styles.sampleTile}`}>
-            <img
-              src={company.sampleThumb}
-              alt={`${company.client} campaign creative`}
-              className={styles.stackedTileImg}
-              loading="lazy"
-            />
-          </div>
-        </div>
       </div>
     </article>
   );
@@ -741,7 +701,6 @@ export const SelectedWork: React.FC = () => {
                 onClick={() => setActiveCategory(tab.id)}
               >
                 <span>{tab.label}</span>
-                <span className={styles.tabBadge}>{tab.count}</span>
               </button>
             );
           })}

@@ -336,7 +336,7 @@
 }
 
 /* ─────────────────────────────────────────
-   DIGITAL MARKETING — SPECIFIC COMPANY COLLAGE
+   DIGITAL MARKETING — SPECIFIC COMPANY CARD (REEL ONLY)
 ───────────────────────────────────────── */
 .marketingList {
   display: flex;
@@ -346,28 +346,28 @@
 
 .marketingItem {
   display: grid;
-  grid-template-columns: 1fr 1.35fr;
+  grid-template-columns: 1.15fr 0.85fr;
   align-items: center;
-  gap: clamp(24px, 3.5vw, 48px);
-  padding: clamp(18px, 2.2vw, 28px);
+  gap: clamp(28px, 4vw, 56px);
+  padding: clamp(20px, 2.5vw, 36px);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(11, 11, 12, 0.08);
-  box-shadow: 0 6px 24px rgba(11, 11, 12, 0.03);
+  box-shadow: 0 4px 24px rgba(11, 11, 12, 0.03);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .marketingItem:hover {
   border-color: rgba(223, 37, 49, 0.28);
-  box-shadow: 0 18px 44px rgba(11, 11, 12, 0.07);
+  box-shadow: 0 16px 40px rgba(11, 11, 12, 0.06);
 }
 
 /* Alternating Rhythm */
 .marketingItemReverse {
-  grid-template-columns: 1.35fr 1fr;
+  grid-template-columns: 0.85fr 1.15fr;
 }
 
-.marketingItemReverse .marketingCollageCol {
+.marketingItemReverse .marketingReelCol {
   order: 1;
 }
 
@@ -380,25 +380,65 @@
   flex-direction: column;
 }
 
-/* Collage Container: Hero Reel (9:16) + Stacked Images */
-.marketingCollageCol {
+/* WE CRAFTED — List */
+.craftedWrap {
+  margin: 0 0 24px 0;
   display: flex;
-  align-items: stretch;
-  gap: 16px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.craftedHeading {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-crimson, #DF2531);
+}
+
+.craftedList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.craftedItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans, 'Exo', sans-serif);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-black, #0B0B0C);
+}
+
+.craftedDash {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: var(--color-crimson, #DF2531);
+}
+
+/* Reel Column: Centered, authentic 9:16 smartphone reel card */
+.marketingReelCol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
-/* Hero Reel: Strictly 9:16 vertical smartphone format */
-.reelHeroCard {
+.reelCardOnly {
   position: relative;
-  width: clamp(190px, 16vw, 230px);
+  width: clamp(230px, 20vw, 290px);
   aspect-ratio: 9 / 16;
-  flex-shrink: 0;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
   background-color: #070708;
   border: 1px solid rgba(11, 11, 12, 0.16);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28);
   display: block;
   text-decoration: none;
   cursor: pointer;
@@ -407,77 +447,18 @@
               border-color 0.3s ease;
 }
 
-.reelHeroCard:hover {
-  transform: translateY(-4px);
+.reelCardOnly:hover {
+  transform: translateY(-6px);
   border-color: var(--color-crimson, #DF2531);
-  box-shadow: 0 22px 50px rgba(223, 37, 49, 0.25), 0 8px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 28px 60px rgba(223, 37, 49, 0.3), 0 10px 24px rgba(0, 0, 0, 0.5);
 }
 
-.reelHeroMedia {
+.reelMediaOnly {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
   background-color: #000000;
-}
-
-/* Stacked Column for Website + Sample Creative */
-.collageStackCol {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  flex: 1;
-  min-width: 0;
-}
-
-.stackedTile {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: #0e0f13;
-  border: 1px solid rgba(11, 11, 12, 0.1);
-  box-shadow: 0 10px 24px rgba(11, 11, 12, 0.06);
-  display: block;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease;
-}
-
-.stackedTile:hover {
-  transform: translateY(-3px);
-  border-color: rgba(223, 37, 49, 0.35);
-  box-shadow: 0 16px 36px rgba(11, 11, 12, 0.12);
-}
-
-.sampleTile {
-  cursor: default;
-}
-
-.sampleTile:hover {
-  transform: none;
-  border-color: rgba(11, 11, 12, 0.1);
-  box-shadow: 0 10px 24px rgba(11, 11, 12, 0.06);
-}
-
-.stackedTileImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  display: block;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.stackedTile:hover .stackedTileImg {
-  transform: scale(1.04);
-}
-
-.stackedTile:hover .imageOverlay {
-  opacity: 1;
 }
 
 .tilePoster {
@@ -717,10 +698,10 @@
   .marketingItem,
   .marketingItemReverse {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 28px;
   }
   .projectItemReverse .visualFrame,
-  .marketingItemReverse .marketingCollageCol {
+  .marketingItemReverse .marketingReelCol {
     order: 1;
   }
   .projectItemReverse .metaCol,
@@ -766,19 +747,8 @@
 }
 
 @media (max-width: 640px) {
-  .marketingCollageCol {
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-  }
-  .reelHeroCard {
+  .reelCardOnly {
     width: 100%;
     max-width: 260px;
-  }
-  .collageStackCol {
-    width: 100%;
-  }
-  .stackedTile {
-    aspect-ratio: 16 / 10;
   }
 }

@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "cms": {
+      "published": {
+        ".read": true,
+        ".write": "auth != null && (auth.token.admin === true || auth.token.email_verified === true)"
+      },
+      "metadata": {
+        ".read": true,
+        ".write": "auth != null && (auth.token.admin === true || auth.token.email_verified === true)"
+      },
+      "drafts": {
+        ".read": "auth != null && (auth.token.admin === true || auth.token.email_verified === true)",
+        ".write": "auth != null && (auth.token.admin === true || auth.token.email_verified === true)"
+      },
+      "history": {
+        ".read": "auth != null && (auth.token.admin === true || auth.token.email_verified === true)",
+        ".write": "auth != null && (auth.token.admin === true || auth.token.email_verified === true)"
+      }
+    }
+  }
+}

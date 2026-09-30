@@ -587,10 +587,11 @@ const MarketingCompanyCard: React.FC<{ company: MarketingCompanyCase; index: num
             <video
               ref={videoRef}
               src={company.reelVideo}
+              autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="auto"
               className={styles.tileVideo}
             />
             <div className={styles.cleanReelOverlay}>

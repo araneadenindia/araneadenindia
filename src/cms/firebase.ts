@@ -1,7 +1,5 @@
-// src/cms/firebase.ts
-// Firebase initialization & Realtime Database sync layer for Aranea Den CMS
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { getAuth, Auth } from 'firebase/auth';
+import { getAuth, Auth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { getDatabase, Database, ref, set, get, onValue } from 'firebase/database';
 import { CmsContentTree } from './types';
 
@@ -34,6 +32,22 @@ if (isFirebaseConfigured()) {
 }
 
 export { auth, db };
+
+export async function firebaseSignIn(email: string, pass: string): Promise<User | null> {
+  if (!auth) return null;
+  const cred = await signInWithEmailAndPassword(auth, email, pass);
+  return cred.user;
+}
+
+export async function firebaseSignOut(): Promise<void> {
+  if (!auth) return;
+  await signOut(auth);
+}
+
+export function subscribeToAuth(onUser: (user: User | null) => void): () => void {
+  if (!auth) return () => {};
+  return onAuthStateChanged(auth, onUser);
+}
 
 /**
  * Subscribe to published website content in Firebase Realtime Database

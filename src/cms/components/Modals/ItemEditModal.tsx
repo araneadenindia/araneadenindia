@@ -28,6 +28,12 @@ export const ItemEditModal: React.FC<ItemEditModalProps> = ({
 }) => {
   const [formData, setFormData] = useState<Record<string, any>>({ ...initialData });
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setFormData({ ...initialData });
+    }
+  }, [isOpen, initialData]);
+
   if (!isOpen) return null;
 
   const handleChange = (key: string, value: any) => {

@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useCms } from '../../cms/CmsContext';
 import { EditableField } from '../../cms/components/EditableField/EditableField';
+import { EditableMedia } from '../../cms/components/EditableMedia/EditableMedia';
+import { ItemEditModal } from '../../cms/components/Modals/ItemEditModal';
 import { CmsAnnouncementItem } from '../../cms/types';
 import styles from './AnnouncementsSection.module.css';
 
@@ -43,8 +45,60 @@ export const AnnouncementsSection: React.FC = () => {
     addCollectionItem,
     duplicateCollectionItem,
     removeCollectionItem,
+    updateField,
+    updateCollectionItem,
   } = useCms();
   const canEdit = isAdmin && isEditMode && !isPreviewMode;
+
+  // Inline Button Editing State
+  const [isBtnModalOpen, setIsBtnModalOpen] = useState(false);
+  const [editingBtnIndex, setEditingBtnIndex] = useState(0);
+  const [editingBtnTitle, setEditingBtnTitle] = useState('');
+  const [editingBtnLink, setEditingBtnLink] = useState('');
+
+  // Full Announcement Editing State
+  const [isItemModalOpen, setIsItemModalOpen] = useState(false);
+  const [editingItemIndex, setEditingItemIndex] = useState(0);
+
+  const handleOpenButtonModal = (e: React.MouseEvent, index: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const targetItem = rawItems[index] || {} as any;
+    setEditingBtnIndex(index);
+    setEditingBtnTitle(targetItem?.buttonTitle || 'Register Now');
+    setEditingBtnLink(targetItem?.buttonLink || '');
+    setIsBtnModalOpen(true);
+  };
+
+  const handleSaveButton = () => {
+    updateField(`home.announcements.items.${editingBtnIndex}.buttonTitle`, editingBtnTitle);
+    updateField(`home.announcements.items.${editingBtnIndex}.buttonLink`, editingBtnLink);
+    setIsBtnModalOpen(false);
+  };
+
+  const handleOpenItemModal = (index: number) => {
+    setEditingItemIndex(index);
+    setIsItemModalOpen(true);
+  };
+
+  const handleSaveItem = (data: Record<string, any>) => {
+    const currentItem = rawItems[editingItemIndex] || {};
+    const updatedItem: CmsAnnouncementItem = {
+      ...currentItem,
+      id: currentItem.id || `ann-${Date.now()}`,
+      title: data.title || '',
+      eventDate: data.eventDate || '',
+      buttonTitle: data.buttonTitle || 'Register Now',
+      buttonLink: data.buttonLink || SAMPLE_REG_LINK,
+      media: {
+        type: 'image',
+        url: data.imageUrl || currentItem.media?.url || '/announcements/district-youth-festival-2026.jpg',
+        alt: data.title || 'Announcement Flyer',
+      },
+    };
+    updateCollectionItem('home.announcements.items', editingItemIndex, updatedItem);
+    setIsItemModalOpen(false);
+  };
 
   const announcementsData = activeContent.home?.announcements || {
     eyebrow: 'LATEST UPDATES',
@@ -151,16 +205,16 @@ export const AnnouncementsSection: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  // Continuous smooth auto-slide every 2.6 seconds (pauses only when modal is open)
+  // Continuous smooth auto-slide every 2.6 seconds (pauses only when modal is open or in edit mode)
   useEffect(() => {
-    if (isModalOpen) return;
+    if (isModalOpen || canEdit) return;
 
     const interval = setInterval(() => {
       handleNext();
     }, 2600);
 
     return () => clearInterval(interval);
-  }, [isModalOpen, handleNext]);
+  }, [isModalOpen, canEdit, handleNext]);
 
   // Lock body scroll and listen for escape / arrow keys when modal is open
   useEffect(() => {
@@ -315,60 +369,102 @@ export const AnnouncementsSection: React.FC = () => {
               }}
               onTransitionEnd={handleTransitionEnd}
             >
-              {extendedSlides.map((item, idx) => (
-                <div
-                  key={`${item.id}-${idx}`}
-                  className={styles.cardSlide}
-                  onClick={() => handleCardClick(activeRealIndex)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && handleCardClick(activeRealIndex)}
-                  aria-label={`${item.title} — Click to expand full screen`}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className={styles.cardImage}
-                    loading={idx <= 2 ? 'eager' : 'lazy'}
-                  />
+              {extendedSlides.map((item, idx) => {
+                const origIndex =
+                  idx === 0
+                    ? announcements.length - 1
+                    : idx === extendedSlides.length - 1
+                    ? 0
+                    : idx - 1;
 
-                  {/* Light curved red bottom-left gradient */}
-                  <div className={styles.cardGradientOverlay} aria-hidden="true" />
-
-                  {/* Crisp White Title */}
-                  <h3 className={`${styles.cardTitle} ${styles.cardTitleWithBtn}`}>
-                    {item.title}
-                  </h3>
-
-                  {/* Action / Register Button */}
-                  <a
-                    href={item.button_link || SAMPLE_REG_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.cardActionBtn}
-                    onClick={(e) => e.stopPropagation()}
-                    title={`${item.button_title || 'Register Now'} — Opens link`}
-                    aria-label={`${item.button_title || 'Register Now'} for ${item.title}`}
+                return (
+                  <div
+                    key={`${item.id}-${idx}`}
+                    className={styles.cardSlide}
+                    onClick={canEdit ? undefined : () => handleCardClick(activeRealIndex)}
+                    role={canEdit ? undefined : 'button'}
+                    tabIndex={canEdit ? undefined : 0}
+                    onKeyDown={canEdit ? undefined : (e) => e.key === 'Enter' && handleCardClick(activeRealIndex)}
+                    aria-label={`${item.title} — Click to expand full screen`}
                   >
-                    <span>{item.button_title || 'Register Now'}</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                  </a>
+                    <EditableMedia
+                      mediaPath={`home.announcements.items.${origIndex}.media`}
+                      mediaLabel={`Announcement #${origIndex + 1} Flyer`}
+                      media={rawItems[origIndex]?.media || { type: 'image', url: item.image, alt: item.title }}
+                      className={styles.cardImage}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className={styles.cardImage}
+                        loading={idx <= 2 ? 'eager' : 'lazy'}
+                      />
+                    </EditableMedia>
 
-                  {/* Fullscreen Expand Hint Badge */}
-                  <div className={styles.expandBadge} aria-hidden="true" title="View Fullscreen">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="15 3 21 3 21 9" />
-                      <polyline points="9 21 3 21 3 15" />
-                      <line x1="21" y1="3" x2="14" y2="10" />
-                      <line x1="3" y1="21" x2="10" y2="14" />
-                    </svg>
+                    {/* Light curved red bottom-left gradient */}
+                    <div className={styles.cardGradientOverlay} aria-hidden="true" />
+
+                    {/* Crisp White Title */}
+                    <h3 className={`${styles.cardTitle} ${styles.cardTitleWithBtn} ${canEdit ? styles.cardTitleEditable : ''}`}>
+                      <EditableField
+                        fieldPath={`home.announcements.items.${origIndex}.title`}
+                        fieldLabel={`Announcement #${origIndex + 1} Title`}
+                        value={item.title}
+                      >
+                        <span>{item.title}</span>
+                      </EditableField>
+                    </h3>
+
+                    {/* Action / Register Button */}
+                    {canEdit ? (
+                      <button
+                        type="button"
+                        className={`${styles.cardActionBtn} ${styles.cardActionBtnEditable}`}
+                        onClick={(e) => handleOpenButtonModal(e, origIndex)}
+                        title={`Click to edit button text & link for "${item.title}"`}
+                        aria-label={`Edit Button for ${item.title}`}
+                      >
+                        <span>{item.button_title || 'Register Now'}</span>
+                        <span className={styles.editBtnBadge}>✎ EDIT BUTTON</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </button>
+                    ) : (
+                      <a
+                        href={item.button_link || SAMPLE_REG_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.cardActionBtn}
+                        onClick={(e) => e.stopPropagation()}
+                        title={`${item.button_title || 'Register Now'} — Opens link`}
+                        aria-label={`${item.button_title || 'Register Now'} for ${item.title}`}
+                      >
+                        <span>{item.button_title || 'Register Now'}</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </a>
+                    )}
+
+                    {/* Fullscreen Expand Hint Badge */}
+                    {!canEdit && (
+                      <div className={styles.expandBadge} aria-hidden="true" title="View Fullscreen">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="15 3 21 3 21 9" />
+                          <polyline points="9 21 3 21 3 15" />
+                          <line x1="21" y1="3" x2="14" y2="10" />
+                          <line x1="3" y1="21" x2="10" y2="14" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -390,13 +486,28 @@ export const AnnouncementsSection: React.FC = () => {
                 />
               ))}
             </div>
-            <span className={styles.slideDate}>{activeCurrentItem.date}</span>
+            <EditableField
+              fieldPath={`home.announcements.items.${activeRealIndex}.eventDate`}
+              fieldLabel={`Announcement #${activeRealIndex + 1} Date`}
+              value={activeCurrentItem.date}
+            >
+              <span className={styles.slideDate}>{activeCurrentItem.date}</span>
+            </EditableField>
           </div>
 
           {canEdit && (
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '24px', flexWrap: 'wrap' }}>
+            <div className={styles.adminActionBar}>
               <button
                 type="button"
+                className={styles.adminActionBtn}
+                onClick={() => handleOpenItemModal(activeRealIndex)}
+                title="Edit all fields of this announcement card in a single modal"
+              >
+                ✎ EDIT CARD #{activeRealIndex + 1}
+              </button>
+              <button
+                type="button"
+                className={`${styles.adminActionBtn} ${styles.adminAddBtn}`}
                 onClick={() => {
                   const count = rawItems.length + 1;
                   const newAnn: CmsAnnouncementItem = {
@@ -404,7 +515,7 @@ export const AnnouncementsSection: React.FC = () => {
                     title: `NEW ANNOUNCEMENT 0${count}`,
                     eventDate: 'COMING SOON',
                     buttonTitle: 'Register Now',
-                    buttonLink: 'https://forms.gle/JSXfFGGESx6U2Mhr8',
+                    buttonLink: SAMPLE_REG_LINK,
                     media: {
                       type: 'image',
                       url: '/announcements/district-youth-festival-2026.jpg',
@@ -413,56 +524,25 @@ export const AnnouncementsSection: React.FC = () => {
                   };
                   addCollectionItem('home.announcements.items', newAnn);
                 }}
-                style={{
-                  background: 'rgba(223, 37, 49, 0.1)',
-                  border: '1.5px dashed #DF2531',
-                  color: '#DF2531',
-                  padding: '10px 20px',
-                  borderRadius: '8px',
-                  fontFamily: 'monospace',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
               >
                 + ADD ANNOUNCEMENT
               </button>
               <button
                 type="button"
+                className={styles.adminActionBtn}
                 onClick={() => {
                   duplicateCollectionItem('home.announcements.items', activeRealIndex);
-                }}
-                style={{
-                  background: 'rgba(14, 14, 18, 0.9)',
-                  border: '1px solid rgba(223, 37, 49, 0.6)',
-                  color: '#FFFFFF',
-                  padding: '10px 18px',
-                  borderRadius: '8px',
-                  fontFamily: 'monospace',
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
                 }}
               >
                 ⧉ DUPLICATE
               </button>
               <button
                 type="button"
+                className={`${styles.adminActionBtn} ${styles.adminDeleteBtn}`}
                 onClick={() => {
                   if (window.confirm(`Delete announcement "${announcements[activeRealIndex]?.title}"?`)) {
                     removeCollectionItem('home.announcements.items', activeRealIndex);
                   }
-                }}
-                style={{
-                  background: 'rgba(14, 14, 18, 0.9)',
-                  border: '1px solid rgba(255, 68, 68, 0.6)',
-                  color: '#FF8888',
-                  padding: '10px 18px',
-                  borderRadius: '8px',
-                  fontFamily: 'monospace',
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
                 }}
               >
                 🗑 REMOVE
@@ -574,6 +654,90 @@ export const AnnouncementsSection: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          INLINE BUTTON EDIT MODAL (TITLE & TARGET LINK)
+          ───────────────────────────────────────────────────────────── */}
+      {isBtnModalOpen && (
+        <div className={styles.btnModalOverlay} onClick={() => setIsBtnModalOpen(false)}>
+          <div className={styles.btnModalCard} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className={styles.btnModalHeader}>
+              <h4 className={styles.btnModalTitle}>Edit Button #{editingBtnIndex + 1}</h4>
+              <button
+                type="button"
+                className={styles.btnModalClose}
+                onClick={() => setIsBtnModalOpen(false)}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+            <div className={styles.btnModalBody}>
+              <div className={styles.btnFieldGroup}>
+                <label className={styles.btnFieldLabel}>Button Text / Label</label>
+                <input
+                  type="text"
+                  className={styles.btnModalInput}
+                  value={editingBtnTitle}
+                  onChange={(e) => setEditingBtnTitle(e.target.value)}
+                  placeholder="e.g. Register Now, Learn More"
+                  autoFocus
+                />
+              </div>
+              <div className={styles.btnFieldGroup}>
+                <label className={styles.btnFieldLabel}>Button Target URL (Link)</label>
+                <input
+                  type="text"
+                  className={styles.btnModalInput}
+                  value={editingBtnLink}
+                  onChange={(e) => setEditingBtnLink(e.target.value)}
+                  placeholder="https://forms.gle/... or /contact"
+                />
+              </div>
+            </div>
+            <div className={styles.btnModalFooter}>
+              <button
+                type="button"
+                className={styles.btnModalCancel}
+                onClick={() => setIsBtnModalOpen(false)}
+              >
+                CANCEL
+              </button>
+              <button
+                type="button"
+                className={styles.btnModalSave}
+                onClick={handleSaveButton}
+              >
+                SAVE CHANGES
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          FULL ANNOUNCEMENT ITEM EDIT MODAL
+          ───────────────────────────────────────────────────────────── */}
+      <ItemEditModal
+        isOpen={isItemModalOpen}
+        title={`Edit Announcement #${editingItemIndex + 1}`}
+        initialData={{
+          title: rawItems[editingItemIndex]?.title || '',
+          imageUrl: rawItems[editingItemIndex]?.media?.url || '',
+          eventDate: rawItems[editingItemIndex]?.eventDate || '',
+          buttonTitle: rawItems[editingItemIndex]?.buttonTitle || 'Register Now',
+          buttonLink: rawItems[editingItemIndex]?.buttonLink || SAMPLE_REG_LINK,
+        }}
+        fields={[
+          { key: 'title', label: 'Announcement Title', type: 'textarea', placeholder: 'Event or program title' },
+          { key: 'imageUrl', label: 'Flyer Image URL', type: 'text', placeholder: '/announcements/... or Cloudinary URL' },
+          { key: 'eventDate', label: 'Event Date / Schedule', type: 'text', placeholder: 'e.g. 29 SEPTEMBER 2026' },
+          { key: 'buttonTitle', label: 'Button Title / Label', type: 'text', placeholder: 'e.g. Register Now' },
+          { key: 'buttonLink', label: 'Button Target URL', type: 'text', placeholder: 'https://... or /contact' },
+        ]}
+        onSave={handleSaveItem}
+        onClose={() => setIsItemModalOpen(false)}
+      />
     </section>
   );
 };

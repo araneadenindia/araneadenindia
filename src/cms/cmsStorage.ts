@@ -44,7 +44,12 @@ function sanitizeContent(content: CmsContentTree): CmsContentTree {
     }
   }
 
-  // Sanitize whatWeDo services images
+  // Sanitize announcements items
+  if (!content.home?.announcements?.items || content.home.announcements.items.length < 5) {
+    if (!content.home) content.home = {} as any;
+    if (!content.home.announcements) content.home.announcements = {} as any;
+    content.home.announcements.items = JSON.parse(JSON.stringify(INITIAL_DEFAULT_CONTENT.home.announcements.items));
+  }
   if (content.home?.whatWeDo?.items) {
     const serviceImgMap: Record<string, string> = {
       '/services/08-digital-marketing.jpg': '/services/03-digital-marketing.jpg',

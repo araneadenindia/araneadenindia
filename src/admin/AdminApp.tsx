@@ -69,14 +69,28 @@ export const AdminApp: React.FC = () => {
 
   useEffect(() => { checkSession(); }, [checkSession]);
 
+  useEffect(() => {
+    if (!loading && user && !user.mustChangePassword) {
+      const isDirectAdminUrl =
+        window.location.pathname === '/admin' ||
+        window.location.pathname === '/admin/' ||
+        window.location.pathname === '/admin/login';
+      if (isDirectAdminUrl) {
+        window.location.href = '/';
+      }
+    }
+  }, [user, loading]);
+
   const handleLogin = (userData: AdminUser) => {
     setUser(userData);
     localStorage.setItem('ad_admin_authenticated', 'true');
+    localStorage.setItem('ad_admin_edit_mode', 'true');
     sessionStorage.setItem('ad_admin_authenticated', 'true');
     if (userData.mustChangePassword) {
       navigate('/admin/change-password');
     } else {
-      navigate('/admin/websites');
+      // Per Phase 03 of Master Prompt: Open the actual website in Admin Edit Mode directly
+      window.location.href = '/';
     }
   };
 

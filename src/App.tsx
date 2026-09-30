@@ -20,6 +20,10 @@ import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
 import { AdminApp } from './admin/AdminApp';
 import { CmsProvider } from './cms/CmsContext';
+import { AdminToolbar } from './cms/components/AdminToolbar/AdminToolbar';
+import { PublishConfirmModal } from './cms/components/Modals/PublishConfirmModal';
+import { HistoryModal } from './cms/components/Modals/HistoryModal';
+import { CmsLoginModal } from './cms/components/Modals/CmsLoginModal';
 
 import './styles/globals.css';
 
@@ -148,6 +152,12 @@ const AppContent: React.FC = () => {
         position: 'relative',
       }}
     >
+      {/* Top Admin Toolbar & Visual CMS Modals */}
+      <AdminToolbar />
+      <PublishConfirmModal />
+      <HistoryModal />
+      <CmsLoginModal />
+
       {/* Cinematic Curtain Opener when arriving from /launch */}
       {isFromCurtainLaunch && location.pathname === '/' && <CurtainOpener />}
 

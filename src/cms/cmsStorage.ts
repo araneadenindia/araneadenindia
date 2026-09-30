@@ -22,6 +22,72 @@ export interface HistoryItem {
   content: CmsContentTree;
 }
 
+function sanitizeContent(content: CmsContentTree): CmsContentTree {
+  if (!content) return content;
+
+  // Sanitize hero video
+  if (content.home?.hero?.media) {
+    const heroMedia = content.home.hero.media;
+    if (
+      !heroMedia?.url ||
+      heroMedia.url === '/16.9 Ratio Vid FINAL.mp4' ||
+      heroMedia.url === '/Final Render 16.9.mp4' ||
+      heroMedia.url === '/Final Render 9.16.mp4' ||
+      heroMedia.url === '/9.16 Ratio Vid Final.mp4'
+    ) {
+      content.home.hero.media = {
+        type: 'video',
+        url: '/hero-16-9.mp4',
+        posterUrl: '/hero-poster-desktop.jpg',
+        alt: heroMedia?.alt || 'Aranea Den Studio Showreel',
+      };
+    }
+  }
+
+  // Sanitize whatWeDo services images
+  if (content.home?.whatWeDo?.items) {
+    const serviceImgMap: Record<string, string> = {
+      '/services/08-digital-marketing.jpg': '/services/03-digital-marketing.jpg',
+      '/services/05-reels-production.jpg': '/services/11-ad-imperial-visuals.jpg',
+      '/services/video-production.jpg': '/services/09-video-editing.jpg',
+      '/services/live-broadcasting.jpg': '/services/ad-live-streaming.jpg',
+      '/services/04-iot-prototyping.jpg': '/services/12-iot-prototyping.jpg',
+    };
+    content.home.whatWeDo.items.forEach((item: any) => {
+      if (item.imageSrc && serviceImgMap[item.imageSrc]) {
+        item.imageSrc = serviceImgMap[item.imageSrc];
+      }
+    });
+  }
+
+  // Sanitize experiences case study images
+  if (content.home?.experiences?.items) {
+    content.home.experiences.items.forEach((item: any) => {
+      if (item.imageSrc === '/portfolio-thumbs/jk-restaurant.jpg') {
+        item.imageSrc = '/portfolio-thumbs/cornercraft.jpg';
+      }
+    });
+  }
+
+  // Sanitize team member images
+  if (content.team?.members) {
+    content.team.members.forEach((m: any) => {
+      if (!m.image) {
+        m.image = m.media?.url || (m.id ? `/team/${m.id}.jpeg` : '/team/saikiran-chapa.jpeg');
+      }
+      if (!m.media) {
+        m.media = {
+          type: 'image',
+          url: m.image,
+          alt: m.name,
+        };
+      }
+    });
+  }
+
+  return content;
+}
+
 export const cmsStorage = {
   /**
    * Load initial published content (from Firebase or local storage/default)
@@ -33,7 +99,8 @@ export const cmsStorage = {
     try {
       const stored = localStorage.getItem(LOCAL_PUBLISHED_KEY);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        return sanitizeContent(parsed);
       }
     } catch (e) {
       console.warn('[CMS] Failed to read published content from local storage:', e);
@@ -51,7 +118,8 @@ export const cmsStorage = {
     try {
       const stored = localStorage.getItem(LOCAL_DRAFT_KEY);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        return sanitizeContent(parsed);
       }
     } catch (e) {
       console.warn('[CMS] Failed to read draft content from local storage:', e);

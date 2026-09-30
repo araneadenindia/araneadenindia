@@ -8,7 +8,7 @@
 
 .navbar {
   position: fixed;
-  top: var(--cms-admin-offset, 0px);
+  top: 0;
   left: 0;
   right: 0;
   width: 100%;
@@ -16,7 +16,7 @@
   padding: 34px clamp(20px, 4vw, 48px) 16px clamp(20px, 4vw, 48px);
   box-sizing: border-box;
   background-color: transparent;
-  transition: top 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
   border-bottom: 1px solid transparent;
 }
 

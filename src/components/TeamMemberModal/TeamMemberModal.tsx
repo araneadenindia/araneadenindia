@@ -221,7 +221,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ member, onClos
         {/* Member Portrait */}
         <div className={styles.portraitWrap}>
           <img
-            src={member.image}
+            src={member.image || (member as any).media?.url || (member.id ? `/team/${member.id}.jpeg` : '/team/saikiran-chapa.jpeg')}
             alt={member.name}
             className={styles.portrait}
           />

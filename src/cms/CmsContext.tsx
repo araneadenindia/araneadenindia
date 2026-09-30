@@ -84,14 +84,7 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       sessionStorage.getItem('ad_admin_authenticated') === 'true'
     );
   });
-  const [isEditMode, setIsEditMode] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    const isAuthed =
-      localStorage.getItem('ad_admin_authenticated') === 'true' ||
-      sessionStorage.getItem('ad_admin_authenticated') === 'true';
-    const isEditStored = localStorage.getItem('ad_admin_edit_mode');
-    return isAuthed && isEditStored !== 'false';
-  });
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isPreviewMode, setIsPreviewMode] = useState<boolean>(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [status, setStatus] = useState<CmsStatus>('saved');
@@ -103,75 +96,12 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
 
-  // 1. Check session against /api/auth/me on mount (resilient fallback to localStorage)
-  useEffect(() => {
-    let isMounted = true;
-    authApi
-      .me()
-      .then((data) => {
-        if (isMounted && data && data.ok) {
-          setIsAdmin(true);
-          localStorage.setItem('ad_admin_authenticated', 'true');
-        }
-      })
-      .catch(() => {
-        // Keep active session if authenticated in localStorage!
-        if (isMounted) {
-          const isAuthed = localStorage.getItem('ad_admin_authenticated') === 'true';
-          if (isAuthed) {
-            setIsAdmin(true);
-          }
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  // 2. Global keyboard shortcut listener: Ctrl+Shift+E or Alt+E
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const isShortcut =
-        ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'E' || e.key === 'e')) ||
-        (e.altKey && (e.key === 'e' || e.key === 'E'));
-
-      if (isShortcut) {
-        e.preventDefault();
-        const isAuthed =
-          localStorage.getItem('ad_admin_authenticated') === 'true' ||
-          sessionStorage.getItem('ad_admin_authenticated') === 'true';
-
-        if (!isAuthed) {
-          setIsLoginModalOpen((prev) => !prev);
-        } else {
-          setIsEditMode((prev) => {
-            const next = !prev;
-            localStorage.setItem('ad_admin_edit_mode', next ? 'true' : 'false');
-            return next;
-          });
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // 3. Check URL parameters for quick admin entry (?admin=true or ?cms=login)
+  // Redirect any legacy ?admin=login or ?cms=login queries to the dedicated /admin/login portal
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
-      if (params.get('admin') === 'login' || params.get('cms') === 'login') {
-        setIsLoginModalOpen(true);
-      } else if (params.get('admin') === 'true' || params.get('cms') === 'true') {
-        const isAuthed = localStorage.getItem('ad_admin_authenticated') === 'true';
-        if (isAuthed) {
-          setIsEditMode(true);
-          localStorage.setItem('ad_admin_edit_mode', 'true');
-        } else {
-          setIsLoginModalOpen(true);
-        }
+      if (params.get('admin') === 'login' || params.get('cms') === 'login' || params.get('admin') === 'true') {
+        window.location.href = '/admin/login';
       }
     }
   }, []);

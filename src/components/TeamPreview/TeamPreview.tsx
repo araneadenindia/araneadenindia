@@ -29,6 +29,10 @@ export const TeamPreview: React.FC = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [hoveredMemberId, setHoveredMemberId] = useState<string | null>(null);
 
+  const getMemberImg = useCallback((m: any) => {
+    return m?.image || m?.media?.url || (m?.id ? `/team/${m.id}.jpeg` : '/team/saikiran-chapa.jpeg');
+  }, []);
+
   // Founder & CEO
   const founder = membersList.find((m) => m.id === 'saikiran-chapa') || membersList[0];
 
@@ -508,7 +512,7 @@ export const TeamPreview: React.FC = () => {
             >
               <div className={styles.founderRing}>
                 <img
-                  src={founder.image}
+                  src={getMemberImg(founder)}
                   alt={founder.name}
                   className={styles.founderImg}
                   loading="eager"
@@ -550,7 +554,7 @@ export const TeamPreview: React.FC = () => {
                   <div className={styles.memberCardFrame}>
                     <div className={styles.memberImageWrapper}>
                       <img
-                        src={member.image}
+                        src={getMemberImg(member)}
                         alt={member.name}
                         className={styles.memberImg}
                         loading="eager"
@@ -602,7 +606,7 @@ export const TeamPreview: React.FC = () => {
             >
               <div className={styles.mobileFounderRing}>
                 <img
-                  src={founder.image}
+                  src={getMemberImg(founder)}
                   alt={founder.name}
                   className={styles.mobileFounderImg}
                   loading="eager"
@@ -626,7 +630,7 @@ export const TeamPreview: React.FC = () => {
                   <div className={styles.mobileCardFrame}>
                     <div className={styles.mobileImageWrapper}>
                       <img
-                        src={member.image}
+                        src={getMemberImg(member)}
                         alt={member.name}
                         className={styles.mobileCardImg}
                         loading="eager"

@@ -8,6 +8,7 @@
 }
 
 .editMode {
+  pointer-events: auto !important;
   cursor: pointer;
   outline: 2px dashed rgba(223, 37, 49, 0.55);
   outline-offset: -2px;

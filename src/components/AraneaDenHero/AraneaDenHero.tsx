@@ -104,6 +104,10 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
         backgroundColor: '#F8F8F5',
       });
 
+      gsap.set(video, {
+        opacity: 1,
+      });
+
       if (initialOverlay) {
         gsap.set(initialOverlay, {
           opacity: 1,
@@ -338,9 +342,31 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
   const { activeContent } = useCms();
   const heroData = activeContent.home.hero;
 
-  // Video source & poster: 9:16 portrait on mobile, 16:9 landscape on desktop
-  const videoSrc = heroData?.media?.url || (isMobile ? '/hero-9-16.mp4' : '/hero-16-9.mp4');
-  const posterSrc = heroData?.media?.posterUrl || (isMobile ? '/hero-poster-mobile.jpg' : '/hero-poster-desktop.jpg');
+  // Robust Video source & poster: 9:16 portrait on mobile, 16:9 landscape on desktop
+  const mediaUrl = heroData?.media?.url;
+  const isDefaultOrLocal =
+    !mediaUrl ||
+    mediaUrl === '/16.9 Ratio Vid FINAL.mp4' ||
+    mediaUrl === '/Final Render 16.9.mp4' ||
+    mediaUrl === '/Final Render 9.16.mp4' ||
+    mediaUrl === '/9.16 Ratio Vid Final.mp4' ||
+    mediaUrl === '/hero-16-9.mp4' ||
+    mediaUrl === '/hero-9-16.mp4';
+
+  const videoSrc = isDefaultOrLocal
+    ? (isMobile ? '/hero-9-16.mp4' : '/hero-16-9.mp4')
+    : mediaUrl;
+
+  const posterUrl = heroData?.media?.posterUrl;
+  const isDefaultPoster =
+    !posterUrl ||
+    posterUrl === '/Favicon.png' ||
+    posterUrl === '/hero-poster-desktop.jpg' ||
+    posterUrl === '/hero-poster-mobile.jpg';
+
+  const posterSrc = isDefaultPoster
+    ? (isMobile ? '/hero-poster-mobile.jpg' : '/hero-poster-desktop.jpg')
+    : posterUrl;
 
   // Ensure robust programmatic autoplay across all modern browsers
   useEffect(() => {
@@ -361,6 +387,7 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
       }
     };
 
+    video.load();
     attemptPlay();
     video.addEventListener('loadeddata', attemptPlay);
     video.addEventListener('canplay', attemptPlay);
@@ -399,7 +426,6 @@ export const AraneaDenHero: React.FC<AraneaDenHeroProps> = ({ isVisible = true }
           >
             <video
               ref={videoRef}
-              key={videoSrc}
               className={styles.heroVideo}
               src={videoSrc}
               poster={posterSrc}

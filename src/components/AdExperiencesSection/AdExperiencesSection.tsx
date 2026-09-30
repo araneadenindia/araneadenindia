@@ -95,7 +95,7 @@ export const SHOWCASE_DATA: ShowcaseExperience[] = [
     title: 'District Youth Festival 2026 — Youth Empowerment & Technical Hackathons',
     matter:
       'Engineered the official digital registration engine, competitive event matrix, automated badge issuing, and live stage management for 2,500+ student participants, innovators, and cultural performers. Integrated real-time team submissions, jury scoring protocols, and on-ground broadcast pipelines.',
-    imageSrc: '/services/03-branding.jpg',
+    imageSrc: '/announcements/district-youth-festival-2026.jpg',
     linkUrl: '/announcements',
     isExternal: false,
   },

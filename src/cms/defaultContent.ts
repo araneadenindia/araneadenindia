@@ -22,8 +22,8 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
       ctaUrl: '#passion',
       media: {
         type: 'video',
-        url: '/16.9 Ratio Vid FINAL.mp4',
-        posterUrl: '/Favicon.png',
+        url: '/hero-16-9.mp4',
+        posterUrl: '/hero-poster-desktop.jpg',
         alt: 'Aranea Den Studio Showreel',
       },
       passionTitle: 'WE WEAVE DIGITAL EXPERIENCES.',
@@ -112,7 +112,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
           name: 'DIGITAL MARKETING',
           description:
             'Data-driven growth architectures engineered for measurable market expansion. We deploy algorithmic audience modeling, precision conversion tracking, and high-velocity campaign systems that scale revenue.',
-          imageSrc: '/services/08-digital-marketing.jpg',
+          imageSrc: '/services/03-digital-marketing.jpg',
         },
         {
           id: 'reels-production',
@@ -121,7 +121,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
           name: 'REELS — AD IMPERIAL VISUALS',
           description:
             'Sensory vertical cinematography designed to stop thumbs in milliseconds. We direct high-impact reels, short-form master narratives, and color-graded brand vignettes tailored for digital distribution.',
-          imageSrc: '/services/05-reels-production.jpg',
+          imageSrc: '/services/11-ad-imperial-visuals.jpg',
         },
         {
           id: 'video-production',
@@ -130,7 +130,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
           name: 'VIDEO PRODUCTION',
           description:
             'Cinematic storytelling crafted with studio-grade optics, dynamic lighting, and precise color science. From commercial brand films to high-fidelity event documentation, we deliver compelling visuals.',
-          imageSrc: '/services/video-production.jpg',
+          imageSrc: '/services/09-video-editing.jpg',
         },
         {
           id: 'live-streaming',
@@ -139,7 +139,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
           name: 'LIVE STREAMING & BROADCASTING',
           description:
             'Zero-fail multi-camera broadcasting infrastructure for global product keynotes, leadership summits, and cultural events with redundant encoding and real-time audio telemetry.',
-          imageSrc: '/services/live-broadcasting.jpg',
+          imageSrc: '/services/ad-live-streaming.jpg',
         },
         {
           id: 'iot-prototyping',
@@ -148,7 +148,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
           name: 'IOT & SMART HARDWARE PROTOTYPING',
           description:
             'Bridging physical environments with intelligent computing. We prototype interconnected IoT telemetry, embedded microcontroller circuits, and sensor-driven hardware solutions.',
-          imageSrc: '/services/04-iot-prototyping.jpg',
+          imageSrc: '/services/12-iot-prototyping.jpg',
         },
       ],
     },
@@ -232,7 +232,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
           title: 'JK Restaurant — Sensory Gastronomy Branding & Digital Ordering Ecosystem',
           matter:
             'Developed a synchronized digital ordering platform and culinary brand narrative for Rajahmundry’s premier dining landmark. The solution incorporates high-definition visual menu engineering, localized table reservation pipelines, instant kitchen telemetry, and geo-targeted social acquisition funnels that drove substantial footfall growth across East Godavari.',
-          imageSrc: '/portfolio-thumbs/jk-restaurant.jpg',
+          imageSrc: '/portfolio-thumbs/cornercraft.jpg',
           linkUrl: 'https://instagram.com/jkrestaurant',
           isExternal: true,
         },
@@ -500,6 +500,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
       role: m.role,
       bio: m.bio,
       shortBio: m.shortBio,
+      image: m.image,
       media: {
         type: 'image',
         url: m.image,

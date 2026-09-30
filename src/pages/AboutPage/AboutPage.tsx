@@ -206,97 +206,149 @@ export const AboutPage: React.FC = () => {
     <div ref={pageRef} className={styles.aboutPage}>
       <section ref={heroRef} className={styles.heroSection} aria-labelledby="hero-title">
         <div className={styles.container}>
-          <div className={styles.heroContent}>
-            {/* Breadcrumb Navigation matching Services, Portfolio, Contact */}
-            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-              <Link to="/" className={styles.breadcrumbLink}>
-                HOME
-              </Link>
-              <span className={styles.breadcrumbSep}>/</span>
-              <span className={styles.breadcrumbActive}>ABOUT</span>
-            </nav>
+          <div className={styles.heroGrid}>
+            {/* Left Column: Editorial Content */}
+            <div className={styles.heroLeftCol}>
+              {/* Breadcrumb Navigation matching Services, Portfolio, Contact */}
+              <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+                <Link to="/" className={styles.breadcrumbLink}>
+                  HOME
+                </Link>
+                <span className={styles.breadcrumbSep}>/</span>
+                <span className={styles.breadcrumbActive}>ABOUT</span>
+              </nav>
 
-            {/* Eyebrow with crimson square indicator */}
-            <div className={styles.heroEyebrow}>
-              <span className={styles.eyebrowDot} />
+              {/* Eyebrow with crimson square indicator */}
+              <div className={styles.heroEyebrow}>
+                <span className={styles.eyebrowDot} />
+                <EditableField
+                  fieldPath="about.hero.eyebrow"
+                  fieldLabel="Hero Eyebrow"
+                  value={about.hero.eyebrow}
+                >
+                  <span className={styles.eyebrowText}>{about.hero.eyebrow}</span>
+                </EditableField>
+              </div>
+
               <EditableField
-                fieldPath="about.hero.eyebrow"
-                fieldLabel="Hero Eyebrow"
-                value={about.hero.eyebrow}
+                fieldPath="about.hero.heading"
+                fieldLabel="Hero Heading"
+                value={about.hero.heading}
               >
-                <span className={styles.eyebrowText}>{about.hero.eyebrow}</span>
+                <h1 id="hero-title" className={styles.heroHeading}>
+                  {about.hero.heading}
+                </h1>
               </EditableField>
+
+              <EditableField
+                fieldPath="about.hero.lead"
+                fieldLabel="Hero Lead Description"
+                value={about.hero.lead}
+                isTextarea
+                isBlock
+              >
+                <p className={styles.heroLead}>
+                  {about.hero.lead}
+                </p>
+              </EditableField>
+
+              {/* Stats Counter Row */}
+              <div className={styles.heroStats}>
+                <div className={styles.heroStat}>
+                  <EditableField
+                    fieldPath="about.hero.stats.founded"
+                    fieldLabel="Founded Year"
+                    value={about.hero.stats.founded}
+                  >
+                    <span className={styles.statNum}>{about.hero.stats.founded}</span>
+                  </EditableField>
+                  <span className={styles.statLabel}>FOUNDED</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <EditableField
+                    fieldPath="about.hero.stats.services"
+                    fieldLabel="Services Count"
+                    value={about.hero.stats.services}
+                  >
+                    <span className={styles.statNum}>{about.hero.stats.services}</span>
+                  </EditableField>
+                  <span className={styles.statLabel}>SERVICES</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <EditableField
+                    fieldPath="about.hero.stats.ecosystem"
+                    fieldLabel="Ecosystem Count"
+                    value={about.hero.stats.ecosystem}
+                  >
+                    <span className={styles.statNum}>{about.hero.stats.ecosystem}</span>
+                  </EditableField>
+                  <span className={styles.statLabel}>ECOSYSTEM</span>
+                </div>
+              </div>
+
+              <div className={styles.heroActionRow}>
+                <Link to="/contact" className={styles.primaryBtn}>
+                  START A PROJECT
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+                <Link to="/portfolio" className={styles.secondaryBtn}>
+                  EXPLORE WORK
+                </Link>
+              </div>
             </div>
 
-            <EditableField
-              fieldPath="about.hero.heading"
-              fieldLabel="Hero Heading"
-              value={about.hero.heading}
-            >
-              <h1 id="hero-title" className={styles.heroHeading}>
-                {about.hero.heading}
-              </h1>
-            </EditableField>
+            {/* Right Column: Architectural Brand Seal Visual */}
+            <div className={styles.heroRightCol}>
+              <div className={styles.heroVisualCard} aria-hidden="true">
+                {/* Corner registration marks */}
+                <span className={`${styles.cornerMark} ${styles.tl}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.tr}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.bl}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.br}`}>+</span>
 
-            <EditableField
-              fieldPath="about.hero.lead"
-              fieldLabel="Hero Lead Description"
-              value={about.hero.lead}
-              isTextarea
-              isBlock
-            >
-              <p className={styles.heroLead}>
-                {about.hero.lead}
-              </p>
-            </EditableField>
+                {/* Top Meta Plate */}
+                <div className={styles.visualMetaTop}>
+                  <span className={styles.visualMetaTag}>ARANEA DEN // STUDIO SEAL</span>
+                  <span className={styles.visualMetaCoord}>16.5449° N, 81.5212° E</span>
+                </div>
 
-            {/* Stats Counter Row */}
-            <div className={styles.heroStats}>
-              <div className={styles.heroStat}>
-                <EditableField
-                  fieldPath="about.hero.stats.founded"
-                  fieldLabel="Founded Year"
-                  value={about.hero.stats.founded}
-                >
-                  <span className={styles.statNum}>{about.hero.stats.founded}</span>
-                </EditableField>
-                <span className={styles.statLabel}>FOUNDED</span>
-              </div>
-              <div className={styles.heroStatDivider} />
-              <div className={styles.heroStat}>
-                <EditableField
-                  fieldPath="about.hero.stats.services"
-                  fieldLabel="Services Count"
-                  value={about.hero.stats.services}
-                >
-                  <span className={styles.statNum}>{about.hero.stats.services}</span>
-                </EditableField>
-                <span className={styles.statLabel}>SERVICES</span>
-              </div>
-              <div className={styles.heroStatDivider} />
-              <div className={styles.heroStat}>
-                <EditableField
-                  fieldPath="about.hero.stats.ecosystem"
-                  fieldLabel="Ecosystem Count"
-                  value={about.hero.stats.ecosystem}
-                >
-                  <span className={styles.statNum}>{about.hero.stats.ecosystem}</span>
-                </EditableField>
-                <span className={styles.statLabel}>ECOSYSTEM</span>
-              </div>
-            </div>
+                {/* Centerpiece: Official Spider Totem with Silk Filament Geometry */}
+                <div className={styles.visualCenterpiece}>
+                  <div className={styles.silkAura}>
+                    <svg viewBox="0 0 320 320" className={styles.silkWiringSvg}>
+                      <circle cx="160" cy="160" r="142" stroke="rgba(11, 11, 12, 0.06)" strokeWidth="1" strokeDasharray="3 4" />
+                      <circle cx="160" cy="160" r="105" stroke="rgba(223, 37, 49, 0.16)" strokeWidth="1" />
+                      <circle cx="160" cy="160" r="64" stroke="rgba(11, 11, 12, 0.08)" strokeWidth="1" />
+                      <line x1="160" y1="16" x2="160" y2="304" stroke="rgba(11, 11, 12, 0.07)" strokeWidth="1" />
+                      <line x1="16" y1="160" x2="304" y2="160" stroke="rgba(11, 11, 12, 0.07)" strokeWidth="1" />
+                      <line x1="58" y1="58" x2="262" y2="262" stroke="rgba(223, 37, 49, 0.1)" strokeWidth="1" strokeDasharray="4 4" />
+                      <line x1="262" y1="58" x2="58" y2="262" stroke="rgba(223, 37, 49, 0.1)" strokeWidth="1" strokeDasharray="4 4" />
+                    </svg>
+                    <div className={styles.emblemWrapper}>
+                      <img
+                        src="/AD Transparent SVG.svg"
+                        alt="Aranea Den Brand Seal"
+                        className={styles.brandSealImg}
+                      />
+                    </div>
+                  </div>
+                </div>
 
-            <div className={styles.heroActionRow}>
-              <Link to="/contact" className={styles.primaryBtn}>
-                START A PROJECT
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </Link>
-              <Link to="/portfolio" className={styles.secondaryBtn}>
-                EXPLORE WORK
-              </Link>
+                {/* Bottom Architectural Plate */}
+                <div className={styles.visualMetaBottom}>
+                  <div className={styles.metaStudioName}>ARANEA DEN STUDIO</div>
+                  <div className={styles.metaStudioTag}>BORN 20TH JULY 2025 · BHIMAVARAM</div>
+                  <div className={styles.metaStudioStatus}>
+                    <span className={styles.statusPulseDot} />
+                    <span>AUTHENTIC DIGITAL CRAFT</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

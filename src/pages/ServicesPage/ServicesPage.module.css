@@ -32,27 +32,16 @@
   background: radial-gradient(circle at 85% 25%, rgba(223, 37, 49, 0.04) 0%, transparent 60%), #F8F8F5;
 }
 
-.heroRadarGraphic {
-  position: absolute;
-  top: 50%;
-  right: clamp(10px, 4vw, 80px);
-  transform: translateY(-50%);
-  width: clamp(260px, 32vw, 440px);
-  height: clamp(260px, 32vw, 440px);
-  pointer-events: none;
-  z-index: 0;
-  display: flex;
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr);
+  gap: clamp(40px, 5.5vw, 84px);
   align-items: center;
-  justify-content: center;
-  opacity: 0.85;
+  position: relative;
+  z-index: 1;
 }
 
-.radarSvg {
-  width: 100%;
-  height: 100%;
-}
-
-.heroContainer {
+.heroLeftCol {
   position: relative;
   z-index: 1;
   max-width: 720px;
@@ -95,7 +84,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .eyebrowDot {
@@ -109,31 +98,31 @@
 .eyebrowText {
   font-family: var(--font-mono, monospace);
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-text-secondary, #424348);
+  color: #DF2531;
 }
 
 /* Hero Heading */
 .heroHeading {
   margin: 0 0 18px 0;
   font-family: var(--font-display, 'Exo', sans-serif);
-  font-size: clamp(38px, 5.5vw, 76px);
+  font-size: clamp(36px, 4.8vw, 68px);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.06;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   color: #0B0B0C;
 }
 
 .heroSub {
-  margin: 0 0 32px 0;
+  margin: 0 0 28px 0;
   font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(15.5px, 1.2vw, 18px);
-  line-height: 1.6;
-  color: var(--color-text-secondary, #424348);
-  max-width: 620px;
+  font-size: clamp(15px, 1.15vw, 17.5px);
+  line-height: 1.62;
+  color: #424348;
+  max-width: 580px;
 }
 
 /* Hero Stats */
@@ -141,6 +130,194 @@
   display: flex;
   align-items: center;
   gap: 28px;
+}
+
+/* ── Right Column: Disciplines Architecture Card ── */
+.heroRightCol {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.disciplinesCard {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 380px;
+  background: linear-gradient(145deg, #FFFFFF 0%, #F5F5F0 100%);
+  border: 1px solid rgba(11, 11, 12, 0.09);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Corner registration marks */
+.cornerMark {
+  position: absolute;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  line-height: 1;
+  color: rgba(11, 11, 12, 0.25);
+  pointer-events: none;
+}
+.tl { top: 8px; left: 8px; }
+.tr { top: 8px; right: 8px; }
+.bl { bottom: 8px; left: 8px; }
+.br { bottom: 8px; right: 8px; }
+
+.disciplinesMetaTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #73747A;
+  border-bottom: 1px solid rgba(11, 11, 12, 0.06);
+  padding-bottom: 12px;
+}
+
+.disciplinesMetaTag {
+  color: #DF2531;
+}
+
+.disciplinesMetaMatrix {
+  color: #73747A;
+}
+
+/* 2x2 Matrix */
+.matrixContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 24px 0;
+}
+
+.matrixNexus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.nexusDot {
+  width: 8px;
+  height: 8px;
+  background-color: #DF2531;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(223, 37, 49, 0.5);
+}
+
+.nexusPing {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(223, 37, 49, 0.4);
+  border-radius: 50%;
+  animation: nexusPulse 2.8s infinite ease-out;
+}
+
+@keyframes nexusPulse {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.matrixBlock {
+  background: #FFFFFF;
+  border: 1px solid rgba(11, 11, 12, 0.08);
+  border-radius: 6px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.matrixBlock:hover {
+  border-color: rgba(223, 37, 49, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.blockIndex {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #DF2531;
+}
+
+.blockTitle {
+  font-family: var(--font-display, 'Exo', sans-serif);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0B0B0C;
+  line-height: 1.2;
+}
+
+.blockDesc {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 10px;
+  color: #73747A;
+  line-height: 1.35;
+}
+
+.disciplinesMetaBottom {
+  border-top: 1px solid rgba(11, 11, 12, 0.06);
+  padding-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.matrixStatusRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #333338;
+}
+
+.matrixIndexTag {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: #DF2531;
+  font-weight: 600;
+}
+
+@media (max-width: 992px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+  .heroRightCol {
+    justify-content: flex-start;
+  }
+  .disciplinesCard {
+    max-width: 100%;
+  }
 }
 
 .heroStat {

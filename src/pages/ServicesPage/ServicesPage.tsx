@@ -340,124 +340,161 @@ export const ServicesPage: React.FC = () => {
     <div ref={pageRef} className={styles.page}>
       {/* ── 01: HERO SECTION ── */}
       <section ref={heroRef} className={styles.hero} aria-labelledby="services-page-heading">
-        {/* Subtle geometric radar web graphic matching reference */}
-        <div className={styles.heroRadarGraphic} aria-hidden="true">
-          <svg viewBox="0 0 500 500" className={styles.radarSvg} fill="none">
-            <circle cx="250" cy="250" r="45" stroke="rgba(223, 37, 49, 0.45)" strokeWidth="1" />
-            <circle cx="250" cy="250" r="105" stroke="rgba(11, 11, 12, 0.12)" strokeWidth="1" />
-            <circle cx="250" cy="250" r="175" stroke="#DF2531" strokeWidth="1" strokeDasharray="4 6" opacity="0.5" />
-            <circle cx="250" cy="250" r="235" stroke="rgba(11, 11, 12, 0.08)" strokeWidth="1" />
-            
-            <line x1="250" y1="15" x2="250" y2="485" stroke="rgba(11, 11, 12, 0.12)" strokeWidth="1" />
-            <line x1="15" y1="250" x2="485" y2="250" stroke="rgba(11, 11, 12, 0.12)" strokeWidth="1" />
-            <line x1="84" y1="84" x2="416" y2="416" stroke="rgba(223, 37, 49, 0.2)" strokeWidth="1" strokeDasharray="3 3" />
-            <line x1="416" y1="84" x2="84" y2="416" stroke="rgba(11, 11, 12, 0.1)" strokeWidth="1" />
-
-            <circle cx="250" cy="250" r="12" stroke="#DF2531" strokeWidth="1" opacity="0.4" />
-            <circle cx="250" cy="250" r="4.5" fill="#DF2531" />
-
-            {/* Subtle spider marker at top */}
-            <g transform="translate(242, 58) scale(0.65)">
-              <path
-                d="M12 2C10.9 2 10 2.9 10 4c0 .4.1.8.3 1.1L8.5 6.9C7.8 6.4 7 6 6 6c-2.2 0-4 1.8-4 4 0 1.2.5 2.3 1.4 3l-1.3 2.7C1.5 16.9 2.2 18 3.3 18c.8 0 1.5-.5 1.8-1.2l1.2-2.5c.5.4 1.1.7 1.7.7.3 0 .7 0 1-.1v2.1c-.6.3-1 .9-1 1.6 0 1.1.9 2 2 2s2-.9 2-2c0-.7-.4-1.3-1-1.6v-2.1c.3.1.7.1 1 .1.6 0 1.2-.3 1.7-.7l1.2 2.5c.3.7 1 1.2 1.8 1.2 1.1 0 1.8-1.1 1.2-2.3l-1.3-2.7c.9-.7 1.4-1.8 1.4-3 0-2.2-1.8-4-4-4-1 0-1.8.4-2.5.9L13.7 5.1C13.9 4.8 14 4.4 14 4c0-1.1-.9-2-2-2z"
-                fill="#DF2531"
-              />
-            </g>
-          </svg>
-        </div>
-
         <div className={styles.container}>
-          <div className={styles.heroContainer}>
-            {/* Breadcrumb Navigation */}
-            <nav data-hero-el className={styles.breadcrumb} aria-label="Breadcrumb">
-              <Link to="/" className={styles.breadcrumbLink}>
-                HOME
-              </Link>
-              <span className={styles.breadcrumbSep}>/</span>
-              <span className={styles.breadcrumbActive}>SERVICES</span>
-            </nav>
+          <div className={styles.heroGrid}>
+            {/* Left Column: Editorial Information */}
+            <div className={styles.heroLeftCol}>
+              {/* Breadcrumb Navigation */}
+              <nav data-hero-el className={styles.breadcrumb} aria-label="Breadcrumb">
+                <Link to="/" className={styles.breadcrumbLink}>
+                  HOME
+                </Link>
+                <span className={styles.breadcrumbSep}>/</span>
+                <span className={styles.breadcrumbActive}>SERVICES</span>
+              </nav>
 
-            {/* Eyebrow */}
-            <div data-hero-el className={styles.heroEyebrow}>
-              <span className={styles.eyebrowDot} />
+              {/* Eyebrow */}
+              <div data-hero-el className={styles.heroEyebrow}>
+                <span className={styles.eyebrowDot} />
+                <EditableField
+                  fieldPath="services.hero.eyebrow"
+                  fieldLabel="Hero Eyebrow"
+                  value={activeContent.services?.hero?.eyebrow || 'COMPREHENSIVE CAPABILITIES'}
+                >
+                  <span className={styles.eyebrowText}>
+                    {activeContent.services?.hero?.eyebrow || 'COMPREHENSIVE CAPABILITIES'}
+                  </span>
+                </EditableField>
+              </div>
+
+              {/* Heading */}
               <EditableField
-                fieldPath="services.hero.eyebrow"
-                fieldLabel="Hero Eyebrow"
-                value={activeContent.services?.hero?.eyebrow || 'COMPREHENSIVE CAPABILITIES'}
+                fieldPath="services.hero.heading"
+                fieldLabel="Hero Heading"
+                value={activeContent.services?.hero?.heading || 'WHAT WE DO'}
               >
-                <span className={styles.eyebrowText}>
-                  {activeContent.services?.hero?.eyebrow || 'COMPREHENSIVE CAPABILITIES'}
-                </span>
+                <h1 data-hero-el id="services-page-heading" className={styles.heroHeading}>
+                  {activeContent.services?.hero?.heading || 'WHAT WE DO'}
+                </h1>
               </EditableField>
+
+              {/* Subtitle */}
+              <EditableField
+                fieldPath="services.hero.lead"
+                fieldLabel="Hero Lead Description"
+                value={
+                  activeContent.services?.hero?.lead ||
+                  'From digital products and brand experiences to content, campaigns, and emerging technology — we connect every discipline to help businesses move forward.'
+                }
+                isTextarea
+                isBlock
+              >
+                <p data-hero-el className={styles.heroSub}>
+                  {activeContent.services?.hero?.lead ||
+                    'From digital products and brand experiences to content, campaigns, and emerging technology — we connect every discipline to help businesses move forward.'}
+                </p>
+              </EditableField>
+
+              {/* Stats Counter */}
+              <div data-hero-el className={styles.heroStats}>
+                <div className={styles.heroStat}>
+                  <EditableField
+                    fieldPath="services.hero.stats.servicesCount"
+                    fieldLabel="Services Count"
+                    value={activeContent.services?.hero?.stats?.servicesCount || '15'}
+                  >
+                    <span className={styles.statNum}>
+                      {activeContent.services?.hero?.stats?.servicesCount || '15'}
+                    </span>
+                  </EditableField>
+                  <span className={styles.statLabel}>SERVICES</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <EditableField
+                    fieldPath="services.hero.stats.disciplinesCount"
+                    fieldLabel="Disciplines Count"
+                    value={activeContent.services?.hero?.stats?.disciplinesCount || '4'}
+                  >
+                    <span className={styles.statNum}>
+                      {activeContent.services?.hero?.stats?.disciplinesCount || '4'}
+                    </span>
+                  </EditableField>
+                  <span className={styles.statLabel}>DISCIPLINES</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <EditableField
+                    fieldPath="services.hero.stats.studioCount"
+                    fieldLabel="Studio Count"
+                    value={activeContent.services?.hero?.stats?.studioCount || '1'}
+                  >
+                    <span className={styles.statNum}>
+                      {activeContent.services?.hero?.stats?.studioCount || '1'}
+                    </span>
+                  </EditableField>
+                  <span className={styles.statLabel}>STUDIO</span>
+                </div>
+              </div>
             </div>
 
-            {/* Heading */}
-            <EditableField
-              fieldPath="services.hero.heading"
-              fieldLabel="Hero Heading"
-              value={activeContent.services?.hero?.heading || 'WHAT WE DO'}
-            >
-              <h1 data-hero-el id="services-page-heading" className={styles.heroHeading}>
-                {activeContent.services?.hero?.heading || 'WHAT WE DO'}
-              </h1>
-            </EditableField>
+            {/* Right Column: Connected Disciplines Architecture Visual Card */}
+            <div className={styles.heroRightCol}>
+              <div className={styles.disciplinesCard} aria-hidden="true">
+                {/* Corner registration marks */}
+                <span className={`${styles.cornerMark} ${styles.tl}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.tr}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.bl}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.br}`}>+</span>
 
-            {/* Subtitle */}
-            <EditableField
-              fieldPath="services.hero.lead"
-              fieldLabel="Hero Lead Description"
-              value={
-                activeContent.services?.hero?.lead ||
-                'From digital products and brand experiences to content, campaigns, and emerging technology — we connect every discipline to help businesses move forward.'
-              }
-              isTextarea
-              isBlock
-            >
-              <p data-hero-el className={styles.heroSub}>
-                {activeContent.services?.hero?.lead ||
-                  'From digital products and brand experiences to content, campaigns, and emerging technology — we connect every discipline to help businesses move forward.'}
-              </p>
-            </EditableField>
+                {/* Top Meta Plate */}
+                <div className={styles.disciplinesMetaTop}>
+                  <span className={styles.disciplinesMetaTag}>DISCIPLINE ARCHITECTURE</span>
+                  <span className={styles.disciplinesMetaMatrix}>4-CORE MATRIX</span>
+                </div>
 
-            {/* Stats Counter */}
-            <div data-hero-el className={styles.heroStats}>
-              <div className={styles.heroStat}>
-                <EditableField
-                  fieldPath="services.hero.stats.servicesCount"
-                  fieldLabel="Services Count"
-                  value={activeContent.services?.hero?.stats?.servicesCount || '15'}
-                >
-                  <span className={styles.statNum}>
-                    {activeContent.services?.hero?.stats?.servicesCount || '15'}
-                  </span>
-                </EditableField>
-                <span className={styles.statLabel}>SERVICES</span>
-              </div>
-              <div className={styles.heroStatDivider} />
-              <div className={styles.heroStat}>
-                <EditableField
-                  fieldPath="services.hero.stats.disciplinesCount"
-                  fieldLabel="Disciplines Count"
-                  value={activeContent.services?.hero?.stats?.disciplinesCount || '4'}
-                >
-                  <span className={styles.statNum}>
-                    {activeContent.services?.hero?.stats?.disciplinesCount || '4'}
-                  </span>
-                </EditableField>
-                <span className={styles.statLabel}>DISCIPLINES</span>
-              </div>
-              <div className={styles.heroStatDivider} />
-              <div className={styles.heroStat}>
-                <EditableField
-                  fieldPath="services.hero.stats.studioCount"
-                  fieldLabel="Studio Count"
-                  value={activeContent.services?.hero?.stats?.studioCount || '1'}
-                >
-                  <span className={styles.statNum}>
-                    {activeContent.services?.hero?.stats?.studioCount || '1'}
-                  </span>
-                </EditableField>
-                <span className={styles.statLabel}>STUDIO</span>
+                {/* 2x2 Connected Disciplines Matrix */}
+                <div className={styles.matrixContainer}>
+                  {/* Central connective spider nexus */}
+                  <div className={styles.matrixNexus}>
+                    <span className={styles.nexusDot} />
+                    <span className={styles.nexusPing} />
+                  </div>
+
+                  {/* 4 Core Discipline Blocks */}
+                  <div className={styles.matrixBlock}>
+                    <div className={styles.blockIndex}>01 // WEB</div>
+                    <div className={styles.blockTitle}>DIGITAL EXPERIENCES</div>
+                    <div className={styles.blockDesc}>Bespoke Platforms &amp; UI/UX</div>
+                  </div>
+
+                  <div className={styles.matrixBlock}>
+                    <div className={styles.blockIndex}>02 // APP</div>
+                    <div className={styles.blockTitle}>MOBILE ENGINEERING</div>
+                    <div className={styles.blockDesc}>iOS, Android &amp; Cross-Platform</div>
+                  </div>
+
+                  <div className={styles.matrixBlock}>
+                    <div className={styles.blockIndex}>03 // MEDIA</div>
+                    <div className={styles.blockTitle}>CREATIVE PRODUCTION</div>
+                    <div className={styles.blockDesc}>Imperial Visuals &amp; Branding</div>
+                  </div>
+
+                  <div className={styles.matrixBlock}>
+                    <div className={styles.blockIndex}>04 // TECH</div>
+                    <div className={styles.blockTitle}>EMERGING SYSTEMS</div>
+                    <div className={styles.blockDesc}>IoT Prototyping &amp; Cloud</div>
+                  </div>
+                </div>
+
+                {/* Bottom Architectural Plate */}
+                <div className={styles.disciplinesMetaBottom}>
+                  <div className={styles.matrixStatusRow}>
+                    <span className={styles.statusPulseDot} />
+                    <span className={styles.matrixStatusText}>15 SERVICES // ONE UNIFIED STUDIO</span>
+                  </div>
+                  <span className={styles.matrixIndexTag}>INDEXED &amp; ACTIVE</span>
+                </div>
               </div>
             </div>
           </div>

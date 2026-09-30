@@ -404,95 +404,158 @@ export const PortfolioPage: React.FC = () => {
           ───────────────────────────────────────────────────────────── */}
       <section className={styles.heroSection}>
         <div className={styles.container}>
-          <div className={styles.heroContent}>
-            {/* Breadcrumb Navigation matching Services and About */}
-            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-              <Link to="/" className={styles.breadcrumbLink}>
-                HOME
-              </Link>
-              <span className={styles.breadcrumbSep}>/</span>
-              <span className={styles.breadcrumbActive}>PORTFOLIO</span>
-            </nav>
+          <div className={styles.heroGrid}>
+            {/* Left Column: Editorial Information & Filter Navigation */}
+            <div className={styles.heroLeftCol}>
+              {/* Breadcrumb Navigation matching Services and About */}
+              <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+                <Link to="/" className={styles.breadcrumbLink}>
+                  HOME
+                </Link>
+                <span className={styles.breadcrumbSep}>/</span>
+                <span className={styles.breadcrumbActive}>PORTFOLIO</span>
+              </nav>
 
-            {/* Eyebrow */}
-            <div className={styles.heroEyebrow}>
-              <span className={styles.eyebrowDot} />
+              {/* Eyebrow */}
+              <div className={styles.heroEyebrow}>
+                <span className={styles.eyebrowDot} />
+                <EditableField
+                  fieldPath="portfolio.hero.eyebrow"
+                  fieldLabel="Portfolio Eyebrow"
+                  value={portfolioHero.eyebrow}
+                >
+                  <span className={styles.eyebrowText}>{portfolioHero.eyebrow}</span>
+                </EditableField>
+              </div>
+
               <EditableField
-                fieldPath="portfolio.hero.eyebrow"
-                fieldLabel="Portfolio Eyebrow"
-                value={portfolioHero.eyebrow}
+                fieldPath="portfolio.hero.heading"
+                fieldLabel="Portfolio Heading"
+                value={portfolioHero.heading}
               >
-                <span className={styles.eyebrowText}>{portfolioHero.eyebrow}</span>
+                <h1 className={styles.heroTitle}>
+                  {portfolioHero.heading}
+                </h1>
               </EditableField>
+
+              <EditableField
+                fieldPath="portfolio.hero.lead"
+                fieldLabel="Portfolio Description"
+                value={portfolioHero.lead}
+                isTextarea
+                isBlock
+              >
+                <p className={styles.heroSupportingText}>
+                  {portfolioHero.lead}
+                </p>
+              </EditableField>
+
+              {/* Refined Category Navigation Area */}
+              <div className={styles.filterArea}>
+                <div className={styles.filterLabel}>FILTER ARCHIVE BY DISCIPLINE:</div>
+                <div className={styles.heroFilterRow} role="tablist" aria-label="Project categories">
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeCategory === 'all'}
+                    className={`${styles.filterPill} ${activeCategory === 'all' ? styles.filterPillActive : ''}`}
+                    onClick={() => setActiveCategory('all')}
+                  >
+                    <span>ALL WORK</span>
+                    <span className={styles.filterPillBadge}>{websites.length + apps.length + reels.length}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeCategory === 'websites'}
+                    className={`${styles.filterPill} ${activeCategory === 'websites' ? styles.filterPillActive : ''}`}
+                    onClick={() => setActiveCategory('websites')}
+                  >
+                    <span>WEBSITES</span>
+                    <span className={styles.filterPillBadge}>{websites.length}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeCategory === 'apps'}
+                    className={`${styles.filterPill} ${activeCategory === 'apps' ? styles.filterPillActive : ''}`}
+                    onClick={() => setActiveCategory('apps')}
+                  >
+                    <span>APPS</span>
+                    <span className={styles.filterPillBadge}>{apps.length}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeCategory === 'reels'}
+                    className={`${styles.filterPill} ${activeCategory === 'reels' ? styles.filterPillActive : ''}`}
+                    onClick={() => setActiveCategory('reels')}
+                  >
+                    <span>AD IMPERIAL VISUALS</span>
+                    <span className={styles.filterPillBadge}>{reels.length}</span>
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <EditableField
-              fieldPath="portfolio.hero.heading"
-              fieldLabel="Portfolio Heading"
-              value={portfolioHero.heading}
-            >
-              <h1 className={styles.heroTitle}>
-                {portfolioHero.heading}
-              </h1>
-            </EditableField>
+            {/* Right Column: Featured Project Showcase Visual Card */}
+            <div className={styles.heroRightCol}>
+              <div className={styles.portfolioVisualCard} aria-hidden="true">
+                {/* Corner registration marks */}
+                <span className={`${styles.cornerMark} ${styles.tl}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.tr}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.bl}`}>+</span>
+                <span className={`${styles.cornerMark} ${styles.br}`}>+</span>
 
-            <EditableField
-              fieldPath="portfolio.hero.lead"
-              fieldLabel="Portfolio Description"
-              value={portfolioHero.lead}
-              isTextarea
-              isBlock
-            >
-              <p className={styles.heroSupportingText}>
-                {portfolioHero.lead}
-              </p>
-            </EditableField>
+                {/* Top Meta Plate */}
+                <div className={styles.visualMetaTop}>
+                  <span className={styles.visualMetaTag}>FEATURED ARCHIVE</span>
+                  <span className={styles.visualMetaIndex}>
+                    {websites.length + apps.length + reels.length} RELEASES
+                  </span>
+                </div>
 
-            {/* Clean Pill Filter Tabs matching mockup */}
-            <div className={styles.heroFilterRow} role="tablist" aria-label="Project categories">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeCategory === 'all'}
-                className={`${styles.filterPill} ${activeCategory === 'all' ? styles.filterPillActive : ''}`}
-                onClick={() => setActiveCategory('all')}
-              >
-                <span>ALL WORK</span>
-                <span className={styles.filterPillBadge}>{websites.length + apps.length + reels.length}</span>
-              </button>
+                {/* Featured Project Visual Frame */}
+                <div className={styles.showcaseFrame}>
+                  <img
+                    src="/portfolio-thumbs/sriyasjaan.jpg"
+                    alt="Sriyasjaan Featured Project Showcase"
+                    className={styles.showcaseImg}
+                  />
+                  <div className={styles.showcaseOverlay}>
+                    <div className={styles.showcaseTag}>SRIYASJAAN COLLABORATION</div>
+                    <div className={styles.showcaseTitle}>Culinary Brand Architecture &amp; Platform</div>
+                  </div>
+                </div>
 
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeCategory === 'websites'}
-                className={`${styles.filterPill} ${activeCategory === 'websites' ? styles.filterPillActive : ''}`}
-                onClick={() => setActiveCategory('websites')}
-              >
-                <span>WEBSITES</span>
-                <span className={styles.filterPillBadge}>{websites.length}</span>
-              </button>
+                {/* Disciplines Chips Strip */}
+                <div className={styles.disciplineChipsStrip}>
+                  <div className={styles.disciplineChip}>
+                    <span className={styles.chipDot} />
+                    <span>WEB PLATFORMS</span>
+                  </div>
+                  <div className={styles.disciplineChip}>
+                    <span className={styles.chipDot} />
+                    <span>MOBILE APPS</span>
+                  </div>
+                  <div className={styles.disciplineChip}>
+                    <span className={styles.chipDot} />
+                    <span>IMPERIAL VISUALS</span>
+                  </div>
+                </div>
 
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeCategory === 'apps'}
-                className={`${styles.filterPill} ${activeCategory === 'apps' ? styles.filterPillActive : ''}`}
-                onClick={() => setActiveCategory('apps')}
-              >
-                <span>APPS</span>
-                <span className={styles.filterPillBadge}>{apps.length}</span>
-              </button>
-
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeCategory === 'reels'}
-                className={`${styles.filterPill} ${activeCategory === 'reels' ? styles.filterPillActive : ''}`}
-                onClick={() => setActiveCategory('reels')}
-              >
-                <span>AD IMPERIAL VISUALS</span>
-                <span className={styles.filterPillBadge}>{reels.length}</span>
-              </button>
+                {/* Bottom Architectural Plate */}
+                <div className={styles.visualMetaBottom}>
+                  <div className={styles.metaStatusRow}>
+                    <span className={styles.statusPulseDot} />
+                    <span>ACTIVE PRODUCTION ARCHIVE</span>
+                  </div>
+                  <span className={styles.metaYearTag}>2025–2026</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

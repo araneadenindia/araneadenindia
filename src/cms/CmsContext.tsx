@@ -84,15 +84,8 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       sessionStorage.getItem('ad_admin_authenticated') === 'true'
     );
   });
-  const [isEditMode, setIsEditMode] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    const authed =
-      localStorage.getItem('ad_admin_authenticated') === 'true' ||
-      sessionStorage.getItem('ad_admin_authenticated') === 'true';
-    if (!authed) return false;
-    const editPref = localStorage.getItem('ad_admin_edit_mode');
-    return editPref !== 'false';
-  });
+  // In-place editing is disabled on the public website; CMS is managed strictly via /admin/dashboard
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isPreviewMode, setIsPreviewMode] = useState<boolean>(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [status, setStatus] = useState<CmsStatus>('saved');
@@ -104,67 +97,43 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
 
-  // Keyboard shortcut: Ctrl + Shift + E to toggle Admin Edit Mode or open login
+  // Clear any residual admin styling
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'e' || e.key === 'E')) {
-        e.preventDefault();
-        const authed =
-          localStorage.getItem('ad_admin_authenticated') === 'true' ||
-          sessionStorage.getItem('ad_admin_authenticated') === 'true';
-        if (!authed) {
-          setIsLoginModalOpen(true);
-        } else {
-          setIsEditMode((prev) => {
-            const next = !prev;
-            localStorage.setItem('ad_admin_edit_mode', next ? 'true' : 'false');
-            return next;
-          });
-        }
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    if (typeof window !== 'undefined') {
+      document.documentElement.style.setProperty('--cms-admin-offset', '0px');
+      document.body.classList.remove('has-cms-admin-toolbar');
+    }
   }, []);
 
-  // Redirect any legacy ?admin=login or ?cms=login queries to the dedicated /admin/login portal
+  // Redirect legacy query parameters to /admin/dashboard
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
-      if (params.get('admin') === 'login' || params.get('cms') === 'login') {
-        window.location.href = '/admin/login';
-      } else if (params.get('admin') === 'true' || params.get('cms') === 'true') {
-        const authed =
-          localStorage.getItem('ad_admin_authenticated') === 'true' ||
-          sessionStorage.getItem('ad_admin_authenticated') === 'true';
-        if (authed) {
-          setIsAdmin(true);
-          setIsEditMode(true);
-          localStorage.setItem('ad_admin_edit_mode', 'true');
-        } else {
-          window.location.href = '/admin/login';
-        }
+      if (
+        params.get('admin') === 'login' ||
+        params.get('cms') === 'login' ||
+        params.get('admin') === 'true' ||
+        params.get('cms') === 'true'
+      ) {
+        window.location.href = '/admin/dashboard';
       }
     }
   }, []);
 
   const handleSetEditMode = useCallback((val: boolean) => {
     setIsEditMode(val);
-    localStorage.setItem('ad_admin_edit_mode', val ? 'true' : 'false');
   }, []);
 
-  // 4. Instant On-Page Login
+  // 4. Admin Login
   const login = useCallback((password: string): boolean => {
     const trimmed = password.trim();
     if (trimmed === 'araneaden@2026admin' || trimmed === 'admin') {
       localStorage.setItem('ad_admin_authenticated', 'true');
-      localStorage.setItem('ad_admin_edit_mode', 'true');
       sessionStorage.setItem('ad_admin_authenticated', 'true');
       setIsAdmin(true);
-      setIsEditMode(true);
       setIsLoginModalOpen(false);
       setStatus('saved');
-      setStatusMessage('Admin edit mode active');
+      setStatusMessage('Admin authenticated');
       authApi.login('admin', trimmed).catch(() => {});
       return true;
     }
@@ -181,7 +150,7 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       await authApi.logout();
     } catch {}
-    window.location.href = '/';
+    window.location.href = '/admin/dashboard';
   }, []);
 
   // 2. Load published and draft content on mount

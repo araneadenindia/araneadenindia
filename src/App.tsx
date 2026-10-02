@@ -20,10 +20,6 @@ import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
 import { AdminApp } from './admin/AdminApp';
 import { CmsProvider } from './cms/CmsContext';
-import { AdminToolbar } from './cms/components/AdminToolbar/AdminToolbar';
-import { PublishConfirmModal } from './cms/components/Modals/PublishConfirmModal';
-import { HistoryModal } from './cms/components/Modals/HistoryModal';
-import { CmsLoginModal } from './cms/components/Modals/CmsLoginModal';
 
 import './styles/globals.css';
 
@@ -99,6 +95,14 @@ const AppContent: React.FC = () => {
     (location.state as any)?.fromCurtainLaunch ||
     sessionStorage.getItem('aranea_curtain_launch') === 'true';
 
+  // Ensure public pages never have CMS admin offset or toolbar classes
+  useEffect(() => {
+    if (!isAdminPage) {
+      document.documentElement.style.setProperty('--cms-admin-offset', '0px');
+      document.body.classList.remove('has-cms-admin-toolbar');
+    }
+  }, [isAdminPage]);
+
   // If arriving from the /launch curtain transition, bypass standard preloader to reveal via physical curtains
   useEffect(() => {
     if (isFromCurtainLaunch && location.pathname === '/') {
@@ -135,6 +139,7 @@ const AppContent: React.FC = () => {
     }
   }, [location.pathname, lenis]);
 
+  // Dedicated CMS admin routes — rendered in isolation at /admin/*
   if (isAdminPage) {
     return (
       <Routes>
@@ -152,12 +157,6 @@ const AppContent: React.FC = () => {
         position: 'relative',
       }}
     >
-      {/* Top Admin Toolbar & Visual CMS Modals */}
-      <AdminToolbar />
-      <PublishConfirmModal />
-      <HistoryModal />
-      <CmsLoginModal />
-
       {/* Cinematic Curtain Opener when arriving from /launch */}
       {isFromCurtainLaunch && location.pathname === '/' && <CurtainOpener />}
 

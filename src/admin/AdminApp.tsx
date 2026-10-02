@@ -1,10 +1,11 @@
 // src/admin/AdminApp.tsx
-// The complete admin CMS app — rendered at /admin/* routes
+// The complete admin CMS app — rendered strictly at /admin/* routes
 import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { authApi } from './api';
 import { AdminLogin } from './pages/AdminLogin';
 import { AdminChangePassword } from './pages/AdminChangePassword';
+import { AdminDashboard } from './pages/AdminDashboard';
 import { WebsitesCMS } from './pages/WebsitesCMS';
 import { AppsCMS } from './pages/AppsCMS';
 import { ReelsCMS } from './pages/ReelsCMS';
@@ -19,6 +20,12 @@ interface AdminUser {
 }
 
 // Inline SVG icons for the sidebar
+const DashboardIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" />
+    <rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" />
+  </svg>
+);
 const WebIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" />
@@ -69,34 +76,20 @@ export const AdminApp: React.FC = () => {
 
   useEffect(() => { checkSession(); }, [checkSession]);
 
-  useEffect(() => {
-    if (!loading && user && !user.mustChangePassword) {
-      const isDirectAdminUrl =
-        window.location.pathname === '/admin' ||
-        window.location.pathname === '/admin/' ||
-        window.location.pathname === '/admin/login';
-      if (isDirectAdminUrl) {
-        window.location.href = '/';
-      }
-    }
-  }, [user, loading]);
-
   const handleLogin = (userData: AdminUser) => {
     setUser(userData);
     localStorage.setItem('ad_admin_authenticated', 'true');
-    localStorage.setItem('ad_admin_edit_mode', 'true');
     sessionStorage.setItem('ad_admin_authenticated', 'true');
     if (userData.mustChangePassword) {
       navigate('/admin/change-password');
     } else {
-      // Per Phase 03 of Master Prompt: Open the actual website in Admin Edit Mode directly
-      window.location.href = '/';
+      navigate('/admin/dashboard');
     }
   };
 
   const handlePasswordChanged = () => {
     setUser((prev) => (prev ? { ...prev, mustChangePassword: false } : null));
-    navigate('/admin/websites');
+    navigate('/admin/dashboard');
   };
 
   const handleLogout = async () => {
@@ -106,7 +99,7 @@ export const AdminApp: React.FC = () => {
     localStorage.removeItem('ad_admin_authenticated');
     sessionStorage.removeItem('ad_admin_authenticated');
     setUser(null);
-    navigate('/admin/login');
+    navigate('/admin/dashboard');
   };
 
   if (loading) {
@@ -117,11 +110,13 @@ export const AdminApp: React.FC = () => {
     );
   }
 
+  // When not logged in: display the AdminLogin form on /admin/dashboard or /admin/login
   if (!user) {
     return (
       <Routes>
+        <Route path="dashboard" element={<AdminLogin onLogin={handleLogin} />} />
         <Route path="login" element={<AdminLogin onLogin={handleLogin} />} />
-        <Route path="*" element={<Navigate to="/admin/login" replace />} />
+        <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
       </Routes>
     );
   }
@@ -151,6 +146,9 @@ export const AdminApp: React.FC = () => {
         </div>
 
         <nav className={styles.sidebarNav}>
+          <NavLink to="/admin/dashboard" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
+            <DashboardIcon /> Dashboard
+          </NavLink>
           <NavLink to="/admin/websites" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
             <WebIcon /> Websites
           </NavLink>
@@ -183,16 +181,18 @@ export const AdminApp: React.FC = () => {
       {/* ── Main Content ── */}
       <main className={styles.main}>
         <Routes>
+          <Route path="dashboard" element={<AdminDashboard username={user.username} />} />
           <Route path="websites" element={<WebsitesCMS />} />
           <Route path="apps" element={<AppsCMS />} />
           <Route path="reels" element={<ReelsCMS />} />
           <Route path="services" element={<ServicesCMS />} />
           <Route path="clients" element={<ClientsCMS />} />
           <Route path="announcements" element={<AnnouncementsCMS />} />
-          <Route path="login" element={<Navigate to="/admin/websites" replace />} />
-          <Route path="/" element={<Navigate to="/admin/websites" replace />} />
-          <Route path="" element={<Navigate to="/admin/websites" replace />} />
-          <Route path="*" element={<Navigate to="/admin/websites" replace />} />
+          <Route path="change-password" element={<AdminChangePassword onChanged={handlePasswordChanged} />} />
+          <Route path="login" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
         </Routes>
       </main>
     </div>

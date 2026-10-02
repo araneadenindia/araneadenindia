@@ -428,9 +428,11 @@ export const WhatWeDo: React.FC = () => {
               <EditableField
                 fieldPath="home.whatWeDo.eyebrow"
                 fieldLabel="Section Eyebrow"
-                value={whatWeDo?.eyebrow || 'SERVICES'}
+                value={whatWeDo?.eyebrow && whatWeDo.eyebrow !== 'DISCIPLINES // 04' ? whatWeDo.eyebrow : 'SERVICES'}
               >
-                <h2 className={styles.eyebrowText}>{whatWeDo?.eyebrow || 'SERVICES'}</h2>
+                <h2 className={styles.eyebrowText}>
+                  {whatWeDo?.eyebrow && whatWeDo.eyebrow !== 'DISCIPLINES // 04' ? whatWeDo.eyebrow : 'SERVICES'}
+                </h2>
               </EditableField>
             </div>
           </div>

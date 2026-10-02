@@ -50,6 +50,11 @@ function sanitizeContent(content: CmsContentTree): CmsContentTree {
     if (!content.home.announcements) content.home.announcements = {} as any;
     content.home.announcements.items = JSON.parse(JSON.stringify(INITIAL_DEFAULT_CONTENT.home.announcements.items));
   }
+  if (content.home?.whatWeDo) {
+    if (!content.home.whatWeDo.eyebrow || content.home.whatWeDo.eyebrow === 'DISCIPLINES // 04') {
+      content.home.whatWeDo.eyebrow = 'SERVICES';
+    }
+  }
   if (content.home?.whatWeDo?.items) {
     const serviceImgMap: Record<string, string> = {
       '/services/08-digital-marketing.jpg': '/services/03-digital-marketing.jpg',

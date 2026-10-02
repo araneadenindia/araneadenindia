@@ -171,7 +171,7 @@ export const INITIAL_DEFAULT_CONTENT: CmsContentTree = {
       ],
     },
     whatWeDo: {
-      eyebrow: 'DISCIPLINES // 04',
+      eyebrow: 'SERVICES',
       title: 'WHAT WE DO',
       items: [
         {
